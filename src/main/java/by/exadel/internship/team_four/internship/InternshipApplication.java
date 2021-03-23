@@ -17,18 +17,5 @@ public class InternshipApplication {
 		SpringApplication.run(InternshipApplication.class, args);
 	}
 
-	@Bean
-	public Docket docket() {
-		return new Docket(DocumentationType.OAS_30)
-				.apiInfo(new ApiInfoBuilder()
-						.title("Internship API")
-						.description("API for the internship automation process")
-						.version("0.0.1-SNAPSHOT")
-						.build())
-				.tags(new Tag("Test", "Endpoints for test operations"))
-				.select()
-				.apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
-				.build();
-	}
 
 }
