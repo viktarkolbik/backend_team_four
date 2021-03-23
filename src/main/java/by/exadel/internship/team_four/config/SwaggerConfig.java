@@ -1,4 +1,4 @@
-package by.exadel.internship.team_four.internship.config;
+package by.exadel.internship.team_four.config;
 
 
 import org.springframework.context.annotation.Bean;

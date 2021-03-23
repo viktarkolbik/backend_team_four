@@ -1,4 +1,4 @@
-package by.exadel.internship.team_four.internship.controller;
+package by.exadel.internship.team_four.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

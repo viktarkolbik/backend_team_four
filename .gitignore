@@ -40,3 +40,6 @@ logs
 coverage
 nb-configuration.xml
 img
+HELP.md
+mvnw
+mvnw.cmd
