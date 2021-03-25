@@ -2,15 +2,16 @@
 # Build stage
 #
 FROM maven:3.6.0-jdk-11-slim AS build
-WORKDIR /usr/src/app
+WORKDIR /usr/app
 COPY src ./src
 COPY pom.xml .
-RUN mvn clean package
-
+RUN mvn clean install
 #
 # Package stage
 #
 FROM openjdk:11-jdk-slim
-COPY --from=build /usr/src/app/target/*.jar /usr/app/app.jar
+ARG path=/usr/app
+WORKDIR ${path}
+COPY --from=build ${path}/target/*.jar ${path}/app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/usr/app/app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
