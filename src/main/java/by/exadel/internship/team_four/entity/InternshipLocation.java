@@ -13,5 +13,4 @@ public class InternshipLocation {
     private String city;
     private String officeAddress;
 
-
 }
