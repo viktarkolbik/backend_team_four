@@ -29,7 +29,7 @@ public class Internship {
     private List<User> adminList;
     private String description;
     private String requirements;
-    private int capacity;
+    private Integer capacity;
     private LocalDate startDateRegistration;
     private LocalDate endDateRegistration;
 
