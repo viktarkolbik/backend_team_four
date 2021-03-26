@@ -10,8 +10,8 @@ RUN mvn clean install
 # Package stage
 #
 FROM openjdk:11-jdk-slim
-ARG PATH=/usr/app
-WORKDIR ${PATH}
-COPY --from=build ${PATH}/target/*.jar ${PATH}/app.jar
+ARG path=/usr/app
+WORKDIR ${path}
+COPY --from=build ${path}/target/*.jar ${path}/app.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","app.jar"]

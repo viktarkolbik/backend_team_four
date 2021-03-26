@@ -9,13 +9,14 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Internship {
 
-    private long id;
+    private UUID id;
     private String name;
     private LocalDate startDateInternship;
     private LocalDate endDateInternship;
