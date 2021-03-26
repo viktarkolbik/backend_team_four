@@ -1,6 +1,6 @@
 package by.exadel.internship.team_four.entity.enums;
 
-enum EnglishLevel {
+ public enum EnglishLevel {
     LEVEL_A1,
     LEVEL_A2,
     LEVEL_B1,

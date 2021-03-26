@@ -37,7 +37,7 @@ public class User {
 
     private UserStatus userStatus;
 
-    //private List<Internship> listOfInternships;
+    private List<Internship> listOfInternships;
     private List<Calendar> freeInterviewDates;
     private List<Calendar> unfreeInterviewDates;
 

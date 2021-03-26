@@ -1,5 +1,7 @@
 package by.exadel.internship.team_four.entity;
 
+import by.exadel.internship.team_four.entity.enums.FormatOfInternship;
+import by.exadel.internship.team_four.entity.enums.Technology;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,11 +20,11 @@ public class Internship {
     private Date endDateInternship;
     private String techSkills;
     //private List<Country> countryList;
-    //private FormatOfInternship formatOfInternship;
-    //private List<Technology> technologyList;
-    //private List<Form> formList;
-    //private List<User> technicList;
-    //private List<User> adminList;
+    private FormatOfInternship formatOfInternship;
+    private List<Technology> technologyList;
+    private List<Form> formList;
+    private List<User> technicList;
+    private List<User> adminList;
     private String description;
     private String requirements;
     private int capacity;

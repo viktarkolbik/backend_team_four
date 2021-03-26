@@ -1,6 +1,6 @@
 package by.exadel.internship.team_four.entity.enums;
 
-enum FormatOfInternship {
+public enum FormatOfInternship {
     ONLINE,
     OFFLINE
 }
