@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -16,19 +17,19 @@ public class Internship {
 
     private long id;
     private String name;
-    private Date startDateInternship;
-    private Date endDateInternship;
+    private LocalDate startDateInternship;
+    private LocalDate endDateInternship;
     private String techSkills;
-    //private List<Country> countryList;
+    //private List<Country> countryList;//узнать про город офис и вынести в класс?
     private FormatOfInternship formatOfInternship;
     private List<Technology> technologyList;
     private List<Form> formList;
-    private List<User> technicList;
+    private List<User> techList;
     private List<User> adminList;
     private String description;
     private String requirements;
     private int capacity;
-    private Date startDateRegistration;
-    private Date endDateRegistration;
+    private LocalDate startDateRegistration;
+    private LocalDate endDateRegistration;
 
 }

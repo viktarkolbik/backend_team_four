@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -18,7 +19,7 @@ public class Form {
     private String name;
     private String lastName;
     private String middleName;
-    private Date birthdayDate;
+    private LocalDate birthdayDate;
     private String email;
     private String phoneNumb;
     private String messengers;
