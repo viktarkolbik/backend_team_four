@@ -15,7 +15,7 @@ public class Interview {
     private UUID id;
     private User admin;
     private LocalDateTime adminInterviewDate;
-    private String feedback;
+    private String adminFeedback;
     private User techSpecialist;
     private LocalDateTime techInterviewDate;
     private String techFeedback;
