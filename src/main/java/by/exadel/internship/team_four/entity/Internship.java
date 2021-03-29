@@ -20,6 +20,7 @@ public class Internship {
     private String name;
     private LocalDate startDateInternship;
     private LocalDate endDateInternship;
+    //private LocalDate publicationDate;  спросить у фронта и менторов
     private String techSkills;
     private List<InternshipLocation> countryList;
     private FormatOfInternship formatOfInternship;
@@ -33,4 +34,21 @@ public class Internship {
     private LocalDate startDateRegistration;
     private LocalDate endDateRegistration;
 
+    public Internship(String name, LocalDate startDateInternship, LocalDate endDateInternship,
+                      String techSkills, List<InternshipLocation> countryList, FormatOfInternship formatOfInternship,
+                      List<Technology> technologyList, String description, String requirements, Integer capacity,
+                      LocalDate startDateRegistration, LocalDate endDateRegistration) {
+        this.name = name;
+        this.startDateInternship = startDateInternship;
+        this.endDateInternship = endDateInternship;
+        this.techSkills = techSkills;
+        this.countryList = countryList;
+        this.formatOfInternship = formatOfInternship;
+        this.technologyList = technologyList;
+        this.description = description;
+        this.requirements = requirements;
+        this.capacity = capacity;
+        this.startDateRegistration = startDateRegistration;
+        this.endDateRegistration = endDateRegistration;
+    }
 }

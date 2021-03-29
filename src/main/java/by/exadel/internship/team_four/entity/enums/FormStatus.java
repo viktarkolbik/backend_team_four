@@ -7,10 +7,12 @@ public enum FormStatus {
     TECH_INTERVIEW_ASSIGNED,
     TECH_INTERVIEW_PASSED,
     ACCEPTED,
-    REJECTED,
-    NOT_MATCH,
-    CANDIDATE_REFUSED,
-    WAITING,
-    GOT_JOB_OFFER
+    NOT_MATCHED,      //не подходит (example нет офиса, не тот регион, и т д английский) нужен ли???
+    REJECTED,         // отклонен (не соответствие требованиям (тех знания))
+    CANDIDATE_REFUSED,   // отказался (сам кандидат)
+
+    WAITING, //спросить
+    GOT_JOB_OFFER,
+    DIDNT_GOT_JOB_OFFER
 
 }
