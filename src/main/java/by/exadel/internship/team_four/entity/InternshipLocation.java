@@ -14,6 +14,4 @@ public class InternshipLocation {
     private UUID id;
     private String country;
     private String city;
-    private String officeAddress;
-
 }

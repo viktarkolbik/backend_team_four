@@ -20,7 +20,7 @@ public class Internship {
     private String name;
     private LocalDate startDateInternship;
     private LocalDate endDateInternship;
-    //private LocalDate publicationDate;  спросить у фронта и менторов
+    private LocalDate publicationDate;
     private String techSkills;
     private List<InternshipLocation> countryList;
     private FormatOfInternship formatOfInternship;

@@ -24,6 +24,5 @@ public class User {
     private List<Internship> listOfInternships;
     private List<LocalDateTime> freeInterviewDates;
 
-    //private List<LocalDateTime> scheduledInterviewDates; рассказать менторам
 
 }
