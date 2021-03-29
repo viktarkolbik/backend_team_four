@@ -4,7 +4,7 @@ public enum TimeSlot {
     NINE_TO_TWELVE,
     TWELVE_TO_FIFTEEN,
     FIFTEEN_TO_EIGHTEEN,
-    AFTER_SIXTEEN,
+    AFTER_EIGHTEEN,
     ALL_DAY
 
     //  УТОЧНИТЬ ДО ФРОНТА, КАК ЛУЧШЕ, ЧАСАМИ ЛИБО УТРО, ДЕНЬ, ВЕЧЕР.
