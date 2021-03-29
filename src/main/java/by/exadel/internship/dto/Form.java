@@ -1,8 +1,8 @@
-package by.exadel.internship.team_four.entity;
+package by.exadel.internship.dto;
 
 
-import by.exadel.internship.team_four.entity.enums.EnglishLevel;
-import by.exadel.internship.team_four.entity.enums.FormStatus;
+import by.exadel.internship.dto.enums.EnglishLevel;
+import by.exadel.internship.dto.enums.FormStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

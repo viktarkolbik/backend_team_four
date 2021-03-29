@@ -1,4 +1,4 @@
-package by.exadel.internship.team_four.entity;
+package by.exadel.internship.dto;
 
 public class TimeForCall {
     private int startHour;

@@ -1,13 +1,13 @@
-package by.exadel.internship.team_four.entity;
+package by.exadel.internship.dto;
 
-import by.exadel.internship.team_four.entity.enums.FormatOfInternship;
-import by.exadel.internship.team_four.entity.enums.Technology;
+
+import by.exadel.internship.dto.enums.FormatOfInternship;
+import by.exadel.internship.dto.enums.Technology;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,8 +18,8 @@ public class Internship {
 
     private UUID id;
     private String name;
-    private LocalDate startDateInternship;
-    private LocalDate endDateInternship;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private LocalDate publicationDate;
     private String techSkills;
     private List<InternshipLocation> countryList;
@@ -39,8 +39,8 @@ public class Internship {
                       List<Technology> technologyList, String description, String requirements, Integer capacity,
                       LocalDate startDateRegistration, LocalDate endDateRegistration) {
         this.name = name;
-        this.startDateInternship = startDateInternship;
-        this.endDateInternship = endDateInternship;
+        this.startDate = startDateInternship;
+        this.endDate = endDateInternship;
         this.techSkills = techSkills;
         this.countryList = countryList;
         this.formatOfInternship = formatOfInternship;

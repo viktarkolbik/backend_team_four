@@ -1,4 +1,4 @@
-package by.exadel.internship.team_four.entity.enums;
+package by.exadel.internship.dto.enums;
 
 public enum FormatOfInternship {
     ONLINE,

@@ -1,11 +1,10 @@
-package by.exadel.internship.team_four.entity;
+package by.exadel.internship.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Data

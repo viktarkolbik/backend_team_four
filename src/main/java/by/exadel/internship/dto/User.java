@@ -1,6 +1,6 @@
-package by.exadel.internship.team_four.entity;
+package by.exadel.internship.dto;
 
-import by.exadel.internship.team_four.entity.enums.UserRole;
+import by.exadel.internship.dto.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
