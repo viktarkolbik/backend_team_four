@@ -1,6 +1,6 @@
 package by.exadel.internship.dto.enums;
 
-public enum FormatOfInternship {
+public enum InternshipFormat {
     ONLINE,
     OFFLINE
 }

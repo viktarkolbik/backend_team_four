@@ -1,7 +1,7 @@
 package by.exadel.internship.dto;
 
 
-import by.exadel.internship.dto.enums.FormatOfInternship;
+import by.exadel.internship.dto.enums.InternshipFormat;
 import by.exadel.internship.dto.enums.Technology;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +25,7 @@ public class InternshipDTO {
     private LocalDate publicationDate;
     private String techSkills;
     private List<LocationDTO> countryList;
-    private FormatOfInternship formatOfInternship;
+    private InternshipFormat formatOfInternship;
     private List<Technology> technologyList;
     private List<FormDTO> formList;
     private List<UserDTO> techList;
@@ -37,7 +37,7 @@ public class InternshipDTO {
     private LocalDate endDateRegistration;
 
     public InternshipDTO(String name, LocalDate startDateInternship, LocalDate endDateInternship,
-                         String techSkills, List<LocationDTO> countryList, FormatOfInternship formatOfInternship,
+                         String techSkills, List<LocationDTO> countryList, InternshipFormat formatOfInternship,
                          List<Technology> technologyList, String description, String requirements, Integer capacity,
                          LocalDate startDateRegistration, LocalDate endDateRegistration) {
         this.name = name;
