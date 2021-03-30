@@ -25,7 +25,7 @@ public class InternshipDTO {
     private LocalDate publicationDate;
     private String techSkills;
     private List<LocationDTO> countryList;
-    private InternshipFormat formatOfInternship;
+    private InternshipFormat InternshipFormat;
     private List<Technology> technologyList;
     private List<FormDTO> formList;
     private List<UserDTO> techList;
@@ -33,24 +33,6 @@ public class InternshipDTO {
     private String description;
     private String requirements;
     private Integer capacity;
-    private LocalDate startDateRegistration;
-    private LocalDate endDateRegistration;
-
-    public InternshipDTO(String name, LocalDate startDateInternship, LocalDate endDateInternship,
-                         String techSkills, List<LocationDTO> countryList, InternshipFormat formatOfInternship,
-                         List<Technology> technologyList, String description, String requirements, Integer capacity,
-                         LocalDate startDateRegistration, LocalDate endDateRegistration) {
-        this.name = name;
-        this.startDate = startDateInternship;
-        this.endDate = endDateInternship;
-        this.techSkills = techSkills;
-        this.countryList = countryList;
-        this.formatOfInternship = formatOfInternship;
-        this.technologyList = technologyList;
-        this.description = description;
-        this.requirements = requirements;
-        this.capacity = capacity;
-        this.startDateRegistration = startDateRegistration;
-        this.endDateRegistration = endDateRegistration;
-    }
+    private LocalDate registrationStartDate;
+    private LocalDate registrationEndDate;
 }

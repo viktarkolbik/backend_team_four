@@ -3,7 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-
     <groupId>by.exadel.internship</groupId>
     <artifactId>Internship</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -15,6 +14,7 @@
         <spring.version>2.3.9.RELEASE</spring.version>
         <springfox.version>3.0.0</springfox.version>
         <lombok.version>1.18.18</lombok.version>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
 
@@ -74,8 +74,6 @@
             <artifactId>liquibase-core</artifactId>
             <version>4.3.2</version>
         </dependency>
-
-
     </dependencies>
 
     <build>
@@ -90,7 +88,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>${java.version}</source>
-                    <target>11</target>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>
