@@ -21,7 +21,7 @@ public class FormDTO {
     //not req
     private String middleName;
     private String email;
-    private String phoneNumb;
+    private String phoneNumber;
     private String skype;
     private EnglishLevel englishLevel;
     private String country;

@@ -25,7 +25,7 @@ public class InternshipDTO {
     private LocalDate publicationDate;
     private String techSkills;
     private List<LocationDTO> countryList;
-    private InternshipFormat formatOfInternship;
+    private InternshipFormat InternshipFormat;
     private List<Technology> technologyList;
     private List<FormDTO> formList;
     private List<UserDTO> techList;
@@ -33,7 +33,7 @@ public class InternshipDTO {
     private String description;
     private String requirements;
     private Integer capacity;
-    private LocalDate startDateRegistration;
-    private LocalDate endDateRegistration;
+    private LocalDate registrationStartDate;
+    private LocalDate registrationEndDate;
 
 }
