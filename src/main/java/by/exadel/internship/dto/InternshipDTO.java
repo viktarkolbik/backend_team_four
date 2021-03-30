@@ -36,21 +36,4 @@ public class InternshipDTO {
     private LocalDate startDateRegistration;
     private LocalDate endDateRegistration;
 
-    public InternshipDTO(String name, LocalDate startDateInternship, LocalDate endDateInternship,
-                         String techSkills, List<LocationDTO> countryList, InternshipFormat formatOfInternship,
-                         List<Technology> technologyList, String description, String requirements, Integer capacity,
-                         LocalDate startDateRegistration, LocalDate endDateRegistration) {
-        this.name = name;
-        this.startDate = startDateInternship;
-        this.endDate = endDateInternship;
-        this.techSkills = techSkills;
-        this.countryList = countryList;
-        this.formatOfInternship = formatOfInternship;
-        this.technologyList = technologyList;
-        this.description = description;
-        this.requirements = requirements;
-        this.capacity = capacity;
-        this.startDateRegistration = startDateRegistration;
-        this.endDateRegistration = endDateRegistration;
-    }
 }

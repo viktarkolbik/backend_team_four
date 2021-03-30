@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +25,5 @@ public class UserDTO {
     private UserRole userRole;
     private List<InternshipDTO> listOfInternships;
     private List<LocalDateTime> freeInterviewDates;
-
 
 }
