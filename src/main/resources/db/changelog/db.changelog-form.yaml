@@ -1,0 +1,66 @@
+databaseChangeLog:
+  -changeSet:
+    id: 2-add-form-table
+    author: alexei
+      changes:
+          -createTable:
+            tableName: Form
+              columns:
+                  -column:
+                    name: id
+                    type: UUID
+                      constrains:
+                        nullable: false
+                        primaryKey: true
+                    - column:
+                        name: name
+                        type: VARCHAR(50)
+                          constrains:
+                            nullable: false
+                    - column:
+                        name: lastname
+                        type: VARCHAR(50)
+                          constrains:
+                            nullable: false
+                    - column:
+                        name: midleName
+                        type: VARCHAR(50)
+                    - column:
+                        name: email
+                        type: VARCHAR(50)
+                    - column:
+                        name: phoneNumb
+                        type: VARCHAR(50)
+                    - column:
+                        name: skype
+                        type: VARCHAR(50)
+                    - column:
+                        name: englishLevel
+                        type: UUID
+                    - column:
+                        name: country
+                        type: VARCHAR(50)
+                    - column:
+                        name: city
+                        type: VARCHAR(50)
+                    - column:
+                        name: experience
+                        type: VARCHAR(50)
+                    - column:
+                        name: education
+                        type: VARCHAR(50)
+                    - column:
+                        name: filePath
+                        type: VARCHAR(50)
+                    - column:
+                        name: primarySkill
+                        type: VARCHAR(50)
+                    - column:
+                         name: interview
+                         type: UUID
+                    - column:
+                         name: formStatus
+                         type: UUID
+                    - column:
+                         name: timeSlotforContact
+                         type: UUID
