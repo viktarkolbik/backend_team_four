@@ -4,20 +4,21 @@ package by.exadel.internship.dto;
 import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.enums.FormStatus;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Form {
+public class FormDTO {
 
     private UUID id;
     private String name;
     private String lastName;
-
-    //не обяз
+    //not req
     private String middleName;
     private String email;
     private String phoneNumb;
@@ -25,17 +26,15 @@ public class Form {
     private EnglishLevel englishLevel;
     private String country;
     private String city;
-
-    //не обяз
+    //not req
     private String experience;
-
-    //private String primarySkill; спросить у Жанны
-
+    //private String primarySkill; ask Jane
     private String education;
     private String filePath;
-    private Interview interview;
+    private InterviewDTO interview;
     private FormStatus formStatus;
-    private TimeForCall timeForCall;
+    //this field is questionable
+    private TimeForCallDTO timeForCall;
 
 
 
