@@ -64,3 +64,10 @@ databaseChangeLog:
                   - column:
                       name: timeSlotforContact
                       type: UUID
+  - changeSet:
+      id: 31032021-insert-into-formTable
+      author: alexei
+      changes:
+         dbms: postgreSQL
+         sqlFile:
+           path: db/changelog/sql/insert_form.sql
