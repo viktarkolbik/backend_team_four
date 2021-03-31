@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/internships")
+@RequestMapping("/internship")
 @Api(tags = "Endpoints for Internship")
 public class InternshipController {
 
@@ -58,7 +58,7 @@ public class InternshipController {
             .registrationEndDate(LocalDate.now().plusDays(14))
             .build();
 
-
+    @GetMapping("")
     @ApiOperation("return list of internships")
     public List<InternshipDTO> getInternshipList() {
 
