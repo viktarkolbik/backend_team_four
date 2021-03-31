@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: db/changelog/db.changelog-form.yaml
+  - include:
+      file: db/changelog/init/db.changelog-internship.yaml
