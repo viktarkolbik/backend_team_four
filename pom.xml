@@ -14,6 +14,8 @@
         <spring.version>2.3.9.RELEASE</spring.version>
         <springfox.version>3.0.0</springfox.version>
         <lombok.version>1.18.18</lombok.version>
+        <liquibase.version>4.3.2</liquibase.version>
+        <postgresql.version>42.2.19</postgresql.version>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
@@ -58,7 +60,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.19</version>
+            <version>${postgresql.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
@@ -72,12 +74,10 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>4.3.2</version>
+            <version>${liquibase.version}</version>
         </dependency>
     </dependencies>
 
-    <!--@todo-->
-<!--    move all version to properties?-->
 
     <build>
         <plugins>
