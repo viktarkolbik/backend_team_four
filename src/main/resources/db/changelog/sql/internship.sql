@@ -1,0 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+INSERT INTO internship (id, name, "startDate", "endDate", "publicationDate", "techSkills", "country_ID", "formatOfInternship_ID", "technology_ID", "formList_ID", "techExpert_ID", "admin_ID", description, requirements, capacity, "registrationStartDate", "registrationEndDate")
+VALUES (uuid_generate_v4(), 'JAVA', '2021-07-21T00:00', '2021-09-21T00:00', '2021-07-01T00:00', 'Test', uuid_generate_v4(), uuid_generate_v4(), uuid_generate_v4(), uuid_generate_v4(),uuid_generate_v4(),uuid_generate_v4(), 'Test', 'Test', 300, '2021-07-01T00:00', '2021-07-01T00:00');
+INSERT INTO internship (id, name, "startDate", "endDate", "publicationDate", "techSkills", "country_ID", "formatOfInternship_ID", "technology_ID", "formList_ID", "techExpert_ID", "admin_ID", description, requirements, capacity, "registrationStartDate", "registrationEndDate")
+VALUES (uuid_generate_v4(), 'JS', '2021-08-21T00:00', '2021-10-21T00:00', '2021-08-01T00:00', 'Test', uuid_generate_v4(), uuid_generate_v4(), uuid_generate_v4(), uuid_generate_v4(),uuid_generate_v4(),uuid_generate_v4(), 'Test', 'Test', 200, '2021-08-01T00:00', '2021-10-01T00:00');
