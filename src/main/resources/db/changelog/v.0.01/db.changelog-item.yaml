@@ -1,14 +1,14 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: 1234
       author: nikita
       changes:
         - createTable:
-            tableName: item123
+            tableName: gghhf
             columns:
               - column:
                   name: id
-                  type: BIGSERIAL
+                  type: uuid
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -20,3 +20,6 @@ databaseChangeLog:
               - column:
                   name: surname
                   type: VARCHAR(255)
+              - column:
+                  name: fnj
+                  type: TIMESTAMP

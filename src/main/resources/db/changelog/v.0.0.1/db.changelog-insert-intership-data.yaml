@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 40032021-inset-intership-data
+      author: nikita
+      changes:
+        - sqlFile:
+            comment: Some info
+            dbms: 'postgresql'
+            -- endDelimiter: \nGo
+            -- splitStatements: true
+            relativeToChangelogFile: true
+            path : sql/internship-data.sql
+            stripComments: true

@@ -76,6 +76,9 @@
         </dependency>
     </dependencies>
 
+    <!--@todo-->
+<!--    move all version to properties?-->
+
     <build>
         <plugins>
             <plugin>

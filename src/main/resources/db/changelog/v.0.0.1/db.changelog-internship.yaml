@@ -1,0 +1,83 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2-add-table-internship
+      author: olga
+      changes:
+        - createTable:
+            tableName: internship
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: startDate
+                  type: TIMESTAMP
+              - column:
+                  name: endDate
+                  type: TIMESTAMP
+              - column:
+                  name: publicationDate
+                  type: TIMESTAMP
+              - column:
+                  name: techSkills
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country_ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: formatOfInternship_ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: technology_ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: formList_ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: techExpert_ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: admin_ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: requirements
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: capacity
+                  type: BIGINT
+              - column:
+                  name: registrationStartDate
+                  type: TIMESTAMP
+              - column:
+                  name: registrationEndDate
+                  type: TIMESTAMP
+
