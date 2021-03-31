@@ -53,10 +53,3 @@ databaseChangeLog:
               - column:
                   name: fm_primary_skill
                   type: VARCHAR(255)
-  - changeSet:
-      id: 31032021-insert-form-data
-      author: alexei_shirshov
-      changes:
-        dbms: postgresql
-        sqlFile:
-          path: db/changelog/v.0.1/sqlFile/insert_form.sql
