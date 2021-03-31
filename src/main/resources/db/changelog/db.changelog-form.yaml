@@ -11,6 +11,7 @@ databaseChangeLog:
                       type: UUID
                       constraints:
                         nullable: false
+                        unique: true
                         primaryKey: true
                   - column:
                       name: name
@@ -65,7 +66,7 @@ databaseChangeLog:
                       name: timeSlotforContact
                       type: UUID
   - changeSet:
-      id: 31032021-insert-into-formTable
+      id: 11032021-insert-into-formTable
       author: alexei
       changes:
          dbms: postgreSQL
