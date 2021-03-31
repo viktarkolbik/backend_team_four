@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
-@Api(tags = "API for forms: get, add and delete forms")
+@RequestMapping("/form")
+@Api(tags = "Form endpoints")
 public class FormController {
 
     static private FormDTO form1;
@@ -74,26 +74,26 @@ public class FormController {
 
     }
 
-    @GetMapping("/forms")
+    @GetMapping
     @ApiOperation("Get all forms")
     public List<FormDTO> getAllForms() {
         return formList;
     }
 
-    @GetMapping("/forms/{formId}")
+    @GetMapping("/{formId}")
     @ApiOperation("Get form by ID")
     public FormDTO getForm(@PathVariable int formId) {
         return formList.get(formId);
     }
 
-    @PostMapping("/forms")
+    @PostMapping
     @ApiOperation("Add new form")
     public FormDTO addNewForm(@RequestBody FormDTO form) {
         formList.add(form);
         return form;
     }
 
-    @DeleteMapping("/forms/{formId}")
+    @DeleteMapping("/{formId}")
     @ApiOperation("Delete form by ID")
     public String deleteForm(@PathVariable int formId) {
         formList.remove(formId);
