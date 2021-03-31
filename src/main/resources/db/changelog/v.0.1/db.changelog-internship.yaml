@@ -51,7 +51,7 @@ databaseChangeLog:
                   type: TIMESTAMP
   - changeSet:
       id: 31032021-insert-internship-data
-      author: olga
+      author: olga_evdokimova
       dbms: postgresql
       sqlFile:
         path: db/changelog/v.0.1/sqlFile/insert_internship.sql
