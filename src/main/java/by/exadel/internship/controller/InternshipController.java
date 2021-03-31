@@ -58,7 +58,7 @@ public class InternshipController {
             .registrationEndDate(LocalDate.now().plusDays(14))
             .build();
 
-    @GetMapping("")
+    @GetMapping
     @ApiOperation("return list of internships")
     public List<InternshipDTO> getInternshipList() {
 
