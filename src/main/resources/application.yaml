@@ -2,10 +2,12 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/internship
     password: "mama071991"
     username: postgres
     initialization-mode: always
+    data:
+      - 'classpath:import.sql'

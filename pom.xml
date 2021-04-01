@@ -16,6 +16,8 @@
         <maven.compiler.target>11</maven.compiler.target>
         <postgresql.version>42.2.19</postgresql.version>
         <liquibase.version>4.3.2</liquibase.version>
+        <spring.data.jpa>2.4.4</spring.data.jpa>
+        <spring.jdbc>5.2.12.RELEASE</spring.jdbc>
     </properties>
 
     <dependencies>
@@ -73,13 +75,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>2.4.4</version>
+            <version>${spring.data.jpa}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>5.2.12.RELEASE</version>
+            <version>${spring.jdbc}</version>
         </dependency>
 
     </dependencies>
