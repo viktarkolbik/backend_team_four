@@ -1,5 +1,7 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/v.0.1/db.changelog-internship.yaml
+      file: db.changelog-internship.yaml
+      relativeToChangelogFile: true
   - include:
-      file: db/changelog/v.0.1/db.changelog-form.yaml
+      file: db.changelog-form.yaml
+      relativeToChangelogFile: true
