@@ -33,5 +33,4 @@ public class GuestInternshipDTO {
     private Integer capacity;
     private LocalDate registrationStartDate;
     private LocalDate registrationEndDate;
-
 }

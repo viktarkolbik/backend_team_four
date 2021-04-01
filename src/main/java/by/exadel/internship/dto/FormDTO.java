@@ -1,12 +1,10 @@
 package by.exadel.internship.dto;
-
 import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.enums.FormStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.UUID;
 
 @Data
@@ -14,7 +12,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FormDTO {
-
     private UUID id;
     private String name;
     private String lastName;
@@ -35,5 +32,4 @@ public class FormDTO {
     private FormStatus formStatus;
     //this field is questionable
     private TimeForCallDTO timeForCall;
-
 }
