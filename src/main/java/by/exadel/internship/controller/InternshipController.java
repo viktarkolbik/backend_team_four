@@ -1,7 +1,7 @@
 package by.exadel.internship.controller;
 
 
-import by.exadel.internship.dto.InternshipDTO;
+import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
 import by.exadel.internship.dto.LocationDTO;
 import by.exadel.internship.dto.enums.InternshipFormat;
 import by.exadel.internship.dto.enums.Technology;
@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/internship")
+@RequestMapping("/internships")
 @Api(tags = "Endpoints for Internship")
 public class InternshipController {
 
     private static List<LocationDTO> locationList = new ArrayList<>();
     private static List<Technology> technologyList = new ArrayList<>();
-    private static List<InternshipDTO> internshipDTOList = new ArrayList<>();
+    private static List<GuestInternshipDTO> internshipDTOList = new ArrayList<>();
     private static LocationDTO firstLocationDTO = new LocationDTO();
     private static LocationDTO secondLocationDTO = new LocationDTO();
 
@@ -43,7 +43,7 @@ public class InternshipController {
 
     }
 
-    private static InternshipDTO internshipDTO = InternshipDTO.builder()
+    private static GuestInternshipDTO internshipDTO = GuestInternshipDTO.builder()
             .name("test internship 1")
             .startDate(LocalDate.now().plusMonths(1))
             .endDate(LocalDate.now().plusMonths(3))
@@ -60,7 +60,7 @@ public class InternshipController {
 
     @GetMapping
     @ApiOperation("return list of internships")
-    public List<InternshipDTO> getInternshipList() {
+    public List<GuestInternshipDTO> getInternshipList() {
 
         internshipDTOList.add(internshipDTO);
 
@@ -69,7 +69,7 @@ public class InternshipController {
 
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
-    public InternshipDTO getInternship(@PathVariable String internshipId) {
+    public GuestInternshipDTO getInternship(@PathVariable String internshipId) {
 
         return internshipDTO;
     }
