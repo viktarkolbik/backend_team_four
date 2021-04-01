@@ -86,18 +86,4 @@ public class FormController {
         return formList.get(formId);
     }
 
-    @PostMapping
-    @ApiOperation("Add new form")
-    public FormDTO addNewForm(@RequestBody FormDTO form) {
-        formList.add(form);
-        return form;
-    }
-
-    @DeleteMapping("/{formId}")
-    @ApiOperation("Delete form by ID")
-    public String deleteForm(@PathVariable int formId) {
-        formList.remove(formId);
-        return "Done! The form this ID=" + formId + " was deleted.";
-    }
-
 }
