@@ -1,3 +1,14 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/internship123
+    password: "0311"
+    username: postgres
+
 server:
   servlet:
     context-path: /api
