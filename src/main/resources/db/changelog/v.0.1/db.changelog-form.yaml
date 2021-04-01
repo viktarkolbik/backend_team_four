@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 31032021-add-form-table
-      author: alexei
+      author: alexei_shirshov
       changes:
         - createTable:
             tableName: form
@@ -46,7 +46,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
               - column:
                   name: fm_education
-                  type: VARCHAR(100)
+                  type: VARCHAR(255)
               - column:
                   name: fm_file_path
                   type: VARCHAR(100)

@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 31032021-add-table-internship
-      author: olga
+      author: olga_evdokimova
       changes:
         - createTable:
             tableName: internship
@@ -28,18 +28,12 @@ databaseChangeLog:
               - column:
                   name: inship_tech_skills
                   type: VARCHAR(255)
-                  constraints:
-                    nullable: false
               - column:
                   name: inship_description
                   type: VARCHAR(255)
-                  constraints:
-                    nullable: false
               - column:
                   name: inship_requirements
                   type: VARCHAR(255)
-                  constraints:
-                    nullable: false
               - column:
                   name: inship_capacity
                   type: BIGINT
