@@ -1,35 +1,28 @@
-package by.exadel.internship.dto;
-import by.exadel.internship.dto.enums.EnglishLevel;
-import by.exadel.internship.dto.enums.FormStatus;
+package by.exadel.internship.entity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.UUID;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class FormDTO {
+@NoArgsConstructor
+public class FormEntity {
     private UUID id;
-    private String name;
+    private String firstName;
     private String lastName;
-    //not req
     private String middleName;
     private String email;
     private String phoneNumber;
     private String skype;
-    private EnglishLevel englishLevel;
     private String country;
     private String city;
-    //not req
     private String experience;
-    private String primarySkill;
     private String education;
     private String filePath;
-    private InterviewDTO interview;
-    private FormStatus formStatus;
-    //this field is questionable
-    private TimeForCallDTO timeForCall;
+    private String primarySkill;
 }

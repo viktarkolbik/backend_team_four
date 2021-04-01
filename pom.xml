@@ -16,9 +16,16 @@
         <maven.compiler.target>11</maven.compiler.target>
         <postgresql.version>42.2.19</postgresql.version>
         <liquibase.version>4.3.2</liquibase.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
