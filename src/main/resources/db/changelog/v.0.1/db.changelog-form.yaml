@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: 31032021-add-form-table
+      author: alexei_shirshov
+      changes:
+        - createTable:
+            tableName: form
+            columns:
+              - column:
+                  name: fm_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    unique: true
+                    primaryKey: true
+              - column:
+                  name: fm_firstname
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fm_lastname
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fm_middlename
+                  type: VARCHAR(50)
+              - column:
+                  name: fm_email
+                  type: VARCHAR(50)
+              - column:
+                  name: fm_phone_number
+                  type: VARCHAR(50)
+              - column:
+                  name: fm_skype
+                  type: VARCHAR(50)
+              - column:
+                  name: fm_country
+                  type: VARCHAR(50)
+              - column:
+                  name: fm_city
+                  type: VARCHAR(50)
+              - column:
+                  name: fm_experience
+                  type: VARCHAR(255)
+              - column:
+                  name: fm_education
+                  type: VARCHAR(255)
+              - column:
+                  name: fm_file_path
+                  type: VARCHAR(100)
+              - column:
+                  name: fm_primary_skill
+                  type: VARCHAR(255)
