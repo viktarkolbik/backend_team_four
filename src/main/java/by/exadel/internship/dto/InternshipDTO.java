@@ -35,5 +35,4 @@ public class InternshipDTO {
     private Integer capacity;
     private LocalDate registrationStartDate;
     private LocalDate registrationEndDate;
-
 }
