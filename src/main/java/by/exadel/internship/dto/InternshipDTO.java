@@ -3,6 +3,7 @@ package by.exadel.internship.dto;
 
 import by.exadel.internship.dto.enums.InternshipFormat;
 import by.exadel.internship.dto.enums.Technology;
+import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +28,7 @@ public class InternshipDTO {
     private List<LocationDTO> countryList;
     private InternshipFormat InternshipFormat;
     private List<Technology> technologyList;
-    private List<FormDTO> formList;
+    private List<FormRegisterDTO> formList;
     private List<UserDTO> techList;
     private List<UserDTO> adminList;
     private String description;

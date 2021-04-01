@@ -1,6 +1,3 @@
-server:
-  servlet:
-    context-path: /api
 spring:
   jpa:
     show-sql: true
@@ -11,3 +8,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/internship123
     password: "0311"
     username: postgres
+server:
+  servlet:
+    context-path: /api
