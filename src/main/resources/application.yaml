@@ -8,3 +8,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     password: "root"
     username: postgres
+server:
+  servlet:
+    context-path: /api

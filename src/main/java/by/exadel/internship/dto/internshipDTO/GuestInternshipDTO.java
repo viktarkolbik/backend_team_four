@@ -1,22 +1,23 @@
-package by.exadel.internship.dto;
+package by.exadel.internship.dto.internshipDTO;
 
 
+import by.exadel.internship.dto.LocationDTO;
 import by.exadel.internship.dto.enums.InternshipFormat;
 import by.exadel.internship.dto.enums.Technology;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class InternshipDTO {
+public class GuestInternshipDTO {
 
     private UUID id;
     private String name;
@@ -27,9 +28,6 @@ public class InternshipDTO {
     private List<LocationDTO> countryList;
     private InternshipFormat InternshipFormat;
     private List<Technology> technologyList;
-    private List<FormDTO> formList;
-    private List<UserDTO> techList;
-    private List<UserDTO> adminList;
     private String description;
     private String requirements;
     private Integer capacity;
