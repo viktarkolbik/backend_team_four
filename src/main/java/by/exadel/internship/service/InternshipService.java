@@ -36,10 +36,7 @@ public class InternshipService {
     public List<GuestInternshipDTO> getAll(){
 
         List<Internship> internships = internshipRepository.findAll();
-        List<GuestInternshipDTO> guestInternshipDTOList = new ArrayList<>();
-        for (Internship i: internships) {
-            guestInternshipDTOList.add(internShipMapper.toGuestInternshipDTO(i));
-        }
+        List<GuestInternshipDTO> guestInternshipDTOList = internShipMapper.map(internships);
 
         return guestInternshipDTOList;
     }
