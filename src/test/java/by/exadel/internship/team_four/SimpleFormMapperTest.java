@@ -1,8 +1,8 @@
 package by.exadel.internship.team_four;
 
 import by.exadel.internship.dto.formDTO.FormFullDTO;
-import by.exadel.internship.entity.FormEntity;
-import by.exadel.internship.mappers.FormMapper;
+import by.exadel.internship.entity.Form;
+import by.exadel.internship.mapper.FormMapper;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -15,13 +15,13 @@ public class SimpleFormMapperTest {
 
     @Test
     public void givenEntityToDTO_whenMaps_thenCorrect() {
-        FormEntity formEntity = new FormEntity();
-        formEntity.setCity("minsk");
-        formEntity.setCountry("Belarus");
-        FormFullDTO formFullDTO = mapper.toFormDto(formEntity);
+        Form form = new Form();
+        form.setCity("minsk");
+        form.setCountry("Belarus");
+        FormFullDTO formFullDTO = mapper.toFormDto(form);
 
-        assertEquals(formEntity.getCity(), formFullDTO.getCity());
-        assertEquals(formEntity.getCountry(), formFullDTO.getCountry());
+        assertEquals(form.getCity(), formFullDTO.getCity());
+        assertEquals(form.getCountry(), formFullDTO.getCountry());
     }
 
     @Test
@@ -29,10 +29,12 @@ public class SimpleFormMapperTest {
         FormFullDTO formFullDTO = new FormFullDTO();
         formFullDTO.setEmail("testEmail");
         formFullDTO.setEducation("testEducation");
-        FormEntity formEntity = mapper.toFormEntity(formFullDTO);
+        Form form = mapper.toFormEntity(formFullDTO);
 
-        assertEquals(formFullDTO.getEducation(), formEntity.getEducation());
-        assertEquals(formFullDTO.getEmail(), formEntity.getEmail());
+        assertEquals(formFullDTO.getEducation(), form.getEducation());
+        assertEquals(formFullDTO.getEmail(), form.getEmail());
     }
+
+
 
 }
