@@ -3,8 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-
-
     <groupId>by.exadel.internship</groupId>
     <artifactId>Internship</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -49,8 +47,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
