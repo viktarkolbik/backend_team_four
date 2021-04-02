@@ -1,7 +1,6 @@
 package by.exadel.internship.service;
 
 
-import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
 import by.exadel.internship.mapper.FormMapper;
@@ -19,7 +18,7 @@ public class FormService {
     @Autowired
     public FormRepository formRepository;
 
-    public void saveForm(FormRegisterDTO formRegisterDTO){
+    public void saveForm(FormRegisterDTO formRegisterDTO) {
         Form form = mapper.toFormEntity(formRegisterDTO);
         formRepository.save(form);
     }

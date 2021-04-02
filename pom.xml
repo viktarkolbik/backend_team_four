@@ -17,6 +17,8 @@
         <postgresql.version>42.2.19</postgresql.version>
         <liquibase.version>4.3.2</liquibase.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <mapstruct-lombok.version>0.2.0</mapstruct-lombok.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     </properties>
 
     <dependencies>
@@ -88,7 +90,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${maven.compiler.target}</target>
@@ -106,7 +108,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok-mapstruct-binding</artifactId>
-                            <version>0.2.0</version>
+                            <version>${mapstruct-lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
