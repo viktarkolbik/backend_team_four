@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Repository
-@Transactional
 public interface FormRepository extends JpaRepository<Form, UUID> {
 
 
