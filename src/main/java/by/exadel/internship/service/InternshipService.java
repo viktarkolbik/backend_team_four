@@ -8,7 +8,6 @@ import by.exadel.internship.repository.InternshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +23,6 @@ public class InternshipService {
         this.internShipMapper = internShipMapper;
     }
 
-
     public GuestInternshipDTO getById(UUID uuid) {
 
         Internship internship = internshipRepository.getOne(uuid);
@@ -33,13 +31,11 @@ public class InternshipService {
         return guestInternshipDTO;
     }
 
-    public List<GuestInternshipDTO> getAll(){
+    public List<GuestInternshipDTO> getAll() {
 
         List<Internship> internships = internshipRepository.findAll();
         List<GuestInternshipDTO> guestInternshipDTOList = internShipMapper.map(internships);
 
         return guestInternshipDTOList;
     }
-
-
 }
