@@ -18,7 +18,6 @@
         <postgresql.version>42.2.19</postgresql.version>
         <liquibase.version>4.3.2</liquibase.version>
         <spring.data.jpa>2.4.4</spring.data.jpa>
-        <liquibase.version>4.3.2</liquibase.version>
     </properties>
 
     <dependencies>
