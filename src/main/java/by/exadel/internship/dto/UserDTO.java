@@ -2,6 +2,7 @@ package by.exadel.internship.dto;
 
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
+import by.exadel.internship.dto.internshipDTO.UserInternshipDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,6 @@ public class UserDTO {
     private String login;
     private String password;
     private UserRole userRole;
-    private List<GuestInternshipDTO> listOfInternships;
+    private List<UserInternshipDTO> listOfInternships;
     private List<LocalDateTime> freeInterviewDates;
 }

@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 03042021-add-table-user
+      author: maksim_maevsky
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: user_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_firstname
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_lastname
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_email
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_login
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_password
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
