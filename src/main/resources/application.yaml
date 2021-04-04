@@ -5,9 +5,9 @@ spring:
       ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/internship
-    password: "mama071991"
-    username: postgres
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/internship}
+    password: ${SPRING_DATASOURSE_PASSWORD:0311}
+    username: ${SPRING_DATASOURSE_USERNAME:postgres}
     initialization-mode: always
     data:
       - 'classpath:db/changelog/v.0.1/sql-import/import-form.sql'
