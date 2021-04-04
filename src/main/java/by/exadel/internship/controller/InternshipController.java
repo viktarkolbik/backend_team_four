@@ -35,7 +35,7 @@ public class InternshipController {
 
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
-    public GuestInternshipDTO getInternship(@PathVariable UUID internshipId) {
+    public GuestInternshipDTO getInternshipById(@PathVariable UUID internshipId) {
 
         GuestInternshipDTO guestInternshipDTO = internshipService.getById(internshipId);
 
