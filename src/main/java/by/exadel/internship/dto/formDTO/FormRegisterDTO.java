@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class FormRegisterDTO {
 
-    private String name;
+    private String firstName;
     private String lastName;
     //not req
     private String middleName;
