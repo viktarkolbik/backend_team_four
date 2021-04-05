@@ -11,9 +11,9 @@ import org.mapstruct.Named;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface InternShipMapper {
+public interface InternshipMapper {
 
-    @Named(value = "intern")
+    @Named(value = "internship")
     GuestInternshipDTO toGuestInternshipDTO(Internship internship);
 
     Internship toInternship(GuestInternshipDTO guestInternshipDTO);
@@ -22,8 +22,7 @@ public interface InternShipMapper {
 
     Internship toInternship(UserInternshipDTO userInternshipDTO);
 
-    @IterableMapping(qualifiedByName = "intern")
+    @IterableMapping(qualifiedByName = "internship")
     List<GuestInternshipDTO> map(List<Internship> internshipList);
-
 
 }

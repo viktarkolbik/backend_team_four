@@ -3,32 +3,35 @@ package by.exadel.internship.service;
 
 import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
 import by.exadel.internship.entity.Internship;
-import by.exadel.internship.mapper.InternShipMapper;
+import by.exadel.internship.mapper.InternshipMapper;
 import by.exadel.internship.repository.InternshipRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class InternshipService {
 
     private final InternshipRepository internshipRepository;
-    private final InternShipMapper internShipMapper;
-
-    @Autowired
-    public InternshipService(InternshipRepository internshipRepository, InternShipMapper internShipMapper) {
-        this.internshipRepository = internshipRepository;
-        this.internShipMapper = internShipMapper;
-    }
+    private final InternshipMapper internShipMapper;
 
     public GuestInternshipDTO getById(UUID uuid) {
 
-        Internship internship = internshipRepository.getOne(uuid);
-        GuestInternshipDTO guestInternshipDTO = internShipMapper.toGuestInternshipDTO(internship);
+        Internship internship;
 
-        return guestInternshipDTO;
+        Optional<Internship> optionalInternship = internshipRepository.findById(uuid);
+
+        if (optionalInternship.isPresent()) {
+            internship = optionalInternship.get();
+        } else {
+            throw new NullPointerException();
+        }
+
+        return internShipMapper.toGuestInternshipDTO(internship);
     }
 
     public List<GuestInternshipDTO> getAll() {

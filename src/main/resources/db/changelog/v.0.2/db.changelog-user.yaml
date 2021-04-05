@@ -1,43 +1,43 @@
 databaseChangeLog:
   - changeSet:
-      id: 03042021-add-table-user
+      id: 05042021-add-table-user
       author: maksim_maevsky
       changes:
         - createTable:
             tableName: user
             columns:
               - column:
-                  name: user_id
+                  name: u_id
                   type: UUID
                   constraints:
                     primaryKey: true
               - column:
-                  name: user_firstname
+                  name: u_firstname
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
               - column:
-                  name: user_lastname
+                  name: u_lastname
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
               - column:
-                  name: user_email
+                  name: u_email
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
               - column:
-                  name: user_login
+                  name: u_login
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
               - column:
-                  name: user_password
+                  name: u_password
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
               - column:
-                  name: user_role_id
+                  name: u_role_id
                   type: UUID
                   constraints:
                     nullable: false
@@ -47,8 +47,8 @@ databaseChangeLog:
       author:  maksim_maevsky
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: user_role_id
+            baseColumnNames: u_role_id
             baseTableName: user
-            constraintName: fk_user_role
+            constraintName: FK_UserRole_User
             referencedColumnNames: ur_id
             referencedTableName: user_role
