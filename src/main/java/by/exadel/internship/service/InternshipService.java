@@ -21,15 +21,9 @@ public class InternshipService {
 
     public GuestInternshipDTO getById(UUID uuid) {
 
-        Internship internship;
-
         Optional<Internship> optionalInternship = internshipRepository.findById(uuid);
 
-        if (optionalInternship.isPresent()) {
-            internship = optionalInternship.get();
-        } else {
-            throw new NullPointerException();
-        }
+        Internship internship = optionalInternship.get();
 
         return internShipMapper.toGuestInternshipDTO(internship);
     }
