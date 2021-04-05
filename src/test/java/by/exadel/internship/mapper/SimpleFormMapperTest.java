@@ -1,13 +1,10 @@
-package by.exadel.internship.team_four;
+package by.exadel.internship.mapper;
 
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.entity.Form;
-import by.exadel.internship.mapper.FormMapper;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 
 public class SimpleFormMapperTest {
     private FormMapper mapper
@@ -34,7 +31,4 @@ public class SimpleFormMapperTest {
         assertEquals(formFullDTO.getEducation(), form.getEducation());
         assertEquals(formFullDTO.getEmail(), form.getEmail());
     }
-
-
-
 }
