@@ -14,6 +14,9 @@ spring:
       - 'classpath:db/changelog/v.0.1/sql-import/import-internship.sql'
       - 'classpath:db/changelog/v.0.2/sql-import/import-user-role.sql'
       - 'classpath:db/changelog/v.0.2/sql-import/import-user.sql'
+      - 'classpath:db/changelog/v.0.2/sql-import/import-interview.sql'
+      - 'classpath:db/changelog/v.0.2/sql-import/import-interview-dates.sql'
+
 
 server:
   servlet:

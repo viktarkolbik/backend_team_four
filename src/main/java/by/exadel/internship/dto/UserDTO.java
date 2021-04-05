@@ -1,12 +1,12 @@
 package by.exadel.internship.dto;
 
 import by.exadel.internship.dto.enums.UserRole;
-import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
 import by.exadel.internship.dto.internshipDTO.UserInternshipDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
