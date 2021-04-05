@@ -26,4 +26,5 @@ public class UserDTO {
     private UserRole userRole;
     private List<UserInternshipDTO> listOfInternships;
     private List<LocalDateTime> freeInterviewDates;
+
 }
