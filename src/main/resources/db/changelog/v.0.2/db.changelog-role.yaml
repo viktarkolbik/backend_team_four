@@ -1,18 +1,18 @@
 databaseChangeLog:
   - changeSet:
-      id: 04042021-add-table-user_role
+      id: 04042021-add-table-role
       author: maksim_maevsky
       changes:
         - createTable:
-            tableName: user_role
+            tableName: role
             columns:
               - column:
-                  name: ur_id
+                  name: r_id
                   type: UUID
                   constraints:
                     primaryKey: true
               - column:
-                  name: ur_name
+                  name: r_name
                   type: VARCHAR(50)
                   constraints:
                     nullable: false

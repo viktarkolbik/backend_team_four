@@ -12,22 +12,22 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: u_admin_id
+                  name: i_admin_id
                   type: UUID
                   constraints:
                     nullable: true
               - column:
-                  name: u_admin_feedback
+                  name: i_admin_feedback
                   type: VARCHAR(150)
                   constraints:
                     nullable: true
               - column:
-                  name: u_tech_id
+                  name: i_tech_id
                   type: UUID
                   constraints:
                     nullable: true
               - column:
-                  name: u_tech_feedback
+                  name: i_tech_feedback
                   type: VARCHAR(150)
                   constraints:
                     nullable: true
@@ -37,14 +37,14 @@ databaseChangeLog:
       author:  maksim_maevsky
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: u_admin_id
+            baseColumnNames: i_admin_id
             baseTableName: interview
-            constraintName: FK_UserAdmin_Interview
+            constraintName: fk_interview_user_admin
             referencedColumnNames: u_id
             referencedTableName: user
         - addForeignKeyConstraint:
-            baseColumnNames: u_tech_id
+            baseColumnNames: i_tech_id
             baseTableName: interview
-            constraintName: FK_UserTech_Interview
+            constraintName: fk_interview_user_tech
             referencedColumnNames: u_id
             referencedTableName: user

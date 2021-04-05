@@ -4,7 +4,7 @@ databaseChangeLog:
       author: maksim_maevsky
       changes:
         - createTable:
-            tableName: interview-dates
+            tableName: interview_dates
             columns:
               - column:
                   name: i_dates_id
@@ -17,12 +17,12 @@ databaseChangeLog:
                   constraints:
                     nullable: true
               - column:
-                  name: user_id
+                  name: i_dates_user_id
                   type: UUID
                   constraints:
                     nullable: true
               - column:
-                  name: interview_id
+                  name: i_dates_interview_id
                   type: UUID
                   constraints:
                     nullable: false
@@ -32,9 +32,9 @@ databaseChangeLog:
       author:  maksim_maevsky
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: user_id
-            baseTableName: interview-dates
-            constraintName: FK_User_InterviewDates
+            baseColumnNames: i_dates_user_id
+            baseTableName: interview_dates
+            constraintName: fk_interview_dates_user
             referencedColumnNames: u_id
             referencedTableName: user
 
@@ -43,8 +43,8 @@ databaseChangeLog:
       author:  maksim_maevsky
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: interview_id
-            baseTableName: interview-dates
-            constraintName: FK_Interview_InterviewDates
+            baseColumnNames: i_dates_interview_id
+            baseTableName: interview_dates
+            constraintName: fk_interview_dates_interview
             referencedColumnNames: i_id
             referencedTableName: interview
