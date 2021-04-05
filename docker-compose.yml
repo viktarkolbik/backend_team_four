@@ -1,4 +1,8 @@
 version: '3'
+
+volumes:
+  internship-data:
+
 services:
   app:
     container_name: internship_springboot
@@ -19,7 +23,7 @@ services:
     ports:
     - "5432:5432"
     volumes:
-    - ./pg_data:/var/lib/postgresql/data/pgdata
+    - internship-data:/var/lib/postgresql/data/pgdata
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
