@@ -3,7 +3,7 @@ package by.exadel.internship.service;
 
 import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
 import by.exadel.internship.entity.Internship;
-import by.exadel.internship.exception.NoEntityException;
+import by.exadel.internship.exception.NotFoundException;
 import by.exadel.internship.mapper.InternshipMapper;
 import by.exadel.internship.repository.InternshipRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class InternshipService {
 
         Internship internship = internshipRepository
                 .findById(uuid)
-                .orElseThrow(() -> new NoEntityException("Entity was not found!"));
+                .orElseThrow(() -> new NotFoundException(String.format("Internship with id %s was not found!", uuid)));
 
         return internShipMapper.toGuestInternshipDTO(internship);
 
