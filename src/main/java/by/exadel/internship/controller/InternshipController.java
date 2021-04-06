@@ -26,9 +26,8 @@ public class InternshipController {
     @ApiOperation("return list of internships")
     public List<GuestInternshipDTO> getInternshipList() {
 
-        List<GuestInternshipDTO> guestInternshipDTOList = internshipService.getAll();
+        return internshipService.getAll();
 
-        return guestInternshipDTOList;
     }
 
     @GetMapping("/{internshipId}")
