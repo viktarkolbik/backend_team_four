@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 05042021-add-table-interview-dates
+      author: maksim_maevsky
+      changes:
+        - createTable:
+            tableName: interview_dates
+            columns:
+              - column:
+                  name: i_dates_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: i_dates_date_time
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: i_dates_user_id
+                  type: UUID
+                  constraints:
+                    nullable: true
+              - column:
+                  name: i_dates_interview_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 05042021-add-foreignKeyConstraint-interview-dates-to-user
+      author:  maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: i_dates_user_id
+            baseTableName: interview_dates
+            constraintName: fk_interview_dates_user
+            referencedColumnNames: u_id
+            referencedTableName: user
+
+  - changeSet:
+      id: 05042021-add-foreignKeyConstraint-interview-dates-to-interview
+      author:  maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: i_dates_interview_id
+            baseTableName: interview_dates
+            constraintName: fk_interview_dates_interview
+            referencedColumnNames: i_id
+            referencedTableName: interview
