@@ -21,7 +21,9 @@ public class InternshipService {
 
     public GuestInternshipDTO getById(UUID uuid) {
 
-        Internship internship = internshipRepository.findById(uuid).orElseThrow(() -> new NoEntityException("Entity was not found!"));
+        Internship internship = internshipRepository
+                .findById(uuid)
+                .orElseThrow(() -> new NoEntityException("Entity was not found!"));
 
         return internShipMapper.toGuestInternshipDTO(internship);
 
