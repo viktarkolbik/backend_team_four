@@ -12,11 +12,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FormService {
 
-    private FormMapper mapper;
+    private final FormMapper mapper;
 
-    private FormRepository formRepository;
+    private final FormRepository formRepository;
 
     public void saveForm(FormRegisterDTO formRegisterDTO) {
+
         Form form = mapper.toFormEntity(formRegisterDTO);
         formRepository.save(form);
 

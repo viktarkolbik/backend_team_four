@@ -5,8 +5,10 @@ import by.exadel.internship.service.FormService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "Form endpoints")
 public class FormController {
 
-    private FormService formService;
+    private final FormService formService;
 
     @PostMapping
     @ApiOperation("Add new form")
