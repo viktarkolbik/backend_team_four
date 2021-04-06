@@ -13,6 +13,6 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> getByUserRole(UserRole userRole);
-    List<TechUser> getByUserRoleAAndTechTechnology(UserRole userRole, Technology technology);
+    List<TechUser> getByUserRoleAndTechTechnology(UserRole userRole, Technology technology);
 
 }

@@ -1,5 +1,4 @@
 package by.exadel.internship.exception;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

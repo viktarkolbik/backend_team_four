@@ -1,14 +1,14 @@
 package by.exadel.internship.entity;
-
 import by.exadel.internship.dto.enums.Technology;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table("techUser")
+@Table(name = "techUser")
+@AllArgsConstructor
+@NoArgsConstructor
 @SuperBuilder
 public class TechUser extends User {
     @Column(name = "technology")

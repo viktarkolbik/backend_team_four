@@ -1,22 +1,18 @@
 package by.exadel.internship.entity;
-
 import by.exadel.internship.dto.enums.Technology;
 import by.exadel.internship.dto.enums.UserRole;
-import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
 import by.exadel.internship.dto.internshipDTO.UserInternshipDTO;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table("user")
+@Table(name = "user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,8 +39,6 @@ public class User {
 
     @Column(name = "u_role_id")
     private UserRole userRole;
-
-    private Technology techTechnology;
 
 //    @Column(name = "intership_list")
 //    private List<UserInternshipDTO> listOfInternships;

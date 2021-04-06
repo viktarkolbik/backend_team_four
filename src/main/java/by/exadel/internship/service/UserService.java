@@ -6,6 +6,7 @@ import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.entity.TechUser;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.exception.UserNotFoundException;
+import by.exadel.internship.mapper.TechUserMapper;
 import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,9 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
-
     private final UserMapper userMapper;
+    private final TechUserMapper techUserMapper;
+
 
     public List<UserDTO> getAll() {
         List<User> userList = userRepository.findAll();
@@ -32,8 +34,8 @@ public class UserService {
     }
 
     public List<TechUserDTO> getTechExpertsByTechnology(UserRole userRole, Technology technology) {
-        List<TechUser> users = userRepository.getByUserRoleAAndTechTechnology(userRole, technology);
-        return userMapper.mapToTech(users);
+        List<TechUser> users = userRepository.getByUserRoleAndTechTechnology(userRole, technology);
+        return techUserMapper.map(users);
     }
 
     public UserDTO getById(UUID uuid) {

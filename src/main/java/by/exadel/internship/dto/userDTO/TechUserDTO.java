@@ -1,11 +1,9 @@
 package by.exadel.internship.dto.userDTO;
 import by.exadel.internship.dto.enums.Technology;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@Data
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
