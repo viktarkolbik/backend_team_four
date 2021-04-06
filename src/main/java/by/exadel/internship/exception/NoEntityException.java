@@ -17,7 +17,7 @@ public class NoEntityException extends RuntimeException {
         super(message);
     }
 
-    public NoEntityException(UUID uuid) {
-
+    public NoEntityException(String message, Throwable cause) {
+        super(message, cause);
     }
 }
