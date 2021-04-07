@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
             NotFoundException exception){
-        logger.error(exception.getMessage(), exception.getSimpleClassName());
+        logger.error(exception.getMessage());
         IncorrectData data =  new IncorrectData();
         data.setInfo(exception.getMessage());
         return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
