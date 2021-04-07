@@ -11,5 +11,12 @@ databaseChangeLog:
   - include:
       file: db.changelog-interview-dates.yaml
       relativeToChangelogFile: true
-
-
+  - include:
+      file: db.changelog-format.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-technology.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-internship-fk.yaml
+      relativeToChangelogFile: true

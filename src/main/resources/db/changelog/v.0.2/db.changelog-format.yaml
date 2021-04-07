@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 07042021-add-table-format
+      author: maksim_maevsky
+      changes:
+        - createTable:
+            tableName: format
+            columns:
+              - column:
+                  name: f_name
+                  type: VARCHAR(10)
+                  constraints:
+                    primaryKey: true

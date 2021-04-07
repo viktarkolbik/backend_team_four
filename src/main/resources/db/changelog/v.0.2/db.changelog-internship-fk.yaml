@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 07042021-add-column-inship-format-name-to-internship
+      author: maksim_maevsky
+      changes:
+        - addColumn:
+           tableName: internship
+           columns:
+             name: inship_format_name
+             type: varchar(10)
+             constraints:
+               nullable: false
+
+  - changeSet:
+      id: 07042021-add-column-inship-technology-name-to-internship
+      author: maksim_maevsky
+      changes:
+        - addColumn:
+           tableName: internship
+           columns:
+             name: inship_technology_name
+             type: varchar(10)
+             constraints:
+               nullable: false
+
+  - changeSet:
+      id: 07042021-add-foreignKeyConstraint-internship-to-format
+      author:  maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: inship_format_name
+            baseTableName: internship
+            constraintName: fk_internship_format
+            referencedColumnNames: f_name
+            referencedTableName: format
+
+  - changeSet:
+      id: 07042021-add-foreignKeyConstraint-internship-to-technology
+      author:  maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: inship_technology_name
+            baseTableName: internship
+            constraintName: fk_internship_technology
+            referencedColumnNames: tech_name
+            referencedTableName: technology

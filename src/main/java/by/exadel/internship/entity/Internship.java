@@ -1,15 +1,15 @@
 package by.exadel.internship.entity;
 
 
+import by.exadel.internship.dto.enums.InternshipFormat;
+import by.exadel.internship.dto.enums.Technology;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -55,11 +55,16 @@ public class Internship {
     @Column(name = "inship_registration_end_date")
     private LocalDate registrationEndDate;
 
-//    private List<FormFullDTO> formList;
-//    private List<UserDTO> techList;
-//    private List<UserDTO> adminList;
-//    private List<LocationDTO> countryList;
-//    private InternshipFormat InternshipFormat;
-//    private List<Technology> technologyList;
+    @Column(name = "inship_format_name")
+    private InternshipFormat InternshipFormat;
+
+    @Column(name = "inship_technology_name")
+    private Technology technology;
+
+//    private List<Form> formList;
+//    private List<User> techList;
+//    private List<User> adminList;
+//    private List<Location> countryList;
+
 
 }
