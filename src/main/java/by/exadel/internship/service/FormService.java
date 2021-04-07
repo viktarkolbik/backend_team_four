@@ -14,12 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FormService {
 
-    private static final Logger infoLogger =
-            LoggerFactory.getLogger("by.exadel.service.info");
-    private static final Logger warningLogger =
-            LoggerFactory.getLogger("by.exadel.service.warning");
-    private static final Logger errorLogger =
-            LoggerFactory.getLogger("by.exadel.service.error");
+    private static final Logger logger =
+            LoggerFactory.getLogger("by.exadel.service");
 
     private final FormMapper mapper;
 

@@ -1,8 +1,7 @@
 <configuration>
 
     <property name="LOG_DIR" value="logs" />
-    <property name="LOG_FILE_INFO" value="info"/>
-    <property name="LOG_FILE_ERROR" value="error"/>
+    <property name="LOG_FILE" value="log"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -10,10 +9,10 @@
         </encoder>
     </appender>
 
-    <appender name="FILE_INFO_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/${LOG_FILE_INFO}.log</file>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/${LOG_FILE}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/%d{yyyy/MM}/${LOG_FILE_INFO}.gz</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/%d{yyyy/MM}/${LOG_FILE}.gz</fileNamePattern>
             <totalSizeCap>3GB</totalSizeCap>
         </rollingPolicy>
         <encoder>
@@ -21,25 +20,8 @@
         </encoder>
     </appender>
 
-    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/${LOG_FILE_ERROR}.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/%d{yyyy/MM}/${LOG_FILE_ERROR}.gz</fileNamePattern>
-            <totalSizeCap>3GB</totalSizeCap>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <logger name="by.exadel.service.info" level="INFO">
-        <appender-ref ref="FILE_INFO_WARN"/>
-    </logger>
-    <logger name="by.exadel.service.warn" level="WARN">
-        <appender-ref ref="FILE_INFO_WARN" />
-    </logger>
-    <logger name="by.exadel.service.error" level="ERROR">
-        <appender-ref ref="FILE_ERROR" />
+    <logger name="by.exadel.service">
+        <appender-ref ref="FILE"/>
     </logger>
 
     <root level="info">
