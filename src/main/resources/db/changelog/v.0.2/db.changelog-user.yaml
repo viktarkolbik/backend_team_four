@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: 05042021-add-table-user
+      author: maksim_maevsky
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: u_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: u_firstname
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: u_lastname
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: u_email
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: u_login
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: u_password
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: u_role_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 04042021-add-foreignKeyConstraint-user-to-role
+      author:  maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: u_role_id
+            baseTableName: user
+            constraintName: fk_user_role
+            referencedColumnNames: r_id
+            referencedTableName: role

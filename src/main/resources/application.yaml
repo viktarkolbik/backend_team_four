@@ -5,13 +5,19 @@ spring:
       ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/internship
-    password: "mama071991"
-    username: postgres
+    url: ${SPRING_DATASOURCE_URL}
+    password: ${SPRING_DATASOURSE_PASSWORD}
+    username: ${SPRING_DATASOURSE_USERNAME}
     initialization-mode: always
     data:
       - 'classpath:db/changelog/v.0.1/sql-import/import-form.sql'
       - 'classpath:db/changelog/v.0.1/sql-import/import-internship.sql'
+      - 'classpath:db/changelog/v.0.2/sql-import/import-role.sql'
+      - 'classpath:db/changelog/v.0.2/sql-import/import-user.sql'
+      - 'classpath:db/changelog/v.0.2/sql-import/import-interview.sql'
+      - 'classpath:db/changelog/v.0.2/sql-import/import-interview-dates.sql'
+
+
 server:
   servlet:
     context-path: /api

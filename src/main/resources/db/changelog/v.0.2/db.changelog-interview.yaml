@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 05042021-add-table-interview
+      author: maksim_maevsky
+      changes:
+        - createTable:
+            tableName: interview
+            columns:
+              - column:
+                  name: i_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: i_admin_id
+                  type: UUID
+                  constraints:
+                    nullable: true
+              - column:
+                  name: i_admin_feedback
+                  type: VARCHAR(150)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: i_tech_id
+                  type: UUID
+                  constraints:
+                    nullable: true
+              - column:
+                  name: i_tech_feedback
+                  type: VARCHAR(150)
+                  constraints:
+                    nullable: true
+
+  - changeSet:
+      id: 05042021-add-foreignKeyConstraint-interview-to-user
+      author:  maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: i_admin_id
+            baseTableName: interview
+            constraintName: fk_interview_user_admin
+            referencedColumnNames: u_id
+            referencedTableName: user
+        - addForeignKeyConstraint:
+            baseColumnNames: i_tech_id
+            baseTableName: interview
+            constraintName: fk_interview_user_tech
+            referencedColumnNames: u_id
+            referencedTableName: user
