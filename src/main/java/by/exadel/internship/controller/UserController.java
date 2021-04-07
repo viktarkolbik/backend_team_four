@@ -1,7 +1,7 @@
 package by.exadel.internship.controller;
 import by.exadel.internship.dto.enums.Technology;
 import by.exadel.internship.dto.enums.UserRole;
-import by.exadel.internship.dto.userDTO.TechUserDTO;
+//import by.exadel.internship.dto.userDTO.TechUserDTO;
 import by.exadel.internship.dto.userDTO.UserDTO;
 import by.exadel.internship.service.UserService;
 import io.swagger.annotations.Api;
@@ -37,11 +37,10 @@ public class UserController {
         return userService.getByRole(userRole);
     }
 
-
-    @GetMapping("/tech-users-by-technology")
-    @ApiOperation("Return tech users  by technology")
-    public List<TechUserDTO> getTechExpertsByTechnology(@RequestParam("userRole") UserRole userRole,
-                                                        @RequestParam("technology") Technology technology) {
-        return userService.getTechExpertsByTechnology(userRole, technology);
-    }
+//    @GetMapping("/tech-users-by-technology")
+//    @ApiOperation("Return tech users  by technology")
+//    public List<TechUserDTO> getTechExpertsByTechnology(@RequestParam("userRole") UserRole userRole,
+//                                                        @RequestParam("technology") Technology technology) {
+//        return userService.getTechExpertsByTechnology(userRole, technology);
+//    }
 }

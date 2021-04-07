@@ -17,6 +17,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name="user",
+//        discriminatorType = DiscriminatorType.STRING)
 public class User {
     @Id
     @Column(name = "u_id")
