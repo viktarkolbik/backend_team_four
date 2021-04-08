@@ -2,6 +2,7 @@ package by.exadel.internship.controller;
 
 
 import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
+import by.exadel.internship.interceptor.LoggerInterceptor;
 import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
