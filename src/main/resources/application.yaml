@@ -5,9 +5,12 @@ spring:
       ddl-auto: validate
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_URL}
-    password: ${SPRING_DATASOURSE_PASSWORD}
-    username: ${SPRING_DATASOURSE_USERNAME}
+#    url: ${SPRING_DATASOURCE_URL}
+#    password: ${SPRING_DATASOURSE_PASSWORD}
+#    username: ${SPRING_DATASOURSE_USERNAME}
+    url: jdbc:postgresql://localhost:5432/internship
+    password: "mama071991"
+    username: postgres
     initialization-mode: always
     data:
       - 'classpath:db/changelog/v.0.1/sql-import/import-form.sql'
