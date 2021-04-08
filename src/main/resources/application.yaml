@@ -16,6 +16,7 @@ spring:
       - 'classpath:db/changelog/v.0.2/sql-import/import-user.sql'
       - 'classpath:db/changelog/v.0.2/sql-import/import-interview.sql'
       - 'classpath:db/changelog/v.0.2/sql-import/import-interview-dates.sql'
+      - 'classpath:db/changelog/v.0.2/sql-import/import-form-english-level.sql'
 
 
 server:

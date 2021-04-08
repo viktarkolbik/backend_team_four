@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 08042021-add-column-english-level-to-form
+      author: valentin_velichko
+      changes:
+        - addColumn:
+            tableName: form
+            columns:
+              name: fm_english_level
+              type: varchar(2)
+              constraints:
+                nullable: false

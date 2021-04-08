@@ -1,5 +1,6 @@
 package by.exadel.internship.entity;
 
+import by.exadel.internship.dto.enums.EnglishLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -60,6 +61,12 @@ public class Form {
 
     @Column(name = "fm_primary_skill")
     private String primarySkill;
+
+    @Column(name = "fm_english_level")
+    @Enumerated(EnumType.STRING)
+    private EnglishLevel englishLevel;
+
+
 
 //    private InterviewDTO interview;
 //    private FormStatus formStatus;
