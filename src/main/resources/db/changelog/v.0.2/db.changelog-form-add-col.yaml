@@ -7,6 +7,4 @@ databaseChangeLog:
             tableName: form
             columns:
               name: fm_english_level
-              type: varchar(2)
-              constraints:
-                nullable: false
+              type: VARCHAR(2)
