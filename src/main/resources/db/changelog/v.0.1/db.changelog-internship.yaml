@@ -18,13 +18,13 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: inship_start_date
-                  type: TIMESTAMP
+                  type: DATE
               - column:
                   name: inship_end_date
-                  type: TIMESTAMP
+                  type: DATE
               - column:
                   name: inship_publication_date
-                  type: TIMESTAMP
+                  type: DATE
               - column:
                   name: inship_tech_skills
                   type: VARCHAR(255)
@@ -36,10 +36,10 @@ databaseChangeLog:
                   type: VARCHAR(255)
               - column:
                   name: inship_capacity
-                  type: BIGINT
+                  type: INT
               - column:
                   name: inship_registration_start_date
-                  type: TIMESTAMP
+                  type: DATE
               - column:
                   name: inship_registration_end_date
-                  type: TIMESTAMP
+                  type: DATE

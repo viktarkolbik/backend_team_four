@@ -1,6 +1,6 @@
 package by.exadel.internship.mapper;
 import by.exadel.internship.dto.userDTO.UserDTO;
-import by.exadel.internship.entity.User;
+import by.exadel.internship.entity.user.User;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
@@ -16,5 +16,4 @@ public interface UserMapper {
 
     @IterableMapping(qualifiedByName = "user")
     List<UserDTO> map(List<User> userList);
-
 }

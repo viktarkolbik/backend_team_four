@@ -7,12 +7,8 @@ databaseChangeLog:
             tableName: role
             columns:
               - column:
-                  name: r_id
-                  type: UUID
-                  constraints:
-                    primaryKey: true
-              - column:
                   name: r_name
                   type: VARCHAR(50)
                   constraints:
+                    primaryKey: true
                     nullable: false

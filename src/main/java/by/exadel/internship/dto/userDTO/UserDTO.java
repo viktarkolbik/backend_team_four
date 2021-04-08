@@ -1,7 +1,8 @@
 package by.exadel.internship.dto.userDTO;
 
-import by.exadel.internship.dto.enums.UserRole;
+
 import by.exadel.internship.dto.internshipDTO.UserInternshipDTO;
+import by.exadel.internship.entity.user.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

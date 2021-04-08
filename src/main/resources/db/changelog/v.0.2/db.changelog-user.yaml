@@ -37,18 +37,16 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: u_role_id
-                  type: UUID
-                  constraints:
-                    nullable: false
+                  name: u_role
+                  type: VARCHAR(50)
 
   - changeSet:
       id: 04042021-add-foreignKeyConstraint-user-to-role
       author:  maksim_maevsky
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: u_role_id
+            baseColumnNames: u_role
             baseTableName: user
             constraintName: fk_user_role
-            referencedColumnNames: r_id
+            referencedColumnNames: r_name
             referencedTableName: role
