@@ -23,8 +23,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<IncorrectData> handleException(
             NotFoundException exception){
         UUID uuidErrorCode = UUID.randomUUID();
-        log.error("Message: " + exception.getMessage()+ "Code exception: " + exception.getCodeException() +
-                " UUID code: " + uuidErrorCode);
+        log.error("Message: " + exception.getMessage()+ " Code exception: " + exception.getCodeException() +
+                " Error UUID code: " + uuidErrorCode);
         IncorrectData data =  new IncorrectData();
         data.setMessage(exception.getMessage());
         data.setCodeException(exception.getCodeException());
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<IncorrectData> handleException(
             Exception exception){
         UUID uuidErrorCode = UUID.randomUUID();
-        log.error("Message: " + exception.getMessage() + "UUID code: " + uuidErrorCode);
+        log.error("Message: " + exception.getMessage() + " Error UUID code: " + uuidErrorCode);
         IncorrectData data =  new IncorrectData();
         data.setMessage(exception.getMessage());
         data.setErrorCode(uuidErrorCode);
