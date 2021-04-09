@@ -3,7 +3,7 @@ package by.exadel.internship.dto.internshipDTO;
 
 import by.exadel.internship.dto.LocationDTO;
 import by.exadel.internship.dto.enums.InternshipFormat;
-import by.exadel.internship.dto.enums.Technology;
+import by.exadel.internship.entity.Technology;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

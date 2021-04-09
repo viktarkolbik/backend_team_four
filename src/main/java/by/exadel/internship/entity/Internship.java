@@ -2,12 +2,10 @@ package by.exadel.internship.entity;
 
 
 import by.exadel.internship.dto.enums.InternshipFormat;
-import by.exadel.internship.dto.enums.Technology;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -55,16 +53,17 @@ public class Internship {
     @Column(name = "inship_registration_end_date")
     private LocalDate registrationEndDate;
 
-    @Column(name = "inship_format_name")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "inship_format_name", nullable = false)
     private InternshipFormat InternshipFormat;
 
-    @Column(name = "inship_technology_name")
+    @ManyToOne
+    @JoinColumn(name="inship_technology_name", nullable=false)
     private Technology technology;
 
 //    private List<Form> formList;
 //    private List<User> techList;
 //    private List<User> adminList;
 //    private List<Location> countryList;
-
 
 }
