@@ -19,21 +19,29 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/forms")
+@RequestMapping("/forms")
 @Api(tags = "Form endpoints")
 public class FormController {
 
     private final FormService formService;
 
+//    @PostMapping(consumes = {MULTIPART_FORM_DATA_VALUE, APPLICATION_JSON_VALUE})
+//    @ApiOperation("Add new form")
+//    public ResponseEntity<Form> addNewForm(@RequestPart(name = "form") FormRegisterDTO form,
+//                                           @RequestPart(name = "file", required = false) MultipartFile file) {
+//        Form createdForm = formService.saveForm(form);
+//        if(file != null){
+//            formService.uploadFile(file);
+//            form.setFilePath("src/main/resources/files/"+file.getOriginalFilename());
+//        }
+//        return new ResponseEntity<>(createdForm, HttpStatus.OK);
+//    }
+
     @PostMapping(consumes = {MULTIPART_FORM_DATA_VALUE, APPLICATION_JSON_VALUE})
     @ApiOperation("Add new form")
     public ResponseEntity<Form> addNewForm(@RequestPart(name = "form") FormRegisterDTO form,
                                            @RequestPart(name = "file", required = false) MultipartFile file) {
-        if(file != null){
-            formService.uploadFile(file);
-            form.setFilePath("src/main/resources/files/"+file.getOriginalFilename());
-        }
-        Form createdForm = formService.saveForm(form);
+        Form createdForm = formService.process(form , file);
         return new ResponseEntity<>(createdForm, HttpStatus.OK);
     }
 }
