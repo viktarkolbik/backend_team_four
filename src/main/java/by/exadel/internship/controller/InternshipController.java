@@ -6,7 +6,6 @@ import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +16,7 @@ import java.util.UUID;
 @RequestMapping("/internships")
 @Api(tags = "Endpoints for Internship")
 public class InternshipController {
+
     private final InternshipService internshipService;
 
     @GetMapping
@@ -33,11 +33,4 @@ public class InternshipController {
         return internshipService.getById(internshipId);
 
     }
-
-    @DeleteMapping("/{internshipId}")
-    public String deleteInternship(@PathVariable UUID internshipId){
-        internshipService.deleteInternship(internshipId);
-        return "Done";
-    }
-
 }

@@ -34,7 +34,8 @@ public class InternshipService {
         log.info("Try to get Internships with uuid=" + uuid);
         Internship internship = internshipRepository
                 .findById(uuid)
-                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = "+ uuid + " in DB", "uuid.invalid"));
+                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = "+ uuid +
+                        " in DB", "uuid.invalid"));
         log.info("Successfully got Internships with uuid=" + uuid);
         return internShipMapper.toGuestInternshipDTO(internship);
     }

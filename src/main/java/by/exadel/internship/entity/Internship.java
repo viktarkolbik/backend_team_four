@@ -28,8 +28,7 @@ import java.util.UUID;
 @Filter(
         name = "deletedInternshipFilter",
         condition = "inship_deleted = :isDeleted"
-)
-public class Internship {
+)public class Internship {
 
     @Id
     @Column(name = "inship_id")
