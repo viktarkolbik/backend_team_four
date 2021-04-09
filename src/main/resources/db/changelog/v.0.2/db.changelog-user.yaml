@@ -1,5 +1,11 @@
 databaseChangeLog:
   - changeSet:
+      id: 09042021-add-type-user-role
+      author: olga_evdokimova
+      dbms: postgresql
+      sql: CREATE TYPE USER_ROLE as ENUM ('SUPER_ADMIN', 'ADMIN', 'TECH_EXPERT');
+
+  - changeSet:
       id: 05042021-add-table-user
       author: maksim_maevsky
       changes:
@@ -36,23 +42,11 @@ databaseChangeLog:
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
+              - column:
+                  name: u_role
+                  type: USER_ROLE
+                  constraints:
+                    nullable: false
 
-  - changeSet:
-      id: 09042021-add-type-user-role
-      author: olga_evdokimova
-      dbms: postgresql
-      sql: CREATE TYPE USER_ROLE as ENUM ('SUPER_ADMIN', 'ADMIN', 'TECH_EXPERT');
-
-  - changeSet:
-      id: 09042021-add-column-user-role
-      author: olga_evdokimova
-      changes:
-        - addColumn:
-            tableName: user
-            columns:
-              name: u_role
-              type: USER_ROLE
-              constraints:
-                nullable: false
 
 
