@@ -1,7 +1,0 @@
-INSERT INTO "role" (r_name)
-VALUES ( 'ADMIN') ON CONFLICT (r_name) DO NOTHING;
-INSERT INTO "role" (r_name)
-VALUES ('SUPER-ADMIN') ON CONFLICT (r_name) DO NOTHING;
-INSERT INTO "role" (r_name)
-VALUES ('TECH_EXPERT') ON CONFLICT (r_name) DO NOTHING;
-

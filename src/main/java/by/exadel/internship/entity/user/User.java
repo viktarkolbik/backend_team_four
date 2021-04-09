@@ -1,9 +1,12 @@
 package by.exadel.internship.entity.user;
+import by.exadel.internship.dto.enums.Technology;
+import by.exadel.internship.dto.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -11,10 +14,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="u_type",
-        discriminatorType = DiscriminatorType.STRING)
+
 public class User {
     @Id
     @Column(name = "u_id")
@@ -35,9 +35,12 @@ public class User {
     @Column(name = "u_password")
     private String password;
 
-   @ManyToOne
-   @JoinColumn(name = "u_role")
+    @Column(name = "u_role")
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
+
+    //    @Column(name = "technology")
+//    private List<Technology> techTechnology;
 
 //    @Column(name = "intership_list")
 //    private List<UserInternshipDTO> listOfInternships;

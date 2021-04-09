@@ -1,5 +1,5 @@
 package by.exadel.internship.mapper;
-import by.exadel.internship.dto.userDTO.TechUserDTO;
+import by.exadel.internship.dto.user.TechUserDTO;
 import by.exadel.internship.entity.user.TechUser;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;

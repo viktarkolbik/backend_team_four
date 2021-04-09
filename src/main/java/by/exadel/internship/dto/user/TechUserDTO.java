@@ -1,13 +1,10 @@
-package by.exadel.internship.dto.userDTO;
+package by.exadel.internship.dto.user;
 import by.exadel.internship.dto.enums.Technology;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Data
-@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class TechUserDTO extends UserDTO {

@@ -36,17 +36,23 @@ databaseChangeLog:
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
-              - column:
-                  name: u_role
-                  type: VARCHAR(50)
 
   - changeSet:
-      id: 04042021-add-foreignKeyConstraint-user-to-role
-      author:  maksim_maevsky
+      id: 09042021-add-type-user-role
+      author: olga_evdokimova
+      dbms: postgresql
+      sql: CREATE TYPE USER_ROLE as ENUM ('SUPER_ADMIN', 'ADMIN', 'TECH_EXPERT');
+
+  - changeSet:
+      id: 09042021-add-column-user-role
+      author: olga_evdokimova
       changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: u_role
-            baseTableName: user
-            constraintName: fk_user_role
-            referencedColumnNames: r_name
-            referencedTableName: role
+        - addColumn:
+            tableName: user
+            columns:
+              name: u_role
+              type: USER_ROLE
+              constraints:
+                nullable: false
+
+
