@@ -29,7 +29,6 @@ public class FormService {
     }
 
     public void uploadFile(MultipartFile file) {
-        if(file != null){
             try {
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream stream =
@@ -39,6 +38,5 @@ public class FormService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
     }
 }
