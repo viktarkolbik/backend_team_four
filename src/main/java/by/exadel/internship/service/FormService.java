@@ -32,7 +32,7 @@ public class FormService {
             try {
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File(file.getOriginalFilename())));
+                        new BufferedOutputStream(new FileOutputStream(new File("files/"+file.getOriginalFilename())));
                 stream.write(bytes);
                 stream.close();
             } catch (IOException e) {
