@@ -31,6 +31,7 @@ public class FormController {
                                            @RequestPart(name = "file", required = false) MultipartFile file) {
         if(file != null){
             formService.uploadFile(file);
+            form.setFilePath("src/main/resources/files/"+file.getOriginalFilename());
         }
         Form createdForm = formService.saveForm(form);
         return new ResponseEntity<>(createdForm, HttpStatus.OK);
