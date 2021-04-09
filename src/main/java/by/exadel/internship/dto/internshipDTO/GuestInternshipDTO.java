@@ -45,7 +45,7 @@ public class GuestInternshipDTO {
     private InternshipFormat InternshipFormat;
 
     @NotNull
-    private List<Technology> technologyList;
+    private Technology technologyList;
 
     @Size(max=150)
     private String description;

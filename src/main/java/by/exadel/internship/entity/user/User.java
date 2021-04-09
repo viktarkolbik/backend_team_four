@@ -1,11 +1,11 @@
 package by.exadel.internship.entity.user;
-import by.exadel.internship.dto.enums.Technology;
+
 import by.exadel.internship.dto.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -13,7 +13,6 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class User {
     @Id
     @Column(name = "u_id")

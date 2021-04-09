@@ -5,4 +5,3 @@ databaseChangeLog:
   - include:
       file: v.0.2/db.changelog-master.yaml
       relativeToChangelogFile: true
-

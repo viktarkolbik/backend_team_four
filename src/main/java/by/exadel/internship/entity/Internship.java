@@ -53,8 +53,9 @@ public class Internship {
     @Column(name = "inship_registration_end_date")
     private LocalDate registrationEndDate;
 
-    @Enumerated(EnumType.STRING)
+
     @Column(name = "inship_format_name", nullable = false)
+    @Enumerated(EnumType.STRING)
     private InternshipFormat InternshipFormat;
 
     @ManyToOne
