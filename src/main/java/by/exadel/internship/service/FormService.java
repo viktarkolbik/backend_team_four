@@ -12,6 +12,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 @Service
@@ -30,9 +33,12 @@ public class FormService {
 
     public void uploadFile(MultipartFile file) {
             try {
+                Path path = Paths.get("src/main/resources/files/");
+                Files.createDirectories(path);
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File("src/main/resources/files/"+file.getOriginalFilename())));
+                        new BufferedOutputStream(new FileOutputStream
+                                (new File("src/main/resources/files/"+file.getOriginalFilename())));
                 stream.write(bytes);
                 stream.close();
             } catch (IOException e) {
