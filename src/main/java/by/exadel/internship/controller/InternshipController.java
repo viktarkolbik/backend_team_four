@@ -2,8 +2,6 @@ package by.exadel.internship.controller;
 
 
 import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
-import by.exadel.internship.entity.Internship;
-import by.exadel.internship.interceptor.LoggerInterceptor;
 import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +24,6 @@ public class InternshipController {
     public List<GuestInternshipDTO> getInternshipList(@RequestParam(value = "isDeleted",
             required = false, defaultValue = "false") Boolean isDeleted) {
         return internshipService.getAll(isDeleted);
-
     }
 
     @GetMapping("/{internshipId}")
