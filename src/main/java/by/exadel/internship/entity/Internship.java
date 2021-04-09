@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,15 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE internship SET inship_deleted=true WHERE inship_id=?")
+@FilterDef(
+        name = "deletedInternshipFilter",
+        parameters = @ParamDef(name = "isDeleted", type = "boolean")
+)
+@Filter(
+        name = "deletedInternshipFilter",
+        condition = "inship_deleted = :isDeleted"
+)
 public class Internship {
 
     @Id
@@ -54,6 +64,9 @@ public class Internship {
 
     @Column(name = "inship_registration_end_date")
     private LocalDate registrationEndDate;
+
+    @Column(name = "inship_deleted")
+    private Boolean deleted;
 
 //    private List<FormFullDTO> formList;
 //    private List<UserDTO> techList;
