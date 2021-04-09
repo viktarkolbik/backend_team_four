@@ -29,10 +29,10 @@ public class FormController {
     @ApiOperation("Add new form")
     public ResponseEntity<Form> addNewForm(@RequestPart(name = "form") FormRegisterDTO form,
                                            @RequestPart(name = "file", required = false) MultipartFile file) {
-        formService.uploadFile(file);
+        if(file != null){
+            formService.uploadFile(file);
+        }
         Form createdForm = formService.saveForm(form);
         return new ResponseEntity<>(createdForm, HttpStatus.OK);
     }
-
-
 }
