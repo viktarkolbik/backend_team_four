@@ -42,7 +42,7 @@ public class GuestInternshipDTO {
     private List<LocationDTO> countryList;
 
     @NotNull
-    private InternshipFormat InternshipFormat;
+    private InternshipFormat internshipFormat;
 
     @NotNull
     private Technology technologyList;

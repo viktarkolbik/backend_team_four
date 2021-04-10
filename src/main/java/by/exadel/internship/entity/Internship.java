@@ -2,10 +2,8 @@ package by.exadel.internship.entity;
 
 
 import by.exadel.internship.dto.enums.InternshipFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,6 +15,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"technology, internshipFormat"})
 public class Internship {
 
     @Id
@@ -56,7 +55,8 @@ public class Internship {
 
     @Column(name = "inship_format_name", nullable = false)
     @Enumerated(EnumType.STRING)
-    private InternshipFormat InternshipFormat;
+    @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
+    private InternshipFormat internshipFormat;
 
     @ManyToOne
     @JoinColumn(name="inship_technology_name", nullable=false)

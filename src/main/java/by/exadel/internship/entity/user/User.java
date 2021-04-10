@@ -9,11 +9,12 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "public")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+
     @Id
     @Column(name = "u_id")
     private UUID id;
@@ -37,10 +38,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    //    @Column(name = "technology")
+ //   @Column(name = "technology")
 //    private List<Technology> techTechnology;
 
 //    @Column(name = "intership_list")
 //    private List<UserInternshipDTO> listOfInternships;
-    //private List<LocalDateTime> freeInterviewDates;
+//    private List<LocalDateTime> freeInterviewDates;
 }

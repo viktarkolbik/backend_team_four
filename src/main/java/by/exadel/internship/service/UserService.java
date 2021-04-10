@@ -17,13 +17,18 @@ public class UserService {
     private final UserMapper userMapper;
 
     public List<UserDTO> getAll() {
+
         List<User> userList = userRepository.findAll();
+
         return userMapper.map(userList);
+
     }
 
     public UserDTO getById(UUID uuid) {
+
         User user = userRepository.findById(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found"));
+
         return userMapper.toUserDTO(user);
     }
 }
