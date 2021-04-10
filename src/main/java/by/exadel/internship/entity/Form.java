@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -14,6 +17,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE form SET fm_deleted=true WHERE fm_id=?")
+@Where(clause = "fm_deleted = false")
 public class Form {
 
     @Id
@@ -60,6 +65,9 @@ public class Form {
 
     @Column(name = "fm_primary_skill")
     private String primarySkill;
+    
+    @Column(name = "fm_deleted")
+    private Boolean deleted;
 
 //    private InterviewDTO interview;
 //    private FormStatus formStatus;
