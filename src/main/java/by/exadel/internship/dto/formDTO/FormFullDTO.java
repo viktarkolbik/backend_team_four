@@ -1,8 +1,6 @@
 package by.exadel.internship.dto.formDTO;
 
 import by.exadel.internship.dto.InterviewDTO;
-import by.exadel.internship.dto.TimeForCallDTO;
-import by.exadel.internship.entity.FormStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +16,5 @@ public class FormFullDTO extends FormRegisterDTO {
 
     private UUID id;
     private InterviewDTO interview;
-    private FormStatus formStatus;
-//    this field is questionable
-    private TimeForCallDTO timeForCall;
 
 }
