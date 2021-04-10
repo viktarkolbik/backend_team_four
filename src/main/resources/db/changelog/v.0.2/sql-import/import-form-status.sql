@@ -1,0 +1,9 @@
+INSERT INTO "form_status" (fm_st_id) VALUES ('REGISTERED') ON CONFLICT (fm_st_id) DO NOTHING;
+INSERT INTO "form_status" (fm_st_id) VALUES ('ADMIN_INTERVIEW_ASSIGNED') ON CONFLICT (fm_st_id) DO NOTHING;
+INSERT INTO "form_status" (fm_st_id) VALUES ('ADMIN_INTERVIEW_PASSED') ON CONFLICT (fm_st_id) DO NOTHING;
+INSERT INTO "form_status" (fm_st_id) VALUES ('TECH_INTERVIEW_ASSIGNED') ON CONFLICT (fm_st_id) DO NOTHING;
+INSERT INTO "form_status" (fm_st_id) VALUES ('TECH_INTERVIEW_PASSED') ON CONFLICT (fm_st_id) DO NOTHING;
+INSERT INTO "form_status" (fm_st_id) VALUES ('ACCEPTED') ON CONFLICT (fm_st_id) DO NOTHING;
+INSERT INTO "form_status" (fm_st_id) VALUES ('NOT_MATCHED') ON CONFLICT (fm_st_id) DO NOTHING;
+INSERT INTO "form_status" (fm_st_id) VALUES ('REJECTED') ON CONFLICT (fm_st_id) DO NOTHING;
+INSERT INTO "form_status" (fm_st_id) VALUES ('CANDIDATE_REFUSED') ON CONFLICT (fm_st_id) DO NOTHING;

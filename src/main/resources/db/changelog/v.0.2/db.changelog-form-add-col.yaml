@@ -1,10 +1,38 @@
 databaseChangeLog:
+
   - changeSet:
-      id: 08042021-add-column-english-level-to-form
+      id: 09042021-add-type-english-level
+      author: valentin_velichko
+      dbms: postgresql
+      sql: CREATE TYPE ENGLISH_LEVEL as ENUM ('A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2');
+
+  - changeSet:
+      id: 09042021-add-column-english-level-to-form
       author: valentin_velichko
       changes:
         - addColumn:
             tableName: form
             columns:
               name: fm_english_level
-              type: VARCHAR(2)
+              type: ENGLISH_LEVEL
+
+  - changeSet:
+      id: 09042021-add-column-form-status-to-form
+      author: valentin_velichko
+      changes:
+        - addColumn:
+            tableName: form
+            columns:
+              name: fm_form_status_id
+              type: VARCHAR(50)
+
+  - changeSet:
+      id: 09042021-add-foreignKeyConstraint-form-status-to-form
+      author:  valentin_velichko
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: fm_form_status_id
+            baseTableName: form
+            constraintName: fk_form_status_form
+            referencedColumnNames: fm_st_id
+            referencedTableName: form_status

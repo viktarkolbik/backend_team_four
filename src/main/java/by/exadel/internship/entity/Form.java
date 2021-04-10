@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -63,13 +65,16 @@ public class Form {
     private String primarySkill;
 
     @Column(name = "fm_english_level")
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
+    @Type(type = "by.exadel.internship.mapper.EnumTypePostgreSQL")
     private EnglishLevel englishLevel;
+
+    @OneToOne
+    @JoinColumn(name = "fm_form_status_id")
+    private FormStatus formStatus;
 
 
 
 //    private InterviewDTO interview;
-//    private FormStatus formStatus;
-//    //    this field is questionable
 //    private TimeForCallDTO timeForCall;
 }
