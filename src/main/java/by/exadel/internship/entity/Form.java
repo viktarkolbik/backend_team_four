@@ -77,6 +77,8 @@ public class Form {
     @JoinColumn(name = "fm_interview_id")
     private Interview interview;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fm_time_for_call_id")
+    private TimeForCall timeForCall;
 
-//    private TimeForCallDTO timeForCall;
 }
