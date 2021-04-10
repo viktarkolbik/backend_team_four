@@ -21,9 +21,8 @@ public class InternshipController {
 
     @GetMapping
     @ApiOperation("return list of internships")
-    public List<GuestInternshipDTO> getInternshipList(@RequestParam(value = "isDeleted",
-            required = false, defaultValue = "false") Boolean isDeleted) {
-        return internshipService.getAll(isDeleted);
+    public List<GuestInternshipDTO> getInternshipList() {
+        return internshipService.getAll();
     }
 
     @GetMapping("/{internshipId}")
@@ -32,5 +31,30 @@ public class InternshipController {
 
         return internshipService.getById(internshipId);
 
+    }
+
+    // I think we need to come up with another mapping
+    @GetMapping("/deletedInternships")
+    @ApiOperation("Return List of deleted Internships")
+    public List<GuestInternshipDTO> getDeletedInternshipList(){
+        return internshipService.gellAllDeleted();
+    }
+
+    @GetMapping("/deletedInternships/{internshipId}")
+    @ApiOperation("Return deleted Internship by ID")
+    public GuestInternshipDTO getDeletedInternship(@PathVariable UUID internshipId){
+        return internshipService.getDeletedInternshipById(internshipId);
+    }
+
+    @DeleteMapping("/{internshipId}")
+    @ApiOperation("Delete Internship by ID, return nothing")
+    public void deleteInternship(@PathVariable UUID internshipId){
+        internshipService.deleteInternship(internshipId);
+    }
+
+        @PutMapping("/returnInternship/{internshipId}")
+    @ApiOperation("Return deleted Internship to List of Internship")
+    public GuestInternshipDTO returnDeletedInternship(@PathVariable UUID internshipId){
+        return internshipService.returnDeletedInternshipById(internshipId);
     }
 }

@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,14 +22,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @SQLDelete(sql = "UPDATE internship SET inship_deleted=true WHERE inship_id=?")
-@FilterDef(
-        name = "deletedInternshipFilter",
-        parameters = @ParamDef(name = "isDeleted", type = "boolean")
-)
-@Filter(
-        name = "deletedInternshipFilter",
-        condition = "inship_deleted = :isDeleted"
-)public class Internship {
+@Where(clause = "inship_deleted = false")
+public class Internship {
 
     @Id
     @Column(name = "inship_id")
