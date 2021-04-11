@@ -18,7 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -29,7 +28,6 @@ public class FormService {
 
     @Value("${file.path}")
     private String filePath;
-
 
     public Form process(FormRegisterDTO form, MultipartFile file) {
         if (file != null) {
@@ -53,7 +51,8 @@ public class FormService {
             byte[] bytes = file.getBytes();
             BufferedOutputStream stream =
                     new BufferedOutputStream(new FileOutputStream
-                            (new File(filePath + createdForm.getId() + "/" + file.getOriginalFilename())));
+                            (new File(filePath + createdForm.getId() +
+                                    File.separator + file.getOriginalFilename())));
             stream.write(bytes);
             stream.close();
         } catch (IOException e) {
