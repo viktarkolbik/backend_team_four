@@ -25,18 +25,6 @@ public class FormController {
 
     private final FormService formService;
 
-//    @PostMapping(consumes = {MULTIPART_FORM_DATA_VALUE, APPLICATION_JSON_VALUE})
-//    @ApiOperation("Add new form")
-//    public ResponseEntity<Form> addNewForm(@RequestPart(name = "form") FormRegisterDTO form,
-//                                           @RequestPart(name = "file", required = false) MultipartFile file) {
-//        Form createdForm = formService.saveForm(form);
-//        if(file != null){
-//            formService.uploadFile(file);
-//            form.setFilePath("src/main/resources/files/"+file.getOriginalFilename());
-//        }
-//        return new ResponseEntity<>(createdForm, HttpStatus.OK);
-//    }
-
     @PostMapping(consumes = {MULTIPART_FORM_DATA_VALUE, APPLICATION_JSON_VALUE})
     @ApiOperation("Add new form")
     public ResponseEntity<Form> addNewForm(@RequestPart(name = "form") FormRegisterDTO form,

@@ -6,6 +6,7 @@ import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.repository.FormRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,12 +31,16 @@ public class FormService {
     private String filePath;
 
     public Form process(FormRegisterDTO form, MultipartFile file) {
+        MDC.put("className", FormService.class.getSimpleName());
+        log.info("Try to save form");
         if (file != null) {
-            form.setFilePath(filePath + file.getOriginalFilename());
             Form createdForm = saveForm(form);
+            updateFilePath(createdForm, file);
             uploadFile(file, createdForm);
+            log.info("Success to save form with file");
             return createdForm;
         }
+        log.info("Success to save form without file");
         return saveForm(form);
     }
 
@@ -45,6 +50,7 @@ public class FormService {
     }
 
     private void uploadFile(MultipartFile file, Form createdForm) {
+        log.info("Try to upload file");
         try {
             Path path = Paths.get(filePath + createdForm.getId());
             Files.createDirectories(path);
@@ -54,9 +60,18 @@ public class FormService {
                             (new File(filePath + createdForm.getId() +
                                     File.separator + file.getOriginalFilename())));
             stream.write(bytes);
+            log.info("Success to upload file");
             stream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void updateFilePath(Form createdForm, MultipartFile file) {
+        log.info("Try to update filePath");
+        createdForm.setFilePath(filePath +
+                createdForm.getId() + File.separator + file.getOriginalFilename());
+        log.info("Success to update filePath");
+        formRepository.save(createdForm);
     }
 }
