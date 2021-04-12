@@ -1,9 +1,11 @@
 package by.exadel.internship.entity.user;
-import by.exadel.internship.dto.enums.Technology;
 import by.exadel.internship.dto.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +15,8 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
+@SQLDelete(sql = "UPDATE user SET u_deleted=true WHERE u_id=?")
+@Where(clause = "u_deleted = false")
 public class User {
     @Id
     @Column(name = "u_id")
@@ -37,6 +40,9 @@ public class User {
     @Column(name = "u_role")
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+
+    @Column(name = "u_deleted")
+    private Boolean deleted;
 
     //    @Column(name = "technology")
 //    private List<Technology> techTechnology;

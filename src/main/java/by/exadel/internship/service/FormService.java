@@ -31,7 +31,7 @@ public class FormService {
 
     public void doActiveDeletedFormById(UUID formId){
         putClassNameInMDC();
-        log.info("Try to do active form with uuid= " + formId);
+        log.info("Try to activate form with uuid= " + formId);
         formRepository.updateDeletedById(formId);
         log.info("Successfully returned deleted Form with uuid= " + formId);
     }

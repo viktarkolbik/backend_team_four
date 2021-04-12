@@ -67,7 +67,7 @@ public class InternshipService {
 
     public GuestInternshipDTO doActiveDeletedInternshipById(UUID uuid) {
         putClassNameInMDC();
-        log.info("Return deleted Internship with uuid= " + uuid + " to List if Internships");
+        log.info("Try to return deleted Internship with uuid= " + uuid + " to List if Internships");
         internshipRepository.updateDeletedById(uuid);
         Internship internship = internshipRepository
                 .findById(uuid)
