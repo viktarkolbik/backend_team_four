@@ -25,6 +25,7 @@ import java.util.UUID;
 @Where(clause = "inship_deleted = false")
 public class Internship {
 
+    //Why we don't use a GeneratedValue
     @Id
     @Column(name = "inship_id")
     private UUID id;

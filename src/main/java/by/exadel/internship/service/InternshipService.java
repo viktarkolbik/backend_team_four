@@ -23,18 +23,18 @@ public class InternshipService {
     private final InternshipMapper internShipMapper;
 
     public GuestInternshipDTO getById(UUID uuid) {
-        MDC.put("className", InternshipService.class.getSimpleName());
+        putClassNameInMDC();
         log.info("Try to get Internships with uuid= " + uuid);
         Internship internship = internshipRepository
                 .findById(uuid)
-                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = "+ uuid +
+                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + uuid +
                         " in DB", "uuid.invalid"));
         log.info("Successfully got Internships with uuid= " + uuid);
         return internShipMapper.toGuestInternshipDTO(internship);
     }
 
     public List<GuestInternshipDTO> getAll() {
-        MDC.put("className", InternshipService.class.getSimpleName());
+        putClassNameInMDC();
         log.info("Try to get all Internships");
         List<Internship> internships = internshipRepository.findAll();
         List<GuestInternshipDTO> guestInternshipDTOList = internShipMapper.map(internships);
@@ -43,8 +43,8 @@ public class InternshipService {
 
     }
 
-    public List<GuestInternshipDTO> gellAllDeleted(){
-        MDC.put("className", InternshipService.class.getSimpleName());
+    public List<GuestInternshipDTO> gellAllDeleted() {
+        putClassNameInMDC();
         log.info("Try to get deleted Internships");
         List<Internship> deletedInternships = internshipRepository.findAllDeleted();
         List<GuestInternshipDTO> guestDeletedInternshipDTOList = internShipMapper.map(deletedInternships);
@@ -52,12 +52,12 @@ public class InternshipService {
         return guestDeletedInternshipDTOList;
     }
 
-    public GuestInternshipDTO getDeletedInternshipById(UUID uuid){
-        MDC.put("className", InternshipService.class.getSimpleName());
+    public GuestInternshipDTO getDeletedInternshipById(UUID uuid) {
+        putClassNameInMDC();
         log.info("Try to get deleted Internships with uuid= " + uuid);
         Internship deletedInternship = internshipRepository.findDeletedById(uuid);
-        if (deletedInternship == null){
-            throw new NotFoundException("No such deleted Internship with uuid = "+ uuid +
+        if (deletedInternship == null) {
+            throw new NotFoundException("No such deleted Internship with uuid = " + uuid +
                     " in DB", "uuid.invalid");
         }
         log.info("Successfully got deleted Internships with uuid= " + uuid);
@@ -65,24 +65,28 @@ public class InternshipService {
         return guestDeletedInternshipDTO;
     }
 
-    public GuestInternshipDTO returnDeletedInternshipById(UUID uuid){
-        MDC.put("className", InternshipService.class.getSimpleName());
-        log.info("Return deleted Internship to List if Internships");
+    public GuestInternshipDTO doActiveDeletedInternshipById(UUID uuid) {
+        putClassNameInMDC();
+        log.info("Return deleted Internship with uuid= " + uuid + " to List if Internships");
         internshipRepository.updateDeletedById(uuid);
         Internship internship = internshipRepository
                 .findById(uuid)
-                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = "+ uuid +
+                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + uuid +
                         " in DB", "uuid.invalid"));
-        log.info("Successfully returned deleted Internships with uuid= " + uuid);
+        log.info("Successfully returned deleted Internship with uuid= " + uuid);
         return internShipMapper.toGuestInternshipDTO(internship);
 
     }
 
-    public void deleteInternship(UUID internshipId){
-        MDC.put("className", InternshipService.class.getSimpleName());
+    public void deleteInternshipById(UUID internshipId) {
+        putClassNameInMDC();
         log.info("Try to delete Internship with uuid= " + internshipId);
         internshipRepository.deleteById(internshipId);
         //Method "deletedById" return void and we can't understand internship was deleted or not
         log.info("Internship with uuid= " + internshipId + " was deleted");
+    }
+
+    private void putClassNameInMDC() {
+        MDC.put("className", InternshipService.class.getSimpleName());
     }
 }

@@ -1,7 +1,7 @@
 package by.exadel.internship.service;
 import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.entity.user.User;
-import by.exadel.internship.exception.NotFoundException;
+import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class UserService {
 
     public UserDTO getById(UUID uuid) {
         User user = userRepository.findById(uuid)
-                .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found"));
+                .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         return userMapper.toUserDTO(user);
     }
 }

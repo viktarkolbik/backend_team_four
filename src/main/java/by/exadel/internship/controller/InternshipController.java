@@ -47,14 +47,14 @@ public class InternshipController {
     }
 
     @DeleteMapping("/{internshipId}")
-    @ApiOperation("Delete Internship by ID, return nothing")
+    @ApiOperation("Delete Internship by ID")
     public void deleteInternship(@PathVariable UUID internshipId){
-        internshipService.deleteInternship(internshipId);
+        internshipService.deleteInternshipById(internshipId);
     }
 
-        @PutMapping("/returnInternship/{internshipId}")
+    @PutMapping("/returnInternship/{internshipId}")
     @ApiOperation("Return deleted Internship to List of Internship")
-    public GuestInternshipDTO returnDeletedInternship(@PathVariable UUID internshipId){
-        return internshipService.returnDeletedInternshipById(internshipId);
+    public GuestInternshipDTO doActiveDeletedInternship(@PathVariable UUID internshipId){
+        return internshipService.doActiveDeletedInternshipById(internshipId);
     }
 }

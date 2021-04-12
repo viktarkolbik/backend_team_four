@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 09042021-add-colomn-for-soft-delete-to-internship
+      id: 09042021-add-colomn-for-soft-delete-to-form
       author: nikita_bogurov
       changes:
         - addColumn:
@@ -9,7 +9,7 @@ databaseChangeLog:
               name: inship_deleted
               type: BOOLEAN
         - addDefaultValue:
-            catalogName: delete-flag
+            catalogName: delete-flag-for-inship
             columnDataType: BOOLEAN
             columnName: inship_deleted
             defaultValueBoolean: false
