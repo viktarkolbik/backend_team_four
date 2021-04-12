@@ -39,7 +39,7 @@ public class User {
     private UserRole userRole;
 
  //   @Column(name = "technology")
-//    private List<Technology> techTechnology;
+//    private List<Skill> skills;
 
 //    @Column(name = "intership_list")
 //    private List<UserInternshipDTO> listOfInternships;

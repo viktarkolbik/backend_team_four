@@ -60,7 +60,7 @@ public class Internship {
 
     @ManyToOne
     @JoinColumn(name="inship_technology_name", nullable=false)
-    private Technology technology;
+    private Skill skill;
 
 //    private List<Form> formList;
 //    private List<User> techList;

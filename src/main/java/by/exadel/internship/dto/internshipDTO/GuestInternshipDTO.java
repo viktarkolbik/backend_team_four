@@ -3,7 +3,7 @@ package by.exadel.internship.dto.internshipDTO;
 
 import by.exadel.internship.dto.LocationDTO;
 import by.exadel.internship.dto.enums.InternshipFormat;
-import by.exadel.internship.entity.Technology;
+import by.exadel.internship.entity.Skill;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,7 +45,7 @@ public class GuestInternshipDTO {
     private InternshipFormat internshipFormat;
 
     @NotNull
-    private Technology technologyList;
+    private Skill technologyList;
 
     @Size(max=150)
     private String description;

@@ -17,7 +17,7 @@ public class UserDTO {
     private String login;
     private String password;
     private UserRole userRole;
-    //    private List<Technology> techTechnology;
+    //    private List<Skill> skills;
 //    private List<UserInternshipDTO> listOfInternships;
 //    private List<LocalDateTime> freeInterviewDates;
 }

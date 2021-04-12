@@ -12,13 +12,13 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Technology {
+public class Skill {
 
     @Id
     @Column(name = "tech_name")
     private String name;
 
-    @OneToMany(mappedBy="technology")
+    @OneToMany(mappedBy= "skill")
     private Set<Internship> internshipSet;
 
 }
