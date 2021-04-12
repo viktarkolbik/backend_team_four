@@ -32,7 +32,7 @@ public class FormService {
 
     public Form process(FormRegisterDTO form, MultipartFile file) {
         MDC.put("className", FormService.class.getSimpleName());
-        log.info("Try to save form");
+
         if (file != null) {
             Form createdForm = saveForm(form);
             updateFilePath(createdForm, file);
@@ -50,9 +50,8 @@ public class FormService {
     }
 
     private void uploadFile(MultipartFile file, Form createdForm) {
-        log.info("Try to upload file");
         try {
-            Path path = Paths.get(filePath + createdForm.getId());
+            Path path = Paths.get(filePath + File.separator + createdForm.getId());
             Files.createDirectories(path);
             byte[] bytes = file.getBytes();
             BufferedOutputStream stream =
@@ -63,12 +62,11 @@ public class FormService {
             log.info("Success to upload file");
             stream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
     private void updateFilePath(Form createdForm, MultipartFile file) {
-        log.info("Try to update filePath");
         createdForm.setFilePath(filePath +
                 createdForm.getId() + File.separator + file.getOriginalFilename());
         log.info("Success to update filePath");

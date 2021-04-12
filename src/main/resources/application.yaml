@@ -22,4 +22,5 @@ server:
     context-path: /api
 
 file:
-  path: "src\\main\\resources\\files\\"
+  path: "files/"
+
