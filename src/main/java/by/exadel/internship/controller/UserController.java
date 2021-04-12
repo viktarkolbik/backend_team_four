@@ -34,7 +34,7 @@ public class UserController {
         userService.deleteUserById(userId);
     }
 
-    @PutMapping("/returnFrom/{userId}")
+    @PutMapping("/returnUser/{userId}")
     @ApiOperation("do active deleted User")
     public void doActiveDeletedUser(@PathVariable UUID userId){
         userService.doActiveDeletedFormById(userId);
