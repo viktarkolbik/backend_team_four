@@ -13,21 +13,21 @@ databaseChangeLog:
             tableName: internship_skill
             columns:
               - column:
-                  name: skill_name
+                  name: is_name
                   type: SKILL
                   constraints:
                     nullable: false
               - column:
-                  name: i_s_inship_id
+                  name: is_inship_id
                   type: UUID
                   constraints:
-                    nullable: true
+                    nullable: false
   - changeSet:
       id: 12042021-add-foreignKeyConstraint-internship-to-internship_skill
       author:  maksim_maevsky
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: i_s_inship_id
+            baseColumnNames: is_inship_id
             baseTableName: internship_skill
             constraintName: fk_internship_skill
             referencedColumnNames: inship_id
@@ -41,12 +41,12 @@ databaseChangeLog:
             tableName: user_skill
             columns:
               - column:
-                  name: u_s_u_id
+                  name: us_u_id
                   type: UUID
                   constraints:
-                    nullable: true
+                    nullable: false
               - column:
-                  name: skill_name
+                  name: us_name
                   type: SKILL
                   constraints:
                     nullable: false
@@ -57,7 +57,7 @@ databaseChangeLog:
       author:  maksim_maevsky
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: u_s_u_id
+            baseColumnNames: us_u_id
             baseTableName: user_skill
             constraintName: fk_user_skill
             referencedColumnNames: u_id

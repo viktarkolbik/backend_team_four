@@ -40,10 +40,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    @Column(name="skill_name", nullable=false)
+    @Column(name="us_name", nullable=false)
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_skill", joinColumns = @JoinColumn(name = "u_s_u_id"))
+    @CollectionTable(name = "user_skill", joinColumns = @JoinColumn(name = "us_u_id"))
     private Set<Skill> skills;
 
 //    @Column(name = "intership_list")

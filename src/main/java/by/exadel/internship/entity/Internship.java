@@ -60,10 +60,10 @@ public class Internship {
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private InternshipFormat internshipFormat;
 
-    @Column(name="skill_name", nullable=false)
+    @Column(name="is_name", nullable=false)
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "internship_skill", joinColumns = @JoinColumn(name = "i_s_inship_id"))
+    @CollectionTable(name = "internship_skill", joinColumns = @JoinColumn(name = "is_inship_id"))
     private Set<Skill> skills;
 
 //    private List<Form> formList;
