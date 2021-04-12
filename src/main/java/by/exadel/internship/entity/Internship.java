@@ -1,11 +1,8 @@
 package by.exadel.internship.entity;
-
-
 import by.exadel.internship.auditing.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
