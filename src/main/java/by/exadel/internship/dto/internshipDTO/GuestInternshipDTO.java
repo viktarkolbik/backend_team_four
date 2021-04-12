@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -45,7 +46,7 @@ public class GuestInternshipDTO {
     private InternshipFormat internshipFormat;
 
     @NotNull
-    private List<Skill> skills;
+    private Set<Skill> skills;
 
     @Size(max=150)
     private String description;

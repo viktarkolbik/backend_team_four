@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -42,8 +42,9 @@ public class User {
 
     @Column(name="skill_name", nullable=false)
     @Enumerated(EnumType.STRING)
-    @ElementCollection
-    private List<Skill> skills;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_skill", joinColumns = @JoinColumn(name = "u_s_u_id"))
+    private Set<Skill> skills;
 
 //    @Column(name = "intership_list")
 //    private List<UserInternship> listOfInternships;

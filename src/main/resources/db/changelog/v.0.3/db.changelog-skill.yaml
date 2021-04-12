@@ -10,7 +10,7 @@ databaseChangeLog:
       author: maksim_maevsky
       changes:
         - createTable:
-            tableName: internship_skills
+            tableName: internship_skill
             columns:
               - column:
                   name: skill_name
@@ -18,7 +18,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: internship_inship_id
+                  name: i_s_inship_id
                   type: UUID
                   constraints:
                     nullable: true
@@ -27,8 +27,8 @@ databaseChangeLog:
       author:  maksim_maevsky
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: internship_inship_id
-            baseTableName: internship_skills
+            baseColumnNames: i_s_inship_id
+            baseTableName: internship_skill
             constraintName: fk_internship_skill
             referencedColumnNames: inship_id
             referencedTableName: internship
@@ -38,10 +38,10 @@ databaseChangeLog:
       author: maksim_maevsky
       changes:
         - createTable:
-            tableName: user_skills
+            tableName: user_skill
             columns:
               - column:
-                  name: user_u_id
+                  name: u_s_u_id
                   type: UUID
                   constraints:
                     nullable: true
@@ -57,8 +57,8 @@ databaseChangeLog:
       author:  maksim_maevsky
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: user_u_id
-            baseTableName: user_skills
+            baseColumnNames: u_s_u_id
+            baseTableName: user_skill
             constraintName: fk_user_skill
             referencedColumnNames: u_id
             referencedTableName: user

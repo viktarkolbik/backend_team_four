@@ -1,5 +1,5 @@
 package by.exadel.internship.service;
-import by.exadel.internship.dto.user.UserDTO;
+import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.exception.NotFoundException;
 import by.exadel.internship.mapper.UserMapper;

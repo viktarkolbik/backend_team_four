@@ -9,6 +9,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -61,8 +62,9 @@ public class Internship {
 
     @Column(name="skill_name", nullable=false)
     @Enumerated(EnumType.STRING)
-    @ElementCollection
-    private List<Skill> skills;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "internship_skill", joinColumns = @JoinColumn(name = "i_s_inship_id"))
+    private Set<Skill> skills;
 
 //    private List<Form> formList;
 //    private List<User> techList;
