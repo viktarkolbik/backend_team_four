@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: addColumn-example
-      author: liquibase-docs
+      id: 12042021-add-columns-automatic-auditing
+      author: olga_evdokimova
       changes:
         - addColumn:
             tableName: internship
