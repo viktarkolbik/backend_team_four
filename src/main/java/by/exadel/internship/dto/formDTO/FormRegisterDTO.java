@@ -1,7 +1,6 @@
 package by.exadel.internship.dto.formDTO;
 
 import by.exadel.internship.dto.enums.EnglishLevel;
-import by.exadel.internship.entity.Skill;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +24,7 @@ public class FormRegisterDTO {
     private String country;
     private String city;
     //not req
-    private Skill primarySkill;
+    private String primarySkill;
     private String experience;
     private String education;
     private String filePath;

@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 12042021-add-type-skills
+      author: maksim_maevsky
+      dbms: postgresql
+      sql: CREATE TYPE SKILL as ENUM ('JAVA', 'JS', 'C_SHARP', 'C_PLUS_PLUS', 'QA', 'DEV_OPS', 'SWIFT', 'GO', 'PHP', 'PYTHON', 'KOTLIN', 'RUST');
+
+  - changeSet:
+      id: 12042021-add-type-internship-skill
+      author: maksim_maevsky
+      changes:
+        - createTable:
+            tableName: internship_skills
+            columns:
+              - column:
+                  name: skill_name
+                  type: SKILL
+                  constraints:
+                    nullable: false
+              - column:
+                  name: internship_inship_id
+                  type: UUID
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: 12042021-add-foreignKeyConstraint-internship-to-internship_skill
+      author:  maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: internship_inship_id
+            baseTableName: internship_skills
+            constraintName: fk_internship_skill
+            referencedColumnNames: inship_id
+            referencedTableName: internship
