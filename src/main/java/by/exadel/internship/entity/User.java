@@ -1,11 +1,13 @@
-package by.exadel.internship.entity.user;
+package by.exadel.internship.entity;
 
+import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -38,10 +40,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
- //   @Column(name = "technology")
-//    private List<Skill> skills;
+    @Column(name="skill_name", nullable=false)
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    private List<Skill> skills;
 
 //    @Column(name = "intership_list")
-//    private List<UserInternshipDTO> listOfInternships;
+//    private List<UserInternship> listOfInternships;
 //    private List<LocalDateTime> freeInterviewDates;
 }

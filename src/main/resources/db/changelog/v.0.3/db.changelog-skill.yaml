@@ -32,3 +32,33 @@ databaseChangeLog:
             constraintName: fk_internship_skill
             referencedColumnNames: inship_id
             referencedTableName: internship
+
+  - changeSet:
+      id: 12042021-add-type-user-skill
+      author: maksim_maevsky
+      changes:
+        - createTable:
+            tableName: user_skills
+            columns:
+              - column:
+                  name: user_u_id
+                  type: UUID
+                  constraints:
+                    nullable: true
+              - column:
+                  name: skill_name
+                  type: SKILL
+                  constraints:
+                    nullable: false
+
+
+  - changeSet:
+      id: 12042021-add-foreignKeyConstraint-user-to-internship_skill
+      author:  maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_u_id
+            baseTableName: user_skills
+            constraintName: fk_user_skill
+            referencedColumnNames: u_id
+            referencedTableName: user
