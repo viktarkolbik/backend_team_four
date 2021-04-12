@@ -19,3 +19,7 @@ spring:
 server:
   servlet:
     context-path: /api
+
+file:
+  path: "files/"
+
