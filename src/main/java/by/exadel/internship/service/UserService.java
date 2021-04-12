@@ -50,6 +50,14 @@ public class UserService {
         log.info("Successfully activate User with uuid = " + uuid);
     }
 
+    public List<UserDTO> getAllDeleted() {
+        putClassNameInMDC();
+        log.info("Try to get List of deleted user");
+        List<User> userList = userRepository.findAllDeleted();
+        log.info("Return List of deletes user");
+        return userMapper.map(userList);
+    }
+
     private void putClassNameInMDC(){
         MDC.put("className", UserService.class.getSimpleName());
     }

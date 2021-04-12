@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "public")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE user SET u_deleted=true WHERE u_id=?")
+@SQLDelete(sql = "UPDATE \"user\" SET u_deleted=true WHERE u_id=?")
 @Where(clause = "u_deleted = false")
 public class User {
     @Id
