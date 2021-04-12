@@ -1,8 +1,6 @@
 package by.exadel.internship.auditing;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -14,11 +12,10 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
 
-@Getter(AccessLevel.PROTECTED)
-@Setter(AccessLevel.PROTECTED)
+@Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class Auditable<U> {
+public  class Auditable<U> {
 
     @CreatedBy
     @Column(name = "created_by")

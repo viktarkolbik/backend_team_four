@@ -4,7 +4,6 @@ package by.exadel.internship.entity;
 import by.exadel.internship.auditing.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -16,7 +15,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "internship")
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
