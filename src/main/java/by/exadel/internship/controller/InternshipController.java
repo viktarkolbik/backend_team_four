@@ -37,7 +37,7 @@ public class InternshipController {
     @GetMapping("/deletedInternships")
     @ApiOperation("Return List of deleted Internships")
     public List<GuestInternshipDTO> getDeletedInternshipList(){
-        return internshipService.gellAllDeleted();
+        return internshipService.getAllDeleted();
     }
 
     @GetMapping("/deletedInternships/{internshipId}")

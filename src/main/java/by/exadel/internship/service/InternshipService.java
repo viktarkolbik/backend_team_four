@@ -42,7 +42,7 @@ public class InternshipService {
 
     }
 
-    public List<GuestInternshipDTO> gellAllDeleted() {
+    public List<GuestInternshipDTO> getAllDeleted() {
         putClassNameInMDC();
         log.info("Try to get deleted Internships");
         List<Internship> deletedInternships = internshipRepository.findAllDeleted();
