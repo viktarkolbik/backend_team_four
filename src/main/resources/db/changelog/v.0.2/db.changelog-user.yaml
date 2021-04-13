@@ -57,9 +57,4 @@ databaseChangeLog:
             columns:
               name: u_deleted
               type: BOOLEAN
-        - addDefaultValue:
-            catalogName: delete-flag-for-user
-            columnDataType: BOOLEAN
-            columnName: u_deleted
-            defaultValueBoolean: false
-            tableName: user
+              defaultValue: false

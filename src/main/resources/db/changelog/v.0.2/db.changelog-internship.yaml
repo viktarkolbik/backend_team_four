@@ -8,9 +8,4 @@ databaseChangeLog:
             columns:
               name: inship_deleted
               type: BOOLEAN
-        - addDefaultValue:
-            catalogName: delete-flag-for-inship
-            columnDataType: BOOLEAN
-            columnName: inship_deleted
-            defaultValueBoolean: false
-            tableName: internship
+              defaultValue: false

@@ -8,9 +8,4 @@ databaseChangeLog:
             columns:
               name: fm_deleted
               type: BOOLEAN
-        - addDefaultValue:
-            catalogName: delete-flag-for-form
-            columnDataType: BOOLEAN
-            columnName: fm_deleted
-            defaultValueBoolean: false
-            tableName: form
+              defaultValue: false
