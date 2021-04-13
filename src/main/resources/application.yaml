@@ -12,13 +12,15 @@ spring:
     data:
       - 'classpath:db/changelog/v.0.1/sql-import/import-form.sql'
       - 'classpath:db/changelog/v.0.1/sql-import/import-internship.sql'
-      - 'classpath:db/changelog/v.0.2/sql-import/import-role.sql'
       - 'classpath:db/changelog/v.0.2/sql-import/import-user.sql'
       - 'classpath:db/changelog/v.0.2/sql-import/import-interview.sql'
       - 'classpath:db/changelog/v.0.2/sql-import/import-interview-dates.sql'
       - 'classpath:db/changelog/v.0.2/sql-import/import-form-add-columns.sql'
 
-
 server:
   servlet:
     context-path: /api
+
+file:
+  path: "files"
+

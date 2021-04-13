@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 12042021-add-columns-automatic-auditing
+      author: olga_evdokimova
+      changes:
+        - addColumn:
+            tableName: internship
+            columns:
+              - column:
+                  name: created_by
+                  type: varchar(50)
+                  defaultValue: unknown
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: DATE
+                  defaultValueComputed: current_date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(50)
+                  defaultValue: unknown
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_date
+                  type: DATE
+                  defaultValueComputed: current_date
+                  constraints:
+                    nullable: false
