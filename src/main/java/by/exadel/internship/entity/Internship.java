@@ -1,12 +1,12 @@
 package by.exadel.internship.entity;
-
-
-import by.exadel.internship.dto.enums.InternshipFormat;
-import by.exadel.internship.dto.enums.Skill;
-import lombok.*;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
+import by.exadel.internship.auditing.Auditable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
@@ -19,6 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = "internshipFormat")
 public class Internship {
+public class Internship extends Auditable<String> {
 
     @Id
     @Column(name = "inship_id")
