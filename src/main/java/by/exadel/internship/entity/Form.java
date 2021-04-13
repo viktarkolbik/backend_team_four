@@ -1,6 +1,7 @@
 package by.exadel.internship.entity;
 
 import by.exadel.internship.dto.enums.EnglishLevel;
+import by.exadel.internship.dto.enums.FormStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -69,8 +70,9 @@ public class Form {
     @Type(type = "by.exadel.internship.mapper.EnumTypePostgreSQL")
     private EnglishLevel englishLevel;
 
-    @OneToOne
-    @JoinColumn(name = "fm_form_status_id")
+    @Column(name = "fm_form_status")
+    @Enumerated(value = EnumType.STRING)
+    @Type(type = "by.exadel.internship.mapper.EnumTypePostgreSQL")
     private FormStatus formStatus;
 
     @OneToOne(cascade = CascadeType.ALL)

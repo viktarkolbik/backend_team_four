@@ -1,0 +1,13 @@
+package by.exadel.internship.dto.enums;
+
+public enum FormStatus {
+    REGISTERED,
+    ADMIN_INTERVIEW_ASSIGNED,
+    ADMIN_INTERVIEW_PASSED,
+    TECH_INTERVIEW_ASSIGNED,
+    TECH_INTERVIEW_PASSED,
+    ACCEPTED,
+    NOT_MATCHED,
+    REJECTED,
+    CANDIDATE_REFUSED
+}
