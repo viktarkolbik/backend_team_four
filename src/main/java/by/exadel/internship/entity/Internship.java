@@ -1,11 +1,8 @@
 package by.exadel.internship.entity;
-
-
+import by.exadel.internship.auditing.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,11 +12,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "internship")
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Internship {
+public class Internship extends Auditable<String> {
 
     @Id
     @Column(name = "inship_id")
