@@ -34,6 +34,16 @@ databaseChangeLog:
             referencedTableName: internship
 
   - changeSet:
+      id:  13042021-add-uniqueConstraint-for-internship_skill
+      author:  maksim_maevsky
+      changes:
+        - addUniqueConstraint:
+            columnNames:  is_name, is_inship_id
+            constraintName:  uc_internship_skill
+            tableName:  internship_skill
+
+
+  - changeSet:
       id: 12042021-add-type-user-skill
       author: maksim_maevsky
       changes:
@@ -51,9 +61,8 @@ databaseChangeLog:
                   constraints:
                     nullable: false
 
-
   - changeSet:
-      id: 12042021-add-foreignKeyConstraint-user-to-internship_skill
+      id: 12042021-add-foreignKeyConstraint-user-to-user-skill
       author:  maksim_maevsky
       changes:
         - addForeignKeyConstraint:
@@ -62,3 +71,12 @@ databaseChangeLog:
             constraintName: fk_user_skill
             referencedColumnNames: u_id
             referencedTableName: user
+
+  - changeSet:
+      id:  13042021-add-uniqueConstraint-for-user-skill
+      author:  maksim_maevsky
+      changes:
+        - addUniqueConstraint:
+            columnNames:  us_u_id, us_name
+            constraintName:  uc_user_skill
+            tableName:  user_skill

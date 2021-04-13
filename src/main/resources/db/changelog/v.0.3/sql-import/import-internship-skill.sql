@@ -23,3 +23,5 @@ INSERT INTO "internship_skill" (is_name, is_inship_id)
 VALUES ('QA', '7e571523-0c53-41b2-9b4d-2811bba896a2');
 INSERT INTO "internship_skill" (is_name, is_inship_id)
 VALUES ('DEV_OPS', '8c888fc7-d126-4fe1-8023-b6071b7c7843');
+INSERT INTO "internship_skill" (is_name, is_inship_id)
+VALUES ('DEV_OPS', 'c48bf69e-f3a9-4ff0-a94a-f2a7f49a42dd');
