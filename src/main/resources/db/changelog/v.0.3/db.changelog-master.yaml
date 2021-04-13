@@ -2,3 +2,9 @@ databaseChangeLog:
  - include:
       file: db.changelog-skill.yaml
       relativeToChangelogFile: true
+ - include:
+     file: db.changelog-user-to-user-detail.yaml
+     relativeToChangelogFile: true
+ - include:
+     file: db.changelog-internship-format-name-dropNotNullConstraint.yaml
+     relativeToChangelogFile: true

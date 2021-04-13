@@ -8,7 +8,6 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -55,14 +54,14 @@ public class Internship {
     @Column(name = "inship_registration_end_date")
     private LocalDate registrationEndDate;
 
-    @Column(name = "inship_format_name", nullable = false)
+    @Column(name = "inship_format_name")
     @Enumerated(EnumType.STRING)
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private InternshipFormat internshipFormat;
 
     @Column(name="is_name", nullable=false)
     @Enumerated(EnumType.STRING)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "internship_skill", joinColumns = @JoinColumn(name = "is_inship_id"))
     private Set<Skill> skills;
 

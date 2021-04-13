@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name="\"user\"")
+@Table(name="user_detail")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,7 +42,7 @@ public class User {
 
     @Column(name="us_name", nullable=false)
     @Enumerated(EnumType.STRING)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "user_skill", joinColumns = @JoinColumn(name = "us_u_id"))
     private Set<Skill> skills;
 

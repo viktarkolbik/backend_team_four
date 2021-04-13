@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id:  13042021-internship-format-name-dropNotNullConstraint
+      author:  maksim_maevsky
+      changes:
+        - dropNotNullConstraint:
+            columnDataType: FORMAT
+            columnName: inship_format_name
+            schemaName: public
+            tableName: internship
