@@ -23,3 +23,7 @@ server:
 file:
   path: "files/"
 
+key:
+  jwtSecret: TestSecret
+  jwtExpirationMs: 8640000
+
