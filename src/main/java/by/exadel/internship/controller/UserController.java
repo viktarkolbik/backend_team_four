@@ -36,8 +36,8 @@ public class UserController {
 
     @PutMapping("/returnUser/{userId}")
     @ApiOperation("do active deleted User")
-    public void doActiveDeletedUser(@PathVariable UUID userId){
-        userService.doActiveDeletedFormById(userId);
+    public void restoreUser(@PathVariable UUID userId){
+        userService.restoreUserById(userId);
     }
 
     @GetMapping("/deletedUsers")

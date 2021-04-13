@@ -39,8 +39,8 @@ public class FormController {
     }
 
     @PutMapping("/returnFrom/{formId}")
-    @ApiOperation("do active deleted Form")
-    public void doActiveDeletedForm(@PathVariable UUID formId) {
-        formService.doActiveDeletedFormById(formId);
+    @ApiOperation("Restore deleted Form")
+    public void restoreForm(@PathVariable UUID formId) {
+        formService.restoreFormById(formId);
     }
 }

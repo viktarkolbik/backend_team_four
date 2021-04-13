@@ -75,7 +75,7 @@ public class FormService {
         formRepository.save(createdForm);
     }
 
-    public void doActiveDeletedFormById(UUID formId){
+    public void restoreFormById(UUID formId){
         putClassNameInMDC();
         log.info("Try to activate form with uuid= " + formId);
         formRepository.updateDeletedById(formId);

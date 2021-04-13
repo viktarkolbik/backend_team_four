@@ -43,7 +43,7 @@ public class UserService {
         log.info("Successfully deleted User with uuid = " + uuid);
     }
 
-    public void doActiveDeletedFormById(UUID uuid) {
+    public void restoreUserById(UUID uuid) {
         putClassNameInMDC();
         log.info("Try to activate User with uuid = " + uuid);
         userRepository.updateDeletedById(uuid);

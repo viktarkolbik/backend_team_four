@@ -53,8 +53,8 @@ public class InternshipController {
     }
 
     @PutMapping("/returnInternship/{internshipId}")
-    @ApiOperation("Return deleted Internship to List of Internship")
-    public GuestInternshipDTO doActiveDeletedInternship(@PathVariable UUID internshipId){
-        return internshipService.doActiveDeletedInternshipById(internshipId);
+    @ApiOperation("Restore deleted Internships")
+    public GuestInternshipDTO restoreInternship(@PathVariable UUID internshipId){
+        return internshipService.restoreInternshipById(internshipId);
     }
 }

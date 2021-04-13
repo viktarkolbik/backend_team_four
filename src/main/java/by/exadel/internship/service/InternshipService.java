@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -64,14 +65,17 @@ public class InternshipService {
         return guestDeletedInternshipDTO;
     }
 
-    public GuestInternshipDTO doActiveDeletedInternshipById(UUID uuid) {
+    @Transactional
+    public GuestInternshipDTO restoreInternshipById(UUID uuid) {
         putClassNameInMDC();
         log.info("Try to return deleted Internship with uuid= " + uuid + " to List if Internships");
+        Internship internship = internshipRepository.findDeletedById(uuid);
+        if (internship == null) {
+            throw new NotFoundException("No such deleted Internship with uuid = " + uuid +
+                    " in DB", "uuid.invalid");
+        }
         internshipRepository.updateDeletedById(uuid);
-        Internship internship = internshipRepository
-                .findById(uuid)
-                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + uuid +
-                        " in DB", "uuid.invalid"));
+        internship.setDeleted(false);
         log.info("Successfully returned deleted Internship with uuid= " + uuid);
         return internShipMapper.toGuestInternshipDTO(internship);
 
