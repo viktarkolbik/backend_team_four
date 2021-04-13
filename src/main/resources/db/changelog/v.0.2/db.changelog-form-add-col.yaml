@@ -39,17 +39,7 @@ databaseChangeLog:
         - addColumn:
             tableName: form
             columns:
-              name: fm_interview_id
-              type: UUID
-
-  - changeSet:
-      id: 10042021-add-column-time-for-call-id-to-form
-      author: valentin_velichko
-      changes:
-        - addColumn:
-            tableName: form
-            columns:
-              name: fm_time_for_call_id
+              name: i_id
               type: UUID
 
   - changeSet:
@@ -57,19 +47,8 @@ databaseChangeLog:
       author:  valentin_velichko
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: fm_interview_id
+            baseColumnNames: i_id
             baseTableName: form
             constraintName: fk_interview_id_form
             referencedColumnNames: i_id
             referencedTableName: interview
-
-  - changeSet:
-      id: 10042021-add-foreignKeyConstraint-time-for-call-id-to-form
-      author:  valentin_velichko
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: fm_time_for_call_id
-            baseTableName: form
-            constraintName: fk_time_for_call_id_form
-            referencedColumnNames: tfc_id
-            referencedTableName: time_for_call

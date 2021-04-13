@@ -31,4 +31,7 @@ public class TimeForCall {
 
     @Column(name = "tfc_end_hour")
     private int endHour;
+
+    @Column(name = "fm_id")
+    private UUID formId;
 }

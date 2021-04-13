@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -76,11 +77,11 @@ public class Form {
     private FormStatus formStatus;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fm_interview_id")
+    @JoinColumn(name = "i_id")
     private Interview interview;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fm_time_for_call_id")
-    private TimeForCall timeForCall;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fm_id")
+    private List<TimeForCall> timeForCallList;
 
 }

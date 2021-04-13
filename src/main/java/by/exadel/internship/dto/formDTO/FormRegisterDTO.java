@@ -2,11 +2,12 @@ package by.exadel.internship.dto.formDTO;
 
 import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.enums.EnglishLevel;
-import by.exadel.internship.dto.enums.FormStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 
 @Data
@@ -27,8 +28,7 @@ public class FormRegisterDTO {
     private String primarySkill;
     private String experience;
     private String education;
-    private TimeForCallDTO timeForCall;
+    private List<TimeForCallDTO> timeForCallList;
     private String filePath;
-    private FormStatus formStatus;
 
 }
