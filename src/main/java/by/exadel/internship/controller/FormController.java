@@ -34,7 +34,7 @@ public class FormController {
 
     @DeleteMapping("/{formId}")
     @ApiOperation("Delete form by ID")
-    public void deleteFromById(@PathVariable UUID formId) {
+    public void deleteFormById(@PathVariable UUID formId) {
         formService.deleteById(formId);
     }
 
