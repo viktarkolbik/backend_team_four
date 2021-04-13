@@ -24,6 +24,6 @@ file:
   path: "files/"
 
 key:
-  jwtSecret: TestSecret
+  jwtSecret: SecretKey
   jwtExpirationMs: 8640000
 

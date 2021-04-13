@@ -5,7 +5,6 @@ import by.exadel.internship.entity.user.UserDetailsImpl;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
