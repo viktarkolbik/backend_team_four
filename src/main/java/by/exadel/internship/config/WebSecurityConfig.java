@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        //Set simple passwordEncoder, because user password is not encrypted
         return new PasswordEnconderTest();
         //return new BCryptPasswordEncoder();
     }
