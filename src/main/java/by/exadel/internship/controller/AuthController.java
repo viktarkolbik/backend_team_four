@@ -29,23 +29,19 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
-    @PostMapping("/sgn")
+    @PostMapping("/signIn")
     @ApiOperation("Authorize method")
     public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest){
-        System.out.println("Tut");
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
                         loginRequest.getLogin(),
                         loginRequest.getPassword()));
-        System.out.println("wtf");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
-        System.out.println("tut2");
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> role = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        System.out.println("tut3");
         return ResponseEntity.ok(new JwtResponse(jwt,userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
