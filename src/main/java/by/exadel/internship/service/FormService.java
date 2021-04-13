@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class FormService {
             form.setFilePath(file.getOriginalFilename());
             FormFullDTO createdForm = saveForm(form);
             log.info("Success to save form, id: "+ createdForm.getId());
-            uploadFile(file, createdForm);
+            uploadFile(file, createdForm.getId());
             return createdForm;
         }
         FormFullDTO createdForm = saveForm(form);
@@ -51,17 +52,17 @@ public class FormService {
         return mapper.toFormDto(form);
     }
 
-    private void uploadFile(MultipartFile file, FormFullDTO createdForm) {
+    private void uploadFile(MultipartFile file, UUID uuid) {
         try {
-            Path path = Paths.get(filePath + File.separator + createdForm.getId());
+            Path path = Paths.get(filePath + File.separator + uuid);
             Files.createDirectories(path);
             byte[] bytes = file.getBytes();
             BufferedOutputStream stream =
                     new BufferedOutputStream(new FileOutputStream
-                            (new File(filePath + File.separator + createdForm.getId() +
+                            (new File(filePath + File.separator + uuid +
                                     File.separator + file.getOriginalFilename())));
             stream.write(bytes);
-            log.info("Success to upload file, form id: "+ createdForm.getId());
+            log.info("Success to upload file, form id: "+ uuid);
             stream.close();
         } catch (IOException e) {
             log.error(e.getMessage());
