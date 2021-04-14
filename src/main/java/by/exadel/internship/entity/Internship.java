@@ -1,13 +1,11 @@
 package by.exadel.internship.entity;
-
-
+import by.exadel.internship.auditing.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,14 +15,13 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "internship")
-@Data
 @Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SQLDelete(sql = "UPDATE internship SET inship_deleted=true WHERE inship_id=?")
 @Where(clause = "inship_deleted = false")
-public class Internship {
-
+public class Internship extends Auditable<String> {
     @Id
     @Column(name = "inship_id")
     private UUID id;

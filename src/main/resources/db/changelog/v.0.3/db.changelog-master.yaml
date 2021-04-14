@@ -1,6 +1,8 @@
 databaseChangeLog:
- - include:
+  - include:
       file: db.changelog-user.yaml
       relativeToChangelogFile: true
-
+  - include:
+      file: db.changelog-add-columns-auditing-internship.yaml
+      relativeToChangelogFile: true
 

@@ -1,5 +1,6 @@
 package by.exadel.internship.service;
 
+import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
 import by.exadel.internship.mapper.FormMapper;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 import java.util.UUID;
 
@@ -32,42 +34,42 @@ public class FormService {
     @Value("${file.path}")
     private String filePath;
 
-    public Form process(FormRegisterDTO form, MultipartFile file) {
+    public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
         MDC.put("className", FormService.class.getSimpleName());
-
         if (file != null) {
-            Form createdForm = saveForm(form);
-            updateFilePath(createdForm, file);
-            uploadFile(file, createdForm);
-            log.info("Success to save form with file");
+            form.setFilePath(file.getOriginalFilename());
+            FormFullDTO createdForm = saveForm(form);
+            log.info("Success to save form, id: "+ createdForm.getId());
+            uploadFile(file, createdForm.getId());
             return createdForm;
         }
-        log.info("Success to save form without file");
-        return saveForm(form);
+        FormFullDTO createdForm = saveForm(form);
+        log.info("Success to save form, id: "+ createdForm.getId());
+        return createdForm;
     }
 
-    private Form saveForm(FormRegisterDTO formRegisterDTO) {
+    private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
         Form form = mapper.toFormEntity(formRegisterDTO);
-        return formRepository.save(form);
+        formRepository.save(form);
+        return mapper.toFormDto(form);
     }
 
-    private void uploadFile(MultipartFile file, Form createdForm) {
+    private void uploadFile(MultipartFile file, UUID uuid) {
         try {
-            Path path = Paths.get(filePath + File.separator + createdForm.getId());
+            Path path = Paths.get(filePath + File.separator + uuid);
             Files.createDirectories(path);
             byte[] bytes = file.getBytes();
             BufferedOutputStream stream =
                     new BufferedOutputStream(new FileOutputStream
-                            (new File(filePath + createdForm.getId() +
+                            (new File(filePath + File.separator + uuid +
                                     File.separator + file.getOriginalFilename())));
             stream.write(bytes);
-            log.info("Success to upload file");
+            log.info("Success to upload file, form id: "+ uuid);
             stream.close();
         } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
-
     private void updateFilePath(Form createdForm, MultipartFile file) {
         createdForm.setFilePath(filePath +
                 createdForm.getId() + File.separator + file.getOriginalFilename());
