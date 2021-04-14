@@ -41,7 +41,7 @@ public class InternshipService {
         MDC.put("className", InternshipService.class.getSimpleName());
         log.info("Try to get all Internships");
 
-        List<Internship> internships = internshipRepository.findAll();
+        List<Internship> internships = internshipRepository.findAllWithSkill();
         List<GuestInternshipDTO> guestInternshipDTOList = internShipMapper.map(internships);
 
         log.info("Successfully list of Internships");

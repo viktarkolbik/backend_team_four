@@ -1,4 +1,5 @@
 package by.exadel.internship.service;
+
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.exception.NotFoundException;
@@ -6,6 +7,7 @@ import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +20,7 @@ public class UserService {
 
     public List<UserDTO> getAll() {
 
-        List<User> userList = userRepository.findAll();
+        List<User> userList = userRepository.findAllWithSkill();
 
         return userMapper.map(userList);
 
