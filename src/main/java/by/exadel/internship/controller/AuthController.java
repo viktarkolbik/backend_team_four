@@ -4,7 +4,6 @@ import by.exadel.internship.config.jwt.JwtUtils;
 import by.exadel.internship.entity.user.UserDetailsImpl;
 import by.exadel.internship.pojo.JwtResponse;
 import by.exadel.internship.pojo.LoginRequest;
-import by.exadel.internship.repository.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
