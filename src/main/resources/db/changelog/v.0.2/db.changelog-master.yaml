@@ -9,12 +9,6 @@ databaseChangeLog:
       file: db.changelog-interview-dates.yaml
       relativeToChangelogFile: true
   - include:
-      file: db.changelog-form.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: db.changelog-internship.yaml
-      relativeToChangelogFile: true
-  - include:
       file: db.changelog-time-for-call.yaml
       relativeToChangelogFile: true
   - include:
