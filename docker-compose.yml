@@ -17,7 +17,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgresqldb:5432/internship
       SPRING_DATASOURSE_PASSWORD: postgres
       SPRING_DATASOURSE_USERNAME: postgres
-    restart: always
     depends_on:
       - postgresqldb
     networks:
@@ -34,6 +33,5 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_DB=internship
-    restart: always
     networks:
       - internship-network

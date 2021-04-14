@@ -1,7 +1,8 @@
 package by.exadel.internship.service;
-import by.exadel.internship.dto.user.UserDTO;
-import by.exadel.internship.entity.user.User;
+
+import by.exadel.internship.entity.User;
 import by.exadel.internship.exception_handing.NotFoundException;
+import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class UserService {
         List<User> userList = userRepository.findAll();
         log.info("Return List of User");
         return userMapper.map(userList);
+
     }
 
     public UserDTO getById(UUID uuid) {

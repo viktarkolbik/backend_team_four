@@ -1,4 +1,7 @@
-package by.exadel.internship.entity.user;
+
+package by.exadel.internship.entity;
+
+import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,17 +10,18 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user", schema = "public")
+@Table(name = "user_detail")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE \"user\" SET u_deleted=true WHERE u_id=?")
 @Where(clause = "u_deleted = false")
 public class User {
+
     @Id
     @Column(name = "u_id")
     private UUID id;
@@ -44,10 +48,13 @@ public class User {
     @Column(name = "u_deleted")
     private Boolean deleted;
 
-    //    @Column(name = "technology")
-//    private List<Technology> techTechnology;
+    @Column(name="us_name", nullable=false)
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "user_skill", joinColumns = @JoinColumn(name = "us_u_id"))
+    private Set<Skill> skills;
 
 //    @Column(name = "intership_list")
-//    private List<UserInternshipDTO> listOfInternships;
-    //private List<LocalDateTime> freeInterviewDates;
+//    private List<UserInternship> listOfInternships;
+//    private List<LocalDateTime> freeInterviewDates;
 }

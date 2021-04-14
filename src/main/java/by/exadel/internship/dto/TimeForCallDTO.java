@@ -11,7 +11,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class TimeForCallDTO {
 
-    private UUID id;
     private int startHour;
     private int endHour;
 

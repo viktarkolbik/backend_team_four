@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 09042021-add-type-internship-format
+      author: maksim_maevsky
+      dms: postgresql
+      sql: CREATE TYPE FORMAT as ENUM ('ONLINE', 'OFFLINE');
+
+  - changeSet:
+      id: 07042021-add-column-inship-format-name-to-internship
+      author: maksim_maevsky
+      changes:
+        - addColumn:
+            tableName: internship
+            columns:
+              name: inship_format_name
+              type: FORMAT
+              constraints:
+                nullable: false

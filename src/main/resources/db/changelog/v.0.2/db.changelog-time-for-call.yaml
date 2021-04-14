@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 10042021-add-table-time-for-call
+      author: valentin_velichko
+      changes:
+        - createTable:
+            tableName: time_for_call
+            columns:
+              - column:
+                  name: tfc_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: tfc_start_hour
+                  type: INT
+              - column:
+                  name: tfc_end_hour
+                  type: INT
+              - column:
+                  name: fm_id
+                  type: UUID
+
+  - changeSet:
+      id: 13042021-add-foreignKeyConstraint-form-id-to-time-for-call
+      author: valentin_velichko
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: fm_id
+            baseTableName: time_for_call
+            constraintName: fk_form_id_time_for_call
+            referencedColumnNames: fm_id
+            referencedTableName: form

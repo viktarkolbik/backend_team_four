@@ -1,5 +1,6 @@
 package by.exadel.internship.service;
 
+import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
@@ -21,7 +22,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-import java.util.UUID;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +52,8 @@ public class FormService {
 
     private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
         Form form = mapper.toFormEntity(formRegisterDTO);
+        form.setFormStatus(FormStatus.REGISTERED);
+        log.info("The form status is " + FormStatus.REGISTERED);
         formRepository.save(form);
         return mapper.toFormDto(form);
     }
@@ -91,7 +95,11 @@ public class FormService {
         log.info("Successfully deleted Form with uuid= " + formId);
     }
 
-    private void putClassNameInMDC(){
+    private void putClassNameInMDC() {
         MDC.put("className", FormService.class.getSimpleName());
+    }
+
+    public List<Form> getAll() {
+        return formRepository.findAll();
     }
 }

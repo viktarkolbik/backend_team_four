@@ -26,19 +26,27 @@ public class InternshipService {
     public GuestInternshipDTO getById(UUID uuid) {
         putClassNameInMDC();
         log.info("Try to get Internships with uuid= " + uuid);
+
+        MDC.put("className", InternshipService.class.getSimpleName());
+        log.info("Try to get Internships with uuid=" + uuid);
+
         Internship internship = internshipRepository
                 .findById(uuid)
                 .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + uuid + " in DB", "uuid.invalid"));
+
         log.info("Successfully got Internships with uuid=" + uuid);
+
         return internShipMapper.toGuestInternshipDTO(internship);
     }
 
     public List<GuestInternshipDTO> getAll() {
         putClassNameInMDC();
+        MDC.put("className", InternshipService.class.getSimpleName());
         log.info("Try to get all Internships");
         List<Internship> internships = internshipRepository.findAll();
         List<GuestInternshipDTO> guestInternshipDTOList = internShipMapper.map(internships);
         log.info("Successfully got list of Internships");
+        log.info("Successfully list of Internships");
         return guestInternshipDTOList;
 
     }

@@ -1,5 +1,5 @@
 package by.exadel.internship.controller;
-import by.exadel.internship.dto.user.UserDTO;
+import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
