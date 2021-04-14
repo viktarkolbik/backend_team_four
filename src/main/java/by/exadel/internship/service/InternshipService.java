@@ -9,10 +9,12 @@ import by.exadel.internship.repository.InternshipRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -63,11 +65,10 @@ public class InternshipService {
     public GuestInternshipDTO getDeletedInternshipById(UUID uuid) {
         putClassNameInMDC();
         log.info("Try to get deleted Internships with uuid= " + uuid);
-        Internship deletedInternship = internshipRepository.findDeletedById(uuid);
-        if (deletedInternship == null) {
-            throw new NotFoundException("No such deleted Internship with uuid = " + uuid +
-                    " in DB", "uuid.invalid");
-        }
+        Internship deletedInternship = internshipRepository
+                .findDeletedById(uuid)
+                .orElseThrow(() -> new NotFoundException("No such deleted Internship with uuid = " + uuid +
+                        " in DB", "uuid.invalid"));
         log.info("Successfully got deleted Internships with uuid= " + uuid);
         GuestInternshipDTO guestDeletedInternshipDTO = internShipMapper.toGuestInternshipDTO(deletedInternship);
         return guestDeletedInternshipDTO;
@@ -77,11 +78,10 @@ public class InternshipService {
     public GuestInternshipDTO restoreInternshipById(UUID uuid) {
         putClassNameInMDC();
         log.info("Try to return deleted Internship with uuid= " + uuid + " to List if Internships");
-        Internship internship = internshipRepository.findDeletedById(uuid);
-        if (internship == null) {
-            throw new NotFoundException("No such deleted Internship with uuid = " + uuid +
-                    " in DB", "uuid.invalid");
-        }
+        Internship internship = internshipRepository
+                .findDeletedById(uuid)
+                .orElseThrow(() -> new NotFoundException("No such deleted Internship with uuid = " + uuid +
+                        " in DB", "uuid.invalid"));
         internshipRepository.updateDeletedById(uuid);
         internship.setDeleted(false);
         log.info("Successfully returned deleted Internship with uuid= " + uuid);
@@ -92,8 +92,12 @@ public class InternshipService {
     public void deleteInternshipById(UUID internshipId) {
         putClassNameInMDC();
         log.info("Try to delete Internship with uuid= " + internshipId);
-        internshipRepository.deleteById(internshipId);
-        //Method "deletedById" return void and we can't understand internship was deleted or not
+        try {
+            internshipRepository.deleteById(internshipId);
+        }catch (EmptyResultDataAccessException exception){
+            throw new NotFoundException("Internship with uuid = " + internshipId +
+                    "Not Found","internship.uuid.invalid");
+        }
         log.info("Internship with uuid= " + internshipId + " was deleted");
     }
 

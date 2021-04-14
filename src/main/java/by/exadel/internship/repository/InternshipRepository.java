@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -20,7 +21,7 @@ public interface InternshipRepository extends JpaRepository<Internship, UUID> {
 
     @Query(value = "SELECT * FROM Internship WHERE inship_deleted = true AND inship_id = :internshipId",
             nativeQuery = true)
-    Internship findDeletedById(@Param("internshipId") UUID internshipId);
+    Optional<Internship> findDeletedById(@Param("internshipId") UUID internshipId);
 
     @Transactional
     @Modifying

@@ -4,12 +4,14 @@ import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
+import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.repository.FormRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,12 +43,12 @@ public class FormService {
         if (file != null) {
             form.setFilePath(file.getOriginalFilename());
             FormFullDTO createdForm = saveForm(form);
-            log.info("Success to save form, id: "+ createdForm.getId());
+            log.info("Success to save form, id: " + createdForm.getId());
             uploadFile(file, createdForm.getId());
             return createdForm;
         }
         FormFullDTO createdForm = saveForm(form);
-        log.info("Success to save form, id: "+ createdForm.getId());
+        log.info("Success to save form, id: " + createdForm.getId());
         return createdForm;
     }
 
@@ -68,12 +70,13 @@ public class FormService {
                             (new File(filePath + File.separator + uuid +
                                     File.separator + file.getOriginalFilename())));
             stream.write(bytes);
-            log.info("Success to upload file, form id: "+ uuid);
+            log.info("Success to upload file, form id: " + uuid);
             stream.close();
         } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
+
     private void updateFilePath(Form createdForm, MultipartFile file) {
         createdForm.setFilePath(filePath +
                 createdForm.getId() + File.separator + file.getOriginalFilename());
@@ -81,17 +84,23 @@ public class FormService {
         formRepository.save(createdForm);
     }
 
-    public void restoreFormById(UUID formId){
+    public void restoreFormById(UUID formId) {
         putClassNameInMDC();
         log.info("Try to activate form with uuid= " + formId);
         formRepository.updateDeletedById(formId);
         log.info("Successfully returned deleted Form with uuid= " + formId);
     }
 
-    public void deleteById(UUID formId){
+    public void deleteById(UUID formId) {
         putClassNameInMDC();
         log.info("Try to delete form with uuid= " + formId);
-        formRepository.deleteById(formId);
+        try {
+            formRepository.deleteById(formId);
+        } catch (
+                EmptyResultDataAccessException exception) {
+            throw new NotFoundException("From with uuid = " + formId +
+                    "Not Found", "form.uuid.invalid");
+        }
         log.info("Successfully deleted Form with uuid= " + formId);
     }
 

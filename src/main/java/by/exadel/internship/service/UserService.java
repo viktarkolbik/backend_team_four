@@ -8,7 +8,9 @@ import by.exadel.internship.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -38,10 +40,16 @@ public class UserService {
         return userMapper.toUserDTO(user);
     }
 
-    public void deleteUserById(UUID uuid){
+    public void deleteUserById(UUID uuid) {
         putClassNameInMDC();
         log.info("Try to delete User with uuid = " + uuid);
-        userRepository.deleteById(uuid);
+        try {
+            userRepository.deleteById(uuid);
+        } catch (
+                EmptyResultDataAccessException exception) {
+            throw new NotFoundException("User with uuid = " + uuid +
+                    "Not Found", "user.uuid.invalid");
+        }
         log.info("Successfully deleted User with uuid = " + uuid);
     }
 
@@ -60,7 +68,7 @@ public class UserService {
         return userMapper.map(userList);
     }
 
-    private void putClassNameInMDC(){
+    private void putClassNameInMDC() {
         MDC.put("className", UserService.class.getSimpleName());
     }
 }
