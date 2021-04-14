@@ -49,7 +49,7 @@ public class FormService {
         return createdForm;
     }
 
-    public FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
+    private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
         Form form = mapper.toFormEntity(formRegisterDTO);
         form.setFormStatus(FormStatus.REGISTERED);
         log.info("The form status is " + FormStatus.REGISTERED);

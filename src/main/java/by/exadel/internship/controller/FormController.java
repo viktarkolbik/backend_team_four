@@ -34,6 +34,7 @@ public class FormController {
 
     @GetMapping
     @ApiOperation("Get all forms")
+    @ResponseStatus(HttpStatus.OK)
     public List<Form> getAllForms() {
         return formService.getAll();
     }
