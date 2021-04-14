@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.EmptyResultDataAccessException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -87,6 +87,10 @@ public class FormService {
     public void restoreFormById(UUID formId) {
         putClassNameInMDC();
         log.info("Try to activate form with uuid= " + formId);
+        formRepository
+                .findDeletedById(formId)
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
+                        "Not Found in DB", "form.uuid.invalid"));
         formRepository.updateDeletedById(formId);
         log.info("Successfully returned deleted Form with uuid= " + formId);
     }
@@ -94,13 +98,11 @@ public class FormService {
     public void deleteById(UUID formId) {
         putClassNameInMDC();
         log.info("Try to delete form with uuid= " + formId);
-        try {
-            formRepository.deleteById(formId);
-        } catch (
-                EmptyResultDataAccessException exception) {
-            throw new NotFoundException("From with uuid = " + formId +
-                    "Not Found", "form.uuid.invalid");
-        }
+        formRepository
+                .findById(formId)
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
+                        "Not Found in DB", "form.uuid.invalid"));
+        formRepository.deleteById(formId);
         log.info("Successfully deleted Form with uuid= " + formId);
     }
 

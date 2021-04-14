@@ -34,13 +34,13 @@ public class UserController {
         userService.deleteUserById(userId);
     }
 
-    @PutMapping("/returnUser/{userId}")
+    @PutMapping("/{userId}/restore")
     @ApiOperation("do active deleted User")
     public void restoreUser(@PathVariable UUID userId){
         userService.restoreUserById(userId);
     }
 
-    @GetMapping("/deletedUsers")
+    @GetMapping("/historical")
     @ApiOperation("Return list of deleted users")
     public List<UserDTO> getDeletedUserList() {
         return userService.getAllDeleted();

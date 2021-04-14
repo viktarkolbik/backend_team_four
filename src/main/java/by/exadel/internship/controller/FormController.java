@@ -41,7 +41,7 @@ public class FormController {
         formService.deleteById(formId);
     }
 
-    @PutMapping("/returnFrom/{formId}")
+    @PutMapping("/{formId}/restore")
     @ApiOperation("Restore deleted Form")
     public void restoreForm(@PathVariable UUID formId) {
         formService.restoreFormById(formId);

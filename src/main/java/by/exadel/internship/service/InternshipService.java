@@ -92,12 +92,11 @@ public class InternshipService {
     public void deleteInternshipById(UUID internshipId) {
         putClassNameInMDC();
         log.info("Try to delete Internship with uuid= " + internshipId);
-        try {
-            internshipRepository.deleteById(internshipId);
-        }catch (EmptyResultDataAccessException exception){
-            throw new NotFoundException("Internship with uuid = " + internshipId +
-                    "Not Found","internship.uuid.invalid");
-        }
+        internshipRepository
+                .findById(internshipId)
+                .orElseThrow(() -> new NotFoundException("No such deleted Internship with uuid = " + internshipId  +
+                        " in DB", "uuid.invalid"));
+        internshipRepository.deleteById(internshipId);
         log.info("Internship with uuid= " + internshipId + " was deleted");
     }
 

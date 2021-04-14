@@ -34,7 +34,8 @@ public class UserService {
     public UserDTO getById(UUID uuid) {
         putClassNameInMDC();
         log.info("Try to get User with uuid = " + uuid);
-        User user = userRepository.findById(uuid)
+        User user = userRepository
+                .findById(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         log.info("Return User with uuid = " + uuid);
         return userMapper.toUserDTO(user);
@@ -43,19 +44,19 @@ public class UserService {
     public void deleteUserById(UUID uuid) {
         putClassNameInMDC();
         log.info("Try to delete User with uuid = " + uuid);
-        try {
-            userRepository.deleteById(uuid);
-        } catch (
-                EmptyResultDataAccessException exception) {
-            throw new NotFoundException("User with uuid = " + uuid +
-                    "Not Found", "user.uuid.invalid");
-        }
+        userRepository
+                .findById(uuid)
+                .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
+        userRepository.deleteById(uuid);
         log.info("Successfully deleted User with uuid = " + uuid);
     }
 
     public void restoreUserById(UUID uuid) {
         putClassNameInMDC();
         log.info("Try to activate User with uuid = " + uuid);
+        userRepository
+                .findDeletedById(uuid)
+                .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         userRepository.updateDeletedById(uuid);
         log.info("Successfully activate User with uuid = " + uuid);
     }
