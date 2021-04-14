@@ -13,10 +13,10 @@ import java.util.UUID;
 public class InterviewDTO {
 
     private UUID id;
-    private UserDTO admin;
+    private UUID admin;
     private LocalDateTime adminInterviewDate;
     private String adminFeedback;
-    private UserDTO techSpecialist;
+    private UUID techSpecialist;
     private LocalDateTime techInterviewDate;
     private String techFeedback;
 
