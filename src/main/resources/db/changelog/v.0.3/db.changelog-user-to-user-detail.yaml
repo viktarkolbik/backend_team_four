@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id:  13042021-rename-user-to-user-detail
+      author:  maksim_maevsky
+      changes:
+        - renameTable:
+            newTableName:  user_detail
+            oldTableName:  user
+            schemaName:  public

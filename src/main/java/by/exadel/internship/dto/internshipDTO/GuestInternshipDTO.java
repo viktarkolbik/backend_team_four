@@ -3,7 +3,7 @@ package by.exadel.internship.dto.internshipDTO;
 
 import by.exadel.internship.dto.LocationDTO;
 import by.exadel.internship.dto.enums.InternshipFormat;
-import by.exadel.internship.dto.enums.Technology;
+import by.exadel.internship.dto.enums.Skill;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -42,10 +43,10 @@ public class GuestInternshipDTO {
     private List<LocationDTO> countryList;
 
     @NotNull
-    private InternshipFormat InternshipFormat;
+    private InternshipFormat internshipFormat;
 
     @NotNull
-    private List<Technology> technologyList;
+    private Set<Skill> skills;
 
     @Size(max=150)
     private String description;

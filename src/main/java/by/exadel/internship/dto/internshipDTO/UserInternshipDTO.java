@@ -1,7 +1,7 @@
 package by.exadel.internship.dto.internshipDTO;
 
 
-import by.exadel.internship.dto.user.UserDTO;
+import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

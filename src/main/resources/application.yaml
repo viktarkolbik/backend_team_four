@@ -11,8 +11,10 @@ spring:
     initialization-mode: always
     data:
       - 'classpath:db/changelog/v.0.1/sql-import/import-form.sql'
-      - 'classpath:db/changelog/v.0.1/sql-import/import-internship.sql'
-      - 'classpath:db/changelog/v.0.2/sql-import/import-user.sql'
+      - 'classpath:db/changelog/v.0.3/sql-import/import-internship.sql'
+      - 'classpath:db/changelog/v.0.3/sql-import/import-user.sql'
+      - 'classpath:db/changelog/v.0.3/sql-import/import-user-skill.sql'
+      - 'classpath:db/changelog/v.0.3/sql-import/import-internship-skill.sql'
       - 'classpath:db/changelog/v.0.2/sql-import/import-interview.sql'
       - 'classpath:db/changelog/v.0.2/sql-import/import-interview-dates.sql'
 

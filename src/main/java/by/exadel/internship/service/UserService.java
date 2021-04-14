@@ -1,6 +1,6 @@
 package by.exadel.internship.service;
-import by.exadel.internship.dto.user.UserDTO;
-import by.exadel.internship.entity.user.User;
+import by.exadel.internship.dto.UserDTO;
+import by.exadel.internship.entity.User;
 import by.exadel.internship.exception.NotFoundException;
 import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.UserRepository;
@@ -17,13 +17,18 @@ public class UserService {
     private final UserMapper userMapper;
 
     public List<UserDTO> getAll() {
+
         List<User> userList = userRepository.findAll();
+
         return userMapper.map(userList);
+
     }
 
     public UserDTO getById(UUID uuid) {
+
         User user = userRepository.findById(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found"));
+
         return userMapper.toUserDTO(user);
     }
 }
