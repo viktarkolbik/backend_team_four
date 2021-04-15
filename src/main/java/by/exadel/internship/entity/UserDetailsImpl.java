@@ -1,13 +1,9 @@
-package by.exadel.internship.entity.user;
+package by.exadel.internship.entity;
 
-import by.exadel.internship.dto.enums.UserRole;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;

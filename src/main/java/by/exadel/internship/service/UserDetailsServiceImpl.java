@@ -1,7 +1,8 @@
 package by.exadel.internship.service;
 
-import by.exadel.internship.entity.user.User;
-import by.exadel.internship.entity.user.UserDetailsImpl;
+
+import by.exadel.internship.entity.User;
+import by.exadel.internship.entity.UserDetailsImpl;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

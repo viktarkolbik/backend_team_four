@@ -11,7 +11,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class LocationDTO {
 
-    private UUID id;
     private String country;
     private String city;
 

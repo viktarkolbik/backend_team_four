@@ -1,11 +1,14 @@
 package by.exadel.internship.dto.formDTO;
 
+import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.enums.EnglishLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import javax.validation.constraints.*;
+
+import java.util.List;
 
 @Data
 @SuperBuilder
@@ -60,5 +63,7 @@ public class FormRegisterDTO {
 
     @Size(max=232)
     private String filePath;
+
+    private List<TimeForCallDTO> timeForCallList;
 
 }

@@ -1,7 +1,7 @@
 package by.exadel.internship.controller;
 
 import by.exadel.internship.config.jwt.JwtUtils;
-import by.exadel.internship.entity.user.UserDetailsImpl;
+import by.exadel.internship.entity.UserDetailsImpl;
 import by.exadel.internship.pojo.JwtResponse;
 import by.exadel.internship.pojo.LoginRequest;
 import io.swagger.annotations.Api;
