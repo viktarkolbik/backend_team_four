@@ -1,11 +1,16 @@
 package by.exadel.internship.entity;
 
+import by.exadel.internship.dto.enums.EnglishLevel;
+import by.exadel.internship.dto.enums.FormStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -61,8 +66,22 @@ public class Form {
     @Column(name = "fm_primary_skill")
     private String primarySkill;
 
-//    private InterviewDTO interview;
-//    private FormStatus formStatus;
-//    this field is questionable
-//    private TimeForCallDTO timeForCall;
+    @Column(name = "fm_english_level")
+    @Enumerated(value = EnumType.STRING)
+    @Type(type = "by.exadel.internship.mapper.EnumTypePostgreSQL")
+    private EnglishLevel englishLevel;
+
+    @Column(name = "fm_form_status")
+    @Enumerated(value = EnumType.STRING)
+    @Type(type = "by.exadel.internship.mapper.EnumTypePostgreSQL")
+    private FormStatus formStatus;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "i_id")
+    private Interview interview;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fm_id")
+    private List<TimeForCall> timeForCallList;
+
 }

@@ -1,0 +1,54 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 09042021-add-type-english-level
+      author: valentin_velichko
+      dbms: postgresql
+      sql: CREATE TYPE ENGLISH_LEVEL as ENUM ('A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2');
+
+  - changeSet:
+      id: 12042021-add-type-form-status
+      author: valentin_velichko
+      dbms: postgresql
+      sql: CREATE TYPE FORM_STATUS as ENUM ('REGISTERED', 'ADMIN_INTERVIEW_ASSIGNED', 'ADMIN_INTERVIEW_PASSED', 'TECH_INTERVIEW_ASSIGNED', 'TECH_INTERVIEW_PASSED', 'ACCEPTED', 'NOT_MATCHED', 'REJECTED', 'CANDIDATE_REFUSED');
+
+  - changeSet:
+      id: 09042021-add-column-english-level-to-form
+      author: valentin_velichko
+      changes:
+        - addColumn:
+            tableName: form
+            columns:
+              name: fm_english_level
+              type: ENGLISH_LEVEL
+
+  - changeSet:
+      id: 09042021-add-column-form-status-to-form
+      author: valentin_velichko
+      changes:
+        - addColumn:
+            tableName: form
+            columns:
+              name: fm_form_status
+              type: FORM_STATUS
+
+  - changeSet:
+      id: 10042021-add-column-interview-id-to-form
+      author: valentin_velichko
+      changes:
+        - addColumn:
+            tableName: form
+            columns:
+              name: i_id
+              type: UUID
+
+  - changeSet:
+      id: 10042021-add-foreignKeyConstraint-interview-id-to-form
+      author:  valentin_velichko
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: i_id
+            baseTableName: form
+            constraintName: fk_interview_id_form
+            referencedColumnNames: i_id
+            referencedTableName: interview
