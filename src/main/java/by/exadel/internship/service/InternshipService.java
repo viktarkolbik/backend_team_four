@@ -34,17 +34,31 @@ public class InternshipService {
         log.info("Successfully got Internships with uuid=" + uuid);
 
         return internShipMapper.toGuestInternshipDTO(internship);
+
     }
 
     public List<GuestInternshipDTO> getAll() {
 
         MDC.put("className", InternshipService.class.getSimpleName());
-        log.info("Try to get all Internships");
+        log.info("Try to get all Internships with skills");
 
         List<Internship> internships = internshipRepository.findAllWithSkill();
+
+        System.out.println();
+        for (Internship i:internships) {
+            System.out.println(i.getId());
+            System.out.println();
+        }
+        System.out.println();
+
+
+        log.info("Successfully list of internships with skills");
+
+        log.info("Try to get all Internships like guestInternshipDTOs  with skills");
+
         List<GuestInternshipDTO> guestInternshipDTOList = internShipMapper.map(internships);
 
-        log.info("Successfully list of Internships");
+        log.info("Successfully list of guestInternshipDTOs with skills");
 
         return guestInternshipDTOList;
 

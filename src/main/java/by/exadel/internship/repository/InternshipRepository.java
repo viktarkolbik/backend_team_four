@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface InternshipRepository extends JpaRepository<Internship, UUID> {
 
-    @Query("SELECT i FROM Internship i JOIN FETCH i.skills")
+    @Query("SELECT distinct i FROM Internship i LEFT JOIN FETCH i.skills")
     List<Internship> findAllWithSkill();
 
 }

@@ -36,28 +36,42 @@ public class FormService {
     private String filePath;
 
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
+
         MDC.put("className", FormService.class.getSimpleName());
+
         if (file != null) {
+
             form.setFilePath(file.getOriginalFilename());
             FormFullDTO createdForm = saveForm(form);
-            log.info("Success to save form, id: "+ createdForm.getId());
+
+            log.info("Success to save form, id: " + createdForm.getId());
+
             uploadFile(file, createdForm.getId());
+
             return createdForm;
         }
         FormFullDTO createdForm = saveForm(form);
-        log.info("Success to save form, id: "+ createdForm.getId());
+
+        log.info("Success to save form, id: " + createdForm.getId());
+
         return createdForm;
     }
 
     private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
+
         Form form = mapper.toFormEntity(formRegisterDTO);
         form.setFormStatus(FormStatus.REGISTERED);
+
         log.info("The form status is " + FormStatus.REGISTERED);
+
         formRepository.save(form);
+
         return mapper.toFormDto(form);
+
     }
 
     private void uploadFile(MultipartFile file, UUID uuid) {
+
         try {
             Path path = Paths.get(filePath + File.separator + uuid);
             Files.createDirectories(path);
@@ -67,14 +81,38 @@ public class FormService {
                             (new File(filePath + File.separator + uuid +
                                     File.separator + file.getOriginalFilename())));
             stream.write(bytes);
-            log.info("Success to upload file, form id: "+ uuid);
+
+            log.info("Success to upload file, form id: " + uuid);
+
             stream.close();
         } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
 
-    public List<Form> getAll() {
-        return formRepository.findAll();
+    public List<FormFullDTO> getAll() {
+
+        MDC.put("className", FormService.class.getSimpleName());
+        log.info("Try to get all forms");
+
+        List<Form> formList = formRepository.findAllWithTimeForCallList();
+
+        System.out.println();
+        for (Form f:formList) {
+            System.out.println();
+            System.out.println(f.getFirstName() + " " + f.getLastName());
+
+        }
+        System.out.println();
+
+        log.info("Successfully list of forms");
+        log.info("Try get list of formFullDTO");
+
+        List<FormFullDTO> formFullDTOList = mapper.map(formList);
+
+        log.info("Successfully list of formFullDTO");
+
+        return formFullDTOList;
+
     }
 }
