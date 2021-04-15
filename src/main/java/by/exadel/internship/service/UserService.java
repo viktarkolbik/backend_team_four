@@ -8,7 +8,6 @@ import by.exadel.internship.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class UserService {
     public List<UserDTO> getAll() {
         putClassNameInMDC();
         log.info("Try to get List of Users");
-        List<User> userList = userRepository.findAll();
+        List<User> userList = userRepository.findAllByDeletedFalse();
         log.info("Return List of User");
         return userMapper.map(userList);
 
@@ -35,7 +34,7 @@ public class UserService {
         putClassNameInMDC();
         log.info("Try to get User with uuid = " + uuid);
         User user = userRepository
-                .findById(uuid)
+                .findByIdAndDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         log.info("Return User with uuid = " + uuid);
         return userMapper.toUserDTO(user);
@@ -45,7 +44,7 @@ public class UserService {
         putClassNameInMDC();
         log.info("Try to delete User with uuid = " + uuid);
         userRepository
-                .findById(uuid)
+                .findByIdAndDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         userRepository.deleteById(uuid);
         log.info("Successfully deleted User with uuid = " + uuid);
@@ -55,16 +54,16 @@ public class UserService {
         putClassNameInMDC();
         log.info("Try to activate User with uuid = " + uuid);
         userRepository
-                .findDeletedById(uuid)
+                .findByIdAndDeletedTrue(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
-        userRepository.updateDeletedById(uuid);
+        userRepository.activateUserById(uuid);
         log.info("Successfully activate User with uuid = " + uuid);
     }
 
     public List<UserDTO> getAllDeleted() {
         putClassNameInMDC();
         log.info("Try to get List of deleted user");
-        List<User> userList = userRepository.findAllDeleted();
+        List<User> userList = userRepository.findAllByDeletedTrue();
         log.info("Return List of deletes user");
         return userMapper.map(userList);
     }

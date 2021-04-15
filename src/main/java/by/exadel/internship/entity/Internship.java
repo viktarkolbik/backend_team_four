@@ -28,7 +28,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @SQLDelete(sql = "UPDATE internship SET inship_deleted=true WHERE inship_id=?")
-@Where(clause = "inship_deleted = false")
 @EqualsAndHashCode(exclude = "internshipFormat")
 public class Internship extends Auditable<String> {
     @Id

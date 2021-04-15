@@ -13,17 +13,12 @@ import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
-    @Transactional
-    @Modifying
-    @Query(value = "UPDATE user_detail SET u_deleted = false WHERE u_id = :userId",
-            nativeQuery = true)
-    void updateDeletedById(UUID userId);
+        @Modifying
+        @Query("UPDATE User u SET u.deleted = false WHERE u.id = :userId")
+        void activateUserById(UUID userId);
 
-    @Query(value = "SELECT * FROM user_detail WHERE u_deleted = true",
-            nativeQuery = true)
-    List<User> findAllDeleted();
-
-    @Query(value = "SELECT * FROM user_detail WHERE u_deleted = true AND u_id = :userId",
-            nativeQuery = true)
-    Optional<User> findDeletedById(@Param("userId") UUID userId);
-}
+        List<User> findAllByDeletedTrue();
+        List<User> findAllByDeletedFalse();
+        Optional<User> findByIdAndDeletedTrue(UUID userId);
+        Optional<User> findByIdAndDeletedFalse(UUID userId);
+    }

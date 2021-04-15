@@ -88,10 +88,10 @@ public class FormService {
         putClassNameInMDC();
         log.info("Try to activate form with uuid= " + formId);
         formRepository
-                .findDeletedById(formId)
+                .findByIdAndDeletedTrue(formId)
                 .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
                         "Not Found in DB", "form.uuid.invalid"));
-        formRepository.updateDeletedById(formId);
+        formRepository.activateFormById(formId);
         log.info("Successfully returned deleted Form with uuid= " + formId);
     }
 
@@ -99,7 +99,7 @@ public class FormService {
         putClassNameInMDC();
         log.info("Try to delete form with uuid= " + formId);
         formRepository
-                .findById(formId)
+                .findByIdAndDeletedFalse(formId)
                 .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
                         "Not Found in DB", "form.uuid.invalid"));
         formRepository.deleteById(formId);
