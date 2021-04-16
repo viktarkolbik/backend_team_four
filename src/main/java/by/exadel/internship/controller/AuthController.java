@@ -30,6 +30,7 @@ public class AuthController {
     @PostMapping("/signIn")
     @ApiOperation("Authorize method")
     public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest){
+        splitEmail(loginRequest);
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
                         loginRequest.getLogin(),
@@ -44,5 +45,13 @@ public class AuthController {
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 role));
+    }
+
+    private void splitEmail(LoginRequest loginRequest){
+        String[] emailLikeArray;
+        if(loginRequest.getLogin().contains("@")){
+            emailLikeArray = loginRequest.getLogin().split("@");
+            loginRequest.setLogin(emailLikeArray[0]);
+        }
     }
 }
