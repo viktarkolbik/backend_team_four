@@ -18,7 +18,7 @@ public class EnumTypePostgreSQL extends EnumType {
         if (value == null) {
             st.setNull(index, Types.OTHER);
         } else {
-            st.setObject(index,value.toString(), Types.OTHER);
+            st.setObject(index, value.toString(), Types.OTHER);
         }
     }
 }

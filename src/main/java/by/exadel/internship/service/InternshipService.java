@@ -8,6 +8,7 @@ import java.util.UUID;
 public interface InternshipService {
 
     GuestInternshipDTO getById(UUID id);
+
     List<GuestInternshipDTO> getAll();
 
 }

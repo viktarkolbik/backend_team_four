@@ -30,8 +30,8 @@ import java.util.List;
 @Slf4j
 public class FormServiceImpl implements FormService {
 
-    private final FormMapper mapper;
-    private final FormRepository formRepository;
+    private final FormMapper MAPPER;
+    private final FormRepository FORM_REPOSITORY;
 
     @Value("${file.path}")
     private String filePath;
@@ -52,11 +52,11 @@ public class FormServiceImpl implements FormService {
     }
 
     private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
-        Form form = mapper.toFormEntity(formRegisterDTO);
+        Form form = MAPPER.toFormEntity(formRegisterDTO);
         form.setFormStatus(FormStatus.REGISTERED);
         log.info("The form status is " + FormStatus.REGISTERED);
-        formRepository.save(form);
-        return mapper.toFormDto(form);
+        FORM_REPOSITORY.save(form);
+        return MAPPER.toFormDto(form);
     }
 
     private void uploadFile(MultipartFile file, UUID uuid) {
@@ -78,6 +78,6 @@ public class FormServiceImpl implements FormService {
 
     @Override
     public List<Form> getAll() {
-        return formRepository.findAll();
+        return FORM_REPOSITORY.findAll();
     }
 }

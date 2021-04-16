@@ -20,8 +20,8 @@ import java.util.UUID;
 @Slf4j
 public class InternshipServiceImpl implements InternshipService {
 
-    private final InternshipRepository internshipRepository;
-    private final InternshipMapper internShipMapper;
+    private final InternshipRepository INTERNSHIP_REPOSITORY;
+    private final InternshipMapper INTERNSHIP_MAPPER;
 
     @Override
     public GuestInternshipDTO getById(UUID id) {
@@ -29,13 +29,13 @@ public class InternshipServiceImpl implements InternshipService {
         MDC.put("className", InternshipServiceImpl.class.getSimpleName());
         log.info("Try to get Internships with id=" + id);
 
-        Internship internship = internshipRepository
+        Internship internship = INTERNSHIP_REPOSITORY
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("No such Internship with id = " + id + " in DB", "id.invalid"));
 
         log.info("Successfully got Internships with id=" + id);
 
-        return internShipMapper.toGuestInternshipDTO(internship);
+        return INTERNSHIP_MAPPER.toGuestInternshipDTO(internship);
     }
 
     @Override
@@ -44,8 +44,8 @@ public class InternshipServiceImpl implements InternshipService {
         MDC.put("className", InternshipServiceImpl.class.getSimpleName());
         log.info("Try to get all Internships");
 
-        List<Internship> internships = internshipRepository.findAll();
-        List<GuestInternshipDTO> guestInternshipDTOList = internShipMapper.map(internships);
+        List<Internship> internships = INTERNSHIP_REPOSITORY.findAll();
+        List<GuestInternshipDTO> guestInternshipDTOList = INTERNSHIP_MAPPER.map(internships);
 
         log.info("Successfully list of Internships");
 

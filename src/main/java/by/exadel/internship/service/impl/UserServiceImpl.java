@@ -14,24 +14,24 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final UserRepository USER_REPOSITORY;
+    private final UserMapper USER_MAPPER;
 
     @Override
     public List<UserDTO> getAll() {
 
-        List<User> userList = userRepository.findAll();
+        List<User> userList = USER_REPOSITORY.findAll();
 
-        return userMapper.map(userList);
+        return USER_MAPPER.map(userList);
 
     }
 
     @Override
     public UserDTO getById(UUID id) {
 
-        User user = userRepository.findById(id)
+        User user = USER_REPOSITORY.findById(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
 
-        return userMapper.toUserDTO(user);
+        return USER_MAPPER.toUserDTO(user);
     }
 }

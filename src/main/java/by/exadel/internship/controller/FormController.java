@@ -22,20 +22,20 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @Api(tags = "Endpoints for Form")
 public class FormController {
 
-    private final FormService formService;
+    private final FormService FORM_SERVICE;
 
     @PostMapping(consumes = {MULTIPART_FORM_DATA_VALUE, APPLICATION_JSON_VALUE})
     @ApiOperation("Add new form")
     @ResponseStatus(HttpStatus.CREATED)
     public FormFullDTO addNewForm(@RequestPart(name = "form") FormRegisterDTO form,
                                   @RequestPart(name = "file", required = false) MultipartFile file) {
-        return formService.process(form, file);
+        return FORM_SERVICE.process(form, file);
     }
 
     @GetMapping
     @ApiOperation("Get all forms")
     @ResponseStatus(HttpStatus.OK)
     public List<Form> getAllForms() {
-        return formService.getAll();
+        return FORM_SERVICE.getAll();
     }
 }

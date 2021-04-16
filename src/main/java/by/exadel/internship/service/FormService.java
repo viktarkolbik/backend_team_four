@@ -10,5 +10,7 @@ import java.util.List;
 public interface FormService {
 
     FormFullDTO process(FormRegisterDTO form, MultipartFile file);
+
     List<Form> getAll();
+
 }

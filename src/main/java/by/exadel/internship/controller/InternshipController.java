@@ -20,12 +20,12 @@ import java.util.UUID;
 @Api(tags = "Endpoints for Internship")
 public class InternshipController {
 
-    private final InternshipService internshipService;
+    private final InternshipService INTERNSHIP_SERVICE;
 
     @GetMapping
     @ApiOperation("return list of internships")
     public List<GuestInternshipDTO> getInternshipList() {
-        return internshipService.getAll();
+        return INTERNSHIP_SERVICE.getAll();
 
     }
 
@@ -33,7 +33,7 @@ public class InternshipController {
     @ApiOperation("return internship by id")
     public GuestInternshipDTO getInternshipById(@PathVariable UUID internshipId) {
 
-        return internshipService.getById(internshipId);
+        return INTERNSHIP_SERVICE.getById(internshipId);
 
     }
 }

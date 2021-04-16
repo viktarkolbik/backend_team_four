@@ -19,17 +19,17 @@ import java.util.UUID;
 @Api(tags = "Endpoints for Users")
 public class UserController {
 
-    private final UserService userService;
+    private final UserService USER_SERVICE;
 
     @GetMapping
     @ApiOperation("Return list of users")
     public List<UserDTO> getUserList() {
-        return userService.getAll();
+        return USER_SERVICE.getAll();
     }
 
     @GetMapping("/{userId}")
     @ApiOperation("Return user by id")
     public UserDTO getUserById(@PathVariable UUID userId) {
-        return userService.getById(userId);
+        return USER_SERVICE.getById(userId);
     }
 }
