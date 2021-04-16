@@ -44,14 +44,6 @@ public class InternshipService {
 
         List<Internship> internships = internshipRepository.findAllWithSkill();
 
-        System.out.println();
-        for (Internship i:internships) {
-            System.out.println(i.getId());
-            System.out.println();
-        }
-        System.out.println();
-
-
         log.info("Successfully list of internships with skills");
 
         log.info("Try to get all Internships like guestInternshipDTOs  with skills");

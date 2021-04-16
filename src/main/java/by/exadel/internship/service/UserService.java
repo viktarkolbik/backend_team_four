@@ -28,12 +28,6 @@ public class UserService {
 
         List<User> userList = userRepository.findAllWithSkill();
 
-        System.out.println();
-        for (User u:userList) {
-            System.out.println();
-            System.out.println(u.getFirstName()+ " " + u.getLastName());
-        }
-
         log.info("Successfully list of users");
         log.info("Try get list of UserDTO");
 
