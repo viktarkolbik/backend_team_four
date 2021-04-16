@@ -97,14 +97,6 @@ public class FormService {
 
         List<Form> formList = formRepository.findAllWithTimeForCallList();
 
-        System.out.println();
-        for (Form f:formList) {
-            System.out.println();
-            System.out.println(f.getFirstName() + " " + f.getLastName());
-
-        }
-        System.out.println();
-
         log.info("Successfully list of forms");
         log.info("Try get list of formFullDTO");
 
