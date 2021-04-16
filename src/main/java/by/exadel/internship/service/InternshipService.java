@@ -22,29 +22,33 @@ public class InternshipService {
     private final InternshipRepository internshipRepository;
     private final InternshipMapper internShipMapper;
 
-    public GuestInternshipDTO getById(UUID uuid) {
+    public GuestInternshipDTO getById(UUID id) {
 
         MDC.put("className", InternshipService.class.getSimpleName());
-        log.info("Try to get Internships with uuid=" + uuid);
+        log.info("Try to get Internship with id= {}", id);
 
         Internship internship = internshipRepository
-                .findById(uuid)
-                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + uuid + " in DB", "uuid.invalid"));
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("No such Internship with id = " + id + " in DB", "id.invalid"));
 
-        log.info("Successfully got Internships with uuid=" + uuid);
+        log.info("Successfully got Internship with id= {}", id);
 
         return internShipMapper.toGuestInternshipDTO(internship);
+
     }
 
     public List<GuestInternshipDTO> getAll() {
 
         MDC.put("className", InternshipService.class.getSimpleName());
-        log.info("Try to get all Internships");
+        log.info("Try to get all Internships with skills");
 
-        List<Internship> internships = internshipRepository.findAll();
+        List<Internship> internships = internshipRepository.findAllWithSkill();
+
+        log.info("Try to get all Internships like guestInternshipDTOs  with skills");
+
         List<GuestInternshipDTO> guestInternshipDTOList = internShipMapper.map(internships);
 
-        log.info("Successfully list of Internships");
+        log.info("Successfully list of guestInternshipDTOs with skills");
 
         return guestInternshipDTOList;
 

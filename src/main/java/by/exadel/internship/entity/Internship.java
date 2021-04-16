@@ -8,7 +8,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -63,7 +63,7 @@ public class Internship extends Auditable<String> {
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "internship_skill", joinColumns = @JoinColumn(name = "is_inship_id"))
-    private Set<Skill> skills;
+    private List<Skill> skills;
 
 //    private List<Form> formList;
 //    private List<User> techList;
