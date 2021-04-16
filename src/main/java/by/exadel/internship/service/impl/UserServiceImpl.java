@@ -27,10 +27,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getById(UUID uuid) {
+    public UserDTO getById(UUID id) {
 
-        User user = userRepository.findById(uuid)
-                .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found"));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
 
         return userMapper.toUserDTO(user);
     }
