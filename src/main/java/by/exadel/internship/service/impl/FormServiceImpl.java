@@ -38,28 +38,42 @@ public class FormServiceImpl implements FormService {
 
     @Override
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
+
         MDC.put("className", FormServiceImpl.class.getSimpleName());
+
         if (file != null) {
+
             form.setFilePath(file.getOriginalFilename());
             FormFullDTO createdForm = saveForm(form);
-            log.info("Success to save form, id: "+ createdForm.getId());
+
+            log.info("Success to save form, id: " + createdForm.getId());
+
             uploadFile(file, createdForm.getId());
+
             return createdForm;
         }
+
         FormFullDTO createdForm = saveForm(form);
-        log.info("Success to save form, id: "+ createdForm.getId());
+
+        log.info("Success to save form, id: " + createdForm.getId());
+
         return createdForm;
     }
 
     private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
+
         Form form = MAPPER.toFormEntity(formRegisterDTO);
         form.setFormStatus(FormStatus.REGISTERED);
+
         log.info("The form status is " + FormStatus.REGISTERED);
+
         FORM_REPOSITORY.save(form);
+
         return MAPPER.toFormDto(form);
     }
 
     private void uploadFile(MultipartFile file, UUID uuid) {
+
         try {
             Path path = Paths.get(filePath + File.separator + uuid);
             Files.createDirectories(path);
@@ -69,10 +83,15 @@ public class FormServiceImpl implements FormService {
                             (new File(filePath + File.separator + uuid +
                                     File.separator + file.getOriginalFilename())));
             stream.write(bytes);
-            log.info("Success to upload file, form id: "+ uuid);
+
+            log.info("Success to upload file, form id: " + uuid);
+
             stream.close();
+
         } catch (IOException e) {
+
             log.error(e.getMessage());
+
         }
     }
 
