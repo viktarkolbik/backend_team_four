@@ -28,7 +28,6 @@ public class UserService {
 
         List<User> userList = userRepository.findAllWithSkill();
 
-        log.info("Successfully list of users");
         log.info("Try get list of UserDTO");
 
         List<UserDTO> userDTOList = userMapper.map(userList);
@@ -40,12 +39,11 @@ public class UserService {
 
     public UserDTO getById(UUID id) {
 
-        log.info("Try to get  user by id:" + id + " with skills");
+        log.info("Try to get  user by id: {} with skills", id);
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
 
-        log.info("User got successfully");
         log.info("Try get UserDTO from User");
 
         UserDTO  userDTO = userMapper.toUserDTO(user);

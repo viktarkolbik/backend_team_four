@@ -25,13 +25,13 @@ public class InternshipService {
     public GuestInternshipDTO getById(UUID id) {
 
         MDC.put("className", InternshipService.class.getSimpleName());
-        log.info("Try to get Internships with id=" + id);
+        log.info("Try to get Internship with id= {}", id);
 
         Internship internship = internshipRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("No such Internship with id = " + id + " in DB", "id.invalid"));
 
-        log.info("Successfully got Internships with id=" + id);
+        log.info("Successfully got Internship with id= {}", id);
 
         return internShipMapper.toGuestInternshipDTO(internship);
 
@@ -43,8 +43,6 @@ public class InternshipService {
         log.info("Try to get all Internships with skills");
 
         List<Internship> internships = internshipRepository.findAllWithSkill();
-
-        log.info("Successfully list of internships with skills");
 
         log.info("Try to get all Internships like guestInternshipDTOs  with skills");
 

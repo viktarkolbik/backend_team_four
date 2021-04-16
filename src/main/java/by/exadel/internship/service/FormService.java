@@ -44,7 +44,7 @@ public class FormService {
             form.setFilePath(file.getOriginalFilename());
             FormFullDTO createdForm = saveForm(form);
 
-            log.info("Success to save form, id: " + createdForm.getId());
+            log.info("Success to save form, id: {}",createdForm.getId());
 
             uploadFile(file, createdForm.getId());
 
@@ -52,7 +52,7 @@ public class FormService {
         }
         FormFullDTO createdForm = saveForm(form);
 
-        log.info("Success to save form, id: " + createdForm.getId());
+        log.info("Success to save form, id: {}", createdForm.getId());
 
         return createdForm;
     }
@@ -62,7 +62,7 @@ public class FormService {
         Form form = mapper.toFormEntity(formRegisterDTO);
         form.setFormStatus(FormStatus.REGISTERED);
 
-        log.info("The form status is " + FormStatus.REGISTERED);
+        log.info("The form status is {}", FormStatus.REGISTERED);
 
         formRepository.save(form);
 
@@ -73,7 +73,7 @@ public class FormService {
     private void uploadFile(MultipartFile file, UUID id) {
 
         try {
-            Path path = Paths.get(filePath + File.separator + id);
+            Path path = Paths.get(filePath, id.toString());
             Files.createDirectories(path);
             byte[] bytes = file.getBytes();
             BufferedOutputStream stream =
@@ -82,7 +82,7 @@ public class FormService {
                                     File.separator + file.getOriginalFilename())));
             stream.write(bytes);
 
-            log.info("Success to upload file, form id: " + id);
+            log.info("Success to upload file, form id: {}", id);
 
             stream.close();
         } catch (IOException e) {
@@ -97,7 +97,6 @@ public class FormService {
 
         List<Form> formList = formRepository.findAllWithTimeForCallList();
 
-        log.info("Successfully list of forms");
         log.info("Try get list of formFullDTO");
 
         List<FormFullDTO> formFullDTOList = mapper.map(formList);
