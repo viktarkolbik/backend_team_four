@@ -44,12 +44,12 @@ public class UserService {
         return userDTOList;
     }
 
-    public UserDTO getById(UUID uuid) {
+    public UserDTO getById(UUID id) {
 
-        log.info("Try to get  user by id:" + uuid + " with skills");
+        log.info("Try to get  user by id:" + id + " with skills");
 
-        User user = userRepository.findById(uuid)
-                .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found"));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
 
         log.info("User got successfully");
         log.info("Try get UserDTO from User");

@@ -70,19 +70,19 @@ public class FormService {
 
     }
 
-    private void uploadFile(MultipartFile file, UUID uuid) {
+    private void uploadFile(MultipartFile file, UUID id) {
 
         try {
-            Path path = Paths.get(filePath + File.separator + uuid);
+            Path path = Paths.get(filePath + File.separator + id);
             Files.createDirectories(path);
             byte[] bytes = file.getBytes();
             BufferedOutputStream stream =
                     new BufferedOutputStream(new FileOutputStream
-                            (new File(filePath + File.separator + uuid +
+                            (new File(filePath + File.separator + id +
                                     File.separator + file.getOriginalFilename())));
             stream.write(bytes);
 
-            log.info("Success to upload file, form id: " + uuid);
+            log.info("Success to upload file, form id: " + id);
 
             stream.close();
         } catch (IOException e) {

@@ -22,16 +22,16 @@ public class InternshipService {
     private final InternshipRepository internshipRepository;
     private final InternshipMapper internShipMapper;
 
-    public GuestInternshipDTO getById(UUID uuid) {
+    public GuestInternshipDTO getById(UUID id) {
 
         MDC.put("className", InternshipService.class.getSimpleName());
-        log.info("Try to get Internships with uuid=" + uuid);
+        log.info("Try to get Internships with id=" + id);
 
         Internship internship = internshipRepository
-                .findById(uuid)
-                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + uuid + " in DB", "uuid.invalid"));
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("No such Internship with id = " + id + " in DB", "id.invalid"));
 
-        log.info("Successfully got Internships with uuid=" + uuid);
+        log.info("Successfully got Internships with id=" + id);
 
         return internShipMapper.toGuestInternshipDTO(internship);
 
