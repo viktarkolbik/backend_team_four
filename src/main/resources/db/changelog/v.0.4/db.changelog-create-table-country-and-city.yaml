@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 19042021-create-table-country
+      author: olga_evdokimova
+      changes:
+        - createTable:
+            tableName: country
+            columns:
+              - column:
+                  name: cntr_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 19042021-create-table-city
+      author: olga_evdokimova
+      changes:
+        - createTable:
+            tableName: city
+            columns:
+              - column:
+                  name: city_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: city_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
