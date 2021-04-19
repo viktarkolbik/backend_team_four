@@ -2,10 +2,8 @@ package by.exadel.internship.config;
 
 import by.exadel.internship.config.jwt.AuthEntryPointJwt;
 import by.exadel.internship.config.jwt.AuthTokenFilter;
-import by.exadel.internship.config.passwordEncoder.PasswordEnconderTest;
 import by.exadel.internship.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -53,9 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        //Set simple passwordEncoder, because user password is not encrypted
-        return new PasswordEnconderTest();
-        //return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 
     @Override
