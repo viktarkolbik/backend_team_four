@@ -68,5 +68,4 @@ public class InternshipApplicationTests {
             ).applyTo(configurableApplicationContext.getEnvironment());
         }
     }
-
 }
