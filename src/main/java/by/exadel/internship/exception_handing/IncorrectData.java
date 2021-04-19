@@ -10,6 +10,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IncorrectData {
+
     private String message;
     private String codeException;
     //To match the log

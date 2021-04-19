@@ -1,10 +1,12 @@
 package by.exadel.internship.controller;
+
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.UUID;
 
