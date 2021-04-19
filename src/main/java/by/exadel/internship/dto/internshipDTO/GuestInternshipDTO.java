@@ -62,7 +62,4 @@ public class GuestInternshipDTO {
 
     @NotNull
     private LocalDate registrationEndDate;
-
-    @NotNull
-    private Boolean deleted;
 }

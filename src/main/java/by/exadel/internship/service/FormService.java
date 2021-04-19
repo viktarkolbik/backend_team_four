@@ -77,13 +77,6 @@ public class FormService {
         }
     }
 
-    private void updateFilePath(Form createdForm, MultipartFile file) {
-        createdForm.setFilePath(filePath +
-                createdForm.getId() + File.separator + file.getOriginalFilename());
-        log.info("Success to update filePath");
-        formRepository.save(createdForm);
-    }
-
     public void restoreFormById(UUID formId) {
         putClassNameInMDC();
         log.info("Try to activate form with uuid= " + formId);

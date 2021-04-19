@@ -4,6 +4,7 @@ import by.exadel.internship.entity.Internship;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public interface InternshipRepository extends JpaRepository<Internship, UUID> {
 
     @Modifying
     @Query("update Internship i set i.deleted = false WHERE i.id = :internshipId")
-    void activateInternshipById(UUID internshipId);
+    void activateInternshipById(@Param("internshipId") UUID internshipId);
 }

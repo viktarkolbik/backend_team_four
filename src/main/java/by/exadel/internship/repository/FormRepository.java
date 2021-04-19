@@ -4,6 +4,7 @@ import by.exadel.internship.entity.Form;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.UUID;
 public interface FormRepository extends JpaRepository<Form, UUID> {
     @Modifying
     @Query("UPDATE Form f SET f.deleted = false WHERE f.id = :formId")
-    void activateFormById(UUID formId);
+    void activateFormById(@Param("formId") UUID formId);
 
     Optional<Form> findByIdAndDeletedTrue(UUID formId);
     Optional<Form> findByIdAndDeletedFalse(UUID formId);

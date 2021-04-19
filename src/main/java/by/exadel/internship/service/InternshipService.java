@@ -62,7 +62,7 @@ public class InternshipService {
         log.info("Try to get deleted Internships with uuid= " + uuid);
         Internship deletedInternship = internshipRepository
                 .findByIdAndDeletedTrue(uuid)
-                .orElseThrow(() -> new NotFoundException("No such deleted Internship with uuid = " + uuid +
+                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + uuid +
                         " in DB", "uuid.invalid"));
         log.info("Successfully got deleted Internships with uuid= " + uuid);
         GuestInternshipDTO guestDeletedInternshipDTO = internShipMapper.toGuestInternshipDTO(deletedInternship);
