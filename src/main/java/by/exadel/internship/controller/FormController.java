@@ -2,7 +2,6 @@ package by.exadel.internship.controller;
 
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
-import by.exadel.internship.entity.Form;
 import by.exadel.internship.service.FormService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +34,7 @@ public class FormController {
     @GetMapping
     @ApiOperation("Get all forms")
     @ResponseStatus(HttpStatus.OK)
-    public List<Form> getAllForms() {
+    public List<FormFullDTO> getAllForms() {
         return FORM_SERVICE.getAll();
     }
 }

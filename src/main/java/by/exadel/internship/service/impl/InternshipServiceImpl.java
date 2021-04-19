@@ -23,31 +23,33 @@ public class InternshipServiceImpl implements InternshipService {
     private final InternshipRepository INTERNSHIP_REPOSITORY;
     private final InternshipMapper INTERNSHIP_MAPPER;
 
-    @Override
     public GuestInternshipDTO getById(UUID id) {
 
-        MDC.put("className", InternshipServiceImpl.class.getSimpleName());
-        log.info("Try to get Internships with id=" + id);
+        MDC.put("className", InternshipService.class.getSimpleName());
+        log.info("Try to get Internship with id= {}", id);
 
         Internship internship = INTERNSHIP_REPOSITORY
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("No such Internship with id = " + id + " in DB", "id.invalid"));
 
-        log.info("Successfully got Internships with id=" + id);
+        log.info("Successfully got Internship with id= {}", id);
 
         return INTERNSHIP_MAPPER.toGuestInternshipDTO(internship);
+
     }
 
-    @Override
     public List<GuestInternshipDTO> getAll() {
 
-        MDC.put("className", InternshipServiceImpl.class.getSimpleName());
-        log.info("Try to get all Internships");
+        MDC.put("className", InternshipService.class.getSimpleName());
+        log.info("Try to get all Internships with skills");
 
-        List<Internship> internships = INTERNSHIP_REPOSITORY.findAll();
+        List<Internship> internships = INTERNSHIP_REPOSITORY.findAllWithSkill();
+
+        log.info("Try to get all Internships like guestInternshipDTOs  with skills");
+
         List<GuestInternshipDTO> guestInternshipDTOList = INTERNSHIP_MAPPER.map(internships);
 
-        log.info("Successfully list of Internships");
+        log.info("Successfully list of guestInternshipDTOs with skills");
 
         return guestInternshipDTOList;
 

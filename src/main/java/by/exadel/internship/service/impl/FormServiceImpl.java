@@ -36,26 +36,24 @@ public class FormServiceImpl implements FormService {
     @Value("${file.path}")
     private String filePath;
 
-    @Override
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
-        MDC.put("className", FormServiceImpl.class.getSimpleName());
+        MDC.put("className", FormService.class.getSimpleName());
 
         if (file != null) {
 
             form.setFilePath(file.getOriginalFilename());
             FormFullDTO createdForm = saveForm(form);
 
-            log.info("Success to save form, id: " + createdForm.getId());
+            log.info("Success to save form, id: {}",createdForm.getId());
 
             uploadFile(file, createdForm.getId());
 
             return createdForm;
         }
-
         FormFullDTO createdForm = saveForm(form);
 
-        log.info("Success to save form, id: " + createdForm.getId());
+        log.info("Success to save form, id: {}", createdForm.getId());
 
         return createdForm;
     }
@@ -65,38 +63,48 @@ public class FormServiceImpl implements FormService {
         Form form = MAPPER.toFormEntity(formRegisterDTO);
         form.setFormStatus(FormStatus.REGISTERED);
 
-        log.info("The form status is " + FormStatus.REGISTERED);
+        log.info("The form status is {}", FormStatus.REGISTERED);
 
         FORM_REPOSITORY.save(form);
 
         return MAPPER.toFormDto(form);
+
     }
 
-    private void uploadFile(MultipartFile file, UUID uuid) {
+    private void uploadFile(MultipartFile file, UUID id) {
 
         try {
-            Path path = Paths.get(filePath + File.separator + uuid);
+            Path path = Paths.get(filePath, id.toString());
             Files.createDirectories(path);
             byte[] bytes = file.getBytes();
             BufferedOutputStream stream =
                     new BufferedOutputStream(new FileOutputStream
-                            (new File(filePath + File.separator + uuid +
+                            (new File(filePath + File.separator + id +
                                     File.separator + file.getOriginalFilename())));
             stream.write(bytes);
 
-            log.info("Success to upload file, form id: " + uuid);
+            log.info("Success to upload file, form id: {}", id);
 
             stream.close();
-
         } catch (IOException e) {
-
             log.error(e.getMessage());
-
         }
     }
 
-    @Override
-    public List<Form> getAll() {
-        return FORM_REPOSITORY.findAll();
+    public List<FormFullDTO> getAll() {
+
+        MDC.put("className", FormService.class.getSimpleName());
+        log.info("Try to get all forms");
+
+        List<Form> formList = FORM_REPOSITORY.findAllWithTimeForCallList();
+
+        log.info("Try get list of formFullDTO");
+
+        List<FormFullDTO> formFullDTOList = MAPPER.map(formList);
+
+        log.info("Successfully list of formFullDTO");
+
+        return formFullDTOList;
+
     }
 }
