@@ -29,12 +29,17 @@ public class Parser {
                 JSONObject jsonObject = (JSONObject) o;
                 Object country = jsonObject.get("country");
                 Object city = jsonObject.get("name");
+
+                executeUpdate(" DO $$ DECLARE uuid :=uuid_generate_v4(); BEGIN" +
+                        " INSERT INTO country (cntr_id, cntr_name) VALUES(uuid_generate_v4(),'" + country + "');" +
+                        "");
+
                 if (!locationMap.containsKey(country)) {
                     locationMap.put(country, new TreeSet<>());
                 }
                 locationMap.get(country).add(city);
             }
-        } catch (ParseException | IOException e) {
+        } catch (ParseException | IOException | SQLException e) {
             log.error(e.getMessage());
         }
         return locationMap;
@@ -55,13 +60,13 @@ public class Parser {
         conn.close();
     }
 
-    public static void putDataToDatabase()  {
-        for (Map.Entry<Object, Set<Object>> entry : getCountriesAndCitiesFromJSON().entrySet()) {
-            try {
-                executeUpdate("INSERT INTO country (cntr_name) VALUES(" + "'" +entry.getKey()+ "'" + ");");
-            } catch (SQLException e) {
-                log.error(e.getMessage());
-            }
-        }
-    }
+//    public static void putDataToDatabase()  {
+//        for (Map.Entry<Object, Set<Object>> entry : getCountriesAndCitiesFromJSON().entrySet()) {
+//            try {
+//                executeUpdate("INSERT INTO country (cntr_id, cntr_name) VALUES(uuid_generate_v4(),'"+entry.getKey()+"');");
+//            } catch (SQLException e) {
+//                log.error(e.getMessage());
+//            }
+//        }
+//    }
 }

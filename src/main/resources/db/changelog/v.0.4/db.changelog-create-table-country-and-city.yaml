@@ -7,6 +7,12 @@ databaseChangeLog:
             tableName: country
             columns:
               - column:
+                  name: cntr_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
                   name: cntr_name
                   type: varchar(50)
                   constraints:
@@ -23,10 +29,19 @@ databaseChangeLog:
                   name: city_id
                   type: UUID
                   constraints:
-                    primaryKey: true
                     nullable: false
               - column:
                   name: city_name
                   type: varchar(50)
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 19042021-add-foreignKeyConstraint-city-id-to-country
+      author:  olga_evdokimova
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: city_id
+            baseTableName: city
+            constraintName: fk_id_country
+            referencedColumnNames: cntr_id
+            referencedTableName: country
