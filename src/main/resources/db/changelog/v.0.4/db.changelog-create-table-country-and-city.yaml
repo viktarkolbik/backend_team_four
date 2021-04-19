@@ -29,10 +29,16 @@ databaseChangeLog:
                   name: city_id
                   type: UUID
                   constraints:
+                    primaryKey: true
                     nullable: false
               - column:
                   name: city_name
                   type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city_cntr_id
+                  type: UUID
                   constraints:
                     nullable: false
   - changeSet:
@@ -40,7 +46,7 @@ databaseChangeLog:
       author:  olga_evdokimova
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: city_id
+            baseColumnNames: city_cntr_id
             baseTableName: city
             constraintName: fk_id_country
             referencedColumnNames: cntr_id

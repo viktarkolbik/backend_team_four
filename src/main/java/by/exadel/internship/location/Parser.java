@@ -1,11 +1,11 @@
 package by.exadel.internship.location;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.StringEscapeUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -29,17 +29,12 @@ public class Parser {
                 JSONObject jsonObject = (JSONObject) o;
                 Object country = jsonObject.get("country");
                 Object city = jsonObject.get("name");
-
-                executeUpdate(" DO $$ DECLARE uuid :=uuid_generate_v4(); BEGIN" +
-                        " INSERT INTO country (cntr_id, cntr_name) VALUES(uuid_generate_v4(),'" + country + "');" +
-                        "");
-
                 if (!locationMap.containsKey(country)) {
                     locationMap.put(country, new TreeSet<>());
                 }
                 locationMap.get(country).add(city);
             }
-        } catch (ParseException | IOException | SQLException e) {
+        } catch (ParseException | IOException e) {
             log.error(e.getMessage());
         }
         return locationMap;
@@ -48,6 +43,7 @@ public class Parser {
     private static final String URL = "jdbc:postgresql://localhost:5432/internship";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "mama071991";
+
 
     public static void executeUpdate(String sql) throws SQLException {
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -60,13 +56,20 @@ public class Parser {
         conn.close();
     }
 
-//    public static void putDataToDatabase()  {
-//        for (Map.Entry<Object, Set<Object>> entry : getCountriesAndCitiesFromJSON().entrySet()) {
-//            try {
-//                executeUpdate("INSERT INTO country (cntr_id, cntr_name) VALUES(uuid_generate_v4(),'"+entry.getKey()+"');");
-//            } catch (SQLException e) {
-//                log.error(e.getMessage());
-//            }
-//        }
-//    }
+    public static void putDataToDatabase() {
+
+        try {
+            for (Map.Entry<Object, Set<Object>> entry : getCountriesAndCitiesFromJSON().entrySet()) {
+                executeUpdate("INSERT INTO country (cntr_id, cntr_name) VALUES(uuid_generate_v4(),'" + entry.getKey() + "'); ");
+                for (Object city : entry.getValue()) {
+
+                    executeUpdate("INSERT INTO city (city_id, city_name, city_cntr_id) " +
+                            "VALUES(uuid_generate_v4(),'" + city.toString().replaceAll("'","\\'") + "'," + "(SELECT cntr_id FROM country WHERE cntr_name = '"+entry.getKey()+ "')); ");
+                }
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
+    }
 }
+
