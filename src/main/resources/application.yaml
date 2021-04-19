@@ -2,12 +2,12 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${SPRING_DATASOURCE_URL}
-    password: ${SPRING_DATASOURSE_PASSWORD}
-    username: ${SPRING_DATASOURSE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    username: ${SPRING_DATASOURCE_USERNAME}
     initialization-mode: always
     data:
       - 'classpath:db/changelog/v.0.1/sql-import/import-form.sql'
@@ -25,4 +25,6 @@ server:
 
 file:
   path: "files"
+
+
 

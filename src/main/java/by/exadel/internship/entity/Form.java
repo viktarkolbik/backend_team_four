@@ -2,12 +2,10 @@ package by.exadel.internship.entity;
 
 import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.enums.FormStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 import java.util.List;
@@ -80,8 +78,10 @@ public class Form {
     @JoinColumn(name = "i_id")
     private Interview interview;
 
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "fm_id")
     private List<TimeForCall> timeForCallList;
+
 
 }
