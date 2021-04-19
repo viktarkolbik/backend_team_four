@@ -17,19 +17,19 @@ import java.util.UUID;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository USER_REPOSITORY;
-    private final UserMapper USER_MAPPER;
+    private final UserRepository userRepository;
+    private final UserMapper mapper;
 
     public List<UserDTO> getAll() {
 
         MDC.put("className", UserService.class.getSimpleName());
         log.info("Try to get all users with skill");
 
-        List<User> userList = USER_REPOSITORY.findAllWithSkill();
+        List<User> userList = userRepository.findAllWithSkill();
 
         log.info("Try get list of UserDTO");
 
-        List<UserDTO> userDTOList = USER_MAPPER.map(userList);
+        List<UserDTO> userDTOList = mapper.map(userList);
 
         log.info("Successfully list of UserDTO");
 
@@ -40,12 +40,12 @@ public class UserServiceImpl implements UserService {
 
         log.info("Try to get  user by id: {} with skills", id);
 
-        User user = USER_REPOSITORY.findById(id)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
 
         log.info("Try get UserDTO from User");
 
-        UserDTO  userDTO = USER_MAPPER.toUserDTO(user);
+        UserDTO  userDTO = mapper.toUserDTO(user);
 
         log.info("UserDTO got successfully");
 

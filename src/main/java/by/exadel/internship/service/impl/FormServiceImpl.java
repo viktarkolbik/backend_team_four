@@ -30,8 +30,8 @@ import java.util.List;
 @Slf4j
 public class FormServiceImpl implements FormService {
 
-    private final FormMapper MAPPER;
-    private final FormRepository FORM_REPOSITORY;
+    private final FormMapper mapper;
+    private final FormRepository formRepository;
 
     @Value("${file.path}")
     private String filePath;
@@ -60,14 +60,14 @@ public class FormServiceImpl implements FormService {
 
     private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
 
-        Form form = MAPPER.toFormEntity(formRegisterDTO);
+        Form form = mapper.toFormEntity(formRegisterDTO);
         form.setFormStatus(FormStatus.REGISTERED);
 
         log.info("The form status is {}", FormStatus.REGISTERED);
 
-        FORM_REPOSITORY.save(form);
+        formRepository.save(form);
 
-        return MAPPER.toFormDto(form);
+        return mapper.toFormDto(form);
 
     }
 
@@ -96,11 +96,11 @@ public class FormServiceImpl implements FormService {
         MDC.put("className", FormService.class.getSimpleName());
         log.info("Try to get all forms");
 
-        List<Form> formList = FORM_REPOSITORY.findAllWithTimeForCallList();
+        List<Form> formList = formRepository.findAllWithTimeForCallList();
 
         log.info("Try get list of formFullDTO");
 
-        List<FormFullDTO> formFullDTOList = MAPPER.map(formList);
+        List<FormFullDTO> formFullDTOList = mapper.map(formList);
 
         log.info("Successfully list of formFullDTO");
 
