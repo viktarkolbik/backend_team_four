@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
@@ -16,15 +17,15 @@ public class JwtUtils {
     @Value("${key.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${key.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    @Value("${key.jwtExpirationSec}")
+    private int jwtExpirationSec;
 
     public String generateJwtToken(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setExpiration(new Date((new Date()).getTime() + (jwtExpirationSec / 1000)))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }
 
@@ -32,9 +33,7 @@ public class JwtUtils {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt);
             return true;
-        } catch (MalformedJwtException e) {
-            System.err.println(e.getMessage());
-        } catch (IllegalArgumentException e) {
+        } catch (MalformedJwtException | IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
 

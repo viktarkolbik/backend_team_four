@@ -28,5 +28,5 @@ file:
 
 key:
   jwtSecret: SecretKey
-  jwtExpirationMs: 8640000
+  jwtExpirationSec: 8640
 
