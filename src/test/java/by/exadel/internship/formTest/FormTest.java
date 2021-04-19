@@ -27,7 +27,11 @@ public class FormTest extends InternshipApplicationTests {
                 MediaType.MULTIPART_FORM_DATA_VALUE, "some file".getBytes());
         MockMultipartFile form = new MockMultipartFile("form", "form",
                 MediaType.APPLICATION_JSON_VALUE,
-                "{\"firstName\": \"testName\"}".getBytes());
+                ("{\"firstName\": \"testName\",\"city\": \"string\",\"country\": \"string\"," +
+                        "\"education\": \"string\",\"email\": \"string\",\"englishLevel\": \"A0\"," +
+                        "\"experience\": \"string\",\"filePath\": \"string\",\"lastName\": \"string\"," +
+                        "\"middleName\": \"string\",\"phoneNumber\": \"string\",\"primarySkill\": \"string\"," +
+                        "\"skype\": \"string\"}").getBytes());
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/forms")
                 .file(form)
