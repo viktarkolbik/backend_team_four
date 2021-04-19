@@ -10,7 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -51,7 +51,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "user_skill", joinColumns = @JoinColumn(name = "us_u_id"))
-    private Set<Skill> skills;
+    private List<Skill> skills;
 
 //    @Column(name = "intership_list")
 //    private List<UserInternship> listOfInternships;

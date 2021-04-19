@@ -2,7 +2,6 @@ package by.exadel.internship.controller;
 
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
-import by.exadel.internship.entity.Form;
 import by.exadel.internship.service.FormService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,10 +13,10 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,7 +49,7 @@ public class FormController {
     @GetMapping
     @ApiOperation("Get all forms")
     @ResponseStatus(HttpStatus.OK)
-    public List<Form> getAllForms() {
+    public List<FormFullDTO> getAllForms() {
         return formService.getAll();
     }
 }

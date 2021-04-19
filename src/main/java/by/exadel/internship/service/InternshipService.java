@@ -32,18 +32,22 @@ public class InternshipService {
                 .findAllByIdAndDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + uuid + " in DB", "uuid.invalid"));
         log.info("Successfully got Internships with uuid=" + uuid);
-
         return internShipMapper.toGuestInternshipDTO(internship);
+
     }
 
     public List<GuestInternshipDTO> getAll() {
         putClassNameInMDC();
-        MDC.put("className", InternshipService.class.getSimpleName());
-        log.info("Try to get all Internships");
-        List<Internship> internships = internshipRepository.findAllByDeletedFalse();
+
+        log.info("Try to get all Internships with skills");
+
+        List<Internship> internships = internshipRepository.findAllWithSkill();
+
+        log.info("Try to get all Internships like guestInternshipDTOs  with skills");
+
         List<GuestInternshipDTO> guestInternshipDTOList = internShipMapper.map(internships);
-        log.info("Successfully got list of Internships");
-        log.info("Successfully list of Internships");
+
+        log.info("Successfully list of guestInternshipDTOs with skills");
         return guestInternshipDTOList;
 
     }

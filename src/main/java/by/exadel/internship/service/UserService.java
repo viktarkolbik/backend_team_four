@@ -23,11 +23,17 @@ public class UserService {
 
     public List<UserDTO> getAll() {
         putClassNameInMDC();
-        log.info("Try to get List of Users");
-        List<User> userList = userRepository.findAllByDeletedFalse();
-        log.info("Return List of User");
-        return userMapper.map(userList);
+        log.info("Try to get all users with skill");
 
+        List<User> userList = userRepository.findAllWithSkill();
+
+        log.info("Try get list of UserDTO");
+
+        List<UserDTO> userDTOList = userMapper.map(userList);
+
+        log.info("Successfully list of UserDTO");
+
+        return userDTOList;
     }
 
     public UserDTO getById(UUID uuid) {

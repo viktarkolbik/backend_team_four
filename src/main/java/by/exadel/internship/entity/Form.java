@@ -74,19 +74,19 @@ public class Form {
 
     @Column(name = "fm_english_level")
     @Enumerated(value = EnumType.STRING)
-    @Type(type = "by.exadel.internship.mapper.EnumTypePostgreSQL")
+    @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private EnglishLevel englishLevel;
 
     @Column(name = "fm_form_status")
     @Enumerated(value = EnumType.STRING)
-    @Type(type = "by.exadel.internship.mapper.EnumTypePostgreSQL")
+    @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private FormStatus formStatus;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "i_id")
     private Interview interview;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "fm_id")
     private List<TimeForCall> timeForCallList;
 

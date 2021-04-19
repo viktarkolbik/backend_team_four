@@ -1,6 +1,7 @@
 package by.exadel.internship.repository;
 
 import by.exadel.internship.entity.Form;
+import by.exadel.internship.entity.Internship;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,8 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
     Optional<Form> findByIdAndDeletedFalse(UUID formId);
     List<Form> findAllByDeletedFalse();
     List<Form> findAllByDeletedTrue();
+
+    @Query("SELECT distinct f FROM Form f LEFT JOIN FETCH f.timeForCallList WHERE f.deleted = false")
+    List<Form> findAllWithTimeForCallList();
 
 }
