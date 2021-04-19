@@ -70,7 +70,7 @@ public class Form {
     private String primarySkill;
     
     @Column(name = "fm_deleted")
-    private Boolean deleted;
+    private boolean deleted;
 
     @Column(name = "fm_english_level")
     @Enumerated(value = EnumType.STRING)

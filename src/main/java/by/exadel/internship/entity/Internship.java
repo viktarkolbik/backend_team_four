@@ -65,7 +65,7 @@ public class Internship extends Auditable<String> {
     private LocalDate registrationEndDate;
 
     @Column(name = "inship_deleted")
-    private Boolean deleted;
+    private boolean deleted;
 
     @Column(name = "inship_format_name")
     @Enumerated(EnumType.STRING)

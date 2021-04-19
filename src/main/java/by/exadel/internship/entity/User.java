@@ -45,7 +45,7 @@ public class User {
     private UserRole userRole;
 
     @Column(name = "u_deleted")
-    private Boolean deleted;
+    private boolean deleted;
 
     @Column(name="us_name", nullable=false)
     @Enumerated(EnumType.STRING)
