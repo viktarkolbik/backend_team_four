@@ -1,11 +1,13 @@
 package by.exadel.internship.controller;
 
-import by.exadel.internship.config.jwt.JwtUtils;
+import by.exadel.internship.config.jwt.JwtService;
 import by.exadel.internship.entity.UserDetailsImpl;
 import by.exadel.internship.pojo.JwtResponse;
 import by.exadel.internship.pojo.LoginRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,13 +21,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
+
 @Api(tags = "Authorization controller")
 public class AuthController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    JwtUtils jwtUtils;
+    private final JwtService jwtService;
 
     @PostMapping("/signIn")
     @ApiOperation("Authorize method")
@@ -36,7 +38,7 @@ public class AuthController {
                         loginRequest.getLogin(),
                         loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        String jwt = jwtService.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> role = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
@@ -48,10 +50,9 @@ public class AuthController {
     }
 
     private void splitEmail(LoginRequest loginRequest){
-        String[] emailLikeArray;
-        if(loginRequest.getLogin().contains("@")){
-            emailLikeArray = loginRequest.getLogin().split("@");
-            loginRequest.setLogin(emailLikeArray[0]);
+        final String EMAIL_SEPARATOR = "@";
+        if(loginRequest.getLogin().contains(EMAIL_SEPARATOR)){
+            loginRequest.setLogin(StringUtils.split(loginRequest.getLogin(),EMAIL_SEPARATOR)[0]);
         }
     }
 }
