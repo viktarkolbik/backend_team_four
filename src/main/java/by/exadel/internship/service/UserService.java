@@ -1,7 +1,7 @@
 package by.exadel.internship.service;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.entity.User;
-import by.exadel.internship.exception.NotFoundException;
+import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

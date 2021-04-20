@@ -25,6 +25,8 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.30</slf4j.version>
+        <apache.commons.version>3.4</apache.commons.version>
+        <json.web.token.version>0.9.1</json.web.token.version>
     </properties>
 
     <dependencies>
@@ -52,13 +54,13 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <version>${apache.commons.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <version>${json.web.token.version}</version>
         </dependency>
 
         <dependency>
