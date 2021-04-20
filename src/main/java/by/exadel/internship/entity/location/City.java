@@ -37,18 +37,4 @@ public class City implements Comparable<City>{
     public int compareTo(City o) {
         return this.getName().compareTo(o.getName());
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        City city = (City) o;
-        return Objects.equals(id, city.id) &&
-                Objects.equals(country, city.country);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, country);
-    }
 }
