@@ -46,7 +46,7 @@ public class GuestInternshipDTO {
     private InternshipFormat internshipFormat;
 
     @NotNull
-    private Set<Skill> skills;//+
+    private Set<Skill> skills;
 
     @Size(max=150)
     private String description;
