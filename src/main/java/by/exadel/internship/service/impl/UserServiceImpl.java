@@ -54,22 +54,22 @@ public class UserServiceImpl implements UserService {
 
     public void deleteUserById(UUID uuid) {
         putClassNameInMDC();
-        log.info("Try to delete User with uuid = " + uuid);
+        log.info("Try to delete User with uuid: {}", uuid);
         userRepository
                 .findByIdAndDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         userRepository.deleteById(uuid);
-        log.info("Successfully deleted User with uuid = " + uuid);
+        log.info("Successfully deleted User with uuid: {}", uuid);
     }
 
     public void restoreUserById(UUID uuid) {
         putClassNameInMDC();
-        log.info("Try to activate User with uuid = " + uuid);
+        log.info("Try to restore User with uuid: {}", uuid);
         userRepository
                 .findByIdAndDeletedTrue(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         userRepository.activateUserById(uuid);
-        log.info("Successfully activate User with uuid = " + uuid);
+        log.info("Successfully restore User with uuid: {}", uuid);
     }
 
     public List<UserDTO> getAllDeleted() {

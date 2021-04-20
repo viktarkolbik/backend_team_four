@@ -111,24 +111,24 @@ public class FormServiceImpl implements FormService {
 
     public void restoreFormById(UUID formId) {
         putClassNameInMDC();
-        log.info("Try to activate form with uuid= " + formId);
+        log.info("Try to activate form with uuid: {}", formId);
         formRepository
                 .findByIdAndDeletedTrue(formId)
                 .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
-                        "Not Found in DB", "form.uuid.invalid"));
+                        " Not Found in DB", "form.uuid.invalid"));
         formRepository.activateFormById(formId);
-        log.info("Successfully returned deleted Form with uuid= " + formId);
+        log.info("Successfully returned deleted Form with uuid: {}", formId);
     }
 
     public void deleteById(UUID formId) {
         putClassNameInMDC();
-        log.info("Try to delete form with uuid= " + formId);
+        log.info("Try to delete form with uuid: {} ", formId);
         formRepository
                 .findByIdAndDeletedFalse(formId)
                 .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
-                        "Not Found in DB", "form.uuid.invalid"));
+                        " Not Found in DB", "form.uuid.invalid"));
         formRepository.deleteById(formId);
-        log.info("Successfully deleted Form with uuid= " + formId);
+        log.info("Successfully deleted Form with uuid: {}", formId);
     }
 
     private void putClassNameInMDC() {

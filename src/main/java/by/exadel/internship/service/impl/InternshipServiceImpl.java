@@ -67,12 +67,12 @@ public class InternshipServiceImpl implements InternshipService {
 
     public GuestInternshipDTO getDeletedInternshipById(UUID uuid) {
         putClassNameInMDC();
-        log.info("Try to get deleted Internships with uuid= " + uuid);
+        log.info("Try to get deleted Internships with uuid: {}", uuid);
         Internship deletedInternship = internshipRepository
                 .findByIdAndDeletedTrue(uuid)
                 .orElseThrow(() -> new NotFoundException("No such deleted Internship with uuid = " + uuid +
                         " in DB", "uuid.invalid"));
-        log.info("Successfully got deleted Internships with uuid= " + uuid);
+        log.info("Successfully got deleted Internships with uuid: {}", uuid);
         GuestInternshipDTO guestDeletedInternshipDTO = mapper.toGuestInternshipDTO(deletedInternship);
         return guestDeletedInternshipDTO;
     }
@@ -80,27 +80,27 @@ public class InternshipServiceImpl implements InternshipService {
     @Transactional
     public GuestInternshipDTO restoreInternshipById(UUID uuid) {
         putClassNameInMDC();
-        log.info("Try to return deleted Internship with uuid= " + uuid + " to List if Internships");
+        log.info("Try to restore Internship with uuid: {}", uuid);
         Internship internship = internshipRepository
                 .findByIdAndDeletedTrue(uuid)
                 .orElseThrow(() -> new NotFoundException("No such deleted Internship with uuid = " + uuid +
                         " in DB", "uuid.invalid"));
         internshipRepository.activateInternshipById(uuid);
         internship.setDeleted(false);
-        log.info("Successfully returned deleted Internship with uuid= " + uuid);
+        log.info("Successfully restore Internship with uuid: {}", uuid);
         return mapper.toGuestInternshipDTO(internship);
 
     }
 
     public void deleteInternshipById(UUID internshipId) {
         putClassNameInMDC();
-        log.info("Try to delete Internship with uuid= " + internshipId);
+        log.info("Try to delete Internship with uuid: {}", internshipId);
         internshipRepository
                 .findAllByIdAndDeletedFalse(internshipId)
                 .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + internshipId  +
                         " in DB", "uuid.invalid"));
         internshipRepository.deleteById(internshipId);
-        log.info("Internship with uuid= " + internshipId + " was deleted");
+        log.info("Internship with uuid: {} was deleted", internshipId);
     }
 
     private void putClassNameInMDC() {
