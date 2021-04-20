@@ -1,6 +1,5 @@
 package by.exadel.internship.config.jwt;
 
-import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
+
 
 @Component
 @RequiredArgsConstructor
@@ -32,12 +31,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    private Optional<String> parseJwt(HttpServletRequest request) {
+    private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader(AUTHORIZATION);
         if (!StringUtils.isEmpty(headerAuth) && headerAuth.startsWith(BEARER)) {
-            return Optional.of(StringUtils.substring(headerAuth, 7));
+            return StringUtils.substring(headerAuth, 7);
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override
@@ -45,7 +44,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                                     HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
-            String jwt = parseJwt(httpServletRequest).orElseThrow(() -> new NotFoundException);
+            String jwt = parseJwt(httpServletRequest);
             if (jwt != null && jwtService.validateJwtToken(jwt)) {
                 String username = jwtService.getUserNameFromJwtToken(jwt);
 
