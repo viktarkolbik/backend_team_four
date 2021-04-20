@@ -50,9 +50,9 @@ public class AuthController {
     }
 
     private void splitEmail(LoginRequest loginRequest){
-        final String EMAIL_SEPARATOR = "@";
-        if(loginRequest.getLogin().contains(EMAIL_SEPARATOR)){
-            loginRequest.setLogin(StringUtils.split(loginRequest.getLogin(),EMAIL_SEPARATOR)[0]);
+        String emailSeparator = "@";
+        if(loginRequest.getLogin().contains(emailSeparator)){
+            loginRequest.setLogin(StringUtils.split(loginRequest.getLogin(), emailSeparator)[0]);
         }
     }
 }
