@@ -1,19 +1,21 @@
-package by.exadel.internship.location;
+package by.exadel.internship.entity.location;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Data
-@Table(name = "city")
+@EqualsAndHashCode(exclude = "cityList")
+@Table(name = "country")
 @NoArgsConstructor
 @AllArgsConstructor
-public class City {
+public class Country {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -21,15 +23,12 @@ public class City {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "city_id")
+    @Column(name = "cntr_id")
     private UUID id;
 
-    @Column(name = "city_name")
+    @Column(name = "cntr_name")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "city_cntr_id")
-    Country country;
-
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
+    private Set<City> cityList;
 }

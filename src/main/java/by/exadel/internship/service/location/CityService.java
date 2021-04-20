@@ -1,5 +1,7 @@
-package by.exadel.internship.location;
+package by.exadel.internship.service.location;
 
+import by.exadel.internship.entity.location.City;
+import by.exadel.internship.repository.location.CityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,11 @@ public class CityService {
         return repository.findAll();
     }
 
-//    public City save(City city){
-//        return repository.save(city);
-//    }
+    public City save(City city){
+        return repository.save(city);
+    }
 
-    public Iterable<City> save(Set<City> cities){
+    public List<City> save(Set<City> cities){
         return repository.saveAll(cities);
     }
 }

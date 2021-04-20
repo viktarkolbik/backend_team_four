@@ -1,5 +1,6 @@
-package by.exadel.internship.location;
+package by.exadel.internship.repository.location;
 
+import by.exadel.internship.entity.location.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
