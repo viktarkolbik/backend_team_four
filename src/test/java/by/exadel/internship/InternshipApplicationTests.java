@@ -17,21 +17,22 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.annotation.PostConstruct;
 import java.net.URI;
 
 @ContextConfiguration(initializers = {InternshipApplicationTests.Initializer.class})
 @SpringBootTest
-@Testcontainers
 public class InternshipApplicationTests {
 
-    @Container
     public static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:13")
             .withPassword("root")
             .withUsername("postgres");
+
+    static {
+        container.start();
+    }
+
 
     protected MockMvc mockMvc;
     @Autowired
@@ -40,7 +41,7 @@ public class InternshipApplicationTests {
     private WebApplicationContext webApplicationContext;
 
     @PostConstruct
-    public void setUp() {
+    public void setTimeModuleUp() {
         objectMapper.registerModule(new JavaTimeModule());
     }
 

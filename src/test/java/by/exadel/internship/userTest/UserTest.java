@@ -6,7 +6,6 @@ import by.exadel.internship.dto.enums.UserRole;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.net.URI;
@@ -19,7 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserTest extends InternshipApplicationTests {
 
     @Test
-    @DirtiesContext
     public void checkListSize() throws Exception {
 
         MvcResult result = getResult(HttpMethod.GET, URI.create("/users"), status().isOk());
@@ -32,7 +30,6 @@ public class UserTest extends InternshipApplicationTests {
     }
 
     @Test
-    @DirtiesContext
     public void checkTestData() throws Exception {
 
         MvcResult result = getResult(HttpMethod.GET, URI.create("/users/b64b3afc-b1be-4c7a-9406-d7d14f436332"), status().isOk());
