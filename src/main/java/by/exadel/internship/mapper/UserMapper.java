@@ -1,9 +1,11 @@
 package by.exadel.internship.mapper;
+
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.entity.User;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
+
 import java.util.List;
 
 @Mapper(componentModel = "spring")
