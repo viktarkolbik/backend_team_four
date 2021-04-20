@@ -6,6 +6,7 @@ import by.exadel.internship.dto.internshipDTO.UserInternshipDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.net.URI;
@@ -15,9 +16,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 public class InternshipTest extends InternshipApplicationTests {
 
     @Test
+    @DirtiesContext
     public void checkInternshipsTestData() throws Exception {
 
         MvcResult result = getResult(HttpMethod.GET, URI.create("/internships/68a051d7-6d82-4879-b0a3-1340e14db54d"), status().isOk());
@@ -41,6 +44,7 @@ public class InternshipTest extends InternshipApplicationTests {
     }
 
     @Test
+    @DirtiesContext
     public void checkListSize() throws Exception {
 
         MvcResult result = getResult(HttpMethod.GET, URI.create("/internships"), status().isOk());

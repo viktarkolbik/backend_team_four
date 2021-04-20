@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -22,6 +23,7 @@ public class FormTest extends InternshipApplicationTests {
 
 
     @Test
+    @DirtiesContext
     public void givenFormWithFile_checkTestData()
             throws Exception {
 
@@ -61,6 +63,7 @@ public class FormTest extends InternshipApplicationTests {
     }
 
     @Test
+    @DirtiesContext
     public void checkListSize() throws Exception {
 
         MvcResult result = getResult(HttpMethod.GET, URI.create("/forms"), status().isOk());
