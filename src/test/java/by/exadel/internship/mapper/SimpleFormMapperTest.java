@@ -4,6 +4,7 @@ import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.entity.Form;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SimpleFormMapperTest {

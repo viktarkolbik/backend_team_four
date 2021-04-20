@@ -41,7 +41,7 @@ public class FormServiceImpl implements FormService {
             form.setFilePath(file.getOriginalFilename());
             FormFullDTO createdForm = saveForm(form);
 
-            log.info("Success to save form, id: {}",createdForm.getId());
+            log.info("Success to save form, id: {}", createdForm.getId());
 
             uploadFile(file, createdForm.getId());
 
