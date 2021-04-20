@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 
 @Component
@@ -31,12 +32,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    private String parseJwt(HttpServletRequest request) {
+    private Optional<String> parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader(AUTHORIZATION);
         if (!StringUtils.isEmpty(headerAuth) && headerAuth.startsWith(BEARER)) {
-            return StringUtils.substring(headerAuth, 7);
+            return Optional.of(StringUtils.substring(headerAuth, 7));
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -44,20 +45,21 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                                     HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
-            String jwt = parseJwt(httpServletRequest);
-            if (jwt != null && jwtService.validateJwtToken(jwt)) {
-                String username = jwtService.getUserNameFromJwtToken(jwt);
+            parseJwt(httpServletRequest)
+                    .filter(jwtService::validateJwtToken)
+                    .ifPresent(jwt -> {
+                        String username = jwtService.getUserNameFromJwtToken(jwt);
 
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                        UsernamePasswordAuthenticationToken authenticationToken =
+                                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            }
-        }catch (Exception e) {
+                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    });
+        } catch (Exception e) {
             MDC.put("class: ", AuthTokenFilter.class.getSimpleName());
-            log.error("Authentication Error" + e.getMessage());
+            log.error("Authentication Error: " + e.getMessage());
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
