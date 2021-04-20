@@ -21,6 +21,7 @@ spring:
       - 'classpath:db/changelog/v.0.2/sql-import/import-interview-dates.sql'
       - 'classpath:db/changelog/v.0.2/sql-import/import-form-add-columns.sql'
       - 'classpath:db/changelog/v.0.3/sql-import/import-time-for-call.sql'
+      - 'classpath:db/changelog/v.0.4/sql-import/import-user-internship.sql'
 
 server:
   servlet:
