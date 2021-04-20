@@ -27,7 +27,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     private final JwtService jwtService;
-    private final String EMAIL_SEPARATOR = "@";
+    private static final String EMAIL_SEPARATOR = "@";
 
     @PostMapping("/signIn")
     @ApiOperation("Authorize method")

@@ -36,6 +36,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<IncorrectData> handleException(
             Exception exception){
         UUID uuidErrorCode = UUID.randomUUID();
+        System.out.println(exception.getClass());
+        // BadCredentialsException
         log.error("Message: " + exception.getMessage() + " Error UUID code: " + uuidErrorCode);
         IncorrectData data =  new IncorrectData();
         data.setMessage(exception.getMessage());
