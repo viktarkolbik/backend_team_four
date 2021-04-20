@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -37,11 +38,22 @@ public class GlobalExceptionHandler {
             Exception exception){
         UUID uuidErrorCode = UUID.randomUUID();
         System.out.println(exception.getClass());
-        // BadCredentialsException
         log.error("Message: " + exception.getMessage() + " Error UUID code: " + uuidErrorCode);
         IncorrectData data =  new IncorrectData();
         data.setMessage(exception.getMessage());
         data.setErrorCode(uuidErrorCode);
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<IncorrectData> handleException(
+            BadCredentialsException exception){
+        UUID uuidErrorCode = UUID.randomUUID();
+        System.out.println(exception.getClass());
+        log.error("Message: " + exception.getMessage() + " Error UUID code: " + uuidErrorCode);
+        IncorrectData data =  new IncorrectData();
+        data.setMessage(exception.getMessage());
+        data.setErrorCode(uuidErrorCode);
+        return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);
     }
 }
