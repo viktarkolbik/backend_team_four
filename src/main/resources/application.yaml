@@ -8,6 +8,8 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     password: ${SPRING_DATASOURCE_PASSWORD}
     username: ${SPRING_DATASOURCE_USERNAME}
+#    password: root
+#    username: postgres
     initialization-mode: always
     data:
       - 'classpath:db/changelog/v.0.1/sql-import/import-form.sql'
@@ -26,6 +28,3 @@ server:
 
 file:
   path: "files"
-
-
-

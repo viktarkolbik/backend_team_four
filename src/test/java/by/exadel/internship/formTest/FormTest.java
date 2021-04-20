@@ -1,15 +1,17 @@
 package by.exadel.internship.formTest;
 
 import by.exadel.internship.InternshipApplicationTests;
+import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-
+import java.net.URI;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +22,7 @@ public class FormTest extends InternshipApplicationTests {
 
 
     @Test
-    public void givenFormWithFile_checkFirstName()
+    public void givenFormWithFile_checkTestData()
             throws Exception {
 
         MockMultipartFile file = new MockMultipartFile("file", "text.txt",
@@ -44,16 +46,29 @@ public class FormTest extends InternshipApplicationTests {
         FormFullDTO formFullDTO = objectMapper.readValue(content, FormFullDTO.class);
 
         assertEquals(formFullDTO.getFirstName(), "testName");
+        assertEquals(formFullDTO.getLastName(), "string");
+        assertEquals(formFullDTO.getCity(), "string");
+        assertEquals(formFullDTO.getCountry(), "string");
+        assertEquals(formFullDTO.getEducation(), "string");
+        assertEquals(formFullDTO.getEmail(), "string");
+        assertEquals(formFullDTO.getEnglishLevel(), EnglishLevel.A0);
+        assertEquals(formFullDTO.getExperience(), "string");
+        assertEquals(formFullDTO.getFilePath(), "text.txt");
+        assertEquals(formFullDTO.getMiddleName(), "string");
+        assertEquals(formFullDTO.getPhoneNumber(), "string");
+        assertEquals(formFullDTO.getPrimarySkill(), "string");
+        assertEquals(formFullDTO.getSkype(), "string");
     }
 
     @Test
     public void checkListSize() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/forms"))
-                .andExpect(status().isOk())
-                .andReturn();
+
+        MvcResult result = getResult(HttpMethod.GET, URI.create("/forms"), status().isOk());
 
         String content = result.getResponse().getContentAsString();
-        List<FormFullDTO> fos = objectMapper.readValue(content, new TypeReference<>() {});
+        List<FormFullDTO> fos = objectMapper.readValue(content, new TypeReference<>() {
+        });
         assertEquals(fos.size(), 10);
     }
+
 }

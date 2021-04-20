@@ -34,12 +34,10 @@ public class InternshipApplicationTests {
             .withUsername("postgres");
 
     protected MockMvc mockMvc;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
     @Autowired
     protected ObjectMapper objectMapper;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @PostConstruct
     public void setUp() {
@@ -64,7 +62,9 @@ public class InternshipApplicationTests {
                     "spring.datasource.url=jdbc:postgresql://"
                             + container.getContainerIpAddress()
                             + ":" + container.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT)
-                            + "/postgres"
+                            + "/postgres",
+                    "spring.datasource.password =" + container.getPassword(),
+                    "spring.datasource.username =" + container.getUsername()
             ).applyTo(configurableApplicationContext.getEnvironment());
         }
     }
