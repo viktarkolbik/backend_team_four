@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @Slf4j
@@ -30,7 +31,7 @@ public class CountryService {
     public void init() {
         Map<String, Country> newMap = new TreeMap<>();
         try {
-            Resource resource = new ClassPathResource("/location/world-cities_json.json");
+            Resource resource = new ClassPathResource("location/world-cities_json.json");
             Object obj = new JSONParser().parse(new FileReader(resource.getFile()));
             JSONArray jsonObjectList = (JSONArray) obj;
             for (Object o : jsonObjectList) {
@@ -45,16 +46,11 @@ public class CountryService {
                     country.setCityList(new TreeSet<>(new CityComparator()));
                     return country;
                 });
-
                 Country country = newMap.get(countryName);
                 city.setCountry(country);
                 country.getCityList().add(city);
-
             }
-
             newMap.values().forEach(this::save);
-
-
         } catch (ParseException | IOException e) {
             log.error(e.getMessage());
         }
@@ -66,9 +62,5 @@ public class CountryService {
 
     public Country save(Country country) {
         return repository.save(country);
-    }
-
-    public List<Country> save(List<Country> countries){
-         return repository.saveAll(countries);
     }
 }

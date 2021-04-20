@@ -16,12 +16,4 @@ public class CityService {
     public List<City> getAll(){
         return repository.findAll();
     }
-
-    public City save(City city){
-        return repository.save(city);
-    }
-
-    public List<City> save(Set<City> cities){
-        return repository.saveAll(cities);
-    }
 }

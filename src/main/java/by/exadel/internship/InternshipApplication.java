@@ -17,12 +17,7 @@ public class InternshipApplication {
 
     }
 
-    @Bean
-    CommandLineRunner runner(CountryService countryService, CityService cityService) {
-        return args -> {
 
-        };
-    }
 
 
 }
