@@ -32,25 +32,44 @@ public class InternshipApplication {
     @Bean
     CommandLineRunner runner(CountryService countryService, CityService cityService) {
         return args -> {
-            Map<Country, Set<City>> locationMap = new TreeMap<>();
+            Map<Country, Set<City>> locationMap = new HashMap<>();
+
+            Map<String, Country> newMap = new HashMap<>();
+
             try {
                 Object obj = new JSONParser().parse(new FileReader("src/main/java/by/exadel/internship/location/world-cities_json.json"));
                 JSONArray jsonObjectList = (JSONArray) obj;
                 for (Object o : jsonObjectList) {
                     JSONObject jsonObject = (JSONObject) o;
-                    Object countryObject =  jsonObject.get("country");
-                    Country country = (Country) countryObject;
-                    City city = (City) jsonObject.get("name");
+                    String cityName = (String) jsonObject.get("name");
 
-                    if (!locationMap.containsKey(country)) {
-                        locationMap.put(country, new TreeSet<>());
-                    }
-                    locationMap.get(country).add(city);
+
+                    City city = new City();
+                    city.setName(cityName);
+                    String countryName = (String) jsonObject.get("country");
+                    newMap.computeIfAbsent(countryName, name -> {
+                        Country country = new Country();
+                        country.setName(name);
+                        country.setCitySet(new ArrayList<>());
+                        return country;
+                    });
+
+                    Country country = newMap.get(countryName);
+                    city.setCountry(country);
+                    country.getCitySet().add(city);
+
+
+//                    if (!locationMap.containsKey(country)) {
+//                        locationMap.put(country, new HashSet<>());
+//                    }
+//                    locationMap.get(country).add(city);
                 }
 
-                for (Map.Entry<Country, Set<City>> entry : locationMap.entrySet()) {
-                    countryService.save(entry.getKey());
-                    cityService.save(entry.getValue());
+                for (Map.Entry<String, Country> entry : newMap.entrySet()) {
+                    countryService.save(entry.getValue());
+//                    Country save = countryService.save(entry.getKey());
+//                    entry.getValue().forEach(city -> city.setCountry(save));
+//                    cityService.save(entry.getValue());
                 }
             } catch (ParseException | IOException e) {
                 log.error(e.getMessage());

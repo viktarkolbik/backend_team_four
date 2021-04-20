@@ -39,8 +39,7 @@ databaseChangeLog:
               - column:
                   name: city_cntr_id
                   type: UUID
-                  constraints:
-                    nullable: false
+
   - changeSet:
       id: 19042021-add-foreignKeyConstraint-city-id-to-country
       author:  olga_evdokimova

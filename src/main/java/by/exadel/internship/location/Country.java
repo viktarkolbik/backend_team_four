@@ -3,11 +3,10 @@ package by.exadel.internship.location;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Data
@@ -17,20 +16,18 @@ import java.util.UUID;
 public class Country {
 
     @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Column(name = "cntr_id")
     private UUID id;
 
     @Column(name = "cntr_name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
-    Set<City> citySet;
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "country")
+   private List<City> citySet;
 
-    public void addCityToCountry(City city){
-        if (citySet == null){
-            citySet = new TreeSet<>();
-        }
-        citySet.add(city);
-        city.setCountry(this);
-    }
 }
