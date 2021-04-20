@@ -1,4 +1,5 @@
 package by.exadel.internship.service.impl;
+
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.exception_handing.NotFoundException;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
         log.info("Try get UserDTO from User");
 
-        UserDTO  userDTO = mapper.toUserDTO(user);
+        UserDTO userDTO = mapper.toUserDTO(user);
 
         log.info("UserDTO got successfully");
 

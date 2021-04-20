@@ -105,11 +105,18 @@ public class FormServiceImpl implements FormService {
     }
 
 
-    public List<FormFullDTO> getAllByInternshipId(UUID internshipId){
+    public List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
+
+        MDC.put("className", FormService.class.getSimpleName());
+        log.info("Try to get all forms by internship id");
 
         List<Form> formList = formRepository.findAllByInternship(internshipId);
 
+        log.info("Try get list of formFullDTO");
+
         List<FormFullDTO> formFullDTOList = mapper.map(formList);
+
+        log.info("Successfully list of formFullDTO");
 
         return formFullDTOList;
 

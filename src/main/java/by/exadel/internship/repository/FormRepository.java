@@ -4,6 +4,7 @@ import by.exadel.internship.entity.Form;
 import by.exadel.internship.entity.Internship;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,10 +16,7 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
     @Query("SELECT distinct f FROM Form f LEFT JOIN FETCH f.timeForCallList")
     List<Form> findAllWithTimeForCallList();
 
-    List<Form> findAllByInternship(UUID internshipID);
-
-
-
-
+    @Query("SELECT distinct f FROM Form f LEFT JOIN FETCH f.timeForCallList where f.internship = :id")
+    List<Form> findAllByInternship(@Param("id") UUID internshipID);
 
 }

@@ -1,6 +1,5 @@
 package by.exadel.internship.controller;
 
-import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.service.FormService;
@@ -44,11 +43,5 @@ public class FormController {
     @ApiOperation("Get all forms by internship id")
     public List<FormFullDTO> getAllFormsByInternshipId(@PathVariable UUID internshipId) {
         return formService.getAllByInternshipId(internshipId);
-    }
-
-    @GetMapping("/{internshipId}")
-    @ApiOperation("Get all forms by internship id")
-    public List<UserDTO> getUserWithRoleAdminByInternshipId(@PathVariable UUID internshipId) {
-        return formService.getUserWithRoleAdminByInternshipId(internshipId);
     }
 }
