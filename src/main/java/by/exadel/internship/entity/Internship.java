@@ -65,9 +65,6 @@ public class Internship extends Auditable<String> {
     @CollectionTable(name = "internship_skill", joinColumns = @JoinColumn(name = "is_inship_id"))
     private List<Skill> skills;
 
-//    private List<Form> formList;
-//    private List<User> techList;
-//    private List<User> adminList;
 //    private List<Location> countryList;
 
 }

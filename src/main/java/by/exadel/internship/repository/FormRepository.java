@@ -15,4 +15,10 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
     @Query("SELECT distinct f FROM Form f LEFT JOIN FETCH f.timeForCallList")
     List<Form> findAllWithTimeForCallList();
 
+    List<Form> findAllByInternship(UUID internshipID);
+
+
+
+
+
 }

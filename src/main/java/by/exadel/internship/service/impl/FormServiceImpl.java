@@ -1,5 +1,6 @@
 package by.exadel.internship.service.impl;
 
+import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
@@ -72,14 +73,12 @@ public class FormServiceImpl implements FormService {
 
         try {
 
-            byte[] bytes = multipartFile.getBytes();
-
             File file = new File(filePath + File.separator + id +
                     File.separator + multipartFile.getOriginalFilename());
 
             FileUtils.forceMkdirParent(file);
 
-            FileUtils.writeByteArrayToFile(file, bytes);
+            FileUtils.writeByteArrayToFile(file, multipartFile.getBytes());
 
             log.info("Success to upload file, form id: {}", id);
 
@@ -100,6 +99,17 @@ public class FormServiceImpl implements FormService {
         List<FormFullDTO> formFullDTOList = mapper.map(formList);
 
         log.info("Successfully list of formFullDTO");
+
+        return formFullDTOList;
+
+    }
+
+
+    public List<FormFullDTO> getAllByInternshipId(UUID internshipId){
+
+        List<Form> formList = formRepository.findAllByInternship(internshipId);
+
+        List<FormFullDTO> formFullDTOList = mapper.map(formList);
 
         return formFullDTOList;
 

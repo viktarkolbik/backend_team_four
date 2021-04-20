@@ -82,4 +82,7 @@ public class Form {
     @JoinColumn(name = "fm_id")
     private List<TimeForCall> timeForCallList;
 
+    @Column(name = "fm_inship_id")
+    private UUID internship;
+
 }

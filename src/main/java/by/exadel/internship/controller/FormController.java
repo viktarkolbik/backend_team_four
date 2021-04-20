@@ -1,5 +1,6 @@
 package by.exadel.internship.controller;
 
+import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.service.FormService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
@@ -31,10 +33,22 @@ public class FormController {
         return formService.process(form, file);
     }
 
-    @GetMapping
-    @ApiOperation("Get all forms")
-    @ResponseStatus(HttpStatus.OK)
-    public List<FormFullDTO> getAllForms() {
-        return formService.getAll();
+//    @GetMapping
+//    @ApiOperation("Get all forms")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<FormFullDTO> getAllForms() {
+//        return formService.getAll();
+//    }
+
+    @GetMapping("/{internshipId}")
+    @ApiOperation("Get all forms by internship id")
+    public List<FormFullDTO> getAllFormsByInternshipId(@PathVariable UUID internshipId) {
+        return formService.getAllByInternshipId(internshipId);
+    }
+
+    @GetMapping("/{internshipId}")
+    @ApiOperation("Get all forms by internship id")
+    public List<UserDTO> getUserWithRoleAdminByInternshipId(@PathVariable UUID internshipId) {
+        return formService.getUserWithRoleAdminByInternshipId(internshipId);
     }
 }
