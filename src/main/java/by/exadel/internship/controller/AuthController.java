@@ -22,16 +22,16 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-
 @Api(tags = "Authorization controller")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     private final JwtService jwtService;
+    private final String EMAIL_SEPARATOR = "@";
 
     @PostMapping("/signIn")
     @ApiOperation("Authorize method")
-    public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest) {
         splitEmail(loginRequest);
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
@@ -43,16 +43,15 @@ public class AuthController {
         List<String> role = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(new JwtResponse(jwt,userDetails.getId(),
+        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 role));
     }
 
-    private void splitEmail(LoginRequest loginRequest){
-        String emailSeparator = "@";
-        if(loginRequest.getLogin().contains(emailSeparator)){
-            loginRequest.setLogin(StringUtils.split(loginRequest.getLogin(), emailSeparator)[0]);
+    private void splitEmail(LoginRequest loginRequest) {
+        if (StringUtils.contains(loginRequest.getLogin(), EMAIL_SEPARATOR)) {
+            loginRequest.setLogin(StringUtils.substringBefore(loginRequest.getLogin(), EMAIL_SEPARATOR));
         }
     }
 }

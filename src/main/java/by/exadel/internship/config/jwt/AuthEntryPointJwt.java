@@ -1,6 +1,7 @@
 package by.exadel.internship.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -15,7 +16,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
+    private static final String STATUS = "status";
+    private static final String ERROR = "error";
+    private static final String MESSAGE = "message";
+    private static final String PATH = "path";
+
+    private final ObjectMapper mapper;
 
     @Override
     public void commence(HttpServletRequest httpServletRequest,
@@ -25,12 +33,11 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         final Map<String, Object> body = new HashMap<>();
-        body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-        body.put("error", "Unauthorized");
-        body.put("message", authException.getMessage());
-        body.put("path", httpServletRequest.getServletPath());
+        body.put(STATUS, HttpServletResponse.SC_UNAUTHORIZED);
+        body.put(ERROR, "Unauthorized");
+        body.put(MESSAGE, authException.getMessage());
+        body.put(PATH, httpServletRequest.getServletPath());
 
-        final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(httpServletResponse.getOutputStream(), body);
     }
 }
