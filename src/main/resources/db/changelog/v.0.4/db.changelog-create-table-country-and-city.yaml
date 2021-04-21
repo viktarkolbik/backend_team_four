@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: 19042021-create-table-country
+      author: olga_evdokimova
+      changes:
+        - createTable:
+            tableName: country
+            columns:
+              - column:
+                  name: cntr_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: cntr_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 19042021-create-table-city
+      author: olga_evdokimova
+      changes:
+        - createTable:
+            tableName: city
+            columns:
+              - column:
+                  name: city_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: city_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city_cntr_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 21042021-add-uniqueConstraint-for-country
+      author: olga_evdokimova
+      changes:
+        - addUniqueConstraint:
+            columnNames: cntr_name
+            constraintName: uc_cntr_name
+            tableName: country
+
+  - changeSet:
+      id: 19042021-add-foreignKeyConstraint-city-id-to-country
+      author:  olga_evdokimova
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: city_cntr_id
+            baseTableName: city
+            constraintName: fk_id_country
+            referencedColumnNames: cntr_id
+            referencedTableName: country
