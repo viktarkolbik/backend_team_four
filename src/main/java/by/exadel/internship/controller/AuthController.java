@@ -29,7 +29,7 @@ public class AuthController {
     private final JwtService jwtService;
     private static final String EMAIL_SEPARATOR = "@";
 
-    @PostMapping("/signIn")
+    @PostMapping("/login")
     @ApiOperation("Authorize method")
     public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest) {
         splitEmail(loginRequest);
@@ -40,9 +40,6 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtService.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> role = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId()));
     }
 
