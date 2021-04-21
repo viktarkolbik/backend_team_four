@@ -48,7 +48,7 @@ databaseChangeLog:
       changes:
         - addUniqueConstraint:
             columnNames: cntr_name
-            constraintName: uc_country
+            constraintName: uc_cntr_name
             tableName: country
 
   - changeSet:
