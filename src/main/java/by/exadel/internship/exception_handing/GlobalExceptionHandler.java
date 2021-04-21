@@ -21,37 +21,29 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
             NotFoundException exception) {
-        UUID uuidErrorCode = UUID.randomUUID();
-        log.error("Message: " + exception.getMessage() + " Code exception: " + exception.getCodeException() +
-                " Error UUID code: " + uuidErrorCode);
         IncorrectData data = new IncorrectData();
+        log.error("Message: " + exception.getMessage() + " Code exception: " + exception.getCodeException() +
+                " Error UUID code: " + data.getErrorCode());
         data.setMessage(exception.getMessage());
         data.setCodeException(exception.getCodeException());
-        data.setErrorCode(uuidErrorCode);
         return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
             Exception exception) {
-        UUID uuidErrorCode = UUID.randomUUID();
-        System.out.println(exception.getClass());
-        log.error("Message: " + exception.getMessage() + " Error UUID code: " + uuidErrorCode);
         IncorrectData data = new IncorrectData();
+        log.error("Message: " + exception.getMessage() + " Error UUID code: " + data.getErrorCode());
         data.setMessage(exception.getMessage());
-        data.setErrorCode(uuidErrorCode);
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
             BadCredentialsException exception){
-        UUID uuidErrorCode = UUID.randomUUID();
-        System.out.println(exception.getClass());
-        log.error("Message: " + exception.getMessage() + " Error UUID code: " + uuidErrorCode);
-        IncorrectData data =  new IncorrectData();
+        IncorrectData data = new IncorrectData();
+        log.error("Message: " + exception.getMessage() + " Error UUID code: " + data.getErrorCode());
         data.setMessage(exception.getMessage());
-        data.setErrorCode(uuidErrorCode);
         return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);
     }
 }

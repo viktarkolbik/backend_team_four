@@ -43,10 +43,7 @@ public class AuthController {
         List<String> role = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                role));
+        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId()));
     }
 
     private void splitEmail(LoginRequest loginRequest) {
