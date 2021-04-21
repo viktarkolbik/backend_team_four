@@ -21,7 +21,6 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE form SET fm_deleted=true WHERE fm_id=?")
 public class Form {
 
     @Id

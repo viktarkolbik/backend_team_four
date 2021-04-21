@@ -25,4 +25,9 @@ public interface InternshipRepository extends JpaRepository<Internship, UUID> {
 
     @Query("SELECT distinct i FROM Internship i LEFT JOIN FETCH i.skills WHERE i.deleted = false")
     List<Internship> findAllWithSkill();
+
+    @Modifying
+    @Query(value = "UPDATE internship SET inship_deleted=true WHERE inship_id= :internshipId",
+            nativeQuery = true)
+    void deleteById(@Param("internshipId") UUID internshipId);
 }

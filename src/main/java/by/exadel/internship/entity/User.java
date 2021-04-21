@@ -18,7 +18,6 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE user_detail SET u_deleted=true WHERE u_id=?")
 public class User {
 
     @Id

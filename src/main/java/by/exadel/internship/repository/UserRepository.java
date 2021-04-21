@@ -28,4 +28,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT distinct u FROM User u LEFT JOIN FETCH u.skills WHERE u.deleted = false")
     List<User> findAllWithSkill();
+
+    @Modifying
+    @Query(value = "UPDATE user_detail SET u_deleted=true WHERE u_id= :userId",
+            nativeQuery = true)
+    void deleteById(@Param("userId") UUID userId);
 }
