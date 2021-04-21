@@ -21,29 +21,37 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
             NotFoundException exception) {
-        IncorrectData data = new IncorrectData();
-        log.error("Message: " + exception.getMessage() + " Code exception: " + exception.getCodeException() +
-                " Error UUID code: " + data.getErrorCode());
-        data.setMessage(exception.getMessage());
-        data.setCodeException(exception.getCodeException());
+        IncorrectData data = incorrectDataFillingNotFoundException(exception);
         return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
             Exception exception) {
-        IncorrectData data = new IncorrectData();
-        log.error("Message: " + exception.getMessage() + " Error UUID code: " + data.getErrorCode());
-        data.setMessage(exception.getMessage());
+        IncorrectData data = incorrectDataFilling(exception);
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
             BadCredentialsException exception){
-        IncorrectData data = new IncorrectData();
-        log.error("Message: " + exception.getMessage() + " Error UUID code: " + data.getErrorCode());
-        data.setMessage(exception.getMessage());
+        IncorrectData data = incorrectDataFilling(exception);
         return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);
+    }
+
+    private IncorrectData incorrectDataFilling(Exception exception){
+        IncorrectData incorrectData = new IncorrectData();
+        log.error("Message: " + exception.getMessage() + " Error UUID code: " + incorrectData.getErrorCode());
+        incorrectData.setMessage(exception.getMessage());
+        return incorrectData;
+    }
+
+    private IncorrectData incorrectDataFillingNotFoundException(NotFoundException exception){
+        IncorrectData incorrectData = new IncorrectData();
+        log.error("Message: " + exception.getMessage() + " Code exception: " + exception.getCodeException() +
+                " Error UUID code: " + incorrectData.getErrorCode());
+        incorrectData.setMessage(exception.getMessage());
+        incorrectData.setCodeException(exception.getCodeException());
+        return incorrectData;
     }
 }
