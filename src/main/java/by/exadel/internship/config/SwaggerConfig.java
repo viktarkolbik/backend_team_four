@@ -23,12 +23,7 @@ import java.util.List;
 public class SwaggerConfig {
 
     private ApiKey apiKey() {
-        return new ApiKey("Authorization", "Authorization", "header");
-    }
-
-    @Bean
-    public SecurityConfiguration security() {
-        return new SecurityConfiguration(null, null, null, "Internship", "Bearer", ApiKeyVehicle.HEADER, "Authorization", ",");
+        return new ApiKey("Authorization", "JWT", "header");
     }
 
     private SecurityContext securityContext() {
