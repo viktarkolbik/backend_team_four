@@ -5,7 +5,7 @@ FROM maven:3.6.0-jdk-11-slim AS build
 WORKDIR /usr/app
 COPY src ./src
 COPY pom.xml .
-RUN mvn clean install
+RUN mvn clean install -Dmaven.test.skip=true
 #
 # Package stage
 #
