@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class IncorrectData {
 
@@ -16,4 +15,7 @@ public class IncorrectData {
     //To match the log
     private UUID errorCode;
 
+    public IncorrectData() {
+        this.errorCode = UUID.randomUUID();;
+    }
 }

@@ -10,21 +10,17 @@ import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.service.FormService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,12 +42,13 @@ public class FormServiceImpl implements FormService {
             form.setFilePath(file.getOriginalFilename());
             FormFullDTO createdForm = saveForm(form);
 
-            log.info("Success to save form, id: {}",createdForm.getId());
+            log.info("Success to save form, id: {}", createdForm.getId());
 
             uploadFile(file, createdForm.getId());
 
             return createdForm;
         }
+
         FormFullDTO createdForm = saveForm(form);
 
         log.info("Success to save form, id: {}", createdForm.getId());
@@ -72,21 +69,21 @@ public class FormServiceImpl implements FormService {
 
     }
 
-    private void uploadFile(MultipartFile file, UUID id) {
+    private void uploadFile(MultipartFile multipartFile, UUID id) {
 
         try {
-            Path path = Paths.get(filePath, id.toString());
-            Files.createDirectories(path);
-            byte[] bytes = file.getBytes();
-            BufferedOutputStream stream =
-                    new BufferedOutputStream(new FileOutputStream
-                            (new File(filePath + File.separator + id +
-                                    File.separator + file.getOriginalFilename())));
-            stream.write(bytes);
+
+            byte[] bytes = multipartFile.getBytes();
+
+            File file = new File(filePath + File.separator + id +
+                    File.separator + multipartFile.getOriginalFilename());
+
+            FileUtils.forceMkdirParent(file);
+
+            FileUtils.writeByteArrayToFile(file, bytes);
 
             log.info("Success to upload file, form id: {}", id);
 
-            stream.close();
         } catch (IOException e) {
             log.error(e.getMessage());
         }

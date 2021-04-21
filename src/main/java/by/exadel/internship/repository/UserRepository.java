@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,4 +34,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query(value = "UPDATE user_detail SET u_deleted=true WHERE u_id= :userId",
             nativeQuery = true)
     void deleteById(@Param("userId") UUID userId);
+
+    Optional<User> findByLogin(String login);
 }
