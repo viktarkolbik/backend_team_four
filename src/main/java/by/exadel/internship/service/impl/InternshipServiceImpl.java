@@ -52,6 +52,5 @@ public class InternshipServiceImpl implements InternshipService {
         log.info("Successfully list of guestInternshipDTOs with skills");
 
         return guestInternshipDTOList;
-
     }
 }

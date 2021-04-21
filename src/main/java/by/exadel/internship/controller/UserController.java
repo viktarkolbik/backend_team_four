@@ -1,6 +1,7 @@
 package by.exadel.internship.controller;
 
 import by.exadel.internship.dto.UserDTO;
+import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,8 +36,8 @@ public class UserController {
 
     @GetMapping("/internship/{internshipId}")
     @ApiOperation("Return administrators by internship id")
-    public List<UserDTO> getUserByInternshipId(@PathVariable UUID internshipId) {
-        return userService.getUsersWithRoleAdminByInternshipId(internshipId);
+    public List<UserDTO> getUserByInternshipId(@PathVariable UUID internshipId, UserRole role) {
+        return userService.getUsersByRoleAndInternshipId(internshipId, role);
     }
 
 }

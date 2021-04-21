@@ -55,10 +55,9 @@ public class UserServiceImpl implements UserService {
         return userDTO;
     }
 
-    public List<UserDTO> getUsersWithRoleAdminByInternshipId(UUID internshipId){
+    public List<UserDTO> getUsersByRoleAndInternshipId(UUID internshipId, UserRole role){
 
-        List<User> userList = userRepository.findAllWithSkillByInternshipId(internshipId);
-        userList.forEach(user -> System.out.println(user));
+        List<User> userList = userRepository.findAllWithSkillByInternshipId(internshipId, role);
 
         List<UserDTO> userDTOList = mapper.map(userList);
 
