@@ -6,10 +6,7 @@ import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,9 +25,9 @@ public class InternshipController {
         return internshipService.getAll();
     }
 
-    @GetMapping("/{internshipId}")
+    @GetMapping("/internshipId")
     @ApiOperation("return internship by id")
-    public GuestInternshipDTO getInternshipById(@PathVariable UUID internshipId) {
+    public GuestInternshipDTO getInternshipById(@RequestParam("internshipId") UUID internshipId) {
         return internshipService.getById(internshipId);
     }
 }
