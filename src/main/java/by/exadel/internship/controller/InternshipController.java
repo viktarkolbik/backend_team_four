@@ -26,14 +26,11 @@ public class InternshipController {
     @ApiOperation("return list of internships")
     public List<GuestInternshipDTO> getInternshipList() {
         return internshipService.getAll();
-
     }
 
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
     public GuestInternshipDTO getInternshipById(@PathVariable UUID internshipId) {
-
         return internshipService.getById(internshipId);
-
     }
 }

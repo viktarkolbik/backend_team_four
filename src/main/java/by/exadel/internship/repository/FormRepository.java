@@ -13,10 +13,10 @@ import java.util.UUID;
 @Repository
 public interface FormRepository extends JpaRepository<Form, UUID> {
 
-    @Query("SELECT distinct f FROM Form f LEFT JOIN FETCH f.timeForCallList")
+    @Query("SELECT DISTINCT f FROM Form f LEFT JOIN FETCH f.timeForCallList")
     List<Form> findAllWithTimeForCallList();
 
-    @Query("SELECT distinct f FROM Form f LEFT JOIN FETCH f.timeForCallList where f.internship = :id")
+    @Query("SELECT DISTINCT f FROM Form f LEFT JOIN FETCH f.timeForCallList WHERE f.internship = :id")
     List<Form> findAllByInternship(@Param("id") UUID internshipID);
 
 }

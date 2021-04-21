@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,12 +75,11 @@ public class FormServiceImpl implements FormService {
 
         try {
 
-            File file = new File(filePath + File.separator + id +
-                    File.separator + multipartFile.getOriginalFilename());
+            Path path = Paths.get(filePath, id.toString(), multipartFile.getOriginalFilename());
 
-            FileUtils.forceMkdirParent(file);
+            FileUtils.forceMkdirParent(path.toFile());
 
-            FileUtils.writeByteArrayToFile(file, multipartFile.getBytes());
+            FileUtils.writeByteArrayToFile(path.toFile(), multipartFile.getBytes());
 
             log.info("Success to upload file, form id: {}", id);
 
