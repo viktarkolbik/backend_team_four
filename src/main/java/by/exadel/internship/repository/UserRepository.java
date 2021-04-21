@@ -17,6 +17,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findAllWithSkill();
 
     @Query("SELECT distinct u FROM User u LEFT JOIN FETCH u.skills join u.internships i where i.id = :id and u.userRole = :role")
-    List<User> findAllWithSkillByInternshipId(@Param("id") UUID internshipId, @Param("role")UserRole role);
+    List<User> findAllWithSkillByInternshipId(@Param("id") UUID internshipId, @Param("role") UserRole role);
 
 }

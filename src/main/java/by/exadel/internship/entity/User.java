@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="user_detail")
+@Table(name = "user_detail")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,7 +44,7 @@ public class User {
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private UserRole userRole;
 
-    @Column(name="us_name", nullable=false)
+    @Column(name = "us_name", nullable = false)
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "user_skill", joinColumns = @JoinColumn(name = "us_u_id"))

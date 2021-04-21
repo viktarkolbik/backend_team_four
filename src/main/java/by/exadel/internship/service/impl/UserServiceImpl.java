@@ -55,11 +55,17 @@ public class UserServiceImpl implements UserService {
         return userDTO;
     }
 
-    public List<UserDTO> getUsersByRoleAndInternshipId(UUID internshipId, UserRole role){
+    public List<UserDTO> getUsersByRoleAndInternshipId(UUID internshipId, UserRole role) {
+
+        log.info("Try to get  users by id: {} with skills and  role: {}", internshipId, role);
 
         List<User> userList = userRepository.findAllWithSkillByInternshipId(internshipId, role);
 
+        log.info("Try get UserDTOs from users");
+
         List<UserDTO> userDTOList = mapper.map(userList);
+
+        log.info("UserDTOs got successfully");
 
         return userDTOList;
     }

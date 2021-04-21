@@ -32,13 +32,6 @@ public class FormController {
         return formService.process(form, file);
     }
 
-//    @GetMapping
-//    @ApiOperation("Get all forms")
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<FormFullDTO> getAllForms() {
-//        return formService.getAll();
-//    }
-
     @GetMapping("/{internshipId}")
     @ApiOperation("Get all forms by internship id")
     public List<FormFullDTO> getAllFormsByInternshipId(@PathVariable UUID internshipId) {
