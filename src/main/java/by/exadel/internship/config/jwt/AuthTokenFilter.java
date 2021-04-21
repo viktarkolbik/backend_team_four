@@ -1,6 +1,6 @@
 package by.exadel.internship.config.jwt;
 
-import by.exadel.internship.service.UserDetailsServiceImpl;
+import by.exadel.internship.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

@@ -1,4 +1,4 @@
-package by.exadel.internship.service;
+package by.exadel.internship.service.impl;
 
 
 import by.exadel.internship.entity.User;

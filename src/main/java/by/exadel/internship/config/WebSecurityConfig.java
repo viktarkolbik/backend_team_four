@@ -2,7 +2,7 @@ package by.exadel.internship.config;
 
 import by.exadel.internship.config.jwt.AuthEntryPointJwt;
 import by.exadel.internship.config.jwt.AuthTokenFilter;
-import by.exadel.internship.service.UserDetailsServiceImpl;
+import by.exadel.internship.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
