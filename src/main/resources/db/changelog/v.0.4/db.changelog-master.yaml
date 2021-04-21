@@ -1,6 +1,7 @@
 databaseChangeLog:
  - include:
       file: db.changelog-change-size-of-password.yaml
-  - include:
+      relativeToChangelogFile: true
+ - include:
       file: db.changelog-create-table-country-and-city.yaml
       relativeToChangelogFile: true

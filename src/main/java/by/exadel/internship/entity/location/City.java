@@ -15,7 +15,7 @@ import java.util.UUID;
 @Table(name = "city")
 @NoArgsConstructor
 @AllArgsConstructor
-public class City implements Comparable<City>{
+public class City {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -32,9 +32,4 @@ public class City implements Comparable<City>{
     @ManyToOne
     @JoinColumn(name = "city_cntr_id")
     private Country country;
-
-    @Override
-    public int compareTo(City o) {
-        return this.getName().compareTo(o.getName());
-    }
 }
