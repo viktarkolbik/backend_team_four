@@ -1,6 +1,7 @@
 package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.UserDTO;
+import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.UserMapper;
@@ -52,5 +53,15 @@ public class UserServiceImpl implements UserService {
         log.info("UserDTO got successfully");
 
         return userDTO;
+    }
+
+    public List<UserDTO> getUsersWithRoleAdminByInternshipId(UUID internshipId){
+
+        List<User> userList = userRepository.findAllWithSkillByInternshipId(internshipId);
+        userList.forEach(user -> System.out.println(user));
+
+        List<UserDTO> userDTOList = mapper.map(userList);
+
+        return userDTOList;
     }
 }

@@ -32,4 +32,11 @@ public class UserController {
     public UserDTO getUserById(@PathVariable UUID userId) {
         return userService.getById(userId);
     }
+
+    @GetMapping("/internship/{internshipId}")
+    @ApiOperation("Return administrators by internship id")
+    public List<UserDTO> getUserByInternshipId(@PathVariable UUID internshipId) {
+        return userService.getUsersWithRoleAdminByInternshipId(internshipId);
+    }
+
 }

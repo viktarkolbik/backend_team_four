@@ -11,4 +11,6 @@ public interface UserService {
 
     UserDTO getById(UUID id);
 
+    List<UserDTO> getUsersWithRoleAdminByInternshipId(UUID internshipId);
+
 }

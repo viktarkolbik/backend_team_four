@@ -5,6 +5,8 @@ import by.exadel.internship.dto.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"internships"})
 public class User {
 
     @Id
@@ -46,7 +49,8 @@ public class User {
     @CollectionTable(name = "user_skill", joinColumns = @JoinColumn(name = "us_u_id"))
     private List<Skill> skills;
 
-//    @Column(name = "intership_list")
-//    private List<UserInternship> listOfInternships;
-//    private List<LocalDateTime> freeInterviewDates;
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
+    private List<Internship> internships;
+
 }
