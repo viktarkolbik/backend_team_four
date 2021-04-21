@@ -83,6 +83,6 @@ public class Form {
     private List<TimeForCall> timeForCallList;
 
     @Column(name = "fm_inship_id")
-    private UUID internship;
+    private UUID internshipId;
 
 }
