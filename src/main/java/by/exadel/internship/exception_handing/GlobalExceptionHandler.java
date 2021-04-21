@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.UUID;
 
 /*
-* Send an exception in json format
-* Use ResponseEntity for sending exception(we can use any class) like response on a server
-*/
+ * Send an exception in json format
+ * Use ResponseEntity for sending exception(we can use any class) like response on a server
+ */
 
 @ControllerAdvice
 @Slf4j
@@ -20,11 +20,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
-            NotFoundException exception){
+            NotFoundException exception) {
         UUID uuidErrorCode = UUID.randomUUID();
-        log.error("Message: " + exception.getMessage()+ " Code exception: " + exception.getCodeException() +
+        log.error("Message: " + exception.getMessage() + " Code exception: " + exception.getCodeException() +
                 " Error UUID code: " + uuidErrorCode);
-        IncorrectData data =  new IncorrectData();
+        IncorrectData data = new IncorrectData();
         data.setMessage(exception.getMessage());
         data.setCodeException(exception.getCodeException());
         data.setErrorCode(uuidErrorCode);
@@ -33,11 +33,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
-            Exception exception){
+            Exception exception) {
         UUID uuidErrorCode = UUID.randomUUID();
         System.out.println(exception.getClass());
         log.error("Message: " + exception.getMessage() + " Error UUID code: " + uuidErrorCode);
-        IncorrectData data =  new IncorrectData();
+        IncorrectData data = new IncorrectData();
         data.setMessage(exception.getMessage());
         data.setErrorCode(uuidErrorCode);
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
