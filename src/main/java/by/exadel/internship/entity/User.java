@@ -52,7 +52,6 @@ public class User {
     private List<Skill> skills;
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
-    @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private List<Internship> internships;
 
 }

@@ -71,7 +71,6 @@ public class Internship extends Auditable<String> {
             name = "user_internship",
             joinColumns = @JoinColumn(name = "ui_inship_id"),
             inverseJoinColumns = @JoinColumn(name = "ui_u_id"))
-    @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private List<User> users;
 
 //    private List<Location> countryList;
