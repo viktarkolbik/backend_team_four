@@ -19,7 +19,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("{userId}")
+    @GetMapping("/{userId}")
     @ApiOperation("Return user by id")
     public UserDTO getUserById(@PathVariable("userId") UUID userId) {
         return userService.getById(userId);
