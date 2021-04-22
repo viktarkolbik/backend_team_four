@@ -4,8 +4,6 @@ import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.enums.FormStatus;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
