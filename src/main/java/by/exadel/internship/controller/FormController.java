@@ -32,6 +32,12 @@ public class FormController {
         return formService.process(form, file);
     }
 
+    @GetMapping
+    @ApiOperation("Get all forms by internship id")
+    public List<FormFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
+        return formService.getAllByInternshipId(internshipId);
+    }
+
     @DeleteMapping("/{formId}")
     @ApiOperation("Delete form by ID")
     public void deleteFormById(@PathVariable UUID formId) {
@@ -44,9 +50,5 @@ public class FormController {
         formService.restoreFormById(formId);
     }
 
-    @GetMapping
-    @ApiOperation("Get all forms by internship id")
-    public List<FormFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
-        return formService.getAllByInternshipId(internshipId);
-    }
+
 }
