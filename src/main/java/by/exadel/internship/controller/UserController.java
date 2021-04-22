@@ -31,16 +31,15 @@ public class UserController {
         return userService.getUsersByRoleAndInternshipId(internshipId, role);
     }
 
-
     @DeleteMapping("/{userId}")
     @ApiOperation("Delete user")
-    public void deleteUser(@PathVariable UUID userId){
+    public void deleteUser(@PathVariable UUID userId) {
         userService.deleteUserById(userId);
     }
 
     @PutMapping("/{userId}/restore")
     @ApiOperation("do active deleted User")
-    public void restoreUser(@PathVariable UUID userId){
+    public void restoreUser(@PathVariable UUID userId) {
         userService.restoreUserById(userId);
     }
 

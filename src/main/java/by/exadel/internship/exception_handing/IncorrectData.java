@@ -16,6 +16,7 @@ public class IncorrectData {
     private UUID errorCode;
 
     public IncorrectData() {
-        this.errorCode = UUID.randomUUID();;
+        this.errorCode = UUID.randomUUID();
+        ;
     }
 }

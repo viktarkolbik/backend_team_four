@@ -33,25 +33,25 @@ public class InternshipController {
 
     @GetMapping("/historical")
     @ApiOperation("Return List of deleted Internships")
-    public List<GuestInternshipDTO> getDeletedInternshipList(){
+    public List<GuestInternshipDTO> getDeletedInternshipList() {
         return internshipService.getAllDeleted();
     }
 
     @GetMapping("/historical/{internshipId}")
     @ApiOperation("Return deleted Internship by ID")
-    public GuestInternshipDTO getDeletedInternship(@PathVariable UUID internshipId){
+    public GuestInternshipDTO getDeletedInternship(@PathVariable UUID internshipId) {
         return internshipService.getDeletedInternshipById(internshipId);
     }
 
     @DeleteMapping("/{internshipId}")
     @ApiOperation("Delete Internship by ID")
-    public void deleteInternship(@PathVariable UUID internshipId){
+    public void deleteInternship(@PathVariable UUID internshipId) {
         internshipService.deleteInternshipById(internshipId);
     }
 
     @PutMapping("/{internshipId}/restore")
     @ApiOperation("Restore deleted Internships")
-    public GuestInternshipDTO restoreInternship(@PathVariable UUID internshipId){
+    public GuestInternshipDTO restoreInternship(@PathVariable UUID internshipId) {
         return internshipService.restoreInternshipById(internshipId);
     }
 }

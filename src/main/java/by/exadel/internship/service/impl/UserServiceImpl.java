@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
         log.info("Try get UserDTO from User");
 
-        UserDTO  userDTO = mapper.toUserDTO(user);
+        UserDTO userDTO = mapper.toUserDTO(user);
 
         log.info("UserDTO got successfully");
 
