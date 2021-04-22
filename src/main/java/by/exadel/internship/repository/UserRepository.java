@@ -31,8 +31,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findAllWithSkill();
 
     @Modifying
-    @Query(value = "UPDATE user_detail SET u_deleted=true WHERE u_id= :userId",
-            nativeQuery = true)
+    @Query(value = "UPDATE User u SET u.deleted=true WHERE u.id= :userId")
     void deleteById(@Param("userId") UUID userId);
 
     Optional<User> findByLogin(String login);

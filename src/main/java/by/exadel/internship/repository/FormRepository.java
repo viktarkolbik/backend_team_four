@@ -27,8 +27,7 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
     List<Form> findAllWithTimeForCallList();
 
     @Modifying
-    @Query(value = "UPDATE form SET f_deleted=true WHERE f_id= :formId",
-            nativeQuery = true)
+    @Query(value = "UPDATE Form f SET f.deleted=true WHERE f.id= :formId")
     void deleteById(@Param("formId") UUID formId);
 
 }
