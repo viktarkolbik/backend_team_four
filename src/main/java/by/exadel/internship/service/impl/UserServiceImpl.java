@@ -51,4 +51,36 @@ public class UserServiceImpl implements UserService {
 
         return userDTO;
     }
+
+    public void deleteUserById(UUID uuid) {
+        putClassNameInMDC();
+        log.info("Try to delete User with uuid: {}", uuid);
+        userRepository
+                .findByIdAndDeletedFalse(uuid)
+                .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
+        userRepository.deleteById(uuid);
+        log.info("Successfully deleted User with uuid: {}", uuid);
+    }
+
+    public void restoreUserById(UUID uuid) {
+        putClassNameInMDC();
+        log.info("Try to restore User with uuid: {}", uuid);
+        userRepository
+                .findByIdAndDeletedTrue(uuid)
+                .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
+        userRepository.activateUserById(uuid);
+        log.info("Successfully restore User with uuid: {}", uuid);
+    }
+
+    public List<UserDTO> getAllDeleted() {
+        putClassNameInMDC();
+        log.info("Try to get List of deleted user");
+        List<User> userList = userRepository.findAllByDeletedTrue();
+        log.info("Return List of deletes user");
+        return mapper.map(userList);
+    }
+
+    private void putClassNameInMDC() {
+        MDC.put("className", UserService.class.getSimpleName());
+    }
 }

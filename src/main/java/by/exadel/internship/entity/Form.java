@@ -62,6 +62,9 @@ public class Form {
 
     @Column(name = "fm_primary_skill")
     private String primarySkill;
+    
+    @Column(name = "fm_deleted")
+    private boolean deleted;
 
     @Column(name = "fm_english_level")
     @Enumerated(value = EnumType.STRING)

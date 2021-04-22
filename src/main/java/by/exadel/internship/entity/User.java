@@ -1,3 +1,4 @@
+
 package by.exadel.internship.entity;
 
 import by.exadel.internship.dto.enums.Skill;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="user_detail")
+@Table(name = "user_detail")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,6 +40,9 @@ public class User {
     @Column(name = "u_role")
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+
+    @Column(name = "u_deleted")
+    private boolean deleted;
 
     @Column(name="us_name", nullable=false)
     @Enumerated(EnumType.STRING)

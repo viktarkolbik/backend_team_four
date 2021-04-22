@@ -11,4 +11,11 @@ public interface InternshipService {
 
     List<GuestInternshipDTO> getAll();
 
+    List<GuestInternshipDTO> getAllDeleted();
+
+    GuestInternshipDTO getDeletedInternshipById(UUID uuid);
+
+    GuestInternshipDTO restoreInternshipById(UUID uuid);
+
+    void deleteInternshipById(UUID internshipId);
 }

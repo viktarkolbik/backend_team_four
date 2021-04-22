@@ -6,8 +6,11 @@ import by.exadel.internship.service.FormService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -29,6 +32,18 @@ public class FormController {
     public FormFullDTO addNewForm(@RequestPart(name = "form") FormRegisterDTO form,
                                   @RequestPart(name = "file", required = false) MultipartFile file) {
         return formService.process(form, file);
+    }
+
+    @DeleteMapping("/{formId}")
+    @ApiOperation("Delete form by ID")
+    public void deleteFormById(@PathVariable UUID formId) {
+        formService.deleteById(formId);
+    }
+
+    @PutMapping("/{formId}/restore")
+    @ApiOperation("Restore deleted Form")
+    public void restoreForm(@PathVariable UUID formId) {
+        formService.restoreFormById(formId);
     }
 
     @GetMapping

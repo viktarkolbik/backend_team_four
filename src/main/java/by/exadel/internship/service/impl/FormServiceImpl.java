@@ -4,6 +4,7 @@ import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
+import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.service.FormService;
@@ -103,5 +104,31 @@ public class FormServiceImpl implements FormService {
 
         return formFullDTOList;
 
+    }
+
+    public void restoreFormById(UUID formId) {
+        putClassNameInMDC();
+        log.info("Try to activate form with uuid: {}", formId);
+        formRepository
+                .findByIdAndDeletedTrue(formId)
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
+                        " Not Found in DB", "form.uuid.invalid"));
+        formRepository.activateFormById(formId);
+        log.info("Successfully returned deleted Form with uuid: {}", formId);
+    }
+
+    public void deleteById(UUID formId) {
+        putClassNameInMDC();
+        log.info("Try to delete form with uuid: {} ", formId);
+        formRepository
+                .findByIdAndDeletedFalse(formId)
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
+                        " Not Found in DB", "form.uuid.invalid"));
+        formRepository.deleteById(formId);
+        log.info("Successfully deleted Form with uuid: {}", formId);
+    }
+
+    private void putClassNameInMDC() {
+        MDC.put("className", FormService.class.getSimpleName());
     }
 }

@@ -19,7 +19,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = "internshipFormat")
 public class Internship extends Auditable<String> {
-
     @Id
     @Column(name = "inship_id")
     private UUID id;
@@ -54,6 +53,9 @@ public class Internship extends Auditable<String> {
     @Column(name = "inship_registration_end_date")
     private LocalDate registrationEndDate;
 
+    @Column(name = "inship_deleted")
+    private boolean deleted;
+
     @Column(name = "inship_format_name")
     @Enumerated(EnumType.STRING)
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
@@ -69,5 +71,4 @@ public class Internship extends Auditable<String> {
 //    private List<User> techList;
 //    private List<User> adminList;
 //    private List<Location> countryList;
-
 }
