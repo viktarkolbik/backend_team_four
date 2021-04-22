@@ -69,11 +69,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**")
-                .permitAll()
-                .antMatchers("/internships")
-                .permitAll()
-                .anyRequest()
+                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/internships").permitAll()
+                .antMatchers("**").hasAuthority("SUPER_ADMIN")
+                .antMatchers("/internships/**", "/forms/**").hasAuthority("ADMIN")
+                .antMatchers("")
                 .authenticated();
 
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);

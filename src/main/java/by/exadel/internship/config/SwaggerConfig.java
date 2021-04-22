@@ -15,7 +15,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.ApiKeyVehicle;
 import springfox.documentation.swagger.web.SecurityConfiguration;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,7 +22,12 @@ import java.util.List;
 public class SwaggerConfig {
 
     private ApiKey apiKey() {
-        return new ApiKey("Authorization", "JWT", "header");
+        return new ApiKey("Authorization", "Authorization", "header");
+    }
+
+    @Bean
+    public SecurityConfiguration security() {
+        return new SecurityConfiguration(null, null, null, "Internship", "Bearer", ApiKeyVehicle.HEADER, "Authorization", ",");
     }
 
     private SecurityContext securityContext() {

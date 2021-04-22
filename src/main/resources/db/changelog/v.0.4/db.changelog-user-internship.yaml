@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20042021-add-type-user-internship
+      author: maksim_maevsky
+      changes:
+        - createTable:
+            tableName: user_internship
+            columns:
+              - column:
+                  name: ui_u_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ui_inship_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 20042021-add-foreignKeyConstraint-internship-to-user-internship
+      author: maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: ui_inship_id
+            baseTableName: user_internship
+            constraintName: fk_internship_ui
+            referencedColumnNames: inship_id
+            referencedTableName: internship
+
+  - changeSet:
+      id: 20042021-add-foreignKeyConstraint-user-to-user-internship
+      author: maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: ui_u_id
+            baseTableName: user_internship
+            constraintName: fk_user_ui
+            referencedColumnNames: u_id
+            referencedTableName: user_detail
+
+  - changeSet:
+      id: 20042021-add-uniqueConstraint-for-user-internship
+      author: maksim_maevsky
+      changes:
+        - addUniqueConstraint:
+            columnNames: ui_u_id, ui_inship_id
+            constraintName: uc_user_internship
+            tableName: user_internship
