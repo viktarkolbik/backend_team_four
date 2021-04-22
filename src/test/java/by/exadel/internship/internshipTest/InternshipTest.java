@@ -2,7 +2,6 @@ package by.exadel.internship.internshipTest;
 
 import by.exadel.internship.InternshipApplicationTests;
 import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
-import by.exadel.internship.dto.internshipDTO.UserInternshipDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
@@ -48,7 +47,7 @@ public class InternshipTest extends InternshipApplicationTests {
 
         String content = result.getResponse().getContentAsString();
 
-        List<UserInternshipDTO> dtos = objectMapper.readValue(content, new TypeReference<>() {
+        List<GuestInternshipDTO> dtos = objectMapper.readValue(content, new TypeReference<>() {
         });
 
         assertEquals(dtos.size(), 10);

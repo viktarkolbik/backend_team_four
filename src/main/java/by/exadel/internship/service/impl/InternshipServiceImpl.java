@@ -53,7 +53,6 @@ public class InternshipServiceImpl implements InternshipService {
         log.info("Successfully list of guestInternshipDTOs with skills");
 
         return guestInternshipDTOList;
-
     }
 
     public List<GuestInternshipDTO> getAllDeleted() {
@@ -97,7 +96,7 @@ public class InternshipServiceImpl implements InternshipService {
         log.info("Try to delete Internship with uuid: {}", internshipId);
         internshipRepository
                 .findAllByIdAndDeletedFalse(internshipId)
-                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + internshipId  +
+                .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + internshipId +
                         " in DB", "uuid.invalid"));
         internshipRepository.deleteById(internshipId);
         log.info("Internship with uuid: {} was deleted", internshipId);

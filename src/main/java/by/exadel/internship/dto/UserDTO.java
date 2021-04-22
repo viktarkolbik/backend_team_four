@@ -23,6 +23,5 @@ public class UserDTO {
     private UserRole userRole;
     private Set<Skill> skills;
 
-//    private List<UserInternshipDTO> listOfInternships;
 //    private List<LocalDateTime> freeInterviewDates;
 }

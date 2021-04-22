@@ -18,6 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = "internshipFormat")
+@ToString(exclude = {"users"})
 public class Internship extends Auditable<String> {
     @Id
     @Column(name = "inship_id")
@@ -67,8 +68,12 @@ public class Internship extends Auditable<String> {
     @CollectionTable(name = "internship_skill", joinColumns = @JoinColumn(name = "is_inship_id"))
     private List<Skill> skills;
 
-//    private List<Form> formList;
-//    private List<User> techList;
-//    private List<User> adminList;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_internship",
+            joinColumns = @JoinColumn(name = "ui_inship_id"),
+            inverseJoinColumns = @JoinColumn(name = "ui_u_id"))
+    private List<User> users;
+
 //    private List<Location> countryList;
 }

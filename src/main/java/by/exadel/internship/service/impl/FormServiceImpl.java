@@ -1,5 +1,6 @@
 package by.exadel.internship.service.impl;
 
+import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
@@ -18,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,14 +76,11 @@ public class FormServiceImpl implements FormService {
 
         try {
 
-            byte[] bytes = multipartFile.getBytes();
+            Path path = Paths.get(filePath, id.toString(), multipartFile.getOriginalFilename());
 
-            File file = new File(filePath + File.separator + id +
-                    File.separator + multipartFile.getOriginalFilename());
+            FileUtils.forceMkdirParent(path.toFile());
 
-            FileUtils.forceMkdirParent(file);
-
-            FileUtils.writeByteArrayToFile(file, bytes);
+            FileUtils.writeByteArrayToFile(path.toFile(), multipartFile.getBytes());
 
             log.info("Success to upload file, form id: {}", id);
 
@@ -95,6 +95,24 @@ public class FormServiceImpl implements FormService {
         log.info("Try to get all forms");
 
         List<Form> formList = formRepository.findAllWithTimeForCallList();
+
+        log.info("Try get list of formFullDTO");
+
+        List<FormFullDTO> formFullDTOList = mapper.map(formList);
+
+        log.info("Successfully list of formFullDTO");
+
+        return formFullDTOList;
+
+    }
+
+
+    public List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
+
+        MDC.put("className", FormService.class.getSimpleName());
+        log.info("Try to get all forms by internship id");
+
+        List<Form> formList = formRepository.findAllByInternship(internshipId);
 
         log.info("Try get list of formFullDTO");
 

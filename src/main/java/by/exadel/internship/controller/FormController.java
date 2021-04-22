@@ -6,14 +6,12 @@ import by.exadel.internship.service.FormService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
-
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
@@ -34,6 +32,12 @@ public class FormController {
         return formService.process(form, file);
     }
 
+    @GetMapping
+    @ApiOperation("Get all forms by internship id")
+    public List<FormFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
+        return formService.getAllByInternshipId(internshipId);
+    }
+
     @DeleteMapping("/{formId}")
     @ApiOperation("Delete form by ID")
     public void deleteFormById(@PathVariable UUID formId) {
@@ -46,10 +50,5 @@ public class FormController {
         formService.restoreFormById(formId);
     }
 
-    @GetMapping
-    @ApiOperation("Get all forms")
-    @ResponseStatus(HttpStatus.OK)
-    public List<FormFullDTO> getAllForms() {
-        return formService.getAll();
-    }
+
 }
