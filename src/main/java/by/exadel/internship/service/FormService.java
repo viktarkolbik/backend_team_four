@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FormService {
-
     FormFullDTO process(FormRegisterDTO form, MultipartFile file);
-
     List<FormFullDTO> getAll();
+    void deleteById(UUID formId);
+    void restoreFormById(UUID formId);
 
     List<FormFullDTO> getAllByInternshipId(UUID internshipId);
 

@@ -14,4 +14,10 @@ public interface UserService {
 
     List<UserDTO> getUsersByRoleAndInternshipId(UUID internshipId, UserRole role);
 
+    void deleteUserById(UUID uuid);
+
+    void restoreUserById(UUID uuid);
+
+    List<UserDTO> getAllDeleted();
+
 }
