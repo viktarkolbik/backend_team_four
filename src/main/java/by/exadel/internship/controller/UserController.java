@@ -19,19 +19,13 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
-    @ApiOperation("Return list of users")
-    public List<UserDTO> getUserList() {
-        return userService.getAll();
-    }
-
-    @GetMapping("/userId")
+    @GetMapping("{userId}")
     @ApiOperation("Return user by id")
-    public UserDTO getUserById(@RequestParam("userId") UUID userId) {
+    public UserDTO getUserById(@PathVariable("userId") UUID userId) {
         return userService.getById(userId);
     }
 
-    @GetMapping("/internshipId")
+    @GetMapping
     @ApiOperation("Return users by internship id and role")
     public List<UserDTO> getUserByInternshipId(@RequestParam("internshipId") UUID internshipId, UserRole role) {
         return userService.getUsersByRoleAndInternshipId(internshipId, role);

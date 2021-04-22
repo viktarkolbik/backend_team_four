@@ -32,7 +32,7 @@ public class FormController {
         return formService.process(form, file);
     }
 
-    @GetMapping("/internshipId")
+    @GetMapping
     @ApiOperation("Get all forms by internship id")
     public List<FormFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
         return formService.getAllByInternshipId(internshipId);
