@@ -34,37 +34,39 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
-            BadCredentialsException exception){
+            BadCredentialsException exception) {
         IncorrectData data = incorrectDataFilling(exception);
         return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
-            AccessDeniedException exception){
+            AccessDeniedException exception) {
         IncorrectData data = incorrectDataFillingAccessException(exception);
         return new ResponseEntity<>(data, HttpStatus.FORBIDDEN);
     }
 
-    private IncorrectData incorrectDataFilling(Exception exception){
+    private IncorrectData incorrectDataFilling(Exception exception) {
         IncorrectData incorrectData = new IncorrectData();
-        log.error("Message: " + exception.getMessage() + " Error UUID code: " + incorrectData.getErrorCode());
+        log.error("Message: {} Error UUID code: {}", exception.getMessage(), incorrectData.getErrorCode());
         incorrectData.setMessage(exception.getMessage());
         return incorrectData;
     }
 
-    private IncorrectData incorrectDataFillingNotFoundException(NotFoundException exception){
+    private IncorrectData incorrectDataFillingNotFoundException(NotFoundException exception) {
         IncorrectData incorrectData = new IncorrectData();
-        log.error("Message: " + exception.getMessage() + " Code exception: " + exception.getCodeException() +
-                " Error UUID code: " + incorrectData.getErrorCode());
+        log.error("Message: {} Code exception: {} Error UUID code: {}",
+                exception.getMessage(),
+                exception.getCodeException(),
+                incorrectData.getErrorCode());
         incorrectData.setMessage(exception.getMessage());
         incorrectData.setCodeException(exception.getCodeException());
         return incorrectData;
     }
 
-    private IncorrectData incorrectDataFillingAccessException(AccessDeniedException exception){
+    private IncorrectData incorrectDataFillingAccessException(AccessDeniedException exception) {
         IncorrectData incorrectData = new IncorrectData();
-        log.error("Message: " + ACCESS_ERROR_MESSAGE + " Error UUID code: " + incorrectData.getErrorCode());
+        log.error("Message: {} Error UUID code: {}", ACCESS_ERROR_MESSAGE, incorrectData.getErrorCode());
         incorrectData.setMessage(ACCESS_ERROR_MESSAGE);
         return incorrectData;
     }
