@@ -28,7 +28,6 @@ public class InternshipController {
         return internshipService.getAll();
     }
 
-    @AdminAccessControl
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
     public GuestInternshipDTO getInternshipById(@PathVariable("internshipId") UUID internshipId) {

@@ -24,12 +24,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String[] AUTH_WHITELIST = {
+    private static final String[] SWAGGER_WHITELIST = {
             "/swagger-resources/**",
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs",
     };
+
+    private static final String[] WHITELIST = {
+            "/auth/**",
+            "/internships",
+            "/forms"
+    } ;
 
     private final UserDetailsServiceImpl userDetailsService;
 
@@ -69,8 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/internships", "/forms").permitAll()
+                .antMatchers(WHITELIST).permitAll()
                 .anyRequest()
                 .authenticated();
 
@@ -79,6 +84,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(AUTH_WHITELIST);
+        web.ignoring().antMatchers(SWAGGER_WHITELIST);
     }
 }
