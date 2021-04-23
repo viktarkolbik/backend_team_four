@@ -8,5 +8,4 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface CountryRepository extends JpaRepository<Country, UUID> {
-    Optional<Country> findCountryByName(String name);
 }
