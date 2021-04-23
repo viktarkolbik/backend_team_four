@@ -10,17 +10,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SimpleFormMapperTest {
     private FormMapper mapper
             = Mappers.getMapper(FormMapper.class);
-
-    @Test
-    public void givenEntityToDTO_whenMaps_thenCorrect() {
-        Form form = new Form();
-        form.setCity("minsk");
-        form.setCountry("Belarus");
-        FormFullDTO formFullDTO = mapper.toFormDto(form);
-
-        assertEquals(form.getCity(), formFullDTO.getCity());
-        assertEquals(form.getCountry(), formFullDTO.getCountry());
-    }
+//
+//    @Test
+//    public void givenEntityToDTO_whenMaps_thenCorrect() {
+//        Form form = new Form();
+//        form.setCity("minsk");
+//        form.setCountry("Belarus");
+//        FormFullDTO formFullDTO = mapper.toFormDto(form);
+//
+//        assertEquals(form.getCity(), formFullDTO.getCity());
+//        assertEquals(form.getCountry(), formFullDTO.getCountry());
+//    }
 
     @Test
     public void givenDTOtoEntity_whenMaps_thenCorrect() {

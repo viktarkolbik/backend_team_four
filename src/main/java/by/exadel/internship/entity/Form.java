@@ -2,6 +2,8 @@ package by.exadel.internship.entity;
 
 import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.enums.FormStatus;
+import by.exadel.internship.entity.location.City;
+import by.exadel.internship.entity.location.Country;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -45,11 +47,13 @@ public class Form {
     @Column(name = "fm_skype")
     private String skype;
 
-    @Column(name = "fm_country")
-    private String country;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fm_country_id")
+    private Country country;
 
-    @Column(name = "fm_city")
-    private String city;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fm_city_id")
+    private City city;
 
     @Column(name = "fm_experience")
     private String experience;
@@ -74,7 +78,7 @@ public class Form {
     private FormStatus formStatus;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "i_id")
+    @JoinColumn(name = "fm_i_id")
     private Interview interview;
 
     @ToString.Exclude
