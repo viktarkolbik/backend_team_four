@@ -1,5 +1,6 @@
 package by.exadel.internship.controller;
 
+import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.service.UserService;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 @Api(tags = "Endpoints for Users")
+@SuperAdminAccessControl
 public class UserController {
 
     private final UserService userService;

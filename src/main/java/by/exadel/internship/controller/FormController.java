@@ -1,5 +1,7 @@
 package by.exadel.internship.controller;
 
+import by.exadel.internship.annotation.AdminAccessControl;
+import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.service.FormService;
@@ -33,21 +35,21 @@ public class FormController {
         return formService.process(form, file);
     }
 
-    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN', 'ADMIN')")
+    @AdminAccessControl
     @GetMapping
     @ApiOperation("Get all forms by internship id")
     public List<FormFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
         return formService.getAllByInternshipId(internshipId);
     }
 
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @SuperAdminAccessControl
     @DeleteMapping("/{formId}")
     @ApiOperation("Delete form by ID")
     public void deleteFormById(@PathVariable UUID formId) {
         formService.deleteById(formId);
     }
 
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @SuperAdminAccessControl
     @PutMapping("/{formId}/restore")
     @ApiOperation("Restore deleted Form")
     public void restoreForm(@PathVariable UUID formId) {
