@@ -14,6 +14,7 @@ import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -50,9 +51,8 @@ public class LocationServiceImpl implements LocationService {
         return locationMapper.toCountryDTO(country);
     }
 
-    public CityDTO getCityByName(String name) {
-        City city = cityRepository.findCityByName(name)
-                .orElseThrow(() -> new NotFoundException("There is no such country with name " + name));
-        return locationMapper.toCityDTO(city);
+    public  List<CityDTO> getCityListByCountryName(String countryName, String cityName) {
+        List<City> cityList = cityRepository.findCitiesByCountry(countryName);City city = cityList.stream().filter(c -> c.getName().equals(cityName)).findAny().orElseThrow(() -> new NotFoundException("There is no such city with name " + cityName));
+        return locationMapper.mapToListCityDTO(cityList);
     }
 }

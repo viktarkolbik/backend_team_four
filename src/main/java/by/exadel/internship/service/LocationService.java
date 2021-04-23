@@ -11,7 +11,5 @@ public interface LocationService {
 
     CountryDTO getCountryByName(String name);
 
-    List<CityDTO> getAllCities();
-
-    CityDTO getCityByName(String name);
+    List<CityDTO> getCityListByCountryName(String countryName, String cityName);
 }
