@@ -6,10 +6,7 @@ import by.exadel.internship.service.LocationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,14 +29,14 @@ public class LocationController {
         return locationService.getAllCities();
     }
 
-    @GetMapping("/countries/{name}")
+    @GetMapping("/countries/name")
     @ApiOperation("return country by name")
-    public CountryDTO getCountryByName(@PathVariable String name){
+    public CountryDTO getCountryByName(@RequestParam(value = "name") String name){
         return locationService.getCountryByName(name);
     }
-    @GetMapping("/cities/{name}")
+    @GetMapping("/cities/name")
     @ApiOperation("return city by name")
-    public CityDTO getCityByName(@PathVariable String name){
+    public CityDTO getCityByName(@RequestParam(value = "name") String name){
         return locationService.getCityByName(name);
     }
 }
