@@ -2,7 +2,6 @@ package by.exadel.internship.mapper;
 
 
 import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
-import by.exadel.internship.dto.internshipDTO.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
@@ -17,10 +16,6 @@ public interface InternshipMapper {
     GuestInternshipDTO toGuestInternshipDTO(Internship internship);
 
     Internship toInternship(GuestInternshipDTO guestInternshipDTO);
-
-    UserInternshipDTO toUserInternshipDTO(Internship internship);
-
-    Internship toInternship(UserInternshipDTO userInternshipDTO);
 
     @IterableMapping(qualifiedByName = "internship")
     List<GuestInternshipDTO> map(List<Internship> internshipList);

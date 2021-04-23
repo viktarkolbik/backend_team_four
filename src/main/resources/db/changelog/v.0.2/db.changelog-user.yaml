@@ -47,6 +47,3 @@ databaseChangeLog:
                   type: USER_ROLE
                   constraints:
                     nullable: false
-
-
-

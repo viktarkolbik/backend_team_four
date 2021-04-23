@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 09042021-add-colomn-for-soft-delete-to-form
+      author: nikita_bogurov
+      changes:
+        - addColumn:
+            tableName: internship
+            columns:
+              name: inship_deleted
+              type: BOOLEAN
+              defaultValue: false

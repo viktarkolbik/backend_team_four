@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 10042021-add-colomn-for-soft-delete-to-form
+      author: nikita_bogurov
+      changes:
+        - addColumn:
+            tableName: form
+            columns:
+              name: fm_deleted
+              type: BOOLEAN
+              defaultValue: false
