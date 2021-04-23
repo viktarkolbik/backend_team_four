@@ -9,7 +9,5 @@ public interface LocationService {
 
     List<CountryDTO> getAllCountries();
 
-    CountryDTO getCountryByName(String name);
-
-    List<CityDTO> getCityListByCountryName(String countryName, String cityName);
+    List<CityDTO> getCityListByCountryName(String countryName);
 }

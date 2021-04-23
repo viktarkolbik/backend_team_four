@@ -14,5 +14,6 @@ import java.util.UUID;
 public interface CityRepository extends JpaRepository<City, UUID> {
 
     @Query("SELECT DISTINCT c FROM City c LEFT JOIN FETCH c.country WHERE c.country.name = :countryName")
-    List<City> findCitiesByCountry(@Param("countryName") String countryName);
+   List<City> findAllByCountry(@Param("countryName") String countryName);
+
 }

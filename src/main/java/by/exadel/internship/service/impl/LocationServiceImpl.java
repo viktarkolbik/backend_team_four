@@ -1,9 +1,9 @@
 package by.exadel.internship.service.impl;
+
 import by.exadel.internship.dto.locationDTO.CityDTO;
 import by.exadel.internship.dto.locationDTO.CountryDTO;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
-import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.location_mapper.LocationMapper;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
@@ -14,7 +14,6 @@ import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +24,10 @@ public class LocationServiceImpl implements LocationService {
     private final CityRepository cityRepository;
     private final LocationMapper locationMapper;
 
+    private void putClassNameInMDC(){MDC.put("className", LocationServiceImpl.class.getSimpleName());}
+
     public List<CountryDTO> getAllCountries() {
-        MDC.put("className", LocationServiceImpl.class.getSimpleName());
+        putClassNameInMDC();
         log.info("Try to get all countries");
         List<Country> countries = countryRepository.findAll();
         log.info("Try to get list CountryDTO");
@@ -35,15 +36,13 @@ public class LocationServiceImpl implements LocationService {
         return countryDTOList;
     }
 
-
-    public CountryDTO getCountryByName(String name) {
-        Country country = countryRepository.findCountryByName(name)
-                .orElseThrow(() -> new NotFoundException("There is no such country with name " + name));
-        return locationMapper.toCountryDTO(country);
-    }
-
-    public  List<CityDTO> getCityListByCountryName(String countryName, String cityName) {
-        List<City> cityList = cityRepository.findCitiesByCountry(countryName);City city = cityList.stream().filter(c -> c.getName().equals(cityName)).findAny().orElseThrow(() -> new NotFoundException("There is no such city with name " + cityName));
-        return locationMapper.mapToListCityDTO(cityList);
+    public List<CityDTO> getCityListByCountryName(String countryName) {
+        putClassNameInMDC();
+        log.info("Try to get list of cities by county name");
+        List<City> cityListByCountryName = cityRepository.findAllByCountry(countryName);
+        log.info("Try to get list CityDTO");
+        List<CityDTO> cityDTOList = locationMapper.mapToListCityDTO(cityListByCountryName);
+        log.info("Successfully get list of CityDTO");
+        return cityDTOList;
     }
 }

@@ -47,11 +47,11 @@ public class Form {
     @Column(name = "fm_skype")
     private String skype;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "fm_country_id")
     private Country country;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "fm_city_id")
     private City city;
 
@@ -80,7 +80,7 @@ public class Form {
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private FormStatus formStatus;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "fm_i_id")
     private Interview interview;
 
