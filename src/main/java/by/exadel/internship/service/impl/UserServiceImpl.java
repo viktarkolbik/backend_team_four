@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     public List<UserDTO> getAll() {
 
-        MDC.put("className", UserService.class.getSimpleName());
+        putClassNameInMDC();
         log.info("Try to get all users with skill");
 
         List<User> userList = userRepository.findAllWithSkill();
@@ -40,6 +40,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserDTO getById(UUID id) {
+
+        putClassNameInMDC();
 
         log.info("Try to get  user by id: {} with skills", id);
 
@@ -56,6 +58,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<UserDTO> getUsersByRoleAndInternshipId(UUID internshipId, UserRole role) {
+
+        putClassNameInMDC();
 
         log.info("Try to get  users by id: {} with skills and  role: {}", internshipId, role);
 

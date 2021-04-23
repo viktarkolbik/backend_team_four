@@ -3,11 +3,10 @@ package by.exadel.internship.exception_handing;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.util.UUID;
 
 /*
  * Send an exception in json format
@@ -17,6 +16,7 @@ import java.util.UUID;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+    private static final String ACCESS_ERROR_MESSAGE = "";
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
@@ -39,6 +39,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<IncorrectData> handleException(
+            AccessDeniedException exception){
+        IncorrectData data = incorrectDataFillingAccessException(exception);
+        return new ResponseEntity<>(data, HttpStatus.FORBIDDEN);
+    }
+
     private IncorrectData incorrectDataFilling(Exception exception){
         IncorrectData incorrectData = new IncorrectData();
         log.error("Message: " + exception.getMessage() + " Error UUID code: " + incorrectData.getErrorCode());
@@ -52,6 +59,13 @@ public class GlobalExceptionHandler {
                 " Error UUID code: " + incorrectData.getErrorCode());
         incorrectData.setMessage(exception.getMessage());
         incorrectData.setCodeException(exception.getCodeException());
+        return incorrectData;
+    }
+
+    private IncorrectData incorrectDataFillingAccessException(AccessDeniedException exception){
+        IncorrectData incorrectData = new IncorrectData();
+        log.error("Message: " + ACCESS_ERROR_MESSAGE + " Error UUID code: " + incorrectData.getErrorCode());
+        incorrectData.setMessage(ACCESS_ERROR_MESSAGE);
         return incorrectData;
     }
 }

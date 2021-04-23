@@ -102,6 +102,15 @@ public class InternshipServiceImpl implements InternshipService {
         log.info("Internship with uuid: {} was deleted", internshipId);
     }
 
+    public GuestInternshipDTO saveInternship(GuestInternshipDTO internshipDTO){
+        putClassNameInMDC();
+        log.info("Try to save new Internship int DB");
+        Internship internship = mapper.toInternship(internshipDTO);
+        internshipRepository.save(internship);
+        log.info("Internship was save with uuid {}", internship.getId());
+        return mapper.toGuestInternshipDTO(internship);
+    }
+
     private void putClassNameInMDC() {
         MDC.put("className", InternshipService.class.getSimpleName());
     }

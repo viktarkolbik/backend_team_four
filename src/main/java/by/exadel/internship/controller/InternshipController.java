@@ -6,6 +6,7 @@ import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class InternshipController {
         return internshipService.getAll();
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN', 'ADMIN')")
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
     public GuestInternshipDTO getInternshipById(@PathVariable("internshipId") UUID internshipId) {
@@ -43,15 +45,23 @@ public class InternshipController {
         return internshipService.getDeletedInternshipById(internshipId);
     }
 
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @DeleteMapping("/{internshipId}")
     @ApiOperation("Delete Internship by ID")
     public void deleteInternship(@PathVariable UUID internshipId) {
         internshipService.deleteInternshipById(internshipId);
     }
 
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @PutMapping("/{internshipId}/restore")
     @ApiOperation("Restore deleted Internships")
     public GuestInternshipDTO restoreInternship(@PathVariable UUID internshipId) {
         return internshipService.restoreInternshipById(internshipId);
+    }
+
+    @PostMapping("/{internshipId}")
+    @ApiOperation("Save new Internship In DB")
+    public GuestInternshipDTO saveInternship(@RequestBody GuestInternshipDTO internshipDTO){
+        return internshipService.saveInternship(internshipDTO);
     }
 }

@@ -39,12 +39,14 @@ public class FormController {
         return formService.getAllByInternshipId(internshipId);
     }
 
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @DeleteMapping("/{formId}")
     @ApiOperation("Delete form by ID")
     public void deleteFormById(@PathVariable UUID formId) {
         formService.deleteById(formId);
     }
 
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @PutMapping("/{formId}/restore")
     @ApiOperation("Restore deleted Form")
     public void restoreForm(@PathVariable UUID formId) {

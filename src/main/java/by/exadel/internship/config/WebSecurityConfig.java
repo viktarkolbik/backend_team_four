@@ -70,10 +70,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/internships").permitAll()
-                .antMatchers("**").hasAuthority("SUPER_ADMIN")
+                .antMatchers("/internships", "/forms").permitAll()
                 .antMatchers("/internships/**", "/forms/**").hasAuthority("ADMIN")
-                .antMatchers("")
+                .antMatchers("**").hasAuthority("SUPER_ADMIN")
+                .anyRequest()
                 .authenticated();
 
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
