@@ -38,7 +38,7 @@ public class FormServiceImpl implements FormService {
 
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
-        MDC.put("className", FormService.class.getSimpleName());
+        putClassNameInMDC();
 
         if (file != null) {
 
@@ -91,7 +91,7 @@ public class FormServiceImpl implements FormService {
 
     public List<FormFullDTO> getAll() {
 
-        MDC.put("className", FormService.class.getSimpleName());
+        putClassNameInMDC();
         log.info("Try to get all forms");
 
         List<Form> formList = formRepository.findAllWithTimeForCallList();
@@ -109,7 +109,7 @@ public class FormServiceImpl implements FormService {
 
     public List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
 
-        MDC.put("className", FormService.class.getSimpleName());
+        putClassNameInMDC();
         log.info("Try to get all forms by internship id");
 
         List<Form> formList = formRepository.findAllByInternship(internshipId);

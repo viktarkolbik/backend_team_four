@@ -26,7 +26,7 @@ public class InternshipServiceImpl implements InternshipService {
 
     public GuestInternshipDTO getById(UUID id) {
 
-        MDC.put("className", InternshipService.class.getSimpleName());
+        putClassNameInMDC();
         log.info("Try to get Internship with id= {}", id);
 
         Internship internship = internshipRepository
@@ -41,7 +41,7 @@ public class InternshipServiceImpl implements InternshipService {
 
     public List<GuestInternshipDTO> getAll() {
 
-        MDC.put("className", InternshipService.class.getSimpleName());
+        putClassNameInMDC();
         log.info("Try to get all Internships with skills");
 
         List<Internship> internships = internshipRepository.findAllWithSkill();
