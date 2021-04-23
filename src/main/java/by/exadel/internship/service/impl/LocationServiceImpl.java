@@ -35,15 +35,6 @@ public class LocationServiceImpl implements LocationService {
         return countryDTOList;
     }
 
-    public List<CityDTO> getAllCities() {
-        MDC.put("className", LocationServiceImpl.class.getSimpleName());
-        log.info("Try to get all cities");
-        List<City> cities = cityRepository.findAll();
-        log.info("Try to get list CityDTO");
-        List<CityDTO> cityDTOList = locationMapper.mapToListCityDTO(cities);
-        log.info("Successfully get list of CityDTO");
-        return cityDTOList;
-    }
 
     public CountryDTO getCountryByName(String name) {
         Country country = countryRepository.findCountryByName(name)
