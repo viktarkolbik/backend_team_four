@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    private static final String ACCESS_ERROR_MESSAGE = "";
+    private static final String ACCESS_ERROR_MESSAGE = "Forbidden";
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
