@@ -23,9 +23,9 @@ public class LocationController {
         return locationService.getAllCountries();
     }
 
-    @GetMapping("/cities/list-cities-by-country-name/{countryName}")
+    @GetMapping("/cities/country-name-cities")
     @ApiOperation("return city list")
-    public List<CityDTO> getCityList(@PathVariable String countryName){
-        return locationService.getCityListByCountryName(countryName);
+    public List<CityDTO> getCityList(@RequestParam(value = "name") String name){
+        return locationService.getCityListByCountryName(name);
     }
 }
