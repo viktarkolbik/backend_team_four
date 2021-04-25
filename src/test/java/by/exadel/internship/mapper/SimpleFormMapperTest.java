@@ -16,10 +16,8 @@ public class SimpleFormMapperTest {
     @Test
     public void givenEntityToDTO_whenMaps_thenCorrect() {
         Form form = new Form();
-        City city  = new City("Minsk");
-        form.setCity(city);
-        Country country = new Country("Belarus");
-        form.setCountry(country);
+        form.setFirstName("Nikita");
+        form.setLastName("Bogush");
         FormFullDTO formFullDTO = mapper.toFormDto(form);
 
         assertEquals(form.getCity(), formFullDTO.getCity());

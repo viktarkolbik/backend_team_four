@@ -31,8 +31,4 @@ public class Country {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private Set<City> cityList;
-
-    public Country(String name) {
-        this.name = name;
-    }
 }
