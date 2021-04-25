@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 25042021-add-table-time-for-call-user
+      author: nikita_bogurov
+      changes:
+        - createTable:
+            tableName: time_for_call_user
+            columns:
+              - column:
+                  name: tfcu_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: tfcu_start_hour
+                  type: TIMESTAMP
+              - column:
+                  name: tfcu_end_hour
+                  type: TIMESTAMP
+              - column:
+                  name: tfcu_u_id
+                  type: UUID
+
+  - changeSet:
+      id: 25042021-add-foreignKeyConstraint-user-id-to-time-for-call
+      author: nikita_bogurov
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: tfcu_u_id
+            baseTableName: time_for_call_user
+            constraintName: fk_user_id_time_for_call_user
+            referencedColumnNames: u_id
+            referencedTableName: user_detail
