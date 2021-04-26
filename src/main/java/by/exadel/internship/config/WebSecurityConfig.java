@@ -6,6 +6,7 @@ import by.exadel.internship.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -24,12 +25,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String[] AUTH_WHITELIST = {
+    private static final String[] SWAGGER_WHITELIST = {
             "/swagger-resources/**",
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs",
     };
+
+    private static final String[] WHITELIST_GET_METHODS = {
+            "/internships",
+            "/internships/{internshipId}",
+    } ;
+
+    private static final String[] WHITELIST_POST_METHODS = {
+            "/auth",
+            "/forms"
+    } ;
 
     private final UserDetailsServiceImpl userDetailsService;
 
@@ -69,10 +80,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**")
-                .permitAll()
-                .antMatchers("/internships")
-                .permitAll()
+                .antMatchers(HttpMethod.GET, WHITELIST_GET_METHODS).permitAll()
+                .antMatchers(HttpMethod.POST, WHITELIST_POST_METHODS).permitAll()
                 .anyRequest()
                 .authenticated();
 
@@ -81,6 +90,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(AUTH_WHITELIST);
+        web.ignoring().antMatchers(SWAGGER_WHITELIST);
     }
 }
