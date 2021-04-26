@@ -1,7 +1,7 @@
 #
 # Build stage
 #
-FROM maven:3.8.1-jdk-11-slim AS build
+FROM maven:3.6.2-jdk-11-slim AS build
 WORKDIR /usr/app
 COPY src ./src
 COPY pom.xml .

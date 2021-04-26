@@ -6,8 +6,8 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${SPRING_DATASOURCE_URL}
-    username: gzuvfkjgxvbvgb
-    password: 55b86f60e70610bc8b5278ea375ad82337d1c3c367b30862a0bed0df10908921
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    username: ${SPRING_DATASOURCE_USERNAME}
     initialization-mode: always
     data:
       - 'classpath:db/changelog/v.0.4/sql-import/country.sql'
@@ -24,14 +24,11 @@ spring:
       - 'classpath:db/changelog/v.0.4/sql-import/import-user-internship.sql'
       - 'classpath:db/changelog/v.0.4/sql-import/import-user-hash-password.sql'
       - 'classpath:db/changelog/v.0.3/sql-import/import-time-for-call.sql'
-
 server:
   servlet:
     context-path: /api
-
 file:
   path: "files"
-
 key:
   jwtSecret: SecretKey
   jwtExpirationSec: 600
