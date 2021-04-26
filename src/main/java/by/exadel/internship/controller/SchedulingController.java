@@ -12,9 +12,7 @@ import by.exadel.internship.service.TimeForCallUserServise;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,11 +23,17 @@ import java.util.List;
 public class SchedulingController {
 
     private final SchedulingService schedulingService;
-
+private final TimeForCallUserServise timeForCallUserServise;
     @GetMapping
-    public String makeScheduling(){
-        schedulingService.makeSchedule();
-        return "Make Scheduling";
+    public List<TimeForCallUserDTO> makeScheduling(){
+        //schedulingService.makeSchedule();
+        return timeForCallUserServise.getAll();
+    }
+
+    @PostMapping
+    public List<TimeForCallUserDTO> saveFreeTimeUser(@RequestBody List<TimeForCallUserDTO> timeForCallUserDTOList){
+        timeForCallUserDTOList.forEach(timeForCallUserDTO -> System.out.println(timeForCallUserDTO.getStartHour()));
+        return null;
     }
 
 }
