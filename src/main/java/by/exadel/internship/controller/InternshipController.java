@@ -62,7 +62,7 @@ public class InternshipController {
     }
 
     @AdminAccessControl
-    @PostMapping()
+    @PostMapping
     @ApiOperation("Save new Internship In DB")
     public GuestInternshipDTO saveInternship(@RequestBody GuestInternshipDTO internshipDTO) {
         return internshipService.saveInternship(internshipDTO);
