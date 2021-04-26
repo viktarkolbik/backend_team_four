@@ -39,7 +39,7 @@ public class LocationServiceImpl implements LocationService {
     public List<CityDTO> getCitiesByCountryName(String countryName) {
         putClassNameInMDC();
         log.info("Try to get list of cities by county name " + countryName);
-        List<City> cityListByCountryName = cityRepository.findAllByCountry(countryName);
+        List<City> cityListByCountryName = cityRepository.findAllByCountry_Name(countryName);
         log.info("Try to get list CityDTO");
         List<CityDTO> cityDTOList = locationMapper.mapToListCityDTO(cityListByCountryName);
         log.info("Successfully get list of CityDTO");
