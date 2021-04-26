@@ -18,4 +18,6 @@ public interface InternshipService {
     GuestInternshipDTO restoreInternshipById(UUID uuid);
 
     void deleteInternshipById(UUID internshipId);
+
+    GuestInternshipDTO saveInternship(GuestInternshipDTO internshipDTO);
 }

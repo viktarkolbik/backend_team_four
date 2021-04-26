@@ -15,7 +15,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.ApiKeyVehicle;
 import springfox.documentation.swagger.web.SecurityConfiguration;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
