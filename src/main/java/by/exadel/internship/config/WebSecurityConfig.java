@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     } ;
 
     private static final String[] WHITELIST_POST_METHODS = {
-            "/auth",
+            "/auth/**",
             "/forms"
     } ;
 
