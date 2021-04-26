@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 23042021-rename-column-i-id-to-fm-i-id
+      author: olga_evdokimova
+      changes:
+        - renameColumn:
+            columnDataType: UUID
+            newColumnName: fm_i_id
+            oldColumnName: i_id
+            tableName: form

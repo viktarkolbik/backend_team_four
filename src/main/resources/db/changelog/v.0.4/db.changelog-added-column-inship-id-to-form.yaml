@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 22042021-add-colomn-to-form-inship-id
+      author: maksim_maevsky
+      changes:
+        - addColumn:
+            tableName: form
+            columns:
+              name: fm_inship_id
+              type: UUID
+
+  - changeSet:
+      id: 22042021-add-foreignKeyConstraint-to-form-inship-id
+      author:  maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: fm_inship_id
+            baseTableName: form
+            constraintName: fk_internship_form
+            referencedColumnNames: inship_id
+            referencedTableName: internship
