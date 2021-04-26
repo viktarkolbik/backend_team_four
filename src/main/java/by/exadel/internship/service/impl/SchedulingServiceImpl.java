@@ -2,6 +2,7 @@ package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.TimeForCallUserDTO;
+import by.exadel.internship.entity.TimeForCallUser;
 import by.exadel.internship.service.SchedulingService;
 import by.exadel.internship.service.TimeForCallService;
 import by.exadel.internship.service.TimeForCallUserServise;
@@ -26,6 +27,11 @@ public class SchedulingServiceImpl implements SchedulingService {
     public void makeSchedule() {
         fillLists();
         simpleWay();
+    }
+
+    @Override
+    public void saveUserTime(List<TimeForCallUserDTO> timeForCallUserDTOList) {
+        timeForCallUserServise.saveUserTime(timeForCallUserDTOList);
     }
 
     private void fillLists() {

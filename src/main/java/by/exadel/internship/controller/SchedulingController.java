@@ -1,7 +1,6 @@
 package by.exadel.internship.controller;
 
 
-
 import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.TimeForCallUserDTO;
 import by.exadel.internship.entity.TimeForCall;
@@ -23,16 +22,17 @@ import java.util.List;
 public class SchedulingController {
 
     private final SchedulingService schedulingService;
-private final TimeForCallUserServise timeForCallUserServise;
+    private final TimeForCallUserServise timeForCallUserServise;
+
     @GetMapping
-    public List<TimeForCallUserDTO> makeScheduling(){
+    public List<TimeForCallUserDTO> makeScheduling() {
         //schedulingService.makeSchedule();
         return timeForCallUserServise.getAll();
     }
 
     @PostMapping
-    public List<TimeForCallUserDTO> saveFreeTimeUser(@RequestBody List<TimeForCallUserDTO> timeForCallUserDTOList){
-        timeForCallUserDTOList.forEach(timeForCallUserDTO -> System.out.println(timeForCallUserDTO.getStartHour()));
+    public List<TimeForCallUserDTO> saveUserTime(@RequestBody List<TimeForCallUserDTO> timeForCallUserDTOList) {
+        schedulingService.saveUserTime(timeForCallUserDTOList);
         return null;
     }
 

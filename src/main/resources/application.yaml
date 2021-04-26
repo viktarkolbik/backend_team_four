@@ -24,6 +24,7 @@ spring:
       - 'classpath:db/changelog/v.0.4/sql-import/country.sql'
       - 'classpath:db/changelog/v.0.4/sql-import/city.sql'
       - 'classpath:db/changelog/v.0.4/sql-import/import-user-internship.sql'
+      - 'classpath:db/changelog/v.0.5/sql-import/import-time-for-call-user.sql'
 
 server:
   servlet:

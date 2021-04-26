@@ -9,4 +9,7 @@ import java.util.List;
 public interface TimeForCallUserServise {
     List<TimeForCallUserDTO> getAll();
     void updateTime(TimeForCallUserDTO time);
+
+
+    void saveUserTime(List<TimeForCallUserDTO> timeForCallUserDTOList);
 }
