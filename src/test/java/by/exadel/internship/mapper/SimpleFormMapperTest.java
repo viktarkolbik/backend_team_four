@@ -2,6 +2,8 @@ package by.exadel.internship.mapper;
 
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.entity.Form;
+import by.exadel.internship.entity.location.City;
+import by.exadel.internship.entity.location.Country;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -14,8 +16,8 @@ public class SimpleFormMapperTest {
     @Test
     public void givenEntityToDTO_whenMaps_thenCorrect() {
         Form form = new Form();
-        form.setCity("minsk");
-        form.setCountry("Belarus");
+        form.setFirstName("Nikita");
+        form.setLastName("Bogush");
         FormFullDTO formFullDTO = mapper.toFormDto(form);
 
         assertEquals(form.getCity(), formFullDTO.getCity());

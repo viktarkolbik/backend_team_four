@@ -8,6 +8,7 @@ import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.service.FormService;
+import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -16,8 +17,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,12 +33,14 @@ public class FormServiceImpl implements FormService {
     private final FormRepository formRepository;
     private final ServiceImpl service;
 
+    private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
+
     @Value("${file.path}")
     private String filePath;
 
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
-        MDC.put("className", FormService.class.getSimpleName());
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
 
         if (file != null) {
 
@@ -76,14 +80,11 @@ public class FormServiceImpl implements FormService {
 
         try {
 
-            byte[] bytes = multipartFile.getBytes();
+            Path path = Paths.get(filePath, id.toString(), multipartFile.getOriginalFilename());
 
-            File file = new File(filePath + File.separator + id +
-                    File.separator + multipartFile.getOriginalFilename());
+            FileUtils.forceMkdirParent(path.toFile());
 
-            FileUtils.forceMkdirParent(file);
-
-            FileUtils.writeByteArrayToFile(file, bytes);
+            FileUtils.writeByteArrayToFile(path.toFile(), multipartFile.getBytes());
 
             log.info("Success to upload file, form id: {}", id);
 
@@ -94,7 +95,7 @@ public class FormServiceImpl implements FormService {
 
     public List<FormFullDTO> getAll() {
 
-        MDC.put("className", FormService.class.getSimpleName());
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all forms");
 
         List<Form> formList = formRepository.findAllWithTimeForCallList();
@@ -109,8 +110,26 @@ public class FormServiceImpl implements FormService {
 
     }
 
+
+    public List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
+
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to get all forms by internship id");
+
+        List<Form> formList = formRepository.findAllByInternship(internshipId);
+
+        log.info("Try get list of formFullDTO");
+
+        List<FormFullDTO> formFullDTOList = mapper.map(formList);
+
+        log.info("Successfully list of formFullDTO");
+
+        return formFullDTOList;
+
+    }
+
     public void restoreFormById(UUID formId) {
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to activate form with uuid: {}", formId);
         formRepository
                 .findByIdAndDeletedTrue(formId)
@@ -121,7 +140,7 @@ public class FormServiceImpl implements FormService {
     }
 
     public void deleteById(UUID formId) {
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to delete form with uuid: {} ", formId);
         formRepository
                 .findByIdAndDeletedFalse(formId)
@@ -131,7 +150,4 @@ public class FormServiceImpl implements FormService {
         log.info("Successfully deleted Form with uuid: {}", formId);
     }
 
-    private void putClassNameInMDC() {
-        MDC.put("className", FormService.class.getSimpleName());
-    }
 }

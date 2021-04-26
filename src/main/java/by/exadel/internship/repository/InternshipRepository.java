@@ -14,9 +14,13 @@ import java.util.UUID;
 @Repository
 public interface InternshipRepository extends JpaRepository<Internship, UUID> {
 
+    @Query("SELECT DISTINCT i FROM Internship i LEFT JOIN FETCH i.skills")
     List<Internship> findAllByDeletedTrue();
+
     List<Internship> findAllByDeletedFalse();
+
     Optional<Internship> findAllByIdAndDeletedFalse(UUID internshipId);
+
     Optional<Internship> findByIdAndDeletedTrue(UUID internshipId);
 
     @Modifying

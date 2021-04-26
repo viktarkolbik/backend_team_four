@@ -14,17 +14,25 @@ import java.util.UUID;
 
 @Repository
 public interface FormRepository extends JpaRepository<Form, UUID> {
+
     @Modifying
     @Query("UPDATE Form f SET f.deleted = false WHERE f.id = :formId")
     void activateFormById(@Param("formId") UUID formId);
 
+    @Query("SELECT DISTINCT f FROM Form f LEFT JOIN FETCH f.timeForCallList")
     Optional<Form> findByIdAndDeletedTrue(UUID formId);
+
     Optional<Form> findByIdAndDeletedFalse(UUID formId);
+
     List<Form> findAllByDeletedFalse();
+
     List<Form> findAllByDeletedTrue();
 
     @Query("SELECT distinct f FROM Form f LEFT JOIN FETCH f.timeForCallList WHERE f.deleted = false")
     List<Form> findAllWithTimeForCallList();
+
+    @Query("SELECT DISTINCT f FROM Form f LEFT JOIN FETCH f.timeForCallList WHERE f.internshipId = :id")
+    List<Form> findAllByInternship(@Param("id") UUID internshipID);
 
     @Modifying
     @Query(value = "UPDATE Form f SET f.deleted=true WHERE f.id= :formId")

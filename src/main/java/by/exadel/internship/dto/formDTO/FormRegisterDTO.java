@@ -2,6 +2,8 @@ package by.exadel.internship.dto.formDTO;
 
 import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.enums.EnglishLevel;
+import by.exadel.internship.entity.location.City;
+import by.exadel.internship.entity.location.Country;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,11 +48,11 @@ public class FormRegisterDTO {
 
     @NotNull
     @Size(max=25)
-    private String country;
+    private Country country;
 
     @NotNull
     @Size(max=50)
-    private String city;
+    private City city;
 
     @Size(max=50)
     private String primarySkill;
