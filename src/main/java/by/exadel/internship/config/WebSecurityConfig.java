@@ -34,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] WHITELIST = {
             "/auth/**",
             "/internships",
+            "/internships/{internshipId}",
             "/forms"
     } ;
 

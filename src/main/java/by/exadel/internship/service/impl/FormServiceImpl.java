@@ -9,6 +9,7 @@ import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.service.FormService;
+import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -33,12 +34,14 @@ public class FormServiceImpl implements FormService {
     private final FormMapper mapper;
     private final FormRepository formRepository;
 
+    private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
+
     @Value("${file.path}")
     private String filePath;
 
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
 
         if (file != null) {
 
@@ -91,7 +94,7 @@ public class FormServiceImpl implements FormService {
 
     public List<FormFullDTO> getAll() {
 
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all forms");
 
         List<Form> formList = formRepository.findAllWithTimeForCallList();
@@ -109,7 +112,7 @@ public class FormServiceImpl implements FormService {
 
     public List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
 
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all forms by internship id");
 
         List<Form> formList = formRepository.findAllByInternship(internshipId);
@@ -125,7 +128,7 @@ public class FormServiceImpl implements FormService {
     }
 
     public void restoreFormById(UUID formId) {
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to activate form with uuid: {}", formId);
         formRepository
                 .findByIdAndDeletedTrue(formId)
@@ -136,7 +139,7 @@ public class FormServiceImpl implements FormService {
     }
 
     public void deleteById(UUID formId) {
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to delete form with uuid: {} ", formId);
         formRepository
                 .findByIdAndDeletedFalse(formId)
@@ -146,7 +149,4 @@ public class FormServiceImpl implements FormService {
         log.info("Successfully deleted Form with uuid: {}", formId);
     }
 
-    private void putClassNameInMDC() {
-        MDC.put("className", FormService.class.getSimpleName());
-    }
 }

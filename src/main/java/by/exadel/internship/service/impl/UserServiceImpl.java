@@ -7,6 +7,7 @@ import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.UserRepository;
 import by.exadel.internship.service.UserService;
+import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -23,9 +24,11 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper mapper;
 
+    private static final String SIMPLE_CLASS_NAME = UserService.class.getSimpleName();
+
     public List<UserDTO> getAll() {
 
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all users with skill");
 
         List<User> userList = userRepository.findAllWithSkill();
@@ -41,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     public UserDTO getById(UUID id) {
 
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
 
         log.info("Try to get  user by id: {} with skills", id);
 
@@ -59,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     public List<UserDTO> getUsersByRoleAndInternshipId(UUID internshipId, UserRole role) {
 
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
 
         log.info("Try to get  users by id: {} with skills and  role: {}", internshipId, role);
 
@@ -75,7 +78,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void deleteUserById(UUID uuid) {
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to delete User with uuid: {}", uuid);
         userRepository
                 .findByIdAndDeletedFalse(uuid)
@@ -85,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void restoreUserById(UUID uuid) {
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to restore User with uuid: {}", uuid);
         userRepository
                 .findByIdAndDeletedTrue(uuid)
@@ -95,14 +98,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<UserDTO> getAllDeleted() {
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get List of deleted user");
         List<User> userList = userRepository.findAllByDeletedTrue();
         log.info("Return List of deletes user");
         return mapper.map(userList);
     }
 
-    private void putClassNameInMDC() {
-        MDC.put("className", UserService.class.getSimpleName());
-    }
 }

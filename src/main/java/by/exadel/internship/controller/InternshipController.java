@@ -8,7 +8,6 @@ import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,7 +62,7 @@ public class InternshipController {
     }
 
     @AdminAccessControl
-    @PostMapping("/{internshipId}")
+    @PostMapping()
     @ApiOperation("Save new Internship In DB")
     public GuestInternshipDTO saveInternship(@RequestBody GuestInternshipDTO internshipDTO) {
         return internshipService.saveInternship(internshipDTO);
