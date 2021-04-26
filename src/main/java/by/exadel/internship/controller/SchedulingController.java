@@ -6,6 +6,7 @@ import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.TimeForCallUserDTO;
 import by.exadel.internship.entity.TimeForCall;
 import by.exadel.internship.entity.TimeForCallUser;
+import by.exadel.internship.service.SchedulingService;
 import by.exadel.internship.service.TimeForCallService;
 import by.exadel.internship.service.TimeForCallUserServise;
 import io.swagger.annotations.Api;
@@ -23,5 +24,12 @@ import java.util.List;
 @Api(tags = "Endpoints for Scheduling")
 public class SchedulingController {
 
+    private final SchedulingService schedulingService;
+
+    @GetMapping
+    public String makeScheduling(){
+        schedulingService.makeSchedule();
+        return "Make Scheduling";
+    }
 
 }

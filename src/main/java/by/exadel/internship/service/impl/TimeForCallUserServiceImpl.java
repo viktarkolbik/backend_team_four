@@ -21,7 +21,12 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
     @Override
     public List<TimeForCallUserDTO> getAll() {
         List<TimeForCallUser> timeForCallUsers = timeForCallUserRepository.findAll();
-        timeForCallUsers.forEach(item -> item.setUser(null));
         return mapper.mapToDTO(timeForCallUsers);
+    }
+
+    @Override
+    public void updateTime(TimeForCallUserDTO time) {
+        TimeForCallUser timeForCallUser = mapper.toTimeForCallUserEntity(time);
+        timeForCallUserRepository.save(timeForCallUser);
     }
 }
