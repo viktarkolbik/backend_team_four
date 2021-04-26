@@ -1,13 +1,13 @@
 databaseChangeLog:
  - include:
+      file: db.changelog-user-internship.yaml
+      relativeToChangelogFile: true
+ - include:
       file: db.changelog-change-size-of-password.yaml
       relativeToChangelogFile: true
  - include:
       file: db.changelog-create-table-country-and-city.yaml
       relativeToChangelogFile: true
- - include:
-     file: db.changelog-user-internship.yaml
-     relativeToChangelogFile: true
  - include:
       file: db.changelog-added-column-inship-id-to-form.yaml
       relativeToChangelogFile: true
