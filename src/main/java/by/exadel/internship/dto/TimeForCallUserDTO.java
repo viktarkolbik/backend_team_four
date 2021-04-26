@@ -15,5 +15,5 @@ public class TimeForCallUserDTO {
     private UUID id;
     private LocalDateTime startHour;
     private LocalDateTime endHour;
-    private User user;
+    private UUID userId;
 }

@@ -2,14 +2,12 @@ package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.TimeForCallUserDTO;
-import by.exadel.internship.entity.TimeForCall;
 import by.exadel.internship.service.SchedulingService;
 import by.exadel.internship.service.TimeForCallService;
 import by.exadel.internship.service.TimeForCallUserServise;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -36,7 +34,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     private void simpleWay(){
-        for (TimeForCallUserDTO userTime : timeForCallUserDTOList) {
+       /* for (TimeForCallUserDTO userTime : timeForCallUserDTOList) {
             for (TimeForCallDTO formTime : timeForCallDTOList) {
                 if (userTime.getStartHour().getHour() == formTime.getStartHour()) {
                     System.out.println("Start : " + userTime.getUser().getLogin() + " " + formTime.getStartHour());
@@ -52,12 +50,12 @@ public class SchedulingServiceImpl implements SchedulingService {
                 }
                 if (userTime.getStartHour().getHour() <= formTime.getStartHour() ||
                         userTime.getEndHour().getHour() >= formTime.getEndHour()) {
-/*
+*//*
                     System.out.println("None : " + userTime.getUser().getLogin() + " " + formTime.getStartHour() + " " + formTime.getEndHour());
-*/
+*//*
                 }
             }
-        }
+        }*/
     }
 
 }
