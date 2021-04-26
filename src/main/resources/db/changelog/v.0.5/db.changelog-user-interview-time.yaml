@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 27042021-add-type-user-interview_time
+      author: nikita_bogurov
+      dbms: postgresql
+      sql: CREATE TYPE USER_INTERVIEW_TIME as ENUM ('HALF_HOUR', 'HOUR', 'HOUR_HALF');
+
+  - changeSet:
+      id: 27042021-add-colomn-for-interview-time-to-user
+      author: nikita_bogurov
+      changes:
+        - addColumn:
+            tableName: user_detail
+            columns:
+              name: u_interview_time
+              type: USER_INTERVIEW_TIME
+              defaultValue: HALF_HOUR

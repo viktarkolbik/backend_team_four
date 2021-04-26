@@ -1,10 +1,14 @@
 package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.TimeForCallUserDTO;
+import by.exadel.internship.dto.UserDTO;
+import by.exadel.internship.dto.enums.InterviewTime;
 import by.exadel.internship.entity.TimeForCallUser;
+import by.exadel.internship.entity.User;
 import by.exadel.internship.mapper.TimeForCallUserMapper;
 import by.exadel.internship.repository.TimeForCallUserRepository;
 import by.exadel.internship.service.TimeForCallUserServise;
+import by.exadel.internship.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +23,18 @@ import java.util.List;
 public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
 
     private final TimeForCallUserRepository timeForCallUserRepository;
+    private final UserService userService;
     private final TimeForCallUserMapper mapper;
 
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY = 30;
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO = 0;
-    private static final int INTERVIEW_TIME = 30;
+    private static final String HALF_HOUR = "HALF_HOUR";
+    private static final String HOUR = "HOUR";
+    private static final String HOUR_HALF = "HOUR_HALF";
 
-    private List<TimeForCallUserDTO> resultUSerTimeList = new ArrayList<>();
+
+    private int interviewTime = 30;
+    private List<TimeForCallUserDTO> resultUSerTimeList;
 
     @Override
     public List<TimeForCallUserDTO> getAll() {
@@ -41,9 +50,11 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
 
     @Override
     public void saveUserTime(List<TimeForCallUserDTO> timeForCallUserDTOList) {
+        resultUSerTimeList = new ArrayList<>();
         timeForCallUserDTOList.forEach(timeForCallUser -> {
+            UserDTO user = userService.getById(timeForCallUser.getUserId());
             checkTime(timeForCallUser);
-            separateTime(timeForCallUser);
+            separateTime(timeForCallUser, user.getInterviewTime());
         });
         System.out.println(resultUSerTimeList.size());
         resultUSerTimeList.forEach(timeForCallUserDTO -> {
@@ -66,10 +77,12 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
                     DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO));
         }
         if (time.getEndHour().getMinute() > 0 && time.getEndHour().getMinute() < 30){
+            System.out.println("Here");
             LocalDateTime userTime = time.getEndHour();
             time.setEndHour(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
                     userTime.getDayOfMonth(), userTime.getHour(),
                     DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY));
+            System.out.println(time.getEndHour());
         }
         if (time.getEndHour().getMinute() > 30) {
             LocalDateTime userTime = time.getEndHour();
@@ -81,18 +94,34 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
 
     }
 
-    private void separateTime(TimeForCallUserDTO time) {
+    private void separateTime(TimeForCallUserDTO time, InterviewTime interviewTimeUser) {
         List<TimeForCallUserDTO> newUserTimeList = new ArrayList<>();
         Duration duration = Duration.between(time.getStartHour(),time.getEndHour());
-        long numberOfPeriods = duration.toMinutes()/30;
+        long numberOfPeriods = determineTime(duration,interviewTimeUser);
         for (int i = 0; i < numberOfPeriods; i++){
             TimeForCallUserDTO tempUserTime = new TimeForCallUserDTO();
             tempUserTime.setUserId(time.getUserId());
             tempUserTime.setStartHour(time.getStartHour());
-            tempUserTime.setEndHour(tempUserTime.getStartHour().plusMinutes(INTERVIEW_TIME));
+            tempUserTime.setEndHour(tempUserTime.getStartHour().plusMinutes(interviewTime));
             newUserTimeList.add(tempUserTime);
             time.setStartHour(tempUserTime.getEndHour());
         }
         resultUSerTimeList.addAll(newUserTimeList);
+    }
+
+    private long determineTime(Duration duration, InterviewTime interviewTimeUser){
+        if (interviewTimeUser.name().equals(HALF_HOUR)){
+            interviewTime = 30;
+            return duration.toMinutes()/30;
+        }
+        if (interviewTimeUser.name().equals(HOUR)){
+            interviewTime = 60;
+            return duration.toMinutes()/60;
+        }
+        if (interviewTimeUser.name().equals(HOUR_HALF)){
+            interviewTime = 90;
+            return duration.toMinutes()/90;
+        }
+        return duration.toMinutes()/30;
     }
 }

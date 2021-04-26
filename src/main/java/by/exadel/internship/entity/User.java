@@ -1,5 +1,6 @@
 package by.exadel.internship.entity;
 
+import by.exadel.internship.dto.enums.InterviewTime;
 import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
 import lombok.AllArgsConstructor;
@@ -43,6 +44,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private UserRole userRole;
+
+    @Column(name = "u_interview_time")
+    @Enumerated(EnumType.STRING)
+    @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
+    private InterviewTime interviewTime;
 
     @Column(name = "u_deleted")
     private boolean deleted;
