@@ -6,6 +6,7 @@ import by.exadel.internship.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -31,10 +32,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/v3/api-docs",
     };
 
-    private static final String[] WHITELIST = {
-            "/auth/**",
+    private static final String[] WHITELIST_GET_METHODS = {
             "/internships",
             "/internships/{internshipId}",
+    } ;
+
+    private static final String[] WHITELIST_POST_METHODS = {
+            "/auth",
             "/forms"
     } ;
 
@@ -76,7 +80,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(WHITELIST).permitAll()
+                .antMatchers(HttpMethod.GET, WHITELIST_GET_METHODS).permitAll()
+                .antMatchers(HttpMethod.POST, WHITELIST_POST_METHODS).permitAll()
                 .anyRequest()
                 .authenticated();
 
