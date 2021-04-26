@@ -30,6 +30,7 @@
         <testcontainers.version>1.15.2</testcontainers.version>
         <commons-io.version>2.6</commons-io.version>
         <jakson.datatype.version>2.12.3</jakson.datatype.version>
+        <amazon.version>1.11.1001</amazon.version>
     </properties>
 
     <dependencies>
@@ -151,6 +152,12 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jakson.datatype.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>${amazon.version}</version>
+        </dependency>
+
 
 
     </dependencies>

@@ -3,6 +3,7 @@ package by.exadel.internship.controller;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.service.FormService;
+import by.exadel.internship.service.Service;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,9 @@ public class FormController {
     @ResponseStatus(HttpStatus.CREATED)
     public FormFullDTO addNewForm(@RequestPart(name = "form") FormRegisterDTO form,
                                   @RequestPart(name = "file", required = false) MultipartFile file) {
-        return formService.process(form, file);
+
+        FormFullDTO process = formService.process(form, file);
+        return process;
     }
 
     @DeleteMapping("/{formId}")

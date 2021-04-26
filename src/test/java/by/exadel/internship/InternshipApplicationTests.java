@@ -26,8 +26,9 @@ import java.net.URI;
 public class InternshipApplicationTests {
 
     public static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:13")
-            .withPassword("root")
-            .withUsername("postgres");
+            .withDatabaseName("internship")
+            .withUsername("postgres")
+            .withPassword("postgres");
 
     static {
         container.start();
@@ -63,7 +64,7 @@ public class InternshipApplicationTests {
                     "spring.datasource.url=jdbc:postgresql://"
                             + container.getContainerIpAddress()
                             + ":" + container.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT)
-                            + "/postgres",
+                            + "/internship",
                     "spring.datasource.password =" + container.getPassword(),
                     "spring.datasource.username =" + container.getUsername()
             ).applyTo(configurableApplicationContext.getEnvironment());

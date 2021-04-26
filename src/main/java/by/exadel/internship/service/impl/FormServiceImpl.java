@@ -29,6 +29,7 @@ public class FormServiceImpl implements FormService {
 
     private final FormMapper mapper;
     private final FormRepository formRepository;
+    private final ServiceImpl service;
 
     @Value("${file.path}")
     private String filePath;
@@ -46,6 +47,7 @@ public class FormServiceImpl implements FormService {
 
             uploadFile(file, createdForm.getId());
 
+            service.sendEmail(form);
             return createdForm;
         }
 
@@ -53,6 +55,7 @@ public class FormServiceImpl implements FormService {
 
         log.info("Success to save form, id: {}", createdForm.getId());
 
+        service.sendEmail(form);
         return createdForm;
     }
 

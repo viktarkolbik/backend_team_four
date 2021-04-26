@@ -31,6 +31,13 @@ server:
 file:
   path: "files"
 
+ses:
+  accessKey: "AKIA4RSBG3WXTR7OUT3B"
+  secretKey: "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"
+  region: "us-east-2"
+  template: "ExadelNew"
+  email: "test.exadel.test@gmail.com"
+
 key:
   jwtSecret: SecretKey
   jwtExpirationSec: 600
