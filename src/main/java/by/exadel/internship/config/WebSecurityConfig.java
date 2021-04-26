@@ -35,6 +35,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] WHITELIST_GET_METHODS = {
             "/internships",
             "/internships/{internshipId}",
+            "/location/countries",
+            "/location/cities"
     } ;
 
     private static final String[] WHITELIST_POST_METHODS = {

@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 22042021-drop-column-country-from-form
+      author: olga_evdokimova
+      preConditions:
+        - onFail: MARK_RAN
+        - columnExist:
+            tableName: form
+            columnName: fm_country
+      changes:
+        - dropColumn:
+            columns:
+              - column:
+                  name: fm_country
+            tableName: form
+
+  - changeSet:
+      id: 22042021-drop-column-city-from-form
+      author: olga_evdokimova
+      preConditions:
+        - onFail: MARK_RAN
+        - columnExist:
+            tableName: form
+            columnName: fm_city
+      changes:
+        - dropColumn:
+            columns:
+              - column:
+                  name: fm_city
+            tableName: form
