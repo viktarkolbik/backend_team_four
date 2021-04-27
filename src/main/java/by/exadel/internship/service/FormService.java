@@ -14,9 +14,13 @@ public interface FormService {
 
     List<FormFullDTO> getAll();
 
+    FormFullDTO getById(UUID formId);
+
     void deleteById(UUID formId);
 
     void restoreFormById(UUID formId);
+
+    void updateForm(FormFullDTO formFullDTO);
 
     List<FormFullDTO> getAllByInternshipId(UUID internshipId);
 

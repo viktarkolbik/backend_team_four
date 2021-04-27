@@ -5,8 +5,11 @@ import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
+import by.exadel.internship.entity.Interview;
+import by.exadel.internship.entity.InterviewDate;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
+import by.exadel.internship.mapper.InterviewMapper;
 import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.service.FormService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,7 @@ import java.util.UUID;
 public class FormServiceImpl implements FormService {
 
     private final FormMapper mapper;
+    private final InterviewMapper interviewMapper;
     private final FormRepository formRepository;
 
     @Value("${file.path}")
@@ -106,6 +110,17 @@ public class FormServiceImpl implements FormService {
 
     }
 
+    @Override
+    public FormFullDTO getById(UUID formId) {
+        putClassNameInMDC();
+        log.info("Try to get From with uuid = {}", formId);
+        Form form = formRepository.findByIdAndDeletedFalse(formId).
+                orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
+                        " Not Found in DB", "form.uuid.invalid"));
+        log.info("Return formFullDTO with uuid = {}", formId);
+        return mapper.toFormDto(form);
+    }
+
 
     public List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
 
@@ -134,6 +149,20 @@ public class FormServiceImpl implements FormService {
         formRepository.activateFormById(formId);
         log.info("Successfully returned deleted Form with uuid: {}", formId);
     }
+
+    @Override
+    public void updateForm(FormFullDTO formFullDTO) {
+        putClassNameInMDC();
+        log.info("Try to update Form with uuid = {}", formFullDTO.getId());
+        Form form = formRepository.findByIdAndDeletedFalse(formFullDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formFullDTO.getId() +
+                " Not Found in DB", "form.uuid.invalid"));
+        form.setFormStatus(formFullDTO.getFormStatus());
+        Interview interview = interviewMapper.toInterview(formFullDTO.getInterview());
+        form.setInterview(interview);
+        formRepository.save(form);
+    }
+
 
     public void deleteById(UUID formId) {
         putClassNameInMDC();

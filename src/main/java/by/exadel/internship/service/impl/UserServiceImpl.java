@@ -98,6 +98,15 @@ public class UserServiceImpl implements UserService {
         return mapper.map(userList);
     }
 
+    @Override
+    public List<UserDTO> getAllByUserRole(UserRole userRole) {
+        putClassNameInMDC();
+        log.info("Try to get List of user with userRole : {}", userRole);
+        List<User> users = userRepository.findAllByUserRole(userRole);
+        log.info("Return List of user");
+        return mapper.map(users);
+    }
+
     private void putClassNameInMDC() {
         MDC.put("className", UserService.class.getSimpleName());
     }

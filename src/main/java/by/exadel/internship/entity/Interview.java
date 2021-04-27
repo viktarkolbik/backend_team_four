@@ -1,5 +1,6 @@
 package by.exadel.internship.entity;
 
+import liquibase.pro.packaged.C;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -29,16 +31,18 @@ public class Interview {
     @Column(name = "i_admin_id")
     private UUID admin;
 
-//    private LocalDateTime adminInterviewDate;
+    @Column(name = "i_admin_interview_date")
+    private LocalDateTime adminInterviewDate;
 
     @Column(name = "i_admin_feedback")
     private String adminFeedback;
 
     @Column(name = "i_tech_id")
     private UUID techSpecialist;
-
-//    private LocalDateTime techInterviewDate;
+    @Column(name = "i_tech_interview_date")
+    private LocalDateTime techInterviewDate;
 
     @Column(name = "i_tech_feedback")
     private String techFeedback;
+
 }

@@ -4,7 +4,6 @@ import by.exadel.internship.dto.TimeForCallUserDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.InterviewTime;
 import by.exadel.internship.entity.TimeForCallUser;
-import by.exadel.internship.entity.User;
 import by.exadel.internship.mapper.TimeForCallUserMapper;
 import by.exadel.internship.repository.TimeForCallUserRepository;
 import by.exadel.internship.service.TimeForCallUserServise;
@@ -16,6 +15,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -49,16 +49,18 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
     }
 
     @Override
+    public List<TimeForCallUserDTO> getAllByUserId(UUID userId) {
+        List<TimeForCallUser> timeForCallUsers = timeForCallUserRepository.findAllByUserId(userId);
+        return mapper.mapToDTO(timeForCallUsers);
+    }
+
+    @Override
     public void saveUserTime(List<TimeForCallUserDTO> timeForCallUserDTOList) {
         resultUSerTimeList = new ArrayList<>();
         timeForCallUserDTOList.forEach(timeForCallUser -> {
             UserDTO user = userService.getById(timeForCallUser.getUserId());
             checkTime(timeForCallUser);
             separateTime(timeForCallUser, user.getInterviewTime());
-        });
-        System.out.println(resultUSerTimeList.size());
-        resultUSerTimeList.forEach(timeForCallUserDTO -> {
-            System.out.println("Start " + timeForCallUserDTO.getStartHour() + " End " + timeForCallUserDTO.getEndHour());
         });
         timeForCallUserRepository.saveAll(mapper.map(resultUSerTimeList));
     }
@@ -77,12 +79,10 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
                     DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO));
         }
         if (time.getEndHour().getMinute() > 0 && time.getEndHour().getMinute() < 30){
-            System.out.println("Here");
             LocalDateTime userTime = time.getEndHour();
             time.setEndHour(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
                     userTime.getDayOfMonth(), userTime.getHour(),
                     DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY));
-            System.out.println(time.getEndHour());
         }
         if (time.getEndHour().getMinute() > 30) {
             LocalDateTime userTime = time.getEndHour();

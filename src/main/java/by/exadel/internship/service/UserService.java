@@ -20,4 +20,6 @@ public interface UserService {
 
     List<UserDTO> getAllDeleted();
 
+    List<UserDTO> getAllByUserRole(UserRole userRole);
+
 }

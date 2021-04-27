@@ -18,5 +18,6 @@ public class FormFullDTO extends FormRegisterDTO {
     private UUID id;
     private FormStatus formStatus;
     private InterviewDTO interview;
+    private String primarySkill;
 
 }
