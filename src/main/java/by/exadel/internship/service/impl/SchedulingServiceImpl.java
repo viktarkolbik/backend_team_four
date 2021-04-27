@@ -7,8 +7,11 @@ import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
+import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.service.*;
+import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,18 +20,20 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SchedulingServiceImpl implements SchedulingService {
     private final TimeForCallService timeForCallService;
     private final TimeForCallUserServise timeForCallUserServise;
     private final FormService formService;
     private final UserService userService;
 
-    private List<TimeForCallDTO> timeForCallDTOList;
-    private List<TimeForCallUserDTO> timeForCallUserDTOList;
+    private static final String SIMPLE_CLASS_NAME = SchedulingService.class.getSimpleName();
 
 
     @Override
-    public List<TimeForCallUserDTO> makeSchedule(UUID formId) {
+    public List<TimeForCallUserDTO> getFreeTimeForForm(UUID formId) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to get free users time for Form");
         FormFullDTO formFullDTO = formService.getById(formId);
         return checkInterviewOver(formFullDTO);
     }
@@ -44,7 +49,8 @@ public class SchedulingServiceImpl implements SchedulingService {
         if (!status.name().equals("REGISTERED") && !status.name().equals("ADMIN_INTERVIEW_PASSED")){
             System.out.println("Cancel form");
         }
-        return null;
+        throw new NotFoundException("No such form status for Form with id = " + formFullDTO.getId(),
+                "form.formStatus.invalid");
     }
 
     private List<TimeForCallUserDTO> getTimeForInterviewWithHR() {
@@ -63,11 +69,16 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     @Override
     public void saveUserTime(List<TimeForCallUserDTO> timeForCallUserDTOList) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to save users free time in DB");
         timeForCallUserServise.saveUserTime(timeForCallUserDTOList);
+        log.info("Successfully saved time in DB");
     }
 
     @Override
     public void saveInterviewForForm(UUID formId, TimeForCallUserDTO userDataTime) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to save Form with Interview");
         FormFullDTO formFullDTO = formService.getById(formId);
         InterviewDTO interviewDTO = new InterviewDTO();
         interviewDTO.setAdmin(userDataTime.getUserId());

@@ -8,6 +8,7 @@ import by.exadel.internship.mapper.TimeForCallUserMapper;
 import by.exadel.internship.repository.TimeForCallUserRepository;
 import by.exadel.internship.service.TimeForCallUserServise;
 import by.exadel.internship.service.UserService;
+import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
     private static final String HALF_HOUR = "HALF_HOUR";
     private static final String HOUR = "HOUR";
     private static final String HOUR_HALF = "HOUR_HALF";
+    private static final String SIMPLE_CLASS_NAME = TimeForCallUserServise.class.getSimpleName();
 
 
     private int interviewTime = 30;
@@ -38,24 +40,28 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
 
     @Override
     public List<TimeForCallUserDTO> getAll() {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         List<TimeForCallUser> timeForCallUsers = timeForCallUserRepository.findAll();
         return mapper.mapToDTO(timeForCallUsers);
     }
 
     @Override
     public void updateTime(TimeForCallUserDTO time) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         TimeForCallUser timeForCallUser = mapper.toTimeForCallUserEntity(time);
         timeForCallUserRepository.save(timeForCallUser);
     }
 
     @Override
     public List<TimeForCallUserDTO> getAllByUserId(UUID userId) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         List<TimeForCallUser> timeForCallUsers = timeForCallUserRepository.findAllByUserId(userId);
         return mapper.mapToDTO(timeForCallUsers);
     }
 
     @Override
     public void saveUserTime(List<TimeForCallUserDTO> timeForCallUserDTOList) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         resultUSerTimeList = new ArrayList<>();
         timeForCallUserDTOList.forEach(timeForCallUser -> {
             UserDTO user = userService.getById(timeForCallUser.getUserId());

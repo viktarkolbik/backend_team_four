@@ -1,5 +1,7 @@
 package by.exadel.internship.controller;
 
+import by.exadel.internship.annotation.AdminAccessControl;
+import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.service.FormService;
@@ -7,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,18 +35,21 @@ public class FormController {
         return formService.process(form, file);
     }
 
+    @AdminAccessControl
     @GetMapping
     @ApiOperation("Get all forms by internship id")
     public List<FormFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
         return formService.getAllByInternshipId(internshipId);
     }
 
+    @SuperAdminAccessControl
     @DeleteMapping("/{formId}")
     @ApiOperation("Delete form by ID")
     public void deleteFormById(@PathVariable UUID formId) {
         formService.deleteById(formId);
     }
 
+    @SuperAdminAccessControl
     @PutMapping("/{formId}/restore")
     @ApiOperation("Restore deleted Form")
     public void restoreForm(@PathVariable UUID formId) {

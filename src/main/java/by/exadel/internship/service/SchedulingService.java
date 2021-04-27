@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SchedulingService {
-    List<TimeForCallUserDTO> makeSchedule(UUID internshipId);
+    List<TimeForCallUserDTO> getFreeTimeForForm(UUID internshipId);
 
     void saveUserTime(List<TimeForCallUserDTO> timeForCallUserDTOList);
 

@@ -1,28 +1,15 @@
 package by.exadel.internship.controller;
 
 
-import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.TimeForCallUserDTO;
-import by.exadel.internship.dto.formDTO.FormRegisterDTO;
-import by.exadel.internship.entity.TimeForCall;
-import by.exadel.internship.entity.TimeForCallUser;
 import by.exadel.internship.service.SchedulingService;
-import by.exadel.internship.service.TimeForCallService;
 import by.exadel.internship.service.TimeForCallUserServise;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,7 +34,7 @@ public class SchedulingController {
 
     @GetMapping("/make-scheduling")
     public List<TimeForCallUserDTO> makeScheduling(@RequestParam("formId") UUID formId){
-        return schedulingService.makeSchedule(formId);
+        return schedulingService.getFreeTimeForForm(formId);
     }
 
     @PostMapping("/save-time-for-interview")
