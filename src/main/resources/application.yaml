@@ -5,9 +5,9 @@ spring:
       ddl-auto: validate
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://ec2-54-216-185-51.eu-west-1.compute.amazonaws.com:5432/d1pkr17k1m7b23?sslmode=require
-    password: 799cab82319a89fbc2cb89b0b782b6edc9e8ce75c347ebb5c9fd3eb050d0aba2
-    username: whcambggbaqmvk
+    url: ${SPRING_DATASOURCE_URL}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    username: ${SPRING_DATASOURCE_USERNAME}
     initialization-mode: always
     data:
       - 'classpath:db/changelog/v.0.5/sql-import/update-changelog.sql'
