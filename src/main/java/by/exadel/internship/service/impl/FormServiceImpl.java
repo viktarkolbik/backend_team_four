@@ -13,7 +13,6 @@ import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,12 +29,10 @@ import java.util.UUID;
 @Slf4j
 public class FormServiceImpl implements FormService {
 
+    private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
     private final FormMapper mapper;
     private final FormRepository formRepository;
     private final EmailService emailService;
-
-    private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
-
     @Value("${file.path}")
     private String filePath;
 
@@ -71,10 +68,12 @@ public class FormServiceImpl implements FormService {
 
         formRepository.save(form);
 
-        emailService.sendSimpleMessage(formRegisterDTO);
+        FormFullDTO dto = mapper.toFormDto(form);
 
-        return mapper.toFormDto(form);
-
+        if (emailService.sendSimpleMessage(formRegisterDTO)) {
+            dto.setConfirmEmail(true);
+        }
+        return dto;
     }
 
     private void uploadFile(MultipartFile multipartFile, UUID id) {
