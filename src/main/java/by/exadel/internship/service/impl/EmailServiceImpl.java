@@ -6,12 +6,12 @@ import by.exadel.internship.mail.EmailTemplate;
 import by.exadel.internship.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -41,15 +41,19 @@ public class EmailServiceImpl implements EmailService {
         props.putAll(MAIL_PROPS);
     }
 
-    public boolean sendSimpleMessage(FormRegisterDTO formRegisterDTO) {
-        EmailTemplate emailTemplate = new EmailTemplate();
+    public boolean sendFormSubmissionEmail(FormRegisterDTO formRegisterDTO) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(emailTemplate.getFrom());
+        message.setFrom(EmailTemplate.FROM);
         message.setTo(formRegisterDTO.getEmail());
-        message.setSubject(emailTemplate.getSubject());
-        message.setText(emailTemplate.getText());
+        message.setSubject(EmailTemplate.SUBJECT);
+        message.setText(EmailTemplate.TEXT);
 
-        mailSender.send(message);
-        return true;
+        try {
+            mailSender.send(message);
+            return true;
+        }catch (MailException e){
+            log.error(e.getMessage());
+            return false;
+        }
     }
 }
