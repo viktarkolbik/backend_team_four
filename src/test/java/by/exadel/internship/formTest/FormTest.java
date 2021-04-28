@@ -3,6 +3,8 @@ package by.exadel.internship.formTest;
 import by.exadel.internship.InternshipApplicationTests;
 import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
+import by.exadel.internship.dto.locationDTO.CityDTO;
+import by.exadel.internship.dto.locationDTO.CountryDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
@@ -47,8 +49,8 @@ public class FormTest extends InternshipApplicationTests {
 
         assertEquals(formFullDTO.getFirstName(), "testName");
         assertEquals(formFullDTO.getLastName(), "string");
-        assertEquals(formFullDTO.getCity(), "string");
-        assertEquals(formFullDTO.getCountry(), "string");
+        assertEquals(formFullDTO.getCity(), new CityDTO("string"));
+        assertEquals(formFullDTO.getCountry(), new CountryDTO("string"));
         assertEquals(formFullDTO.getEducation(), "string");
         assertEquals(formFullDTO.getEmail(), "string");
         assertEquals(formFullDTO.getEnglishLevel(), EnglishLevel.A0);
