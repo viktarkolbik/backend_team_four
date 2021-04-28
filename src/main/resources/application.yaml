@@ -28,7 +28,7 @@ spring:
 server:
   servlet:
     context-path: /api
-#  port: ${PORT}
+  port: ${PORT}
 
 file:
   path: "files"

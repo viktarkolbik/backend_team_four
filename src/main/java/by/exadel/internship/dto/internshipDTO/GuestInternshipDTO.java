@@ -24,7 +24,7 @@ public class GuestInternshipDTO {
 
     private UUID id;
 
-    @Size(min=2, max=100)
+    @Size(min = 2, max = 100)
     private String name;
 
     @NotNull
@@ -36,7 +36,7 @@ public class GuestInternshipDTO {
     @NotNull
     private LocalDate publicationDate;
 
-    @Size(max=250)
+    @Size(max = 250)
     private String techSkills;
 
     @NotNull
@@ -48,10 +48,10 @@ public class GuestInternshipDTO {
     @NotNull
     private Set<Skill> skills;
 
-    @Size(max=150)
+    @Size(max = 150)
     private String description;
 
-    @Size(max=150)
+    @Size(max = 150)
     private String requirements;
 
     @NotNull
