@@ -14,4 +14,6 @@ ARG path=/usr/app
 WORKDIR ${path}
 COPY --from=build ${path}/target/*.jar ${path}/app.jar
 
-ENTRYPOINT ["java","-jar","app.jar", "sh", "-c", "java -Dserver.port=$PORT -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8"]
+EXPOSE 8080
+
+ENTRYPOINT ["java","-jar","app.jar", "sh", "-c", "java -Dserver.port=$PORT"]
