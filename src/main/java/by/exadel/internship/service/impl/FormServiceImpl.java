@@ -4,9 +4,13 @@ import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
+import by.exadel.internship.entity.location.City;
+import by.exadel.internship.entity.location.Country;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.repository.FormRepository;
+import by.exadel.internship.repository.location.CityRepository;
+import by.exadel.internship.repository.location.CountryRepository;
 import by.exadel.internship.service.FormService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +35,8 @@ public class FormServiceImpl implements FormService {
 
     private final FormMapper mapper;
     private final FormRepository formRepository;
+    private final CountryRepository countryRepository;
+    private final CityRepository cityRepository;
 
     private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
 
@@ -62,7 +68,14 @@ public class FormServiceImpl implements FormService {
 
     private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
 
+        City city = cityRepository.findByName(formRegisterDTO.getCity().getName());
+        Country country = countryRepository.findByName(formRegisterDTO.getCountry().getName());
+
         Form form = mapper.toFormEntity(formRegisterDTO);
+
+        form.setCountry(country);
+        form.setCity(city);
+
         form.setFormStatus(FormStatus.REGISTERED);
 
         log.info("The form status is {}", FormStatus.REGISTERED);

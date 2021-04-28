@@ -21,7 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 public class FormTest extends InternshipApplicationTests {
-
+    @Test
+    public void test() {
+    }
 
     @Test
     public void givenFormWithFile_checkTestData()
