@@ -3,7 +3,10 @@ package by.exadel.internship.entity;
 import by.exadel.internship.auditing.Auditable;
 import by.exadel.internship.dto.enums.InternshipFormat;
 import by.exadel.internship.dto.enums.Skill;
+import by.exadel.internship.entity.location.Location;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -75,5 +78,11 @@ public class Internship extends Auditable<String> {
             inverseJoinColumns = @JoinColumn(name = "ui_u_id"))
     private List<User> users;
 
-//    private List<Location> countryList;
+    @ManyToMany
+    @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(
+            name = "internship_location",
+            joinColumns = @JoinColumn(name = "il_inship_id"),
+            inverseJoinColumns = @JoinColumn(name = "il_l_id", nullable = false))
+    private List<Location> locationList;
 }

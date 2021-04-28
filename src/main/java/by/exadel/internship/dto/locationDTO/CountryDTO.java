@@ -12,6 +12,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CountryDTO {
 
-    private UUID id;
     private String name;
 }
