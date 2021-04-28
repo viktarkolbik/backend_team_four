@@ -2,8 +2,10 @@ package by.exadel.internship.mapper.location_mapper;
 
 import by.exadel.internship.dto.locationDTO.CityDTO;
 import by.exadel.internship.dto.locationDTO.CountryDTO;
+import by.exadel.internship.dto.locationDTO.LocationDTO;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
+import by.exadel.internship.entity.location.Location;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
@@ -28,4 +30,13 @@ public interface LocationMapper {
 
     @IterableMapping(qualifiedByName = "city")
     List<CityDTO> mapToListCityDTO(List<City> cityList);
+
+
+    @Named(value = "location")
+    LocationDTO toLocationDTO(Location location);
+
+    Location toLocationEntity(LocationDTO locationDTO);
+
+    @IterableMapping(qualifiedByName = "location")
+    List<LocationDTO> mapToListLocationDTO(List<Location> locationList);
 }

@@ -1,7 +1,7 @@
 package by.exadel.internship.dto.internshipDTO;
 
 
-import by.exadel.internship.dto.LocationDTO;
+import by.exadel.internship.dto.locationDTO.LocationDTO;
 import by.exadel.internship.dto.enums.InternshipFormat;
 import by.exadel.internship.dto.enums.Skill;
 import lombok.AllArgsConstructor;

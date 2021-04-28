@@ -1,4 +1,4 @@
-package by.exadel.internship.dto;
+package by.exadel.internship.dto.locationDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class LocationDTO {
 
-    private String country;
-    private String city;
+    private CountryDTO country;
+    private CityDTO city;
 
 }
