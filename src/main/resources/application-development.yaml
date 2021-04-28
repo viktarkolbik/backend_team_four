@@ -34,3 +34,4 @@ file:
 key:
   jwtSecret: SecretKey
   jwtExpirationSec: 600
+
