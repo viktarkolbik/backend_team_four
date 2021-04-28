@@ -43,10 +43,10 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     private List<TimeForCallUserDTO> checkInterviewOver(FormFullDTO formFullDTO) {
         FormStatus status = formFullDTO.getFormStatus();
-        if (status.name().equals("REGISTERED")) {
+        if (status.equals(FormStatus.REGISTERED)) {
             return findAdminFreeTimeForInterview(status);
         }
-        if (status.name().equals("ADMIN_INTERVIEW_PASSED")) {
+        if (status.equals(FormStatus.ADMIN_INTERVIEW_PASSED)) {
             return findAdminFreeTimeForInterview(status);
         }
         throw new NotFoundException("Form with uuid = " + formFullDTO.getId()
