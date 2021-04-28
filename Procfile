@@ -1,1 +1,2 @@
-web: java -Dserver.port=$PORT -jar target/target/Internship-0.0.1-SNAPSHOT.jar --spring.datasource.url=${SPRING_DATASOURCE_URL}
+worker: java -Dserver.port=$PORT  -jar target/*.jar --spring.datasource.url=$SPRING_DATASOURCE_URL --spring.datasource.username=$SPRING_DATASOURCE_USERNAME --spring.datasource.password=$SPRING_DATASOURCE_PASSWORD
+
