@@ -30,6 +30,7 @@
         <testcontainers.version>1.15.2</testcontainers.version>
         <commons-io.version>2.6</commons-io.version>
         <jakson.datatype.version>2.12.3</jakson.datatype.version>
+        <email.version>2.4.5</email.version>
     </properties>
 
     <dependencies>
@@ -151,8 +152,16 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jakson.datatype.version}</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${email.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>
@@ -160,6 +169,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
 
             <plugin>

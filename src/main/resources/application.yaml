@@ -26,7 +26,6 @@ spring:
       - 'classpath:db/changelog/v.0.3/sql-import/import-time-for-call.sql'
 
 
-
 server:
   servlet:
     context-path: /api
@@ -38,3 +37,9 @@ key:
   jwtSecret: SecretKey
   jwtExpirationSec: 600
 
+
+email:
+  host: "smtp.gmail.com"
+  port: 587
+  username: "test.exadel.test@gmail.com"
+  password: "exadeltest123"

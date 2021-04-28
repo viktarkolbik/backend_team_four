@@ -7,6 +7,7 @@ import by.exadel.internship.entity.Form;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.repository.FormRepository;
+import by.exadel.internship.service.EmailService;
 import by.exadel.internship.service.FormService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class FormServiceImpl implements FormService {
 
     private final FormMapper mapper;
     private final FormRepository formRepository;
+    private final EmailService emailService;
 
     private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
 
@@ -68,6 +70,8 @@ public class FormServiceImpl implements FormService {
         log.info("The form status is {}", FormStatus.REGISTERED);
 
         formRepository.save(form);
+
+        emailService.sendSimpleMessage(formRegisterDTO);
 
         return mapper.toFormDto(form);
 
