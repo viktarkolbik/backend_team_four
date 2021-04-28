@@ -2,8 +2,10 @@ package by.exadel.internship.controller;
 
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
+import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
+import by.exadel.internship.pojo.FeedbackRequest;
 import by.exadel.internship.service.FormService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -56,5 +58,11 @@ public class FormController {
         formService.restoreFormById(formId);
     }
 
+    @UserAccessControl
+    @PutMapping("/{formId}/feedback")
+    @ApiOperation("Save feedback")
+    public void saveFeedback(@PathVariable UUID formId, @RequestBody FeedbackRequest feedbackRequest){
+        formService.updateFeedback(formId,feedbackRequest);
+    }
 
 }

@@ -2,6 +2,7 @@ package by.exadel.internship.service;
 
 import by.exadel.internship.dto.formDTO.FormFullDTO;
 import by.exadel.internship.dto.formDTO.FormRegisterDTO;
+import by.exadel.internship.pojo.FeedbackRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -23,4 +24,5 @@ public interface FormService {
 
     List<FormFullDTO> getAllByInternshipId(UUID internshipId);
 
+    void updateFeedback(UUID formId, FeedbackRequest feedbackRequest);
 }

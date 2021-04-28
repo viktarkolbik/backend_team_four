@@ -1,6 +1,8 @@
 package by.exadel.internship.controller;
 
 
+import by.exadel.internship.annotation.AdminAccessControl;
+import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.dto.TimeForCallUserDTO;
 import by.exadel.internship.service.SchedulingService;
 import by.exadel.internship.service.TimeForCallUserServise;
@@ -19,28 +21,24 @@ import java.util.UUID;
 public class SchedulingController {
 
     private final SchedulingService schedulingService;
-    private final TimeForCallUserServise timeForCallUserServise;
 
-    /*@GetMapping
-    public List<TimeForCallUserDTO> makeScheduling() {
-        //schedulingService.makeSchedule();
-        return timeForCallUserServise.getAll();
-    }*/
-
-    @PostMapping("/save-user-time")
+    @SuperAdminAccessControl
+    @PostMapping()
     @ApiOperation("Save User free time")
     public List<TimeForCallUserDTO> saveUserTime(@RequestBody List<TimeForCallUserDTO> timeForCallUserDTOList) {
         schedulingService.saveUserTime(timeForCallUserDTOList);
         return null;
     }
 
-    @GetMapping("/make-scheduling")
+    @AdminAccessControl
+    @GetMapping("/interview-time")
     @ApiOperation("Get all time for Form")
     public List<TimeForCallUserDTO> makeScheduling(@RequestParam("formId") UUID formId){
         return schedulingService.getFreeTimeForForm(formId);
     }
 
-    @PostMapping("/save-time-for-interview")
+    @AdminAccessControl
+    @PostMapping("/save-interview-time")
     @ApiOperation("Save interview time for Form")
     public void saveInterviewForForm(@RequestParam(name = "formId") UUID formId,
                     @RequestBody TimeForCallUserDTO userDataTime){
