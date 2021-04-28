@@ -5,6 +5,7 @@ import by.exadel.internship.dto.TimeForCallUserDTO;
 import by.exadel.internship.service.SchedulingService;
 import by.exadel.internship.service.TimeForCallUserServise;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,17 +28,20 @@ public class SchedulingController {
     }*/
 
     @PostMapping("/save-user-time")
+    @ApiOperation("Save User free time")
     public List<TimeForCallUserDTO> saveUserTime(@RequestBody List<TimeForCallUserDTO> timeForCallUserDTOList) {
         schedulingService.saveUserTime(timeForCallUserDTOList);
         return null;
     }
 
     @GetMapping("/make-scheduling")
+    @ApiOperation("Get all time for Form")
     public List<TimeForCallUserDTO> makeScheduling(@RequestParam("formId") UUID formId){
         return schedulingService.getFreeTimeForForm(formId);
     }
 
     @PostMapping("/save-time-for-interview")
+    @ApiOperation("Save interview time for Form")
     public void saveInterviewForForm(@RequestParam(name = "formId") UUID formId,
                     @RequestBody TimeForCallUserDTO userDataTime){
         schedulingService.saveInterviewForForm(formId,userDataTime);
