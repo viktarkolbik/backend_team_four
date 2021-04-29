@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface FormService {
 
-    FormFullDTO process(FormRegisterDTO form, MultipartFile file);
+    FormFullDTO process(FormRegisterDTO form, MultipartFile file, String internshipId);
 
     List<FormFullDTO> getAll();
 

@@ -25,8 +25,6 @@ spring:
       - 'classpath:db/changelog/v.0.4/sql-import/import-user-hash-password.sql'
       - 'classpath:db/changelog/v.0.3/sql-import/import-time-for-call.sql'
 
-
-
 server:
   servlet:
     context-path: /api

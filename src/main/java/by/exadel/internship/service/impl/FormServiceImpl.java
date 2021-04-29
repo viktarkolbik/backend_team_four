@@ -37,14 +37,15 @@ public class FormServiceImpl implements FormService {
     @Value("${file.path}")
     private String filePath;
 
-    public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
+    public FormFullDTO process(FormRegisterDTO form, MultipartFile file, String internshipIdStr) {
+
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
 
         if (file != null) {
 
             form.setFilePath(file.getOriginalFilename());
-            FormFullDTO createdForm = saveForm(form);
+            FormFullDTO createdForm = saveForm(form, internshipIdStr);
 
             log.info("Success to save form, id: {}", createdForm.getId());
 
@@ -53,17 +54,23 @@ public class FormServiceImpl implements FormService {
             return createdForm;
         }
 
-        FormFullDTO createdForm = saveForm(form);
+        FormFullDTO createdForm = saveForm(form, internshipIdStr);
 
         log.info("Success to save form, id: {}", createdForm.getId());
 
         return createdForm;
     }
 
-    private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
+    private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO, String internshipIdStr) {
+
+        UUID internshipId = UUID.fromString(internshipIdStr);
 
         Form form = mapper.toFormEntity(formRegisterDTO);
+
+        log.info("Save form, id: {} internshipId {} and status {}", form.getId(), internshipIdStr, FormStatus.REGISTERED);
+
         form.setFormStatus(FormStatus.REGISTERED);
+        form.setInternshipId(internshipId);
 
         log.info("The form status is {}", FormStatus.REGISTERED);
 
