@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = LocationMapper.class)
 
-public interface InternshipMapper {
+public interface GuestInternshipMapper {
 
     @Named(value = "internship")
     @Mapping(source = "locationList", target = "locations")

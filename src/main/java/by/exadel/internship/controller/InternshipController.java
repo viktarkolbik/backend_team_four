@@ -4,6 +4,7 @@ package by.exadel.internship.controller;
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.dto.internship.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.ShortInternshipDTO;
 import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +24,7 @@ public class InternshipController {
 
     @GetMapping
     @ApiOperation("return list of internships")
-    public List<GuestInternshipDTO> getInternshipList() {
+    public List<ShortInternshipDTO> getInternshipList() {
         return internshipService.getAll();
     }
 
