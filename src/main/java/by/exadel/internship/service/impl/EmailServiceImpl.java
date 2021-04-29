@@ -15,11 +15,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class EmailServiceImpl implements EmailService {
 
+    private static final String NAME = "${name}";
     private final JavaMailSenderImpl mailSender;
 
     public boolean sendFormSubmissionEmail(FormRegisterDTO formRegisterDTO) {
         SimpleMailMessage message = new SimpleMailMessage();
-        String text = EmailTemplate.TEXT.replace("${name}", formRegisterDTO.getFirstName());
+        String text = EmailTemplate.TEXT.replace(NAME, formRegisterDTO.getFirstName());
         message.setFrom(EmailTemplate.FROM);
         message.setTo(formRegisterDTO.getEmail());
         message.setSubject(EmailTemplate.SUBJECT);
