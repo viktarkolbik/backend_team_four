@@ -27,7 +27,6 @@ public class SchedulingController {
     @ApiOperation("Save User free time")
     public List<TimeForCallUserDTO> saveUserTime(@RequestBody List<TimeForCallUserDTO> timeForCallUserDTOList) {
         schedulingService.saveUserTime(timeForCallUserDTOList);
-        return null;
     }
 
     @AdminAccessControl
