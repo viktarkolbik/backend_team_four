@@ -1,7 +1,6 @@
 package by.exadel.internship.config;
 
 import by.exadel.internship.mail.EmailProperties;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -10,7 +9,6 @@ import java.util.Map;
 import java.util.Properties;
 
 @Configuration
-@RequiredArgsConstructor
 public class EmailConfiguration {
 
     private static final String PROTOCOL = "mail.transport.protocol";
@@ -23,9 +21,9 @@ public class EmailConfiguration {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         Map<String, String> MAIL_PROPS = Map.of(PROTOCOL, emailProperties.getProtocol(),
-                                                SMTP_AUTH, emailProperties.getSmtpAuth(),
-                                                SMTP_STARTTLS, emailProperties.getSmtpStarttls(),
-                                                DEBUG, emailProperties.getDebug());
+                SMTP_AUTH, emailProperties.getSmtpAuth(),
+                SMTP_STARTTLS, emailProperties.getSmtpStarttls(),
+                DEBUG, emailProperties.getDebug());
 
         mailSender.setHost(emailProperties.getHost());
         mailSender.setPort(emailProperties.getPort());
