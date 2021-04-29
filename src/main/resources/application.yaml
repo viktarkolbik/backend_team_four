@@ -24,7 +24,19 @@ spring:
       - 'classpath:db/changelog/v.0.4/sql-import/import-user-internship.sql'
       - 'classpath:db/changelog/v.0.4/sql-import/import-user-hash-password.sql'
       - 'classpath:db/changelog/v.0.3/sql-import/import-time-for-call.sql'
-
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    username: test.exadel.test@gmail.com
+    password: exadeltest123
+    port: 587
+    smtp:
+      auth: true
+      starttls:
+        enable: true
+    protocol: smtp
+    test-connection: false
+    debug: true
 
 server:
   servlet:
@@ -36,10 +48,3 @@ file:
 key:
   jwtSecret: SecretKey
   jwtExpirationSec: 600
-
-
-email:
-  host: "smtp.gmail.com"
-  port: 587
-  username: "test.exadel.test@gmail.com"
-  password: "exadeltest123"
