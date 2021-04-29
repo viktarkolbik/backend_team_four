@@ -1,8 +1,8 @@
 package by.exadel.internship.mapper.location_mapper;
 
-import by.exadel.internship.dto.locationDTO.CityDTO;
-import by.exadel.internship.dto.locationDTO.CountryDTO;
-import by.exadel.internship.dto.locationDTO.LocationDTO;
+import by.exadel.internship.dto.location.CityDTO;
+import by.exadel.internship.dto.location.CountryDTO;
+import by.exadel.internship.dto.location.LocationDTO;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
 import by.exadel.internship.entity.location.Location;

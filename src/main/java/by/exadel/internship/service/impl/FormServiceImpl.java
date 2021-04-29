@@ -1,8 +1,8 @@
 package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.enums.FormStatus;
-import by.exadel.internship.dto.formDTO.FormFullDTO;
-import by.exadel.internship.dto.formDTO.FormRegisterDTO;
+import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
@@ -16,7 +16,6 @@ import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,8 +67,12 @@ public class FormServiceImpl implements FormService {
 
     private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
 
-        Country country = countryRepository.findByName(formRegisterDTO.getCountry().getName());
-        City city = cityRepository.findByNameAndCountry_Id(formRegisterDTO.getCity().getName(), country.getId());
+        UUID countryId = formRegisterDTO.getCountry().getId();
+        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NotFoundException("City with uuid = " + countryId +
+                " Not Found in DB", "form.uuid.invalid"));
+        UUID cityId = formRegisterDTO.getCity().getId();
+        City city = cityRepository.findById(cityId).orElseThrow(() -> new NotFoundException("City with uuid = " + cityId +
+                " Not Found in DB", "form.uuid.invalid"));
 
         Form form = mapper.toFormEntity(formRegisterDTO);
 

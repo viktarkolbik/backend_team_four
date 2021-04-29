@@ -29,7 +29,8 @@ public class City {
     @Column(name = "city_name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "city_cntr_id")
-    private Country country;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "city_cntr_id")
+    @Column(name = "city_cntr_id")
+    private UUID country;
 }

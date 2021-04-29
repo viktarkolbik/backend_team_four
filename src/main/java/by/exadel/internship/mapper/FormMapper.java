@@ -1,7 +1,7 @@
 package by.exadel.internship.mapper;
 
-import by.exadel.internship.dto.formDTO.FormFullDTO;
-import by.exadel.internship.dto.formDTO.FormRegisterDTO;
+import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;

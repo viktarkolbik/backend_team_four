@@ -1,7 +1,7 @@
 package by.exadel.internship.mapper;
 
 
-import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.entity.Internship;
 import by.exadel.internship.mapper.location_mapper.LocationMapper;
 import org.mapstruct.IterableMapping;

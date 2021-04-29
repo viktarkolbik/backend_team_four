@@ -20,8 +20,6 @@ databaseChangeLog:
               - column:
                   name: l_city_id
                   type: UUID
-                  constraints:
-                    nullable: false
 
   - changeSet:
       id: 24042021-add-foreignKeyConstraint-county-id-to-location

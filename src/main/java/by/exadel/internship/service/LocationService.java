@@ -1,13 +1,14 @@
 package by.exadel.internship.service;
 
-import by.exadel.internship.dto.locationDTO.CityDTO;
-import by.exadel.internship.dto.locationDTO.CountryDTO;
+import by.exadel.internship.dto.location.CityDTO;
+import by.exadel.internship.dto.location.CountryDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface LocationService {
 
     List<CountryDTO> getAllCountries();
 
-    List<CityDTO> getCitiesByCountryName(String countryName);
+    List<CityDTO> getCitiesByCountryId(UUID countryId);
 }

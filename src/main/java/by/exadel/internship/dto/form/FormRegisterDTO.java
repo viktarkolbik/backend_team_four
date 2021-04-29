@@ -1,9 +1,9 @@
-package by.exadel.internship.dto.formDTO;
+package by.exadel.internship.dto.form;
 
 import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.enums.EnglishLevel;
-import by.exadel.internship.dto.locationDTO.CityDTO;
-import by.exadel.internship.dto.locationDTO.CountryDTO;
+import by.exadel.internship.dto.location.CityDTO;
+import by.exadel.internship.dto.location.CountryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
