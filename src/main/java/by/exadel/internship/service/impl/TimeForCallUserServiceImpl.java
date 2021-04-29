@@ -29,10 +29,10 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
 
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY = 30;
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO = 0;
+    private static int INTERVIEW_TIME = 30;
     private static final String SIMPLE_CLASS_NAME = TimeForCallUserServise.class.getSimpleName();
 
 
-    private int interviewTime = 30;
     private List<TimeForCallUserDTO> resultUSerTimeList;
 
     @Override
@@ -105,7 +105,7 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
             TimeForCallUserDTO tempUserTime = new TimeForCallUserDTO();
             tempUserTime.setUserId(time.getUserId());
             tempUserTime.setStartHour(time.getStartHour());
-            tempUserTime.setEndHour(tempUserTime.getStartHour().plusMinutes(interviewTime));
+            tempUserTime.setEndHour(tempUserTime.getStartHour().plusMinutes(INTERVIEW_TIME));
             newUserTimeList.add(tempUserTime);
             time.setStartHour(tempUserTime.getEndHour());
         }
@@ -114,15 +114,15 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
 
     private long determineTime(Duration duration, InterviewTime interviewTimeUser){
         if (interviewTimeUser.equals(InterviewTime.HALF_HOUR)){
-            interviewTime = 30;
+            INTERVIEW_TIME = 30;
             return duration.toMinutes()/30;
         }
         if (interviewTimeUser.equals(InterviewTime.HOUR)){
-            interviewTime = 60;
+            INTERVIEW_TIME = 60;
             return duration.toMinutes()/60;
         }
         if (interviewTimeUser.equals(InterviewTime.HOUR_HALF)){
-            interviewTime = 90;
+            INTERVIEW_TIME = 90;
             return duration.toMinutes()/90;
         }
         return duration.toMinutes()/30;

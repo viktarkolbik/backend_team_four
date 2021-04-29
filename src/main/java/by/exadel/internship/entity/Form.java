@@ -85,7 +85,7 @@ public class Form {
     private Interview interview;
 
     @ToString.Exclude
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "fm_id")
     private List<TimeForCall> timeForCallList;
 
