@@ -25,14 +25,14 @@ public class SchedulingController {
     @SuperAdminAccessControl
     @PostMapping()
     @ApiOperation("Save User free time")
-    public List<TimeForCallUserDTO> saveUserTime(@RequestBody List<TimeForCallUserDTO> timeForCallUserDTOList) {
+    public void saveUserTime(@RequestBody List<TimeForCallUserDTO> timeForCallUserDTOList) {
         schedulingService.saveUserTime(timeForCallUserDTOList);
     }
 
     @AdminAccessControl
     @GetMapping("/interview-time")
     @ApiOperation("Get all time for Form")
-    public List<TimeForCallUserDTO> makeScheduling(@RequestParam("formId") UUID formId){
+    public List<TimeForCallUserDTO> getPossibleInterviewTime(@RequestParam("formId") UUID formId){
         return schedulingService.getFreeTimeForForm(formId);
     }
 
