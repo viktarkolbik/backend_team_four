@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 24042021-create-table-location
+      author: olga-evdokimova
+      changes:
+        - createTable:
+            tableName: location
+            columns:
+              - column:
+                  name: location_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: l_county_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: l_city_id
+                  type: UUID
+
+  - changeSet:
+      id: 24042021-add-foreignKeyConstraint-county-id-to-location
+      author: olga-evdokimova
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: l_county_id
+            baseTableName: location
+            constraintName: fk_county_id_location
+            referencedColumnNames: cntr_id
+            referencedTableName: country
+
+  - changeSet:
+      id: 24042021-add-foreignKeyConstraint-city-id-to-location
+      author: olga-evdokimova
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: l_city_id
+            baseTableName: location
+            constraintName: fk_city_id_location
+            referencedColumnNames: city_id
+            referencedTableName: city

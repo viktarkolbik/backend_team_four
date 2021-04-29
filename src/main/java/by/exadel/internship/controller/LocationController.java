@@ -1,7 +1,7 @@
 package by.exadel.internship.controller;
 
-import by.exadel.internship.dto.locationDTO.CityDTO;
-import by.exadel.internship.dto.locationDTO.CountryDTO;
+import by.exadel.internship.dto.location.CityDTO;
+import by.exadel.internship.dto.location.CountryDTO;
 import by.exadel.internship.service.LocationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class LocationController {
 
     @GetMapping("/cities")
     @ApiOperation("return city list")
-    public List<CityDTO> getCityList(@RequestParam(value = "name") String countryName) {
-        return locationService.getCitiesByCountryName(countryName);
+    public List<CityDTO> getCityList(@RequestParam(value = "countryId") UUID countryId){
+        return locationService.getCitiesByCountryId(countryId);
     }
 }

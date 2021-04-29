@@ -3,7 +3,7 @@ package by.exadel.internship.controller;
 
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
-import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

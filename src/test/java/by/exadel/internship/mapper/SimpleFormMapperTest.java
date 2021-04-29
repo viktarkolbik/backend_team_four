@@ -1,9 +1,7 @@
 package by.exadel.internship.mapper;
 
-import by.exadel.internship.dto.formDTO.FormFullDTO;
+import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.entity.Form;
-import by.exadel.internship.entity.location.City;
-import by.exadel.internship.entity.location.Country;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 

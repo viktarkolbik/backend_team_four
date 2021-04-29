@@ -1,7 +1,7 @@
 package by.exadel.internship.internshipTest;
 
 import by.exadel.internship.InternshipApplicationTests;
-import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;

@@ -1,7 +1,7 @@
-package by.exadel.internship.dto.internshipDTO;
+package by.exadel.internship.dto.internship;
 
 
-import by.exadel.internship.dto.LocationDTO;
+import by.exadel.internship.dto.location.LocationDTO;
 import by.exadel.internship.dto.enums.InternshipFormat;
 import by.exadel.internship.dto.enums.Skill;
 import lombok.AllArgsConstructor;
@@ -40,7 +40,7 @@ public class GuestInternshipDTO {
     private String techSkills;
 
     @NotNull
-    private List<LocationDTO> countryList;
+    private List<LocationDTO> locations;
 
     @NotNull
     private InternshipFormat internshipFormat;
