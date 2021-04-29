@@ -1,6 +1,6 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.formDTO.FormRegisterDTO;
+import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.mail.EmailTemplate;
 import by.exadel.internship.service.EmailService;
 import lombok.RequiredArgsConstructor;

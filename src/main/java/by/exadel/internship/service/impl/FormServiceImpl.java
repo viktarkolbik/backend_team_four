@@ -40,8 +40,6 @@ public class FormServiceImpl implements FormService {
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
 
-    private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
-
     @Value("${file.path}")
     private String filePath;
 
