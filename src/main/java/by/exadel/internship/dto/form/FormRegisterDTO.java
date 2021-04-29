@@ -4,6 +4,7 @@ import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.location.CityDTO;
 import by.exadel.internship.dto.location.CountryDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,55 +23,58 @@ import java.util.UUID;
 public class FormRegisterDTO {
 
     @NotNull
-    @Size(max=50)
+    @Size(max = 50)
     private String firstName;
 
     @NotNull
-    @Size(max=50)
+    @Size(max = 50)
     private String lastName;
 
-    @Size(max=50)
+    @Size(max = 50)
     private String middleName;
 
     @NotNull
     @Email
-    @Size(max=254)
+    @Size(max = 254)
     private String email;
 
     @NotNull
-    @Size(max=15)
+    @Size(max = 15)
     private String phoneNumber;
 
     @NotNull
-    @Size(max=254)
+    @Size(max = 254)
     private String skype;
 
     @NotNull
-    @Size(max=25)
+    @Size(max = 25)
     private EnglishLevel englishLevel;
 
     @NotNull
-    @Size(max=25)
+    @Size(max = 25)
     private CountryDTO country;
 
     @NotNull
-    @Size(max=50)
+    @Size(max = 50)
     private CityDTO city;
 
-    @Size(max=50)
+    @Size(max = 50)
     private String primarySkill;
 
-    @Size(max=500)
+    @Size(max = 500)
     private String experience;
 
-    @Size(max=500)
+    @Size(max = 500)
     private String education;
 
-    @Size(max=232)
+    @Size(max = 232)
     private String filePath;
 
     private List<TimeForCallDTO> timeForCallList;
 
     private UUID internshipId;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private boolean sendEmail = false;
 
 }
