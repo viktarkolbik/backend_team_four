@@ -68,4 +68,6 @@ public class FormRegisterDTO {
 
     private List<TimeForCallDTO> timeForCallList;
 
+    private String InternshipId;
+
 }

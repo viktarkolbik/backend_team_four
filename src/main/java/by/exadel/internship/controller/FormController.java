@@ -31,8 +31,8 @@ public class FormController {
     @ApiOperation("Add new form")
     @ResponseStatus(HttpStatus.CREATED)
     public FormFullDTO addNewForm(@RequestPart(name = "form") FormRegisterDTO form,
-                                  @RequestPart(name = "file", required = false) MultipartFile file, @RequestPart("internshipId") String internshipId) {
-        return formService.process(form, file, internshipId);
+                                  @RequestPart(name = "file", required = false) MultipartFile file) {
+        return formService.process(form, file);
     }
 
     @AdminAccessControl
