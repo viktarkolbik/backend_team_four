@@ -10,7 +10,6 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME}
     initialization-mode: always
     data:
-      - 'classpath:db/changelog/v.0.5/sql-import/update-changelog.sql'
       - 'classpath:db/changelog/v.0.4/sql-import/country.sql'
       - 'classpath:db/changelog/v.0.4/sql-import/city.sql'
       - 'classpath:db/changelog/v.0.3/sql-import/import-internship.sql'
