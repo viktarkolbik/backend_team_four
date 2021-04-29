@@ -29,6 +29,9 @@ public class TimeForCallUser {
     private LocalDateTime startHour;
     @Column(name = "tfcu_end_hour")
     private LocalDateTime endHour;
-    @Column(name = "tfcu_u_id")
-    private UUID userId;
+
+    @ManyToOne( fetch = FetchType.LAZY)
+    @JoinColumn(name = "tfcu_u_id")
+    private User user;
+
 }

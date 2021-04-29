@@ -24,6 +24,5 @@ public class UserDTO {
     private UserRole userRole;
     private InterviewTime interviewTime;
     private Set<Skill> skills;
-
-//    private List<LocalDateTime> freeInterviewDates;
+    private List<TimeForCallUserDTO> timeForCall;
 }

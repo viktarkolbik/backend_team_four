@@ -2,6 +2,7 @@ package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.InterviewDTO;
 import by.exadel.internship.dto.TimeForCallUserDTO;
+import by.exadel.internship.dto.TimeForCallWithUserIdDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,46 +36,45 @@ public class SchedulingServiceImpl implements SchedulingService {
 
 
     @Override
-    public List<TimeForCallUserDTO> getFreeTimeForForm(UUID formId) {
+    public List<UserDTO> getAdminTimeForForm(UUID formId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get free users time for Form");
         FormFullDTO formFullDTO = formService.getById(formId);
         return checkInterviewOver(formFullDTO);
     }
 
-    private List<TimeForCallUserDTO> checkInterviewOver(FormFullDTO formFullDTO) {
+    private List<UserDTO> checkInterviewOver(FormFullDTO formFullDTO) {
         FormStatus status = formFullDTO.getFormStatus();
         if (status.equals(FormStatus.REGISTERED)) {
-            return findAdminFreeTimeForInterview(status);
+            return findAdminForInterview(status);
         }
         if (status.equals(FormStatus.ADMIN_INTERVIEW_PASSED)) {
-            return findAdminFreeTimeForInterview(status);
+            return findAdminForInterview(status);
         }
         throw new NotFoundException("Form with uuid = " + formFullDTO.getId()
                 + " doesn't need to get users time because Form has "
                 + formFullDTO.getFormStatus() + " status");
     }
 
-    private List<TimeForCallUserDTO> findAdminFreeTimeForInterview(FormStatus formStatus) {
-        List<UserDTO> users = userService.getAllByUserRole(STATUS_USER_ROLE_MAP.get(formStatus));
-        List<TimeForCallUserDTO> timeForCallUserDTOList = new ArrayList<>();
-        users.forEach(userDTO -> {
-            timeForCallUserDTOList.addAll(timeForCallUserServise.getAllByUserId(userDTO.getId()));
-        });
-        return timeForCallUserDTOList;
+    private List<UserDTO> findAdminForInterview(FormStatus formStatus) {
+        List<UserDTO> userDTOList = userService.getAllByUserRole(STATUS_USER_ROLE_MAP.get(formStatus));
+        userDTOList =  userDTOList.stream()
+                .filter(userDTO -> userDTO.getTimeForCall().size() != 0)
+                .collect(Collectors.toList());
+        return userDTOList;
     }
 
 
     @Override
-    public void saveUserTime(List<TimeForCallUserDTO> timeForCallUserDTOList) {
+    public void saveUserTime(UserDTO userDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save users free time in DB");
-        timeForCallUserServise.saveUserTime(timeForCallUserDTOList);
+        timeForCallUserServise.saveUserTime(userDTO);
         log.info("Successfully saved time in DB");
     }
 
     @Override
-    public void saveInterviewForForm(UUID formId, TimeForCallUserDTO userDataTime) {
+    public void saveInterviewForForm(UUID formId, TimeForCallWithUserIdDTO userDataTime) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");
         FormFullDTO formFullDTO = formService.getById(formId);

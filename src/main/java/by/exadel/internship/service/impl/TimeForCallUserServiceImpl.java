@@ -1,10 +1,13 @@
 package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.TimeForCallUserDTO;
+import by.exadel.internship.dto.TimeForCallWithUserDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.InterviewTime;
 import by.exadel.internship.entity.TimeForCallUser;
+import by.exadel.internship.entity.User;
 import by.exadel.internship.mapper.TimeForCallUserMapper;
+import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.TimeForCallUserRepository;
 import by.exadel.internship.service.TimeForCallUserServise;
 import by.exadel.internship.service.UserService;
@@ -26,6 +29,7 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
     private final TimeForCallUserRepository timeForCallUserRepository;
     private final UserService userService;
     private final TimeForCallUserMapper mapper;
+    private final UserMapper userMapper;
 
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY = 30;
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO = 0;
@@ -33,7 +37,7 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
     private static final String SIMPLE_CLASS_NAME = TimeForCallUserServise.class.getSimpleName();
 
 
-    private List<TimeForCallUserDTO> resultUSerTimeList;
+    private List<TimeForCallWithUserDTO> resultUSerTimeList;
 
     @Override
     public List<TimeForCallUserDTO> getAll() {
@@ -57,15 +61,17 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
     }
 
     @Override
-    public void saveUserTime(List<TimeForCallUserDTO> timeForCallUserDTOList) {
+    public void saveUserTime(UserDTO userDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         resultUSerTimeList = new ArrayList<>();
-        timeForCallUserDTOList.forEach(timeForCallUser -> {
-            UserDTO user = userService.getById(timeForCallUser.getUserId());
+        userDTO.getTimeForCall().forEach(timeForCallUser -> {
             checkTime(timeForCallUser);
-            separateTime(timeForCallUser, user.getInterviewTime());
+            separateTime(timeForCallUser, userDTO.getInterviewTime());
         });
-        timeForCallUserRepository.saveAll(mapper.map(resultUSerTimeList));
+        resultUSerTimeList.forEach(time -> {
+            time.setUser(userDTO);
+        });
+        timeForCallUserRepository.saveAll(mapper.mapToEntity(resultUSerTimeList));
     }
 
     private void checkTime(TimeForCallUserDTO time) {
@@ -98,12 +104,11 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
     }
 
     private void separateTime(TimeForCallUserDTO time, InterviewTime interviewTimeUser) {
-        List<TimeForCallUserDTO> newUserTimeList = new ArrayList<>();
+        List<TimeForCallWithUserDTO> newUserTimeList = new ArrayList<>();
         Duration duration = Duration.between(time.getStartHour(),time.getEndHour());
         long numberOfPeriods = determineTime(duration,interviewTimeUser);
         for (int i = 0; i < numberOfPeriods; i++){
-            TimeForCallUserDTO tempUserTime = new TimeForCallUserDTO();
-            tempUserTime.setUserId(time.getUserId());
+            TimeForCallWithUserDTO tempUserTime = new TimeForCallWithUserDTO();
             tempUserTime.setStartHour(time.getStartHour());
             tempUserTime.setEndHour(tempUserTime.getStartHour().plusMinutes(INTERVIEW_TIME));
             newUserTimeList.add(tempUserTime);

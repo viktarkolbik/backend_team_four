@@ -8,6 +8,7 @@ import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.UserRepository;
 import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
+import liquibase.pro.packaged.S;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -45,9 +46,8 @@ public class UserServiceImpl implements UserService {
     public UserDTO getById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get  user by id: {} with skills", id);
-        User user = userRepository.findById(id)
+        User user = userRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
-
         log.info("Try get UserDTO from User");
 
         UserDTO userDTO = mapper.toUserDTO(user);
@@ -90,6 +90,16 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         userRepository.activateUserById(uuid);
         log.info("Successfully restore User with uuid: {}", uuid);
+    }
+
+    @Override
+    public void update(UserDTO userDTO) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to update user");
+        User user = mapper.toUser(userDTO);
+        user.getTimeForCall().forEach(timeForCallUser -> timeForCallUser.setUser(user));
+        userRepository.save(user);
+        log.info("Successfully updated user");
     }
 
     public List<UserDTO> getAllDeleted() {

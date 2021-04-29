@@ -63,4 +63,7 @@ public class User {
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private List<Internship> internships;
 
+    @OneToMany(mappedBy = "user")
+    private List<TimeForCallUser> timeForCall;
+
 }

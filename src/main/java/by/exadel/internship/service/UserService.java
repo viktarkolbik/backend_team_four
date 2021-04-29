@@ -18,6 +18,8 @@ public interface UserService {
 
     void restoreUserById(UUID uuid);
 
+    void update(UserDTO userDTO);
+
     List<UserDTO> getAllDeleted();
 
     List<UserDTO> getAllByUserRole(UserRole userRole);

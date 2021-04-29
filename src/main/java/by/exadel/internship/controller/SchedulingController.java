@@ -4,8 +4,9 @@ package by.exadel.internship.controller;
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.dto.TimeForCallUserDTO;
+import by.exadel.internship.dto.TimeForCallWithUserIdDTO;
+import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.service.SchedulingService;
-import by.exadel.internship.service.TimeForCallUserServise;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -25,23 +26,23 @@ public class SchedulingController {
     @SuperAdminAccessControl
     @PostMapping()
     @ApiOperation("Save User free time")
-    public void saveUserTime(@RequestBody List<TimeForCallUserDTO> timeForCallUserDTOList) {
-        schedulingService.saveUserTime(timeForCallUserDTOList);
+    public void saveUserTime(@RequestBody UserDTO userDTO) {
+        schedulingService.saveUserTime(userDTO);
     }
 
     @AdminAccessControl
     @GetMapping("/interview-time")
     @ApiOperation("Get all time for Form")
-    public List<TimeForCallUserDTO> getPossibleInterviewTime(@RequestParam("formId") UUID formId){
-        return schedulingService.getFreeTimeForForm(formId);
+    public List<UserDTO> getPossibleInterviewTime(@RequestParam("formId") UUID formId){
+        return schedulingService.getAdminTimeForForm(formId);
     }
 
     @AdminAccessControl
     @PostMapping("/save-interview-time")
     @ApiOperation("Save interview time for Form")
     public void saveInterviewForForm(@RequestParam(name = "formId") UUID formId,
-                    @RequestBody TimeForCallUserDTO userDataTime){
-        schedulingService.saveInterviewForForm(formId,userDataTime);
+                    @RequestBody TimeForCallWithUserIdDTO time){
+        schedulingService.saveInterviewForForm(formId,time);
     }
 
 
