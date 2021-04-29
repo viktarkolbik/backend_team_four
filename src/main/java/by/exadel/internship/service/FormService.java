@@ -1,7 +1,7 @@
 package by.exadel.internship.service;
 
-import by.exadel.internship.dto.formDTO.FormFullDTO;
-import by.exadel.internship.dto.formDTO.FormRegisterDTO;
+import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.form.FormRegisterDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
