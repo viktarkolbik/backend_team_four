@@ -14,6 +14,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @SuperBuilder
@@ -70,6 +71,8 @@ public class FormRegisterDTO {
     private String filePath;
 
     private List<TimeForCallDTO> timeForCallList;
+
+    private UUID internshipId;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean sendEmail = false;
