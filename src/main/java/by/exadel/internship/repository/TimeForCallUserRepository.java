@@ -7,5 +7,4 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TimeForCallUserRepository extends JpaRepository<TimeForCallUser, UUID> {
-    List<TimeForCallUser> findAllByUserId(UUID uuid);
 }

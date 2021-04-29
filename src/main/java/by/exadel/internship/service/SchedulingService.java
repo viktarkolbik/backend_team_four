@@ -13,4 +13,6 @@ public interface SchedulingService {
     void saveUserTime(UserDTO userDTO);
 
     void saveInterviewForForm(UUID formId, TimeForCallWithUserIdDTO time);
+
+    void rewriteInterviewTime(UUID formId, TimeForCallWithUserIdDTO time);
 }

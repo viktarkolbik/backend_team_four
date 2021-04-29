@@ -2,6 +2,7 @@ package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.TimeForCallUserDTO;
 import by.exadel.internship.dto.TimeForCallWithUserDTO;
+import by.exadel.internship.dto.TimeForCallWithUserIdDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.InterviewTime;
 import by.exadel.internship.entity.TimeForCallUser;
@@ -9,10 +10,12 @@ import by.exadel.internship.entity.User;
 import by.exadel.internship.mapper.TimeForCallUserMapper;
 import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.TimeForCallUserRepository;
+import by.exadel.internship.repository.UserRepository;
 import by.exadel.internship.service.TimeForCallUserServise;
 import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -24,12 +27,12 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
 
     private final TimeForCallUserRepository timeForCallUserRepository;
     private final UserService userService;
     private final TimeForCallUserMapper mapper;
-    private final UserMapper userMapper;
 
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY = 30;
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO = 0;
@@ -40,29 +43,9 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
     private List<TimeForCallWithUserDTO> resultUSerTimeList;
 
     @Override
-    public List<TimeForCallUserDTO> getAll() {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        List<TimeForCallUser> timeForCallUsers = timeForCallUserRepository.findAll();
-        return mapper.mapToDTO(timeForCallUsers);
-    }
-
-    @Override
-    public void updateTime(TimeForCallUserDTO time) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        TimeForCallUser timeForCallUser = mapper.toTimeForCallUserEntity(time);
-        timeForCallUserRepository.save(timeForCallUser);
-    }
-
-    @Override
-    public List<TimeForCallUserDTO> getAllByUserId(UUID userId) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        List<TimeForCallUser> timeForCallUsers = timeForCallUserRepository.findAllByUserId(userId);
-        return mapper.mapToDTO(timeForCallUsers);
-    }
-
-    @Override
     public void saveUserTime(UserDTO userDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to save free time list for user with uuid = {} in DB", userDTO.getId());
         resultUSerTimeList = new ArrayList<>();
         userDTO.getTimeForCall().forEach(timeForCallUser -> {
             checkTime(timeForCallUser);
@@ -72,9 +55,43 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
             time.setUser(userDTO);
         });
         timeForCallUserRepository.saveAll(mapper.mapToEntity(resultUSerTimeList));
+        log.info("Free time list was saved in DB, user uuid = {}", userDTO.getId());
+    }
+
+    @Override
+    public void deletedById(UUID timeId) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to remove time with uuid = {} from user free time", timeId);
+        timeForCallUserRepository.deleteById(timeId);
+        log.info("Time with uuid = {} was deleted", timeId);
+    }
+
+    @Override
+    public void restoreUserTime(TimeForCallWithUserIdDTO time) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        UserDTO userDTO = userService.getById(time.getUserId());
+        TimeForCallWithUserDTO timeForCallWithUserDTO = new TimeForCallWithUserDTO();
+        timeForCallWithUserDTO.setUser(userDTO);
+        timeForCallWithUserDTO.setStartHour(time.getStartHour());
+        switch (userDTO.getInterviewTime()) {
+            case HALF_HOUR: {
+                timeForCallWithUserDTO.setEndHour(time.getStartHour().plusMinutes(30));
+                break;
+            }
+            case HOUR: {
+                timeForCallWithUserDTO.setEndHour(time.getStartHour().plusMinutes(60));
+                break;
+            }
+            case HOUR_HALF:{
+                timeForCallWithUserDTO.setEndHour(time.getStartHour().plusMinutes(90));
+                break;
+            }
+        }
+        timeForCallUserRepository.save(mapper.toTimeForCallUserEntity(timeForCallWithUserDTO));
     }
 
     private void checkTime(TimeForCallUserDTO time) {
+        log.info("Bringing time to a common form");
         if (time.getStartHour().getMinute() > 0 && time.getStartHour().getMinute() < 30) {
             LocalDateTime userTime = time.getStartHour();
             time.setStartHour(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
@@ -87,7 +104,7 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
                     userTime.getDayOfMonth(), userTime.getHour() + 1,
                     DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO));
         }
-        if (time.getEndHour().getMinute() > 0 && time.getEndHour().getMinute() < 30){
+        if (time.getEndHour().getMinute() > 0 && time.getEndHour().getMinute() < 30) {
             LocalDateTime userTime = time.getEndHour();
             time.setEndHour(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
                     userTime.getDayOfMonth(), userTime.getHour(),
@@ -99,15 +116,16 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
                     userTime.getDayOfMonth(), userTime.getHour() + 1,
                     DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO));
         }
-
+        System.out.println("Time brought to a common form");
 
     }
 
     private void separateTime(TimeForCallUserDTO time, InterviewTime interviewTimeUser) {
+        log.info("Separate time on part");
         List<TimeForCallWithUserDTO> newUserTimeList = new ArrayList<>();
-        Duration duration = Duration.between(time.getStartHour(),time.getEndHour());
-        long numberOfPeriods = determineTime(duration,interviewTimeUser);
-        for (int i = 0; i < numberOfPeriods; i++){
+        Duration duration = Duration.between(time.getStartHour(), time.getEndHour());
+        long numberOfPeriods = determineTime(duration, interviewTimeUser);
+        for (int i = 0; i < numberOfPeriods; i++) {
             TimeForCallWithUserDTO tempUserTime = new TimeForCallWithUserDTO();
             tempUserTime.setStartHour(time.getStartHour());
             tempUserTime.setEndHour(tempUserTime.getStartHour().plusMinutes(INTERVIEW_TIME));
@@ -115,21 +133,23 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
             time.setStartHour(tempUserTime.getEndHour());
         }
         resultUSerTimeList.addAll(newUserTimeList);
+        System.out.println("Time separated on part");
     }
 
-    private long determineTime(Duration duration, InterviewTime interviewTimeUser){
-        if (interviewTimeUser.equals(InterviewTime.HALF_HOUR)){
+    private long determineTime(Duration duration, InterviewTime interviewTimeUser) {
+        log.info("Return of temporary interview");
+        if (interviewTimeUser.equals(InterviewTime.HALF_HOUR)) {
             INTERVIEW_TIME = 30;
-            return duration.toMinutes()/30;
+            return duration.toMinutes() / INTERVIEW_TIME;
         }
-        if (interviewTimeUser.equals(InterviewTime.HOUR)){
+        if (interviewTimeUser.equals(InterviewTime.HOUR)) {
             INTERVIEW_TIME = 60;
-            return duration.toMinutes()/60;
+            return duration.toMinutes() / INTERVIEW_TIME;
         }
-        if (interviewTimeUser.equals(InterviewTime.HOUR_HALF)){
+        if (interviewTimeUser.equals(InterviewTime.HOUR_HALF)) {
             INTERVIEW_TIME = 90;
-            return duration.toMinutes()/90;
+            return duration.toMinutes() / INTERVIEW_TIME;
         }
-        return duration.toMinutes()/30;
+        return duration.toMinutes() / 30;
     }
 }

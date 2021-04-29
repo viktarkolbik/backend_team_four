@@ -33,7 +33,7 @@ public class SchedulingController {
     @AdminAccessControl
     @GetMapping("/interview-time")
     @ApiOperation("Get all time for Form")
-    public List<UserDTO> getPossibleInterviewTime(@RequestParam("formId") UUID formId){
+    public List<UserDTO> getPossibleInterviewTime(@RequestParam("formId") UUID formId) {
         return schedulingService.getAdminTimeForForm(formId);
     }
 
@@ -41,10 +41,17 @@ public class SchedulingController {
     @PostMapping("/save-interview-time")
     @ApiOperation("Save interview time for Form")
     public void saveInterviewForForm(@RequestParam(name = "formId") UUID formId,
-                    @RequestBody TimeForCallWithUserIdDTO time){
-        schedulingService.saveInterviewForForm(formId,time);
+                                     @RequestBody TimeForCallWithUserIdDTO time) {
+        schedulingService.saveInterviewForForm(formId, time);
     }
 
+    @AdminAccessControl
+    @PutMapping("/save-interview-time")
+    @ApiOperation("Rewrite interview time for Form")
+    public void rewriteInterviewForForm(@RequestParam(name = "formId") UUID formId,
+                                        @RequestBody TimeForCallWithUserIdDTO time) {
+        schedulingService.rewriteInterviewTime(formId,time);
+    }
 
 
 }

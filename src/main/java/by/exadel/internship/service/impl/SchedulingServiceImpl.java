@@ -84,6 +84,7 @@ public class SchedulingServiceImpl implements SchedulingService {
             interviewDTO.setTechSpecialist(userDataTime.getUserId());
             interviewDTO.setTechInterviewDate(userDataTime.getStartHour());
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
+            timeForCallUserServise.deletedById(userDataTime.getId());
             formService.updateForm(formFullDTO);
             return;
         }
@@ -93,10 +94,56 @@ public class SchedulingServiceImpl implements SchedulingService {
             interviewDTO.setAdminInterviewDate(userDataTime.getStartHour());
             formFullDTO.setInterview(interviewDTO);
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
+            deleteTime(userDataTime.getId());
             formService.updateForm(formFullDTO);
             return;
         }
         throw new NotFoundException("Form with uuid = " + formFullDTO.getId() + " doesn't has need Status");
     }
+
+    private void deleteTime(UUID timeId){
+        timeForCallUserServise.deletedById(timeId);
+    }
+
+    @Override
+    public void rewriteInterviewTime(UUID formId, TimeForCallWithUserIdDTO time) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to save Form with Interview");
+        FormFullDTO formFullDTO = formService.getById(formId);
+        if (formFullDTO.getFormStatus().equals(FormStatus.ADMIN_INTERVIEW_ASSIGNED)){
+            InterviewDTO interviewDTO = formFullDTO.getInterview();
+            restoreTime(interviewDTO);
+
+            interviewDTO.setAdminInterviewDate(time.getStartHour());
+            interviewDTO.setAdmin(time.getUserId());
+            formFullDTO.setInterview(interviewDTO);
+            formService.updateForm(formFullDTO);
+
+            deleteTime(time.getId());
+            return;
+        }
+        if (formFullDTO.getFormStatus().equals(FormStatus.TECH_INTERVIEW_ASSIGNED)){
+            InterviewDTO interviewDTO = formFullDTO.getInterview();
+            restoreTime(interviewDTO);
+
+            interviewDTO.setTechInterviewDate(time.getStartHour());
+            interviewDTO.setTechSpecialist(time.getUserId());
+            formFullDTO.setInterview(interviewDTO);
+            formService.updateForm(formFullDTO);
+
+            deleteTime(time.getId());
+            return;
+        }
+        throw new NotFoundException("Form with uuid = " +formFullDTO.getId() + " doesn't have required status",
+                "form.fromStatus.invalid");
+    }
+
+    private void restoreTime(InterviewDTO interviewDTO){
+        TimeForCallWithUserIdDTO restoreTime = new TimeForCallWithUserIdDTO();
+        restoreTime.setStartHour(interviewDTO.getAdminInterviewDate());
+        restoreTime.setUserId(interviewDTO.getAdmin());
+        timeForCallUserServise.restoreUserTime(restoreTime);
+    }
+
 
 }
