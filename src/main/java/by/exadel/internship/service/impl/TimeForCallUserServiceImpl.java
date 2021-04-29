@@ -69,6 +69,7 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
     @Override
     public void restoreUserTime(TimeForCallWithUserIdDTO time) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Restoring time with uuid = {} for user with uuid ={}", time.getId(), time.getUserId());
         UserDTO userDTO = userService.getById(time.getUserId());
         TimeForCallWithUserDTO timeForCallWithUserDTO = new TimeForCallWithUserDTO();
         timeForCallWithUserDTO.setUser(userDTO);
@@ -82,12 +83,13 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
                 timeForCallWithUserDTO.setEndHour(time.getStartHour().plusMinutes(60));
                 break;
             }
-            case HOUR_HALF:{
+            case HOUR_HALF: {
                 timeForCallWithUserDTO.setEndHour(time.getStartHour().plusMinutes(90));
                 break;
             }
         }
         timeForCallUserRepository.save(mapper.toTimeForCallUserEntity(timeForCallWithUserDTO));
+        log.info("User time was restoring");
     }
 
     private void checkTime(TimeForCallUserDTO time) {
@@ -116,8 +118,7 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
                     userTime.getDayOfMonth(), userTime.getHour() + 1,
                     DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO));
         }
-        System.out.println("Time brought to a common form");
-
+        log.info("Time brought to a common form");
     }
 
     private void separateTime(TimeForCallUserDTO time, InterviewTime interviewTimeUser) {
@@ -133,23 +134,28 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
             time.setStartHour(tempUserTime.getEndHour());
         }
         resultUSerTimeList.addAll(newUserTimeList);
-        System.out.println("Time separated on part");
+        log.info("Time separated on part");
     }
 
     private long determineTime(Duration duration, InterviewTime interviewTimeUser) {
         log.info("Return of temporary interview");
-        if (interviewTimeUser.equals(InterviewTime.HALF_HOUR)) {
-            INTERVIEW_TIME = 30;
-            return duration.toMinutes() / INTERVIEW_TIME;
+        switch (interviewTimeUser) {
+            case HALF_HOUR: {
+                INTERVIEW_TIME = 30;
+                return duration.toMinutes() / INTERVIEW_TIME;
+            }
+            case HOUR: {
+                INTERVIEW_TIME = 60;
+                return duration.toMinutes() / INTERVIEW_TIME;
+            }
+            case HOUR_HALF: {
+                INTERVIEW_TIME = 90;
+                return duration.toMinutes() / INTERVIEW_TIME;
+            }
+            default: {
+                return duration.toMinutes() / 30;
+            }
         }
-        if (interviewTimeUser.equals(InterviewTime.HOUR)) {
-            INTERVIEW_TIME = 60;
-            return duration.toMinutes() / INTERVIEW_TIME;
-        }
-        if (interviewTimeUser.equals(InterviewTime.HOUR_HALF)) {
-            INTERVIEW_TIME = 90;
-            return duration.toMinutes() / INTERVIEW_TIME;
-        }
-        return duration.toMinutes() / 30;
+
     }
 }

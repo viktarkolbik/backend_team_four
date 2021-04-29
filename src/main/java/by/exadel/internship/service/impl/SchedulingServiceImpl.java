@@ -57,10 +57,12 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     private List<UserDTO> findAdminForInterview(FormStatus formStatus) {
+        log.info("Finding a user with the desired status");
         List<UserDTO> userDTOList = userService.getAllByUserRole(STATUS_USER_ROLE_MAP.get(formStatus));
-        userDTOList =  userDTOList.stream()
+        userDTOList = userDTOList.stream()
                 .filter(userDTO -> userDTO.getTimeForCall().size() != 0)
                 .collect(Collectors.toList());
+        log.info("Return user list with desired status");
         return userDTOList;
     }
 
@@ -78,30 +80,39 @@ public class SchedulingServiceImpl implements SchedulingService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");
         FormFullDTO formFullDTO = formService.getById(formId);
+        UserDTO userDTO = userService.getById(userDataTime.getUserId());
         if (formFullDTO.getInterview() != null &&
-                formFullDTO.getFormStatus().equals(FormStatus.ADMIN_INTERVIEW_PASSED)) {
+                formFullDTO.getFormStatus().equals(FormStatus.ADMIN_INTERVIEW_PASSED) &&
+                userDTO.getUserRole().equals(UserRole.TECH_EXPERT)) {
             InterviewDTO interviewDTO = formFullDTO.getInterview();
+
             interviewDTO.setTechSpecialist(userDataTime.getUserId());
             interviewDTO.setTechInterviewDate(userDataTime.getStartHour());
+
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
             timeForCallUserServise.deletedById(userDataTime.getId());
             formService.updateForm(formFullDTO);
+            log.info("Save HR interview date");
             return;
         }
-        if (formFullDTO.getFormStatus().equals(FormStatus.REGISTERED)) {
+        if (formFullDTO.getFormStatus().equals(FormStatus.REGISTERED) &&
+                userDTO.getUserRole().equals(UserRole.ADMIN)) {
             InterviewDTO interviewDTO = new InterviewDTO();
+
             interviewDTO.setAdmin(userDataTime.getUserId());
             interviewDTO.setAdminInterviewDate(userDataTime.getStartHour());
+
             formFullDTO.setInterview(interviewDTO);
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
             deleteTime(userDataTime.getId());
             formService.updateForm(formFullDTO);
+            log.info("Save Tech Expert interview date");
             return;
         }
         throw new NotFoundException("Form with uuid = " + formFullDTO.getId() + " doesn't has need Status");
     }
 
-    private void deleteTime(UUID timeId){
+    private void deleteTime(UUID timeId) {
         timeForCallUserServise.deletedById(timeId);
     }
 
@@ -110,7 +121,7 @@ public class SchedulingServiceImpl implements SchedulingService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");
         FormFullDTO formFullDTO = formService.getById(formId);
-        if (formFullDTO.getFormStatus().equals(FormStatus.ADMIN_INTERVIEW_ASSIGNED)){
+        if (formFullDTO.getFormStatus().equals(FormStatus.ADMIN_INTERVIEW_ASSIGNED)) {
             InterviewDTO interviewDTO = formFullDTO.getInterview();
             restoreTime(interviewDTO);
 
@@ -122,7 +133,7 @@ public class SchedulingServiceImpl implements SchedulingService {
             deleteTime(time.getId());
             return;
         }
-        if (formFullDTO.getFormStatus().equals(FormStatus.TECH_INTERVIEW_ASSIGNED)){
+        if (formFullDTO.getFormStatus().equals(FormStatus.TECH_INTERVIEW_ASSIGNED)) {
             InterviewDTO interviewDTO = formFullDTO.getInterview();
             restoreTime(interviewDTO);
 
@@ -134,11 +145,11 @@ public class SchedulingServiceImpl implements SchedulingService {
             deleteTime(time.getId());
             return;
         }
-        throw new NotFoundException("Form with uuid = " +formFullDTO.getId() + " doesn't have required status",
+        throw new NotFoundException("Form with uuid = " + formFullDTO.getId() + " doesn't have required status",
                 "form.fromStatus.invalid");
     }
 
-    private void restoreTime(InterviewDTO interviewDTO){
+    private void restoreTime(InterviewDTO interviewDTO) {
         TimeForCallWithUserIdDTO restoreTime = new TimeForCallWithUserIdDTO();
         restoreTime.setStartHour(interviewDTO.getAdminInterviewDate());
         restoreTime.setUserId(interviewDTO.getAdmin());
