@@ -29,7 +29,7 @@ public class LocationController {
 
     @GetMapping("/cities")
     @ApiOperation("return city list")
-    public List<CityDTO> getCityList(@RequestParam(value = "id") UUID countryId){
+    public List<CityDTO> getCityList(@RequestParam(value = "countryId") UUID countryId){
         return locationService.getCitiesByCountryId(countryId);
     }
 }

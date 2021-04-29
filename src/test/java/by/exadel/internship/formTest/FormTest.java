@@ -46,8 +46,8 @@ public class FormTest extends InternshipApplicationTests {
 //
 //        assertEquals(formFullDTO.getFirstName(), "testName");
 //        assertEquals(formFullDTO.getLastName(), "string");
-////        assertEquals(formFullDTO.getCity(), new CityDTO(UUID.fromString(""), "Gomel"));
-////        assertEquals(formFullDTO.getCountry(), new CountryDTO("Belarus"));
+////        assertEquals(formFullDTO.getCity(), new CityDTO(UUID.fromString("69e6b47a-4c3d-4207-ac2d-801d9eda7ff1"), "Lviv"));
+////        assertEquals(formFullDTO.getCountry(), new CountryDTO(UUID.fromString("de5e7623-c298-4033-8419-9e2fd12afdfa"), "Ukraine"));
 //        assertEquals(formFullDTO.getEducation(), "string");
 //        assertEquals(formFullDTO.getEmail(), "string");
 //        assertEquals(formFullDTO.getEnglishLevel(), EnglishLevel.A0);
