@@ -79,6 +79,9 @@ public class FormServiceImpl implements FormService {
         form.setCountry(country);
         form.setCity(city);
 
+
+        log.info("Save form, id: {} internshipId {} and status {}", form.getId(), form.getInternshipId(), FormStatus.REGISTERED);
+
         form.setFormStatus(FormStatus.REGISTERED);
 
         log.info("The form status is {}", FormStatus.REGISTERED);

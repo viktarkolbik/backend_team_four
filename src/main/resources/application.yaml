@@ -28,8 +28,6 @@ spring:
       - 'classpath:db/changelog/v.0.5/sql-import/internship-location.sql'
 
 
-
-
 server:
   servlet:
     context-path: /api
