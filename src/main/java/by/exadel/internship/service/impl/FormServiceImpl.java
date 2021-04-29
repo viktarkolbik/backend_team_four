@@ -9,6 +9,7 @@ import by.exadel.internship.entity.location.Country;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.repository.FormRepository;
+import by.exadel.internship.service.EmailService;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
 import by.exadel.internship.service.FormService;
@@ -32,12 +33,12 @@ import java.util.UUID;
 @Slf4j
 public class FormServiceImpl implements FormService {
 
+    private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
     private final FormMapper mapper;
     private final FormRepository formRepository;
+    private final EmailService emailService;
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
-
-    private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
 
     @Value("${file.path}")
     private String filePath;
@@ -79,14 +80,19 @@ public class FormServiceImpl implements FormService {
         form.setCountry(country);
         form.setCity(city);
 
+
+        log.info("Save form, id: {} internshipId {} and status {}", form.getId(), form.getInternshipId(), FormStatus.REGISTERED);
+
         form.setFormStatus(FormStatus.REGISTERED);
 
         log.info("The form status is {}", FormStatus.REGISTERED);
 
         formRepository.save(form);
 
-        return mapper.toFormDto(form);
+        FormFullDTO dto = mapper.toFormDto(form);
 
+        dto.setSendEmail(emailService.sendFormSubmissionEmail(formRegisterDTO));
+        return dto;
     }
 
     private void uploadFile(MultipartFile multipartFile, UUID id) {

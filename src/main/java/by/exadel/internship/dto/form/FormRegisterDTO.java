@@ -4,8 +4,7 @@ import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.location.CityDTO;
 import by.exadel.internship.dto.location.CountryDTO;
-import by.exadel.internship.entity.location.City;
-import by.exadel.internship.entity.location.Country;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @SuperBuilder
@@ -51,13 +51,11 @@ public class FormRegisterDTO {
     @Size(max = 25)
     private EnglishLevel englishLevel;
 
-    @NotNull
     @Size(max = 25)
-    private Country country;
+    private CountryDTO country;
 
-    @NotNull
     @Size(max = 50)
-    private City city;
+    private CityDTO city;
 
     @Size(max = 50)
     private String primarySkill;
@@ -72,5 +70,10 @@ public class FormRegisterDTO {
     private String filePath;
 
     private List<TimeForCallDTO> timeForCallList;
+
+    private UUID internshipId;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private boolean sendEmail = false;
 
 }
