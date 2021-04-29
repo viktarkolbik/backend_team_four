@@ -176,10 +176,12 @@ public class FormServiceImpl implements FormService {
                         " Not Found in DB", "form.uuid.invalid"));
         UserDTO userDTO = userService.getById(feedbackRequest.getUserId());
         setFeedbackByUserRole(userDTO,form,feedbackRequest);
+        log.info("Feedback was updating");
 
     }
 
     private void setFeedbackByUserRole(UserDTO userDTO, Form form, FeedbackRequest feedbackRequest){
+        log.info("Set feedback in Interview By userRole");
         if (userDTO.getUserRole().equals(UserRole.ADMIN)){
             if (form.getInterview().getAdmin().equals(feedbackRequest.getUserId())){
                 form.getInterview().setAdminFeedback(feedbackRequest.getFeedback());
