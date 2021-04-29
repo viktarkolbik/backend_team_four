@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 import javax.validation.constraints.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @SuperBuilder
@@ -68,6 +69,6 @@ public class FormRegisterDTO {
 
     private List<TimeForCallDTO> timeForCallList;
 
-    private String InternshipId;
+    private UUID internshipId;
 
 }

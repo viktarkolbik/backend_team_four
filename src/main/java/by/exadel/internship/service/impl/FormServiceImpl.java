@@ -39,7 +39,6 @@ public class FormServiceImpl implements FormService {
 
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
-
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
 
         if (file != null) {
@@ -63,14 +62,12 @@ public class FormServiceImpl implements FormService {
 
     private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
 
-        UUID internshipId = UUID.fromString(formRegisterDTO.getInternshipId());
-
         Form form = mapper.toFormEntity(formRegisterDTO);
 
-        log.info("Save form, id: {} internshipId {} and status {}", form.getId(), internshipId, FormStatus.REGISTERED);
+        log.info("Save form, id: {} internshipId {} and status {}", form.getId(), formRegisterDTO.getInternshipId(), FormStatus.REGISTERED);
 
         form.setFormStatus(FormStatus.REGISTERED);
-        form.setInternshipId(internshipId);
+
 
         log.info("The form status is {}", FormStatus.REGISTERED);
 
