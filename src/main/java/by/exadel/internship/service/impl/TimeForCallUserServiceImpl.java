@@ -29,9 +29,6 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
 
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY = 30;
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO = 0;
-    private static final String HALF_HOUR = "HALF_HOUR";
-    private static final String HOUR = "HOUR";
-    private static final String HOUR_HALF = "HOUR_HALF";
     private static final String SIMPLE_CLASS_NAME = TimeForCallUserServise.class.getSimpleName();
 
 
@@ -116,15 +113,15 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
     }
 
     private long determineTime(Duration duration, InterviewTime interviewTimeUser){
-        if (interviewTimeUser.name().equals(HALF_HOUR)){
+        if (interviewTimeUser.equals(InterviewTime.HALF_HOUR)){
             interviewTime = 30;
             return duration.toMinutes()/30;
         }
-        if (interviewTimeUser.name().equals(HOUR)){
+        if (interviewTimeUser.equals(InterviewTime.HOUR)){
             interviewTime = 60;
             return duration.toMinutes()/60;
         }
-        if (interviewTimeUser.name().equals(HOUR_HALF)){
+        if (interviewTimeUser.equals(InterviewTime.HOUR_HALF)){
             interviewTime = 90;
             return duration.toMinutes()/90;
         }
