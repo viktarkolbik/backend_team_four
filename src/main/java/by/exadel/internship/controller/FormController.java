@@ -3,15 +3,14 @@ package by.exadel.internship.controller;
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
-import by.exadel.internship.dto.formDTO.FormFullDTO;
-import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.pojo.FeedbackRequest;
+import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.service.FormService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,7 +1,7 @@
 package by.exadel.internship.service.impl;
 
 
-import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.entity.Internship;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.InternshipMapper;
@@ -10,7 +10,6 @@ import by.exadel.internship.service.InternshipService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

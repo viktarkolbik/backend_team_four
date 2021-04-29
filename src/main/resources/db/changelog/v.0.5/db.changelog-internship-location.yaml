@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 24042021-create-table-internship-location
+      author: olga-evdokimova
+      changes:
+        - createTable:
+            tableName: internship_location
+            columns:
+              - column:
+                  name: il_inship_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: il_l_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 24042021-add-foreignKeyConstraint-internship-to-internship-location
+      author: olga-evdokimova
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: il_inship_id
+            baseTableName: internship_location
+            constraintName: fk_internship_il
+            referencedColumnNames: inship_id
+            referencedTableName: internship
+
+  - changeSet:
+      id: 24042021-add-foreignKeyConstraint-location-to-internship-location
+      author: olga-evdokimova
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: il_l_id
+            baseTableName: internship_location
+            constraintName: fk_location_il
+            referencedColumnNames: location_id
+            referencedTableName: location
+
+  - changeSet:
+      id: 24042021-add-uniqueConstraint-for-internship-location
+      author: olga-evdokimova
+      changes:
+        - addUniqueConstraint:
+            columnNames: il_l_id, il_inship_id
+            constraintName: uc_internship_location
+            tableName: internship_location

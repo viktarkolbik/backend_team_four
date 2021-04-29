@@ -91,5 +91,4 @@ public class Form {
 
     @Column(name = "fm_inship_id")
     private UUID internshipId;
-
 }

@@ -1,12 +1,12 @@
 package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.InterviewDTO;
-import by.exadel.internship.dto.TimeForCallUserDTO;
+
 import by.exadel.internship.dto.TimeForCallWithUserIdDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
-import by.exadel.internship.dto.formDTO.FormFullDTO;
+import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.service.*;
 import by.exadel.internship.util.MDCLog;

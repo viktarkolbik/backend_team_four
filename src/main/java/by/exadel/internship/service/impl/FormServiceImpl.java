@@ -3,15 +3,20 @@ package by.exadel.internship.service.impl;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
-import by.exadel.internship.dto.formDTO.FormFullDTO;
-import by.exadel.internship.dto.formDTO.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
 import by.exadel.internship.entity.Interview;
+import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.form.FormRegisterDTO;
+import by.exadel.internship.entity.location.City;
+import by.exadel.internship.entity.location.Country;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.mapper.InterviewMapper;
 import by.exadel.internship.pojo.FeedbackRequest;
 import by.exadel.internship.repository.FormRepository;
+import by.exadel.internship.service.EmailService;
+import by.exadel.internship.repository.location.CityRepository;
+import by.exadel.internship.repository.location.CountryRepository;
 import by.exadel.internship.service.FormService;
 import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
@@ -34,12 +39,15 @@ import java.util.UUID;
 @Slf4j
 public class FormServiceImpl implements FormService {
 
+    private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
     private final FormMapper mapper;
     private final InterviewMapper interviewMapper;
     private final FormRepository formRepository;
     private final UserService userService;
 
-    private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
+    private final EmailService emailService;
+    private final CountryRepository countryRepository;
+    private final CityRepository cityRepository;
 
     @Value("${file.path}")
     private String filePath;
@@ -69,15 +77,31 @@ public class FormServiceImpl implements FormService {
 
     private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
 
+        UUID countryId = formRegisterDTO.getCountry().getId();
+        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NotFoundException("City with uuid = " + countryId +
+                " Not Found in DB", "form.uuid.invalid"));
+        UUID cityId = formRegisterDTO.getCity().getId();
+        City city = cityRepository.findById(cityId).orElseThrow(() -> new NotFoundException("City with uuid = " + cityId +
+                " Not Found in DB", "form.uuid.invalid"));
+
         Form form = mapper.toFormEntity(formRegisterDTO);
+
+        form.setCountry(country);
+        form.setCity(city);
+
+
+        log.info("Save form, id: {} internshipId {} and status {}", form.getId(), form.getInternshipId(), FormStatus.REGISTERED);
+
         form.setFormStatus(FormStatus.REGISTERED);
 
         log.info("The form status is {}", FormStatus.REGISTERED);
 
         formRepository.save(form);
 
-        return mapper.toFormDto(form);
+        FormFullDTO dto = mapper.toFormDto(form);
 
+        dto.setSendEmail(emailService.sendFormSubmissionEmail(formRegisterDTO));
+        return dto;
     }
 
     private void uploadFile(MultipartFile multipartFile, UUID id) {

@@ -1,4 +1,4 @@
-package by.exadel.internship.dto.formDTO;
+package by.exadel.internship.dto.form;
 
 import by.exadel.internship.dto.InterviewDTO;
 import by.exadel.internship.dto.enums.FormStatus;
@@ -19,5 +19,4 @@ public class FormFullDTO extends FormRegisterDTO {
     private FormStatus formStatus;
     private InterviewDTO interview;
     private String primarySkill;
-
 }
