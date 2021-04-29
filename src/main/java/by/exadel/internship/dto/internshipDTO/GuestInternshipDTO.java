@@ -40,7 +40,7 @@ public class GuestInternshipDTO {
     private String techSkills;
 
     @NotNull
-    private List<LocationDTO> locationListDTO;
+    private List<LocationDTO> locations;
 
     @NotNull
     private InternshipFormat internshipFormat;

@@ -68,8 +68,8 @@ public class FormServiceImpl implements FormService {
 
     private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
 
-        City city = cityRepository.findByName(formRegisterDTO.getCity().getName());
         Country country = countryRepository.findByName(formRegisterDTO.getCountry().getName());
+        City city = cityRepository.findByNameAndCountry_Id(formRegisterDTO.getCity().getName(), country.getId());
 
         Form form = mapper.toFormEntity(formRegisterDTO);
 

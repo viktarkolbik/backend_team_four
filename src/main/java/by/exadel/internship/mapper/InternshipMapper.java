@@ -16,7 +16,7 @@ import java.util.List;
 public interface InternshipMapper {
 
     @Named(value = "internship")
-    @Mapping(source = "locationList", target = "locationListDTO")
+    @Mapping(source = "locationList", target = "locations")
     GuestInternshipDTO toGuestInternshipDTO(Internship internship);
 
     Internship toInternship(GuestInternshipDTO guestInternshipDTO);

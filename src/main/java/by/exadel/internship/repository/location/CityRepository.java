@@ -10,6 +10,6 @@ public interface CityRepository extends JpaRepository<City, UUID> {
 
    List<City> findAllByCountry_Name(String countryName);
 
-   City findByName(String name);
+   City findByNameAndCountry_Id(String name, UUID id);
 
 }

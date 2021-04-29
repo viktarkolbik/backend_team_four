@@ -4,14 +4,14 @@ import by.exadel.internship.dto.TimeForCallDTO;
 import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.locationDTO.CityDTO;
 import by.exadel.internship.dto.locationDTO.CountryDTO;
-import by.exadel.internship.entity.location.City;
-import by.exadel.internship.entity.location.Country;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import javax.validation.constraints.*;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
