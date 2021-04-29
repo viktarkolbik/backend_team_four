@@ -70,9 +70,7 @@ public class FormServiceImpl implements FormService {
 
         FormFullDTO dto = mapper.toFormDto(form);
 
-        if (emailService.sendFormSubmissionEmail(formRegisterDTO)) {
-            dto.setConfirmEmail(true);
-        }
+        dto.setSendEmail(emailService.sendFormSubmissionEmail(formRegisterDTO));
         return dto;
     }
 
@@ -89,7 +87,7 @@ public class FormServiceImpl implements FormService {
             log.info("Success to upload file, form id: {}", id);
 
         } catch (IOException e) {
-
+            log.error(e.getMessage());
         }
     }
 

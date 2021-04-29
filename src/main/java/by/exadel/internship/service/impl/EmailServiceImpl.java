@@ -39,14 +39,16 @@ public class EmailServiceImpl implements EmailService {
 
         Properties props = mailSender.getJavaMailProperties();
         props.putAll(MAIL_PROPS);
+
     }
 
     public boolean sendFormSubmissionEmail(FormRegisterDTO formRegisterDTO) {
         SimpleMailMessage message = new SimpleMailMessage();
+        String text = EmailTemplate.TEXT.replace("${name}", formRegisterDTO.getFirstName());
         message.setFrom(EmailTemplate.FROM);
         message.setTo(formRegisterDTO.getEmail());
         message.setSubject(EmailTemplate.SUBJECT);
-        message.setText(EmailTemplate.TEXT);
+        message.setText(text);
 
         try {
             mailSender.send(message);
