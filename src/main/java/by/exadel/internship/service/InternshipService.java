@@ -1,6 +1,6 @@
 package by.exadel.internship.service;
 
-import by.exadel.internship.dto.internshipDTO.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
 
 import java.util.List;
 import java.util.UUID;

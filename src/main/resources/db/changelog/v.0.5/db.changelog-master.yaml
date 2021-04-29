@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db.changelog-table-location.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-internship-location.yaml
+      relativeToChangelogFile: true
