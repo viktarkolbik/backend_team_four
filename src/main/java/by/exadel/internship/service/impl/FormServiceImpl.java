@@ -64,7 +64,7 @@ public class FormServiceImpl implements FormService {
 
         Form form = mapper.toFormEntity(formRegisterDTO);
 
-        log.info("Save form, id: {} internshipId {} and status {}", form.getId(), formRegisterDTO.getInternshipId(), FormStatus.REGISTERED);
+        log.info("Save form, id: {} internshipId {} and status {}", form.getId(), form.getInternshipId(), FormStatus.REGISTERED);
 
         form.setFormStatus(FormStatus.REGISTERED);
 
