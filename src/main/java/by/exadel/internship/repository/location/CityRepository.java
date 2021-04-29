@@ -8,6 +8,7 @@ import java.util.UUID;
 @Repository
 public interface CityRepository extends JpaRepository<City, UUID> {
 
-   List<City> findAllByCountry_Name(String countryName);
+   List<City> findAllByCountryId(UUID id);
+
 
 }

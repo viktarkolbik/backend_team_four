@@ -11,7 +11,6 @@ import java.util.*;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = "cityList")
 @Table(name = "country")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +27,4 @@ public class Country {
 
     @Column(name = "cntr_name")
     private String name;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
-    private Set<City> cityList;
 }
