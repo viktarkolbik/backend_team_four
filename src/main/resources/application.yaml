@@ -24,7 +24,6 @@ spring:
       - 'classpath:db/changelog/v.0.4/sql-import/import-form-add-column-fm-inship-id.sql'
       - 'classpath:db/changelog/v.0.4/sql-import/import-user-internship.sql'
       - 'classpath:db/changelog/v.0.4/sql-import/import-user-hash-password.sql'
-      - 'classpath:db/changelog/v.0.3/sql-import/import-time-for-call.sql'
       - 'classpath:db/changelog/v.0.5/sql-import/location.sql'
       - 'classpath:db/changelog/v.0.5/sql-import/internship-location.sql'
   mail:
@@ -40,8 +39,6 @@ spring:
     protocol: smtp
     test-connection: false
     debug: true
-      - 'classpath:db/changelog/v.0.5/sql-import/location.sql'
-      - 'classpath:db/changelog/v.0.5/sql-import/internship-location.sql'
 
 server:
   servlet:
