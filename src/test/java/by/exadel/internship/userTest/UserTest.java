@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -19,14 +20,18 @@ public class UserTest extends InternshipApplicationTests {
 
     @Test
     public void checkListSize() throws Exception {
+        URI uri = UriComponentsBuilder.fromPath("/users")
+                .queryParam("internshipId", "68a051d7-6d82-4879-b0a3-1340e14db54d")
+                .queryParam()
+                .build().toUri();
 
-        MvcResult result = getResult(HttpMethod.GET, URI.create("/users"), status().isOk());
+        MvcResult result = getResult(HttpMethod.GET, uri, status().isOk());
 
         String content = result.getResponse().getContentAsString();
         List<UserDTO> userDTOList = objectMapper.readValue(content, new TypeReference<>() {
         });
 
-        assertEquals(userDTOList.size(), 5);
+        assertEquals(userDTOList.size(), 1);
     }
 
     @Test
@@ -42,7 +47,7 @@ public class UserTest extends InternshipApplicationTests {
         assertEquals(userDTO.getLastName(), "Maevsky");
         assertEquals(userDTO.getEmail(), "maevsky@exadel.com");
         assertEquals(userDTO.getLogin(), "maevsky");
-        assertEquals(userDTO.getPassword(), "1");
+        assertEquals(userDTO.getPassword(), "$2y$12$l4YL7qegaAE4cxlfODXy8ePxT7pBsfArGyfGbhH.Qje/GiYx3dysm");
         assertEquals(userDTO.getUserRole(), UserRole.SUPER_ADMIN);
     }
 }

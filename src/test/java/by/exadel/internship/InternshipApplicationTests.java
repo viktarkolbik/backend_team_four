@@ -1,14 +1,22 @@
 package by.exadel.internship;
 
+import by.exadel.internship.config.jwt.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -17,11 +25,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
 
 import javax.annotation.PostConstruct;
 import java.net.URI;
@@ -45,9 +50,25 @@ public class InternshipApplicationTests {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
+    JwtService jwtService;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
     @PostConstruct
     public void setTimeModuleUp() {
         objectMapper.registerModule(new JavaTimeModule());
+    }
+
+    @BeforeClass
+    private String generateJWTToken() {
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
+                        "maevsky",
+                        "1"));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+         return jwtService.generateJwtToken(authentication);
     }
 
     @BeforeEach
@@ -57,10 +78,13 @@ public class InternshipApplicationTests {
                 .build();
     }
 
+
     protected MvcResult getResult(HttpMethod method, URI uri, ResultMatcher status) throws Exception {
-        return mockMvc.perform(MockMvcRequestBuilders.request(method, uri))
+        return mockMvc.perform(MockMvcRequestBuilders
+                .request(method, uri).header("Authorization", "Bearer " + generateJWTToken()))
                 .andExpect(status)
                 .andReturn();
+
     }
 
     public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
