@@ -7,6 +7,7 @@ import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.exception_handing.InappropriateRoleException;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.service.*;
 import by.exadel.internship.util.MDCLog;
@@ -51,7 +52,7 @@ public class SchedulingServiceImpl implements SchedulingService {
         if (status.equals(FormStatus.ADMIN_INTERVIEW_PASSED)) {
             return findAdminForInterview(status);
         }
-        throw new NotFoundException("Form with uuid = " + formFullDTO.getId()
+        throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId()
                 + " doesn't need to get users time because Form has "
                 + formFullDTO.getFormStatus() + " status");
     }
@@ -109,7 +110,7 @@ public class SchedulingServiceImpl implements SchedulingService {
             log.info("Save Tech Expert interview date");
             return;
         }
-        throw new NotFoundException("Form with uuid = " + formFullDTO.getId() + " doesn't has need Status");
+        throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId() + " doesn't has need Status");
     }
 
     private void deleteTime(UUID timeId) {
@@ -145,7 +146,7 @@ public class SchedulingServiceImpl implements SchedulingService {
             deleteTime(time.getId());
             return;
         }
-        throw new NotFoundException("Form with uuid = " + formFullDTO.getId() + " doesn't have required status",
+        throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId() + " doesn't have required status",
                 "form.fromStatus.invalid");
     }
 
