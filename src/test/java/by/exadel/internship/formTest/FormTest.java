@@ -1,7 +1,6 @@
 package by.exadel.internship.formTest;
 
 import by.exadel.internship.InternshipApplicationTests;
-import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.location.CityDTO;
@@ -11,19 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
 public class FormTest extends InternshipApplicationTests {
 
     @Test
@@ -50,7 +44,6 @@ public class FormTest extends InternshipApplicationTests {
 
         String content = result.getResponse().getContentAsString();
         FormFullDTO formFullDTO = objectMapper.readValue(content, FormFullDTO.class);
-
         assertEquals(formFullDTO.getFirstName(), "testName");
         assertEquals(formFullDTO.getLastName(), "string");
         assertEquals(formFullDTO.getCity(),  new CityDTO(UUID.fromString("69e6b47a-4c3d-4207-ac2d-801d9eda7ff1"), "Lviv"));
@@ -67,16 +60,12 @@ public class FormTest extends InternshipApplicationTests {
     }
 
 
-
     @Test
-
     public void checkListSize() throws Exception {
-
         URI uri = UriComponentsBuilder.fromPath("/forms")
                 .queryParam("internshipId", "68a051d7-6d82-4879-b0a3-1340e14db54d")
                 .build().toUri();
         MvcResult result = getResult(HttpMethod.GET, uri, status().isOk());
-
         String content = result.getResponse().getContentAsString();
         List<FormFullDTO> fos = objectMapper.readValue(content, new TypeReference<>() {
         });
