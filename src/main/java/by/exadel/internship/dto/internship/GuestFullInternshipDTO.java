@@ -25,7 +25,4 @@ public class GuestFullInternshipDTO extends GuestShortInternshipDTO {
     @Size(max=150)
     private String requirements;
 
-
-
-
 }
