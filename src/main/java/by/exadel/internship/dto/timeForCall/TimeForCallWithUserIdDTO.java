@@ -1,4 +1,4 @@
-package by.exadel.internship.dto;
+package by.exadel.internship.dto.timeForCall;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,9 +10,9 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimeForCallWithUserDTO {
+public class TimeForCallWithUserIdDTO {
     private UUID id;
     private LocalDateTime startHour;
     private LocalDateTime endHour;
-    private UserDTO user;
+    private UUID userId;
 }

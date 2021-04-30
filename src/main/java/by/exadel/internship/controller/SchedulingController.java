@@ -3,8 +3,7 @@ package by.exadel.internship.controller;
 
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
-import by.exadel.internship.dto.TimeForCallUserDTO;
-import by.exadel.internship.dto.TimeForCallWithUserIdDTO;
+import by.exadel.internship.dto.timeForCall.TimeForCallWithUserIdDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.service.SchedulingService;
 import io.swagger.annotations.Api;

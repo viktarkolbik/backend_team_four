@@ -1,9 +1,7 @@
 package by.exadel.internship.mapper;
 
-import by.exadel.internship.dto.TimeForCallDTO;
-import by.exadel.internship.dto.TimeForCallUserDTO;
+import by.exadel.internship.dto.timeForCall.TimeForCallDTO;
 import by.exadel.internship.entity.TimeForCall;
-import by.exadel.internship.entity.TimeForCallUser;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;

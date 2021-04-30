@@ -2,6 +2,7 @@ package by.exadel.internship.dto;
 import by.exadel.internship.dto.enums.InterviewTime;
 import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
+import by.exadel.internship.dto.timeForCall.TimeForCallUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

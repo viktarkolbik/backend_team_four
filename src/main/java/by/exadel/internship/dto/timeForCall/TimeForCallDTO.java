@@ -1,4 +1,4 @@
-package by.exadel.internship.dto;
+package by.exadel.internship.dto.timeForCall;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
