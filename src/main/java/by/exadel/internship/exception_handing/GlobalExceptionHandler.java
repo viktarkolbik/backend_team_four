@@ -27,6 +27,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
+            InappropriateRoleException exception) {
+        IncorrectData data = inappropriateRoleException(exception);
+        return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<IncorrectData> handleException(
             Exception exception) {
         IncorrectData data = incorrectDataFilling(exception);
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
@@ -54,6 +61,17 @@ public class GlobalExceptionHandler {
     }
 
     private IncorrectData incorrectDataFillingNotFoundException(NotFoundException exception) {
+        IncorrectData incorrectData = new IncorrectData();
+        log.error("Message: {} Code exception: {} Error UUID code: {}",
+                exception.getMessage(),
+                exception.getCodeException(),
+                incorrectData.getErrorCode());
+        incorrectData.setMessage(exception.getMessage());
+        incorrectData.setCodeException(exception.getCodeException());
+        return incorrectData;
+    }
+
+    private IncorrectData inappropriateRoleException(InappropriateRoleException exception) {
         IncorrectData incorrectData = new IncorrectData();
         log.error("Message: {} Code exception: {} Error UUID code: {}",
                 exception.getMessage(),
