@@ -3,8 +3,9 @@ package by.exadel.internship.controller;
 
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
-import by.exadel.internship.dto.internship.GuestInternshipDTO;
-import by.exadel.internship.dto.internship.ShortInternshipDTO;
+import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
+import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
+import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,27 +25,27 @@ public class InternshipController {
 
     @GetMapping
     @ApiOperation("return list of internships")
-    public List<ShortInternshipDTO> getInternshipList() {
+    public List<GuestShortInternshipDTO> getInternshipList() {
         return internshipService.getAll();
     }
 
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
-    public GuestInternshipDTO getInternshipById(@PathVariable("internshipId") UUID internshipId) {
+    public GuestFullInternshipDTO getInternshipById(@PathVariable("internshipId") UUID internshipId) {
         return internshipService.getById(internshipId);
     }
 
     @AdminAccessControl
     @GetMapping("/historical")
     @ApiOperation("Return List of deleted Internships")
-    public List<GuestInternshipDTO> getDeletedInternshipList() {
+    public List<UserInternshipDTO> getDeletedInternshipList() {
         return internshipService.getAllDeleted();
     }
 
     @AdminAccessControl
     @GetMapping("/historical/{internshipId}")
     @ApiOperation("Return deleted Internship by ID")
-    public GuestInternshipDTO getDeletedInternship(@PathVariable UUID internshipId) {
+    public UserInternshipDTO getDeletedInternship(@PathVariable UUID internshipId) {
         return internshipService.getDeletedInternshipById(internshipId);
     }
 
@@ -58,14 +59,14 @@ public class InternshipController {
     @SuperAdminAccessControl
     @PutMapping("/{internshipId}/restore")
     @ApiOperation("Restore deleted Internships")
-    public GuestInternshipDTO restoreInternship(@PathVariable UUID internshipId) {
+    public UserInternshipDTO restoreInternship(@PathVariable UUID internshipId) {
         return internshipService.restoreInternshipById(internshipId);
     }
 
     @AdminAccessControl
     @PostMapping
     @ApiOperation("Save new Internship In DB")
-    public GuestInternshipDTO saveInternship(@RequestBody GuestInternshipDTO internshipDTO) {
+    public UserInternshipDTO saveInternship(@RequestBody UserInternshipDTO internshipDTO) {
         return internshipService.saveInternship(internshipDTO);
     }
 }

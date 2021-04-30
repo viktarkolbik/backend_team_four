@@ -14,10 +14,7 @@ import java.time.LocalDate;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GuestInternshipDTO extends ShortInternshipDTO {
-
-    @NotNull
-    private LocalDate publicationDate;
+public class GuestFullInternshipDTO extends GuestShortInternshipDTO {
 
     @Size(max=250)
     private String techSkills;
@@ -28,12 +25,7 @@ public class GuestInternshipDTO extends ShortInternshipDTO {
     @Size(max=150)
     private String requirements;
 
-    @NotNull
-    private Integer capacity;
 
-    @NotNull
-    private LocalDate registrationStartDate;
 
-    @NotNull
-    private LocalDate registrationEndDate;
+
 }

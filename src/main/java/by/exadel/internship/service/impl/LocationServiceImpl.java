@@ -11,7 +11,9 @@ import by.exadel.internship.repository.location.CountryRepository;
 import by.exadel.internship.service.LocationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nonapi.io.github.classgraph.json.JSONUtils;
 import org.slf4j.MDC;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +28,9 @@ public class LocationServiceImpl implements LocationService {
     private final CityRepository cityRepository;
     private final LocationMapper locationMapper;
 
-    private void putClassNameInMDC(){MDC.put("className", LocationServiceImpl.class.getSimpleName());}
+    private void putClassNameInMDC() {
+        MDC.put("className", LocationServiceImpl.class.getSimpleName());
+    }
 
     public List<CountryDTO> getAllCountries() {
         putClassNameInMDC();

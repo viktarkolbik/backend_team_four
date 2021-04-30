@@ -1,7 +1,8 @@
 package by.exadel.internship.internshipTest;
 
 import by.exadel.internship.InternshipApplicationTests;
-import by.exadel.internship.dto.internship.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
+import by.exadel.internship.dto.internship.UserInternshipDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
@@ -24,20 +25,20 @@ public class InternshipTest extends InternshipApplicationTests {
 
         String content = result.getResponse().getContentAsString();
 
-        GuestInternshipDTO guestInternshipDTO = objectMapper
+        UserInternshipDTO userInternshipDTO = objectMapper
                 .readValue(content, new TypeReference<>() {
                 });
 
-        assertEquals(guestInternshipDTO.getName(), "some name");
-        assertEquals(guestInternshipDTO.getDescription(), "description1");
-        assertEquals(guestInternshipDTO.getRequirements(), "requirements1");
-        assertEquals(guestInternshipDTO.getTechSkills(), "skills1");
-        assertEquals(guestInternshipDTO.getCapacity(), 300);
-        assertEquals(guestInternshipDTO.getStartDate(), LocalDate.of(2021, 7, 21));
-        assertEquals(guestInternshipDTO.getEndDate(), LocalDate.of(2021, 9, 21));
-        assertEquals(guestInternshipDTO.getPublicationDate(), LocalDate.of(2021, 7, 01));
-        assertEquals(guestInternshipDTO.getRegistrationStartDate(), LocalDate.of(2021, 7, 01));
-        assertEquals(guestInternshipDTO.getRegistrationEndDate(), LocalDate.of(2021, 7, 01));
+        assertEquals(userInternshipDTO.getName(), "some name");
+        assertEquals(userInternshipDTO.getDescription(), "description1");
+        assertEquals(userInternshipDTO.getRequirements(), "requirements1");
+        assertEquals(userInternshipDTO.getTechSkills(), "skills1");
+        assertEquals(userInternshipDTO.getCapacity(), 300);
+        assertEquals(userInternshipDTO.getStartDate(), LocalDate.of(2021, 7, 21));
+        assertEquals(userInternshipDTO.getEndDate(), LocalDate.of(2021, 9, 21));
+        assertEquals(userInternshipDTO.getPublicationDate(), LocalDate.of(2021, 7, 01));
+        assertEquals(userInternshipDTO.getRegistrationStartDate(), LocalDate.of(2021, 7, 01));
+        assertEquals(userInternshipDTO.getRegistrationEndDate(), LocalDate.of(2021, 7, 01));
     }
 
     @Test
@@ -47,7 +48,7 @@ public class InternshipTest extends InternshipApplicationTests {
 
         String content = result.getResponse().getContentAsString();
 
-        List<GuestInternshipDTO> dtos = objectMapper.readValue(content, new TypeReference<>() {
+        List<GuestFullInternshipDTO> dtos = objectMapper.readValue(content, new TypeReference<>() {
         });
 
         assertEquals(dtos.size(), 10);
