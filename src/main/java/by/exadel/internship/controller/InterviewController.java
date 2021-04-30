@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/interview")
+@RequestMapping("/interviews")
 @Api(tags = "Endpoints for Interview")
 public class InterviewController {
 
