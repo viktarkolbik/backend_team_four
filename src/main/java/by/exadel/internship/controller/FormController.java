@@ -59,6 +59,7 @@ public class FormController {
     @PutMapping("/updateStatus")
     @ApiOperation("Update form status")
     @ResponseStatus(HttpStatus.OK)
+    @AdminAccessControl
     public void updateFormStatus(@RequestParam("formId") UUID formId, @RequestParam("status")FormStatus status){
         formService.updateStatusById(formId,status);
     }
