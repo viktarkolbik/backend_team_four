@@ -5,12 +5,8 @@ import by.exadel.internship.dto.TimeForCallWithUserDTO;
 import by.exadel.internship.dto.TimeForCallWithUserIdDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.InterviewTime;
-import by.exadel.internship.entity.TimeForCallUser;
-import by.exadel.internship.entity.User;
 import by.exadel.internship.mapper.TimeForCallUserMapper;
-import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.TimeForCallUserRepository;
-import by.exadel.internship.repository.UserRepository;
 import by.exadel.internship.service.TimeForCallUserServise;
 import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
@@ -19,10 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.LocalDateTime;;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+;
 
 
 @Service
