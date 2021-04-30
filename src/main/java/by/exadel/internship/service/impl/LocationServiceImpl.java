@@ -8,6 +8,7 @@ import by.exadel.internship.mapper.location_mapper.LocationMapper;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
 import by.exadel.internship.service.LocationService;
+import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -24,11 +25,10 @@ public class LocationServiceImpl implements LocationService {
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
     private final LocationMapper locationMapper;
-
-    private void putClassNameInMDC(){MDC.put("className", LocationServiceImpl.class.getSimpleName());}
+    private static final String SIMPLE_CLASS_NAME = LocationService.class.getSimpleName();
 
     public List<CountryDTO> getAllCountries() {
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all countries");
         List<Country> countries = countryRepository.findAll();
         log.info("Try to get list CountryDTO");
@@ -38,7 +38,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     public List<CityDTO> getCitiesByCountryId(UUID countryId) {
-        putClassNameInMDC();
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get list of cities with id country = {} ", countryId);
         List<City> cityListByCountryId = cityRepository.findAllByCountryId(countryId);
         log.info("Try to get list CityDTO");

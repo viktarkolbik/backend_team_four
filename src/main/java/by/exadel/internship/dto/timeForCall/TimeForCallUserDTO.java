@@ -1,6 +1,5 @@
 package by.exadel.internship.dto.timeForCall;
 
-import by.exadel.internship.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

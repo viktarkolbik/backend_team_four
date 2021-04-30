@@ -1,8 +1,9 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.timeForCall.TimeForCallUserDTO;
+
 import by.exadel.internship.dto.timeForCall.TimeForCallWithUserDTO;
 import by.exadel.internship.dto.timeForCall.TimeForCallWithUserIdDTO;
+import by.exadel.internship.dto.timeForCall.TimeForCallUserDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.InterviewTime;
 import by.exadel.internship.mapper.TimeForCallUserMapper;

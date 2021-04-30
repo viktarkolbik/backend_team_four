@@ -187,6 +187,7 @@ public class FormServiceImpl implements FormService {
                 form.getInterview().setAdminFeedback(feedbackRequest.getFeedback());
                 form.setFormStatus(FormStatus.ADMIN_INTERVIEW_PASSED);
                 formRepository.save(form);
+                log.info("Added Admin feedback to Interview with uuid = {}", form.getInterview().getId());
             }else{
                 throw new NotFoundException("Admin with uuid = "
                         + userDTO.getId() + " did not interview Form with uuid = "
@@ -198,6 +199,7 @@ public class FormServiceImpl implements FormService {
                 form.getInterview().setTechFeedback(feedbackRequest.getFeedback());
                 form.setFormStatus(FormStatus.TECH_INTERVIEW_PASSED);
                 formRepository.save(form);
+                log.info("Added Tech Expert feedback to Interview with uuid = {}", form.getInterview().getId());
             }else{
                 throw new NotFoundException("Tech expert with uuid = "
                         + userDTO.getId() + " did not interview Form with uuid = "
