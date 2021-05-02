@@ -2,10 +2,12 @@ package by.exadel.internship.formTest;
 
 import by.exadel.internship.InternshipApplicationTests;
 import by.exadel.internship.dto.enums.EnglishLevel;
+import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.location.CityDTO;
 import by.exadel.internship.dto.location.CountryDTO;
 import by.exadel.internship.entity.Form;
+import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.repository.FormRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
@@ -21,10 +23,13 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class FormTest extends InternshipApplicationTests {
+
+    @Autowired
+    private FormRepository formRepository;
 
     @Test
     public void givenFormWithFile_checkTestData()
@@ -78,20 +83,47 @@ public class FormTest extends InternshipApplicationTests {
         assertEquals(fos.size(), 1);
     }
 
-    @Autowired
-    private FormRepository formRepository;
+    @Test
+    public void checkWhetherStatusIsUpdated() throws Exception {
+        URI uri = UriComponentsBuilder.fromPath("/forms/updateStatus")
+                .queryParam("formId", "6578b840-0df8-4952-aafb-d6d8b3d9e9a7")
+                .queryParam("status", FormStatus.NOT_MATCHED)
+                .build().toUri();
+        MvcResult result = getResult(HttpMethod.PUT, uri, status().isOk());
+        UUID uuid = UUID.fromString("6578b840-0df8-4952-aafb-d6d8b3d9e9a7");
+        Form form = formRepository.findById(uuid).orElseThrow(()-> new NotFoundException("Form with uuid = " + uuid +
+                " Not Found in DB", "form.uuid.invalid"));
+        assertEquals(form.getFormStatus(), FormStatus.NOT_MATCHED);
+    }
+
 
     @Test
-    public void testWhetherFormIsDeleted() throws Exception {
-
+    public void givenFormList_WhenDeleteForm_ThenCheckListSizeWithFlagTrue() throws Exception {
         MvcResult result = getResult(HttpMethod.DELETE, URI.create("/forms/878d0501-5bc0-4c26-974f-4c810cb636e9"), status().isOk());
-//        UUID uuid = UUID.fromString("878d0501-5bc0-4c26-974f-4c810cb636e9");
-//        Form form = formRepository.findByIdAndDeletedTrue(uuid)
-//                .orElseThrow(() -> new NotFoundException("Form with uuid = " + uuid +
-//                        " Not Found in DB", "form.uuid.invalid"));
-
         List<Form> forms = formRepository.findAllByDeletedTrue();
         assertEquals(forms.size(), 1);
+    }
+
+    @Test
+    public void givenForm_WhenDelete_ThenCheck_WhetherFormIsDeleted() throws Exception {
+        MvcResult result = getResult(HttpMethod.DELETE, URI.create("/forms/6578b840-0df8-4952-aafb-d6d8b3d9e9a7"), status().isOk());
+        UUID uuid = UUID.fromString("6578b840-0df8-4952-aafb-d6d8b3d9e9a7");
+        Form form = formRepository.findByIdAndDeletedTrue(uuid)
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + uuid +
+                        " Not Found in DB", "form.uuid.invalid"));
+        assertTrue(form.isDeleted());
+    }
+
+    //TO DO
+    @Test
+    public void when_RestoreForm_Expect_FlagIsFalse() throws Exception {
+        MvcResult result = getResult(HttpMethod.DELETE, URI.create("/forms/7c0811d5-354b-4ebb-a65c-0b54efc53a80"), status().isOk());
+        MvcResult resultRestore = getResult(HttpMethod.PUT, URI.create("/forms/7c0811d5-354b-4ebb-a65c-0b54efc53a80/restore"), status().isOk());
+        UUID uuid = UUID.fromString("7c0811d5-354b-4ebb-a65c-0b54efc53a80");
+        Form form = formRepository.findByIdAndDeletedTrue(uuid)
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + uuid +
+                        " Not Found in DB", "form.uuid.invalid"));
+        assertFalse(form.isDeleted());
     }
 
 }
