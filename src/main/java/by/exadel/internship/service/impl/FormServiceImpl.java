@@ -147,6 +147,16 @@ public class FormServiceImpl implements FormService {
 
     }
 
+
+    public void updateStatusById(UUID formId, FormStatus status) {
+        log.info("Try to get form by form id: {}",formId);
+        Form one = formRepository.getOne(formId);
+        log.info("Try to set status");
+        one.setFormStatus(status);
+        log.info("Try to update status");
+        formRepository.save(one);
+    }
+
     public void restoreFormById(UUID formId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to activate form with uuid: {}", formId);
