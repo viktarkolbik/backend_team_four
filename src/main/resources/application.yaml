@@ -40,8 +40,6 @@ spring:
     protocol: smtp
     test-connection: false
     debug: true
-      - 'classpath:db/changelog/v.0.5/sql-import/location.sql'
-      - 'classpath:db/changelog/v.0.5/sql-import/internship-location.sql'
 
 server:
   servlet:
