@@ -15,5 +15,5 @@ WORKDIR ${path}
 COPY --from=build ${path}/target/*.jar ${path}/app.jar
 
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
-#CMD [ "sh", "-c", "java -Dserver.port=$PORT -Xmx280m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8 -XX:+UseContainerSupport -Djava.security.egd=file:/dev/./urandom -jar app.jar"]
+
+CMD [ "sh", "-c", "java -Dserver.port=$PORT -Xmx280m -XX:CICompilerCount=2 -jar app.jar"]
