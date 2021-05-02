@@ -5,19 +5,25 @@ import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.location.CityDTO;
 import by.exadel.internship.dto.location.CountryDTO;
+import by.exadel.internship.entity.Form;
+import by.exadel.internship.repository.FormRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 public class FormTest extends InternshipApplicationTests {
 
     @Test
@@ -46,7 +52,7 @@ public class FormTest extends InternshipApplicationTests {
         FormFullDTO formFullDTO = objectMapper.readValue(content, FormFullDTO.class);
         assertEquals(formFullDTO.getFirstName(), "testName");
         assertEquals(formFullDTO.getLastName(), "string");
-        assertEquals(formFullDTO.getCity(),  new CityDTO(UUID.fromString("69e6b47a-4c3d-4207-ac2d-801d9eda7ff1"), "Lviv"));
+        assertEquals(formFullDTO.getCity(), new CityDTO(UUID.fromString("69e6b47a-4c3d-4207-ac2d-801d9eda7ff1"), "Lviv"));
         assertEquals(formFullDTO.getCountry(), new CountryDTO(UUID.fromString("de5e7623-c298-4033-8419-9e2fd12afdfa"), "Ukraine"));
         assertEquals(formFullDTO.getEducation(), "string");
         assertEquals(formFullDTO.getEmail(), "string");
@@ -72,19 +78,20 @@ public class FormTest extends InternshipApplicationTests {
         assertEquals(fos.size(), 1);
     }
 
+    @Autowired
+    private FormRepository formRepository;
 
-// THIS ENDPOINT WAS DELETED BUT CAN BE RESTORED
+    @Test
+    public void testWhetherFormIsDeleted() throws Exception {
 
-//    @Test
-//    public void checkListSize() throws Exception {
-//
-//        MvcResult result = getResult(HttpMethod.GET, URI.create("/forms"), status().isOk());
-//
-//        String content = result.getResponse().getContentAsString();
-//        List<FormFullDTO> fos = objectMapper.readValue(content, new TypeReference<>() {
-//        });
-//        assertEquals(fos.size(), 10);
-//    }
+        MvcResult result = getResult(HttpMethod.DELETE, URI.create("/forms/878d0501-5bc0-4c26-974f-4c810cb636e9"), status().isOk());
+//        UUID uuid = UUID.fromString("878d0501-5bc0-4c26-974f-4c810cb636e9");
+//        Form form = formRepository.findByIdAndDeletedTrue(uuid)
+//                .orElseThrow(() -> new NotFoundException("Form with uuid = " + uuid +
+//                        " Not Found in DB", "form.uuid.invalid"));
 
+        List<Form> forms = formRepository.findAllByDeletedTrue();
+        assertEquals(forms.size(), 1);
+    }
 
 }

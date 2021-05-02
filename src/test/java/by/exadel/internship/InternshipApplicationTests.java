@@ -4,15 +4,14 @@ import by.exadel.internship.config.jwt.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,10 +25,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
-
 import javax.annotation.PostConstruct;
 import java.net.URI;
+
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 @ContextConfiguration(initializers = {InternshipApplicationTests.Initializer.class})
 @SpringBootTest
@@ -51,10 +50,10 @@ public class InternshipApplicationTests {
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    JwtService jwtService;
+    private JwtService jwtService;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @PostConstruct
     public void setTimeModuleUp() {
@@ -62,13 +61,13 @@ public class InternshipApplicationTests {
     }
 
     @BeforeClass
-    private String generateJWTToken() {
+    public String generateJWTToken() {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
                         "maevsky",
                         "1"));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-         return jwtService.generateJwtToken(authentication);
+        return jwtService.generateJwtToken(authentication);
     }
 
     @BeforeEach
