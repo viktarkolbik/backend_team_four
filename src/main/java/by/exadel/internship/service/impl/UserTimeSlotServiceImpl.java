@@ -39,16 +39,14 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
     private static final String SIMPLE_CLASS_NAME = UserTimeSlotService.class.getSimpleName();
 
 
-    private List<UserTimeSlotWithUserDTO> resultUSerTimeList;
-
     @Override
     public void saveUserTime(UserDTO userDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save free time list for user with uuid = {} in DB", userDTO.getId());
-        resultUSerTimeList = new ArrayList<>();
+        List<UserTimeSlotWithUserDTO> resultUSerTimeList = new ArrayList<>();
         userDTO.getTimeForCall().forEach(timeForCallUser -> {
             checkTime(timeForCallUser);
-            separateTime(timeForCallUser, userDTO.getInterviewTime());
+            separateTime(timeForCallUser, userDTO.getInterviewTime(), resultUSerTimeList);
         });
         resultUSerTimeList.forEach(time -> {
             time.setUser(userDTO);
@@ -120,7 +118,7 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
         log.info("Time brought to a common form");
     }
 
-    private void separateTime(UserTimeSlotDTO time, InterviewTime interviewTimeUser) {
+    private void separateTime(UserTimeSlotDTO time, InterviewTime interviewTimeUser, List<UserTimeSlotWithUserDTO> resultUSerTimeList) {
         log.info("Separate time on part");
         List<UserTimeSlotWithUserDTO> newUserTimeList = new ArrayList<>();
         Duration duration = Duration.between(time.getStartDate(), time.getEndDate());
