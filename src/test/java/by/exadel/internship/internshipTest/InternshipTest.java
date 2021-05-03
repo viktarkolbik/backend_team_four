@@ -2,7 +2,6 @@ package by.exadel.internship.internshipTest;
 
 import by.exadel.internship.InternshipApplicationTests;
 import by.exadel.internship.dto.internship.GuestInternshipDTO;
-import by.exadel.internship.entity.Form;
 import by.exadel.internship.entity.Internship;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.repository.InternshipRepository;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.web.servlet.MvcResult;
+
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
@@ -81,5 +81,10 @@ public class InternshipTest extends InternshipApplicationTests {
         assertTrue(internship.isDeleted());
     }
 
+
+    // TO DO test restore internship
+
+
+    // TO DO test save internship
 
 }

@@ -120,7 +120,7 @@ public class FormTest extends InternshipApplicationTests {
         MvcResult result = getResult(HttpMethod.DELETE, URI.create("/forms/7c0811d5-354b-4ebb-a65c-0b54efc53a80"), status().isOk());
         MvcResult resultRestore = getResult(HttpMethod.PUT, URI.create("/forms/7c0811d5-354b-4ebb-a65c-0b54efc53a80/restore"), status().isOk());
         UUID uuid = UUID.fromString("7c0811d5-354b-4ebb-a65c-0b54efc53a80");
-        Form form = formRepository.findByIdAndDeletedTrue(uuid)
+        Form form = formRepository.findByIdAndDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("Form with uuid = " + uuid +
                         " Not Found in DB", "form.uuid.invalid"));
         assertFalse(form.isDeleted());
