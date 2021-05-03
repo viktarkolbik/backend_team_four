@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -149,33 +150,43 @@ public class FormServiceImpl implements FormService {
 
 
     public void updateStatusById(UUID formId, FormStatus status) {
-        log.info("Try to get form by form id: {}",formId);
+        log.info("Try to get form by form id: {}", formId);
+
         Form one = formRepository.getOne(formId);
+
         log.info("Try to set status");
+
         one.setFormStatus(status);
+
         log.info("Try to update status");
+
         formRepository.save(one);
     }
 
+    @Transactional
     public void restoreFormById(UUID formId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to activate form with uuid: {}", formId);
+
         formRepository
                 .findByIdAndDeletedTrue(formId)
                 .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
                         " Not Found in DB", "form.uuid.invalid"));
         formRepository.activateFormById(formId);
+
         log.info("Successfully returned deleted Form with uuid: {}", formId);
     }
 
     public void deleteById(UUID formId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to delete form with uuid: {} ", formId);
+
         formRepository
                 .findByIdAndDeletedFalse(formId)
                 .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
                         " Not Found in DB", "form.uuid.invalid"));
         formRepository.deleteById(formId);
+
         log.info("Successfully deleted Form with uuid: {}", formId);
     }
 
