@@ -64,6 +64,6 @@ public class User {
     private List<Internship> internships;
 
     @OneToMany(mappedBy = "user")
-    private List<TimeForCallUser> timeForCall;
+    private List<UserTimeSlot> timeForCall;
 
 }

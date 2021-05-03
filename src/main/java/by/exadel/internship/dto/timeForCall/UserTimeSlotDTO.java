@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimeForCallUserDTO {
+public class UserTimeSlotDTO {
     private UUID id;
     private LocalDateTime startHour;
     private LocalDateTime endHour;

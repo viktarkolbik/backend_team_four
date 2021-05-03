@@ -2,7 +2,7 @@ package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.InterviewDTO;
 
-import by.exadel.internship.dto.timeForCall.TimeForCallWithUserIdDTO;
+import by.exadel.internship.dto.timeForCall.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class SchedulingServiceImpl implements SchedulingService {
-    private final TimeForCallUserServise timeForCallUserServise;
+    private final UserTimeSlotService userTimeSlotService;
     private final FormService formService;
     private final UserService userService;
 
@@ -71,12 +71,12 @@ public class SchedulingServiceImpl implements SchedulingService {
     public void saveUserTime(UserDTO userDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save users free time in DB");
-        timeForCallUserServise.saveUserTime(userDTO);
+        userTimeSlotService.saveUserTime(userDTO);
         log.info("Successfully saved time in DB");
     }
 
     @Override
-    public void saveInterviewForForm(UUID formId, TimeForCallWithUserIdDTO userDataTime) {
+    public void saveInterviewForForm(UUID formId, UserTimeSlotWithUserIdDTO userDataTime) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");
         FormFullDTO formFullDTO = formService.getById(formId);
@@ -90,7 +90,7 @@ public class SchedulingServiceImpl implements SchedulingService {
             interviewDTO.setTechInterviewDate(userDataTime.getStartHour());
 
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
-            timeForCallUserServise.deletedById(userDataTime.getId());
+            userTimeSlotService.deletedById(userDataTime.getId());
             formService.updateForm(formFullDTO);
             log.info("Save HR interview date");
             return;
@@ -113,11 +113,11 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     private void deleteTime(UUID timeId) {
-        timeForCallUserServise.deletedById(timeId);
+        userTimeSlotService.deletedById(timeId);
     }
 
     @Override
-    public void rewriteInterviewTime(UUID formId, TimeForCallWithUserIdDTO time) {
+    public void rewriteInterviewTime(UUID formId, UserTimeSlotWithUserIdDTO time) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");
         FormFullDTO formFullDTO = formService.getById(formId);
@@ -150,10 +150,10 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     private void restoreTime(InterviewDTO interviewDTO) {
-        TimeForCallWithUserIdDTO restoreTime = new TimeForCallWithUserIdDTO();
+        UserTimeSlotWithUserIdDTO restoreTime = new UserTimeSlotWithUserIdDTO();
         restoreTime.setStartHour(interviewDTO.getAdminInterviewDate());
         restoreTime.setUserId(interviewDTO.getAdmin());
-        timeForCallUserServise.restoreUserTime(restoreTime);
+        userTimeSlotService.restoreUserTime(restoreTime);
     }
 
 

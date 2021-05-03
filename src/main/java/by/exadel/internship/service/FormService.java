@@ -1,6 +1,6 @@
 package by.exadel.internship.service;
 
-import by.exadel.internship.pojo.FeedbackRequest;
+import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import org.springframework.web.multipart.MultipartFile;

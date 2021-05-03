@@ -12,7 +12,7 @@ import by.exadel.internship.entity.location.Country;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.mapper.InterviewMapper;
-import by.exadel.internship.pojo.FeedbackRequest;
+import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.service.EmailService;
 import by.exadel.internship.repository.location.CityRepository;

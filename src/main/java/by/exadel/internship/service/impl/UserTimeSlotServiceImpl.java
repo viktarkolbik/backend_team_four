@@ -1,14 +1,14 @@
 package by.exadel.internship.service.impl;
 
 
-import by.exadel.internship.dto.timeForCall.TimeForCallWithUserDTO;
-import by.exadel.internship.dto.timeForCall.TimeForCallWithUserIdDTO;
-import by.exadel.internship.dto.timeForCall.TimeForCallUserDTO;
+import by.exadel.internship.dto.timeForCall.UserTimeSlotWithUserDTO;
+import by.exadel.internship.dto.timeForCall.UserTimeSlotWithUserIdDTO;
+import by.exadel.internship.dto.timeForCall.UserTimeSlotDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.InterviewTime;
-import by.exadel.internship.mapper.TimeForCallUserMapper;
-import by.exadel.internship.repository.TimeForCallUserRepository;
-import by.exadel.internship.service.TimeForCallUserServise;
+import by.exadel.internship.mapper.UserTimeSlotMapper;
+import by.exadel.internship.repository.UserTimeSlotRepository;
+import by.exadel.internship.service.UserTimeSlotService;
 import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
@@ -27,19 +27,19 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
+public class UserTimeSlotServiceImpl implements UserTimeSlotService {
 
-    private final TimeForCallUserRepository timeForCallUserRepository;
+    private final UserTimeSlotRepository userTimeSlotRepository;
     private final UserService userService;
-    private final TimeForCallUserMapper mapper;
+    private final UserTimeSlotMapper mapper;
 
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY = 30;
     private static final int DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO = 0;
     private static int INTERVIEW_TIME = 30;
-    private static final String SIMPLE_CLASS_NAME = TimeForCallUserServise.class.getSimpleName();
+    private static final String SIMPLE_CLASS_NAME = UserTimeSlotService.class.getSimpleName();
 
 
-    private List<TimeForCallWithUserDTO> resultUSerTimeList;
+    private List<UserTimeSlotWithUserDTO> resultUSerTimeList;
 
     @Override
     public void saveUserTime(UserDTO userDTO) {
@@ -53,7 +53,7 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
         resultUSerTimeList.forEach(time -> {
             time.setUser(userDTO);
         });
-        timeForCallUserRepository.saveAll(mapper.mapToEntity(resultUSerTimeList));
+        userTimeSlotRepository.saveAll(mapper.mapToEntity(resultUSerTimeList));
         log.info("Free time list was saved in DB, user uuid = {}", userDTO.getId());
     }
 
@@ -61,37 +61,37 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
     public void deletedById(UUID timeId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to remove time with uuid = {} from user free time", timeId);
-        timeForCallUserRepository.deleteById(timeId);
+        userTimeSlotRepository.deleteById(timeId);
         log.info("Time with uuid = {} was deleted", timeId);
     }
 
     @Override
-    public void restoreUserTime(TimeForCallWithUserIdDTO time) {
+    public void restoreUserTime(UserTimeSlotWithUserIdDTO time) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Restoring time with uuid = {} for user with uuid ={}", time.getId(), time.getUserId());
         UserDTO userDTO = userService.getById(time.getUserId());
-        TimeForCallWithUserDTO timeForCallWithUserDTO = new TimeForCallWithUserDTO();
-        timeForCallWithUserDTO.setUser(userDTO);
-        timeForCallWithUserDTO.setStartHour(time.getStartHour());
+        UserTimeSlotWithUserDTO userTimeSlotWithUserDTO = new UserTimeSlotWithUserDTO();
+        userTimeSlotWithUserDTO.setUser(userDTO);
+        userTimeSlotWithUserDTO.setStartHour(time.getStartHour());
         switch (userDTO.getInterviewTime()) {
             case HALF_HOUR: {
-                timeForCallWithUserDTO.setEndHour(time.getStartHour().plusMinutes(30));
+                userTimeSlotWithUserDTO.setEndHour(time.getStartHour().plusMinutes(30));
                 break;
             }
             case HOUR: {
-                timeForCallWithUserDTO.setEndHour(time.getStartHour().plusMinutes(60));
+                userTimeSlotWithUserDTO.setEndHour(time.getStartHour().plusMinutes(60));
                 break;
             }
             case HOUR_HALF: {
-                timeForCallWithUserDTO.setEndHour(time.getStartHour().plusMinutes(90));
+                userTimeSlotWithUserDTO.setEndHour(time.getStartHour().plusMinutes(90));
                 break;
             }
         }
-        timeForCallUserRepository.save(mapper.toTimeForCallUserEntity(timeForCallWithUserDTO));
+        userTimeSlotRepository.save(mapper.toTimeForCallUserEntity(userTimeSlotWithUserDTO));
         log.info("User time was restoring");
     }
 
-    private void checkTime(TimeForCallUserDTO time) {
+    private void checkTime(UserTimeSlotDTO time) {
         log.info("Bringing time to a common form");
         if (time.getStartHour().getMinute() > 0 && time.getStartHour().getMinute() < 30) {
             LocalDateTime userTime = time.getStartHour();
@@ -120,13 +120,13 @@ public class TimeForCallUserServiceImpl implements TimeForCallUserServise {
         log.info("Time brought to a common form");
     }
 
-    private void separateTime(TimeForCallUserDTO time, InterviewTime interviewTimeUser) {
+    private void separateTime(UserTimeSlotDTO time, InterviewTime interviewTimeUser) {
         log.info("Separate time on part");
-        List<TimeForCallWithUserDTO> newUserTimeList = new ArrayList<>();
+        List<UserTimeSlotWithUserDTO> newUserTimeList = new ArrayList<>();
         Duration duration = Duration.between(time.getStartHour(), time.getEndHour());
         long numberOfPeriods = determineTime(duration, interviewTimeUser);
         for (int i = 0; i < numberOfPeriods; i++) {
-            TimeForCallWithUserDTO tempUserTime = new TimeForCallWithUserDTO();
+            UserTimeSlotWithUserDTO tempUserTime = new UserTimeSlotWithUserDTO();
             tempUserTime.setStartHour(time.getStartHour());
             tempUserTime.setEndHour(tempUserTime.getStartHour().plusMinutes(INTERVIEW_TIME));
             newUserTimeList.add(tempUserTime);

@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "time_for_call_user")
+@Table(name = "user_time_slot")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimeForCallUser {
+public class UserTimeSlot {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -22,16 +22,16 @@ public class TimeForCallUser {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "tfcu_id", updatable = false, nullable = false)
+    @Column(name = "ust_id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "tfcu_start_hour")
+    @Column(name = "ust_start_date")
     private LocalDateTime startHour;
-    @Column(name = "tfcu_end_hour")
+    @Column(name = "ust_end_date")
     private LocalDateTime endHour;
 
     @ManyToOne( fetch = FetchType.LAZY)
-    @JoinColumn(name = "tfcu_u_id")
+    @JoinColumn(name = "ust_u_id")
     private User user;
 
 }

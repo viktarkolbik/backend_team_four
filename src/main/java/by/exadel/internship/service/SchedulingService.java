@@ -1,6 +1,6 @@
 package by.exadel.internship.service;
 
-import by.exadel.internship.dto.timeForCall.TimeForCallWithUserIdDTO;
+import by.exadel.internship.dto.timeForCall.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.dto.UserDTO;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public interface SchedulingService {
 
     void saveUserTime(UserDTO userDTO);
 
-    void saveInterviewForForm(UUID formId, TimeForCallWithUserIdDTO time);
+    void saveInterviewForForm(UUID formId, UserTimeSlotWithUserIdDTO time);
 
-    void rewriteInterviewTime(UUID formId, TimeForCallWithUserIdDTO time);
+    void rewriteInterviewTime(UUID formId, UserTimeSlotWithUserIdDTO time);
 }

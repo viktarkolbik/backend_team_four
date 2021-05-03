@@ -3,7 +3,7 @@ package by.exadel.internship.controller;
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
-import by.exadel.internship.pojo.FeedbackRequest;
+import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.service.FormService;

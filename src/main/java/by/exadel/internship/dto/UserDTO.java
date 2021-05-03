@@ -2,7 +2,7 @@ package by.exadel.internship.dto;
 import by.exadel.internship.dto.enums.InterviewTime;
 import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
-import by.exadel.internship.dto.timeForCall.TimeForCallUserDTO;
+import by.exadel.internship.dto.timeForCall.UserTimeSlotDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,5 +25,5 @@ public class UserDTO {
     private UserRole userRole;
     private InterviewTime interviewTime;
     private Set<Skill> skills;
-    private List<TimeForCallUserDTO> timeForCall;
+    private List<UserTimeSlotDTO> timeForCall;
 }

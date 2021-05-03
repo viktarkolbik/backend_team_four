@@ -5,6 +5,7 @@ import by.exadel.internship.dto.InterviewDTO;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.service.InterviewService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class InterviewController {
 
     @AdminAccessControl
     @GetMapping
+    @ApiOperation("Get all Interview for User")
     public List<InterviewDTO> getAllByUserId(@RequestParam UUID userId, @RequestParam UserRole userRole){
         return interviewService.getAllByUserId(userId, userRole);
     }

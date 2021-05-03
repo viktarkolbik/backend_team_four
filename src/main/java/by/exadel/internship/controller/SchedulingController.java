@@ -3,7 +3,7 @@ package by.exadel.internship.controller;
 
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
-import by.exadel.internship.dto.timeForCall.TimeForCallWithUserIdDTO;
+import by.exadel.internship.dto.timeForCall.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.service.SchedulingService;
 import io.swagger.annotations.Api;
@@ -40,7 +40,7 @@ public class SchedulingController {
     @PostMapping("/save-interview-time")
     @ApiOperation("Save interview time for Form")
     public void saveInterviewForForm(@RequestParam(name = "formId") UUID formId,
-                                     @RequestBody TimeForCallWithUserIdDTO time) {
+                                     @RequestBody UserTimeSlotWithUserIdDTO time) {
         schedulingService.saveInterviewForForm(formId, time);
     }
 
@@ -48,7 +48,7 @@ public class SchedulingController {
     @PutMapping("/save-interview-time")
     @ApiOperation("Rewrite interview time for Form")
     public void rewriteInterviewForForm(@RequestParam(name = "formId") UUID formId,
-                                        @RequestBody TimeForCallWithUserIdDTO time) {
+                                        @RequestBody UserTimeSlotWithUserIdDTO time) {
         schedulingService.rewriteInterviewTime(formId,time);
     }
 
