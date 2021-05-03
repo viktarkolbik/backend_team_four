@@ -87,15 +87,16 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
 
     private void separateTime(UserTimeSlotDTO time, int interviewTimeUser, List<UserTimeSlotWithUserDTO> resultUSerTimeList) {
         log.info("Separate time on part");
+        LocalDateTime tempStartDate = time.getStartDate();
         List<UserTimeSlotWithUserDTO> newUserTimeList = new ArrayList<>();
         Duration duration = Duration.between(time.getStartDate(), time.getEndDate());
         long numberOfPeriods = determineTime(duration, interviewTimeUser);
         for (int i = 0; i < numberOfPeriods; i++) {
             UserTimeSlotWithUserDTO tempUserTime = new UserTimeSlotWithUserDTO();
-            tempUserTime.setStartDate(time.getStartDate());
+            tempUserTime.setStartDate(tempStartDate);
             tempUserTime.setEndDate(tempUserTime.getStartDate().plusMinutes(interviewTimeUser));
             newUserTimeList.add(tempUserTime);
-            time.setStartDate(tempUserTime.getEndDate());
+            tempStartDate = tempUserTime.getEndDate();
         }
         resultUSerTimeList.addAll(newUserTimeList);
         log.info("Time separated on part");
