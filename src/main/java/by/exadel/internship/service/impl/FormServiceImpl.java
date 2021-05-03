@@ -9,6 +9,7 @@ import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
+import by.exadel.internship.exception_handing.InappropriateRoleException;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.mapper.InterviewMapper;
@@ -205,6 +206,9 @@ public class FormServiceImpl implements FormService {
                         + userDTO.getId() + " did not interview Form with uuid = "
                         + form.getId(), "user.uuid.invalid");
             }
+        }
+        if (userDTO.getUserRole().equals(UserRole.SUPER_ADMIN)){
+            throw new InappropriateRoleException("Super Admin can not set Feedback");
         }
     }
 
