@@ -12,6 +12,7 @@ import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.service.EmailService;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
+import by.exadel.internship.service.FileService;
 import by.exadel.internship.service.FormService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
@@ -41,12 +42,16 @@ public class FormServiceImpl implements FormService {
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
 
+    private final FileService fileService;
+
     @Value("${file.path}")
     private String filePath;
 
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+
+        fileService.upload(file);
 
         if (file != null) {
 
@@ -55,7 +60,7 @@ public class FormServiceImpl implements FormService {
 
             log.info("Success to save form, id: {}", createdForm.getId());
 
-            uploadFile(file, createdForm.getId());
+            fileService.upload(file);
 
             return createdForm;
         }
@@ -94,23 +99,6 @@ public class FormServiceImpl implements FormService {
 
         dto.setSendEmail(emailService.sendFormSubmissionEmail(formRegisterDTO));
         return dto;
-    }
-
-    private void uploadFile(MultipartFile multipartFile, UUID id) {
-
-        try {
-
-            Path path = Paths.get(filePath, id.toString(), multipartFile.getOriginalFilename());
-
-            FileUtils.forceMkdirParent(path.toFile());
-
-            FileUtils.writeByteArrayToFile(path.toFile(), multipartFile.getBytes());
-
-            log.info("Success to upload file, form id: {}", id);
-
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
     }
 
     public List<FormFullDTO> getAll() {
