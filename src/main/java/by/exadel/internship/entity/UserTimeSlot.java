@@ -26,9 +26,9 @@ public class UserTimeSlot {
     private UUID id;
 
     @Column(name = "ust_start_date")
-    private LocalDateTime startHour;
+    private LocalDateTime startDate;
     @Column(name = "ust_end_date")
-    private LocalDateTime endHour;
+    private LocalDateTime endDate;
 
     @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name = "ust_u_id")

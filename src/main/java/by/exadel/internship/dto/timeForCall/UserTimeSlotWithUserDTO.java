@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UserTimeSlotWithUserDTO {
     private UUID id;
-    private LocalDateTime startHour;
-    private LocalDateTime endHour;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private UserDTO user;
 }

@@ -87,7 +87,7 @@ public class SchedulingServiceImpl implements SchedulingService {
             InterviewDTO interviewDTO = formFullDTO.getInterview();
 
             interviewDTO.setTechSpecialist(userDataTime.getUserId());
-            interviewDTO.setTechInterviewDate(userDataTime.getStartHour());
+            interviewDTO.setTechInterviewDate(userDataTime.getStartDate());
 
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
             userTimeSlotService.deletedById(userDataTime.getId());
@@ -100,7 +100,7 @@ public class SchedulingServiceImpl implements SchedulingService {
             InterviewDTO interviewDTO = new InterviewDTO();
 
             interviewDTO.setAdmin(userDataTime.getUserId());
-            interviewDTO.setAdminInterviewDate(userDataTime.getStartHour());
+            interviewDTO.setAdminInterviewDate(userDataTime.getStartDate());
 
             formFullDTO.setInterview(interviewDTO);
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
@@ -125,7 +125,7 @@ public class SchedulingServiceImpl implements SchedulingService {
             InterviewDTO interviewDTO = formFullDTO.getInterview();
             restoreTime(interviewDTO);
 
-            interviewDTO.setAdminInterviewDate(time.getStartHour());
+            interviewDTO.setAdminInterviewDate(time.getStartDate());
             interviewDTO.setAdmin(time.getUserId());
             formFullDTO.setInterview(interviewDTO);
             formService.updateForm(formFullDTO);
@@ -137,7 +137,7 @@ public class SchedulingServiceImpl implements SchedulingService {
             InterviewDTO interviewDTO = formFullDTO.getInterview();
             restoreTime(interviewDTO);
 
-            interviewDTO.setTechInterviewDate(time.getStartHour());
+            interviewDTO.setTechInterviewDate(time.getStartDate());
             interviewDTO.setTechSpecialist(time.getUserId());
             formFullDTO.setInterview(interviewDTO);
             formService.updateForm(formFullDTO);
@@ -151,7 +151,7 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     private void restoreTime(InterviewDTO interviewDTO) {
         UserTimeSlotWithUserIdDTO restoreTime = new UserTimeSlotWithUserIdDTO();
-        restoreTime.setStartHour(interviewDTO.getAdminInterviewDate());
+        restoreTime.setStartDate(interviewDTO.getAdminInterviewDate());
         restoreTime.setUserId(interviewDTO.getAdmin());
         userTimeSlotService.restoreUserTime(restoreTime);
     }

@@ -72,18 +72,18 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
         UserDTO userDTO = userService.getById(time.getUserId());
         UserTimeSlotWithUserDTO userTimeSlotWithUserDTO = new UserTimeSlotWithUserDTO();
         userTimeSlotWithUserDTO.setUser(userDTO);
-        userTimeSlotWithUserDTO.setStartHour(time.getStartHour());
+        userTimeSlotWithUserDTO.setStartDate(time.getStartDate());
         switch (userDTO.getInterviewTime()) {
             case HALF_HOUR: {
-                userTimeSlotWithUserDTO.setEndHour(time.getStartHour().plusMinutes(30));
+                userTimeSlotWithUserDTO.setEndDate(time.getStartDate().plusMinutes(30));
                 break;
             }
             case HOUR: {
-                userTimeSlotWithUserDTO.setEndHour(time.getStartHour().plusMinutes(60));
+                userTimeSlotWithUserDTO.setEndDate(time.getStartDate().plusMinutes(60));
                 break;
             }
             case HOUR_HALF: {
-                userTimeSlotWithUserDTO.setEndHour(time.getStartHour().plusMinutes(90));
+                userTimeSlotWithUserDTO.setEndDate(time.getStartDate().plusMinutes(90));
                 break;
             }
         }
@@ -93,27 +93,27 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
 
     private void checkTime(UserTimeSlotDTO time) {
         log.info("Bringing time to a common form");
-        if (time.getStartHour().getMinute() > 0 && time.getStartHour().getMinute() < 30) {
-            LocalDateTime userTime = time.getStartHour();
-            time.setStartHour(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
+        if (time.getStartDate().getMinute() > 0 && time.getStartDate().getMinute() < 30) {
+            LocalDateTime userTime = time.getStartDate();
+            time.setStartDate(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
                     userTime.getDayOfMonth(), userTime.getHour(),
                     DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY));
         }
-        if (time.getStartHour().getMinute() > 30) {
-            LocalDateTime userTime = time.getStartHour();
-            time.setStartHour(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
+        if (time.getStartDate().getMinute() > 30) {
+            LocalDateTime userTime = time.getStartDate();
+            time.setStartDate(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
                     userTime.getDayOfMonth(), userTime.getHour() + 1,
                     DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO));
         }
-        if (time.getEndHour().getMinute() > 0 && time.getEndHour().getMinute() < 30) {
-            LocalDateTime userTime = time.getEndHour();
-            time.setEndHour(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
+        if (time.getEndDate().getMinute() > 0 && time.getEndDate().getMinute() < 30) {
+            LocalDateTime userTime = time.getEndDate();
+            time.setEndDate(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
                     userTime.getDayOfMonth(), userTime.getHour(),
                     DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY));
         }
-        if (time.getEndHour().getMinute() > 30) {
-            LocalDateTime userTime = time.getEndHour();
-            time.setEndHour(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
+        if (time.getEndDate().getMinute() > 30) {
+            LocalDateTime userTime = time.getEndDate();
+            time.setEndDate(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
                     userTime.getDayOfMonth(), userTime.getHour() + 1,
                     DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO));
         }
@@ -123,14 +123,14 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
     private void separateTime(UserTimeSlotDTO time, InterviewTime interviewTimeUser) {
         log.info("Separate time on part");
         List<UserTimeSlotWithUserDTO> newUserTimeList = new ArrayList<>();
-        Duration duration = Duration.between(time.getStartHour(), time.getEndHour());
+        Duration duration = Duration.between(time.getStartDate(), time.getEndDate());
         long numberOfPeriods = determineTime(duration, interviewTimeUser);
         for (int i = 0; i < numberOfPeriods; i++) {
             UserTimeSlotWithUserDTO tempUserTime = new UserTimeSlotWithUserDTO();
-            tempUserTime.setStartHour(time.getStartHour());
-            tempUserTime.setEndHour(tempUserTime.getStartHour().plusMinutes(INTERVIEW_TIME));
+            tempUserTime.setStartDate(time.getStartDate());
+            tempUserTime.setEndDate(tempUserTime.getStartDate().plusMinutes(INTERVIEW_TIME));
             newUserTimeList.add(tempUserTime);
-            time.setStartHour(tempUserTime.getEndHour());
+            time.setStartDate(tempUserTime.getEndDate());
         }
         resultUSerTimeList.addAll(newUserTimeList);
         log.info("Time separated on part");
