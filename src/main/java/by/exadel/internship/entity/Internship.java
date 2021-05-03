@@ -7,23 +7,33 @@ import by.exadel.internship.entity.location.Location;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.AbstractAuditable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+@EntityListeners({AuditingEntityListener.class})
 @Entity
 @Table(name = "internship")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "internshipFormat")
 @ToString(exclude = {"users"})
 public class Internship extends Auditable<String> {
     @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Column(name = "inship_id")
     private UUID id;
 
@@ -69,6 +79,7 @@ public class Internship extends Auditable<String> {
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "internship_skill", joinColumns = @JoinColumn(name = "is_inship_id"))
+    @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private List<Skill> skills;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -78,11 +89,12 @@ public class Internship extends Auditable<String> {
             inverseJoinColumns = @JoinColumn(name = "ui_u_id"))
     private List<User> users;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
             name = "internship_location",
             joinColumns = @JoinColumn(name = "il_inship_id"),
             inverseJoinColumns = @JoinColumn(name = "il_l_id", nullable = false))
     private List<Location> locationList;
+
 }

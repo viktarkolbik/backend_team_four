@@ -19,7 +19,8 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
     @Query("UPDATE Form f SET f.deleted = false WHERE f.id = :formId")
     void activateFormById(@Param("formId") UUID formId);
 
-    Optional<Form> findByIdAndDeletedTrue(UUID formId);
+    @Query("SELECT DISTINCT f FROM Form f LEFT JOIN FETCH f.timeForCallList LEFT JOIN FETCH f.country LEFT JOIN FETCH f.city LEFT JOIN FETCH f.interview WHERE f.deleted = true AND f.id = :id")
+    Optional<Form> findByIdAndDeletedTrue(@Param("id") UUID formId);
 
     Optional<Form> findByIdAndDeletedFalse(UUID formId);
 

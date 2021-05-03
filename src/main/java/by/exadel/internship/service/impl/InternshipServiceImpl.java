@@ -1,10 +1,13 @@
 package by.exadel.internship.service.impl;
 
 
-import by.exadel.internship.dto.internship.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
+import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
+import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
 import by.exadel.internship.exception_handing.NotFoundException;
-import by.exadel.internship.mapper.InternshipMapper;
+import by.exadel.internship.mapper.internship.GuestInternshipMapper;
+import by.exadel.internship.mapper.internship.UserInternshipMapper;
 import by.exadel.internship.repository.InternshipRepository;
 import by.exadel.internship.service.InternshipService;
 import by.exadel.internship.util.MDCLog;
@@ -22,12 +25,12 @@ import java.util.UUID;
 public class InternshipServiceImpl implements InternshipService {
 
     private final InternshipRepository internshipRepository;
-    private final InternshipMapper mapper;
+    private final UserInternshipMapper userInternshipMapper;
+    private final GuestInternshipMapper guestInternshipMapper;
 
     private static final String SIMPLE_CLASS_NAME = InternshipService.class.getSimpleName();
 
-    public GuestInternshipDTO getById(UUID id) {
-
+    public GuestFullInternshipDTO getById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get Internship with id= {}", id);
 
@@ -37,12 +40,11 @@ public class InternshipServiceImpl implements InternshipService {
 
         log.info("Successfully got Internship with id= {}", id);
 
-        return mapper.toGuestInternshipDTO(internship);
+        return guestInternshipMapper.toGuestFullInternshipDTO(internship);
 
     }
 
-    public List<GuestInternshipDTO> getAll() {
-
+    public List<GuestShortInternshipDTO> getAll() {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all Internships with skills");
 
@@ -50,67 +52,84 @@ public class InternshipServiceImpl implements InternshipService {
 
         log.info("Try to get all Internships like guestInternshipDTOs  with skills");
 
-        List<GuestInternshipDTO> guestInternshipDTOList = mapper.map(internships);
+        List<GuestShortInternshipDTO> guestShortInternshipDTOList = guestInternshipMapper.mapGuestShortInternshipDTOList(internships);
 
         log.info("Successfully list of guestInternshipDTOs with skills");
 
-        return guestInternshipDTOList;
+        return guestShortInternshipDTOList;
     }
 
-    public List<GuestInternshipDTO> getAllDeleted() {
+    public List<UserInternshipDTO> getAllDeleted() {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get deleted Internships");
+
         List<Internship> deletedInternships = internshipRepository.findAllByDeletedTrue();
-        List<GuestInternshipDTO> guestDeletedInternshipDTOList = mapper.map(deletedInternships);
+        List<UserInternshipDTO> userDeletedInternshipDTOList = userInternshipMapper.map(deletedInternships);
+
         log.info("Successfully got list of deleted Internships");
-        return guestDeletedInternshipDTOList;
+        return userDeletedInternshipDTOList;
     }
 
-    public GuestInternshipDTO getDeletedInternshipById(UUID uuid) {
+    public UserInternshipDTO getDeletedInternshipById(UUID uuid) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get deleted Internships with uuid: {}", uuid);
+
         Internship deletedInternship = internshipRepository
                 .findByIdAndDeletedTrue(uuid)
                 .orElseThrow(() -> new NotFoundException("No such deleted Internship with uuid = " + uuid +
                         " in DB", "uuid.invalid"));
+
         log.info("Successfully got deleted Internships with uuid: {}", uuid);
-        GuestInternshipDTO guestDeletedInternshipDTO = mapper.toGuestInternshipDTO(deletedInternship);
-        return guestDeletedInternshipDTO;
+
+        UserInternshipDTO userDeletedInternshipDTO = userInternshipMapper.toUserInternshipDTO(deletedInternship);
+
+        return userDeletedInternshipDTO;
     }
 
     @Transactional
-    public GuestInternshipDTO restoreInternshipById(UUID uuid) {
+    public UserInternshipDTO restoreInternshipById(UUID uuid) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to restore Internship with uuid: {}", uuid);
+
         Internship internship = internshipRepository
                 .findByIdAndDeletedTrue(uuid)
                 .orElseThrow(() -> new NotFoundException("No such deleted Internship with uuid = " + uuid +
                         " in DB", "uuid.invalid"));
+
         internshipRepository.activateInternshipById(uuid);
         internship.setDeleted(false);
+
         log.info("Successfully restore Internship with uuid: {}", uuid);
-        return mapper.toGuestInternshipDTO(internship);
+
+        return userInternshipMapper.toUserInternshipDTO(internship);
 
     }
 
     public void deleteInternshipById(UUID internshipId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to delete Internship with uuid: {}", internshipId);
+
         internshipRepository
                 .findAllByIdAndDeletedFalse(internshipId)
                 .orElseThrow(() -> new NotFoundException("No such Internship with uuid = " + internshipId +
                         " in DB", "uuid.invalid"));
         internshipRepository.deleteById(internshipId);
+
         log.info("Internship with uuid: {} was deleted", internshipId);
+
     }
 
-    public GuestInternshipDTO saveInternship(GuestInternshipDTO internshipDTO){
+    public UserInternshipDTO saveInternship(UserInternshipDTO internshipDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save new Internship int DB");
-        Internship internship = mapper.toInternship(internshipDTO);
-        internshipRepository.save(internship);
+
+        Internship internship = userInternshipMapper.toInternship(internshipDTO);
+        UserInternshipDTO userInternshipDTO = userInternshipMapper
+                .toUserInternshipDTO(internshipRepository.save(internship));
+
         log.info("Internship was save with uuid {}", internship.getId());
-        return mapper.toGuestInternshipDTO(internship);
+
+        return userInternshipDTO;
     }
 
 }

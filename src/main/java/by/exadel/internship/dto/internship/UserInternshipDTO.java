@@ -4,7 +4,9 @@ package by.exadel.internship.dto.internship;
 import by.exadel.internship.dto.location.LocationDTO;
 import by.exadel.internship.dto.enums.InternshipFormat;
 import by.exadel.internship.dto.enums.Skill;
+import by.exadel.internship.dto.location.LocationDTO;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -17,15 +19,24 @@ import java.util.Set;
 import java.util.UUID;
 
 @Data
-@SuperBuilder
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GuestInternshipDTO {
+public class UserInternshipDTO {
 
     private UUID id;
 
-    @Size(min=2, max=100)
+    @Size(min = 2, max = 100)
     private String name;
+
+    @NotNull
+    private Set<Skill> skills;
+
+    @NotNull
+    private InternshipFormat internshipFormat;
+
+    @NotNull
+    private List<LocationDTO> locationList;
 
     @NotNull
     private LocalDate startDate;
@@ -33,25 +44,17 @@ public class GuestInternshipDTO {
     @NotNull
     private LocalDate endDate;
 
+    @Size(max = 250)
     @NotNull
     private LocalDate publicationDate;
 
-    @Size(max=250)
+    @Size(max = 250)
     private String techSkills;
 
-    @NotNull
-    private List<LocationDTO> locations;
-
-    @NotNull
-    private InternshipFormat internshipFormat;
-
-    @NotNull
-    private Set<Skill> skills;
-
-    @Size(max=150)
+    @Size(max = 150)
     private String description;
 
-    @Size(max=150)
+    @Size(max = 150)
     private String requirements;
 
     @NotNull
@@ -62,4 +65,5 @@ public class GuestInternshipDTO {
 
     @NotNull
     private LocalDate registrationEndDate;
+
 }
