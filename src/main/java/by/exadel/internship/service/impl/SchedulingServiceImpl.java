@@ -60,7 +60,7 @@ public class SchedulingServiceImpl implements SchedulingService {
         log.info("Finding a user with the desired status");
         List<UserDTO> userDTOList = userService.getAllByUserRole(STATUS_USER_ROLE_MAP.get(formStatus));
         userDTOList = userDTOList.stream()
-                .filter(userDTO -> userDTO.getTimeForCall().size() != 0)
+                .filter(userDTO -> userDTO.getUserTimeSlots().size() != 0)
                 .collect(Collectors.toList());
         log.info("Return user list with desired status");
         return userDTOList;

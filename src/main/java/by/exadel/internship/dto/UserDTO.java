@@ -25,5 +25,5 @@ public class UserDTO {
     private UserRole userRole;
     private InterviewTime interviewTime;
     private Set<Skill> skills;
-    private List<UserTimeSlotDTO> timeForCall;
+    private List<UserTimeSlotDTO> userTimeSlots;
 }

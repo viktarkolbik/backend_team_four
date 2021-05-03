@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to update user");
         User user = mapper.toUser(userDTO);
-        user.getTimeForCall().forEach(timeForCallUser -> timeForCallUser.setUser(user));
+        user.getUserTimeSlots().forEach(timeForCallUser -> timeForCallUser.setUser(user));
         userRepository.save(user);
         log.info("Successfully updated user");
     }

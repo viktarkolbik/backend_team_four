@@ -6,6 +6,7 @@ import by.exadel.internship.dto.timeForCall.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.dto.timeForCall.UserTimeSlotDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.InterviewTime;
+import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.UserTimeSlotMapper;
 import by.exadel.internship.repository.UserTimeSlotRepository;
 import by.exadel.internship.service.UserTimeSlotService;
@@ -44,7 +45,7 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save free time list for user with uuid = {} in DB", userDTO.getId());
         List<UserTimeSlotWithUserDTO> resultUSerTimeList = new ArrayList<>();
-        userDTO.getTimeForCall().forEach(timeForCallUser -> {
+        userDTO.getUserTimeSlots().forEach(timeForCallUser -> {
             checkTime(timeForCallUser);
             separateTime(timeForCallUser, userDTO.getInterviewTime(), resultUSerTimeList);
         });
@@ -91,31 +92,23 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
 
     private void checkTime(UserTimeSlotDTO time) {
         log.info("Bringing time to a common form");
-        if (time.getStartDate().getMinute() > 0 && time.getStartDate().getMinute() < 30) {
-            LocalDateTime userTime = time.getStartDate();
-            time.setStartDate(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
-                    userTime.getDayOfMonth(), userTime.getHour(),
-                    DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY));
-        }
-        if (time.getStartDate().getMinute() > 30) {
-            LocalDateTime userTime = time.getStartDate();
-            time.setStartDate(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
-                    userTime.getDayOfMonth(), userTime.getHour() + 1,
-                    DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO));
-        }
-        if (time.getEndDate().getMinute() > 0 && time.getEndDate().getMinute() < 30) {
-            LocalDateTime userTime = time.getEndDate();
-            time.setEndDate(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
-                    userTime.getDayOfMonth(), userTime.getHour(),
-                    DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY));
-        }
-        if (time.getEndDate().getMinute() > 30) {
-            LocalDateTime userTime = time.getEndDate();
-            time.setEndDate(LocalDateTime.of(userTime.getYear(), userTime.getMonth(),
-                    userTime.getDayOfMonth(), userTime.getHour() + 1,
-                    DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO));
-        }
+        time.setStartDate(commonTimeForm(time.getStartDate()));
+        time.setEndDate(commonTimeForm(time.getEndDate()));
         log.info("Time brought to a common form");
+    }
+
+    private LocalDateTime commonTimeForm(LocalDateTime dateTime) {
+        if (dateTime.getMinute() % 60 < 30) {
+            return  LocalDateTime.of(dateTime.getYear(), dateTime.getMonth(),
+                    dateTime.getDayOfMonth(), dateTime.getHour(),
+                    DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY);
+        }
+        if (dateTime.getMinute() % 60 > 30){
+            return  LocalDateTime.of(dateTime.getYear(), dateTime.getMonth(),
+                    dateTime.getDayOfMonth(), dateTime.getHour() + 1,
+                    DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO);
+        }
+        throw new RuntimeException("Time exception can't to do common form for time");
     }
 
     private void separateTime(UserTimeSlotDTO time, InterviewTime interviewTimeUser, List<UserTimeSlotWithUserDTO> resultUSerTimeList) {
