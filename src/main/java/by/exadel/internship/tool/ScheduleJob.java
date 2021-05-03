@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Component
 @EnableScheduling
-@Profile("development")
+@Profile("heroku")
 @RequiredArgsConstructor
 public class ScheduleJob {
 
