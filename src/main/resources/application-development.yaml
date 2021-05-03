@@ -1,0 +1,6 @@
+server:
+  port: ${PORT}
+
+spring:
+  datasource:
+    initialization-mode: never
