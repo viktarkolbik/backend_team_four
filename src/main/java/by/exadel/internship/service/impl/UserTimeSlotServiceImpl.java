@@ -98,17 +98,9 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
     }
 
     private LocalDateTime commonTimeForm(LocalDateTime dateTime) {
-        if (dateTime.getMinute() % 60 < 30) {
-            return  LocalDateTime.of(dateTime.getYear(), dateTime.getMonth(),
-                    dateTime.getDayOfMonth(), dateTime.getHour(),
-                    DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY);
-        }
-        if (dateTime.getMinute() % 60 > 30){
-            return  LocalDateTime.of(dateTime.getYear(), dateTime.getMonth(),
-                    dateTime.getDayOfMonth(), dateTime.getHour() + 1,
-                    DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO);
-        }
-        throw new RuntimeException("Time exception can't to do common form for time");
+        int minutes = dateTime.getMinute();
+        return minutes > 30? dateTime.plusMinutes(60-minutes) : dateTime.plusMinutes(30-minutes);
+
     }
 
     private void separateTime(UserTimeSlotDTO time, InterviewTime interviewTimeUser, List<UserTimeSlotWithUserDTO> resultUSerTimeList) {
