@@ -59,21 +59,24 @@ public class InternshipTest extends InternshipApplicationTests {
 
     @Test
     public void givenInternshipList_WhenDelete_ThenCheckSizeWithFlagFalse() throws Exception {
-        MvcResult result = getResult(HttpMethod.DELETE, URI.create("/internships/68a051d7-6d82-4879-b0a3-1340e14db54d"), status().isOk());
+
+        getResult(HttpMethod.DELETE, URI.create("/internships/68a051d7-6d82-4879-b0a3-1340e14db54d"), status().isOk());
         List<Internship> internships = internshipRepository.findAllByDeletedFalse();
         assertEquals(internships.size(), 9);
     }
 
     @Test
     public void givenInternshipList_WhenDelete_ThenCheckSizeWithFlagTrue() throws Exception {
-        MvcResult result = getResult(HttpMethod.DELETE, URI.create("/internships/55fdfdd2-cac7-4851-a0a6-ba93113e926b"), status().isOk());
+
+        getResult(HttpMethod.DELETE, URI.create("/internships/55fdfdd2-cac7-4851-a0a6-ba93113e926b"), status().isOk());
         List<Internship> internships = internshipRepository.findAllByDeletedTrue();
         assertEquals(internships.size(), 1);
     }
 
     @Test
     public void givenInternship_WhenDelete_ThenCheck_WhetherInternshipIsDeleted() throws Exception {
-        MvcResult result = getResult(HttpMethod.DELETE, URI.create("/internships/0137afd2-42ca-49e4-9018-3499199fdf43"), status().isOk());
+
+        getResult(HttpMethod.DELETE, URI.create("/internships/0137afd2-42ca-49e4-9018-3499199fdf43"), status().isOk());
         UUID uuid = UUID.fromString("0137afd2-42ca-49e4-9018-3499199fdf43");
         Internship internship = internshipRepository.findByIdAndDeletedTrue(uuid)
                 .orElseThrow(() -> new NotFoundException("Internship with uuid = " + uuid +

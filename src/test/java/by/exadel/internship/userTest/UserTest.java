@@ -56,14 +56,16 @@ public class UserTest extends InternshipApplicationTests {
 
     @Test
     public void givenUserList_WhenDeleteUser_ThenCheckListSizeWithFlagTrue() throws Exception {
-        MvcResult result = getResult(HttpMethod.DELETE, URI.create("/users/740f8b07-3d75-4312-8ba9-1b8531f3940b"), status().isOk());
+
+        getResult(HttpMethod.DELETE, URI.create("/users/740f8b07-3d75-4312-8ba9-1b8531f3940b"), status().isOk());
         List<User> users = userRepository.findAllByDeletedTrue();
         assertEquals(users.size(), 1);
     }
 
     @Test
     public void givenForm_WhenDelete_ThenCheck_WhetherFormIsDeleted() throws Exception {
-        MvcResult result = getResult(HttpMethod.DELETE, URI.create("/users/7ae22ab0-93f9-4be5-9adb-4dbd5bf76c5c"), status().isOk());
+
+        getResult(HttpMethod.DELETE, URI.create("/users/7ae22ab0-93f9-4be5-9adb-4dbd5bf76c5c"), status().isOk());
         UUID uuid = UUID.fromString("7ae22ab0-93f9-4be5-9adb-4dbd5bf76c5c");
         User user = userRepository.findByIdAndDeletedTrue(uuid)
                 .orElseThrow(() -> new NotFoundException("Form with uuid = " + uuid +

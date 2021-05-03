@@ -3,8 +3,6 @@ package by.exadel.internship;
 import by.exadel.internship.config.jwt.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,13 +53,16 @@ public class InternshipApplicationTests {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    private String jwtToken;
+
     @PostConstruct
     public void setTimeModuleUp() {
         objectMapper.registerModule(new JavaTimeModule());
+        jwtToken = generateJWTToken();
     }
 
-    @BeforeClass
-    public String generateJWTToken() {
+
+    private String generateJWTToken() {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
                         "maevsky",
@@ -80,7 +81,7 @@ public class InternshipApplicationTests {
 
     protected MvcResult getResult(HttpMethod method, URI uri, ResultMatcher status) throws Exception {
         return mockMvc.perform(MockMvcRequestBuilders
-                .request(method, uri).header("Authorization", "Bearer " + generateJWTToken()))
+                .request(method, uri).header("Authorization", "Bearer " + jwtToken))
                 .andExpect(status)
                 .andReturn();
 
