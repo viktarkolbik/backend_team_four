@@ -8,7 +8,7 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     password: ${SPRING_DATASOURCE_PASSWORD}
     username: ${SPRING_DATASOURCE_USERNAME}
-    initialization-mode: never
+    initialization-mode: always
     data:
       - 'classpath:db/changelog/v.0.4/sql-import/country.sql'
       - 'classpath:db/changelog/v.0.4/sql-import/city.sql'
