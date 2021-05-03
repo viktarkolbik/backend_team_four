@@ -81,6 +81,9 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
 
     private LocalDateTime commonTimeForm(LocalDateTime dateTime) {
         int minutes = dateTime.getMinute();
+        if (minutes == 0){
+            return dateTime;
+        }
         return minutes > 30? dateTime.plusMinutes(60-minutes) : dateTime.plusMinutes(30-minutes);
 
     }

@@ -22,13 +22,6 @@ public class SchedulingController {
 
     private final SchedulingService schedulingService;
 
-    @SuperAdminAccessControl
-    @PostMapping()
-    @ApiOperation("Save Users free time")
-    public void saveUserTime(@RequestBody UserDTO userDTO) {
-        schedulingService.saveUserTime(userDTO);
-    }
-
     @AdminAccessControl
     @GetMapping("/interview-time")
     @ApiOperation("Get all users with their free time for Form")

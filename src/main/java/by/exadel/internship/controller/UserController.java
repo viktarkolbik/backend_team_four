@@ -4,6 +4,7 @@ import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
+import by.exadel.internship.service.SchedulingService;
 import by.exadel.internship.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final SchedulingService schedulingService;
 
     @UserAccessControl
     @GetMapping("/{userId}")
@@ -54,5 +56,12 @@ public class UserController {
     @ApiOperation("Return list of deleted users")
     public List<UserDTO> getDeletedUserList() {
         return userService.getAllDeleted();
+    }
+
+    @SuperAdminAccessControl
+    @PostMapping("/time-slot")
+    @ApiOperation("Save Users free time")
+    public void saveUserTime(@RequestBody UserDTO userDTO) {
+        schedulingService.saveUserTime(userDTO);
     }
 }
