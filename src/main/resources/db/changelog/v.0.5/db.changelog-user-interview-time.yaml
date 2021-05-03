@@ -13,5 +13,5 @@ databaseChangeLog:
             tableName: user_detail
             columns:
               name: u_interview_time
-              type: USER_INTERVIEW_TIME
-              defaultValue: HALF_HOUR
+              type: INT
+              defaultValue: 30

@@ -5,8 +5,6 @@ import by.exadel.internship.dto.timeForCall.UserTimeSlotWithUserDTO;
 import by.exadel.internship.dto.timeForCall.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.dto.timeForCall.UserTimeSlotDTO;
 import by.exadel.internship.dto.UserDTO;
-import by.exadel.internship.dto.enums.InterviewTime;
-import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.UserTimeSlotMapper;
 import by.exadel.internship.repository.UserTimeSlotRepository;
 import by.exadel.internship.service.UserTimeSlotService;
@@ -34,9 +32,6 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
     private final UserService userService;
     private final UserTimeSlotMapper mapper;
 
-    private static final int DEFAULT_START_MINUTES_IF_BETWEEN_ZERO_THIRTY = 30;
-    private static final int DEFAULT_START_MINUTES_IF_BETWEEN_THIRTY_ZERO = 0;
-    private static int INTERVIEW_TIME = 30;
     private static final String SIMPLE_CLASS_NAME = UserTimeSlotService.class.getSimpleName();
 
 
@@ -72,20 +67,7 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
         UserTimeSlotWithUserDTO userTimeSlotWithUserDTO = new UserTimeSlotWithUserDTO();
         userTimeSlotWithUserDTO.setUser(userDTO);
         userTimeSlotWithUserDTO.setStartDate(time.getStartDate());
-        switch (userDTO.getInterviewTime()) {
-            case HALF_HOUR: {
-                userTimeSlotWithUserDTO.setEndDate(time.getStartDate().plusMinutes(30));
-                break;
-            }
-            case HOUR: {
-                userTimeSlotWithUserDTO.setEndDate(time.getStartDate().plusMinutes(60));
-                break;
-            }
-            case HOUR_HALF: {
-                userTimeSlotWithUserDTO.setEndDate(time.getStartDate().plusMinutes(90));
-                break;
-            }
-        }
+        userTimeSlotWithUserDTO.setEndDate(time.getStartDate().plusMinutes(userDTO.getInterviewTime()));
         userTimeSlotRepository.save(mapper.toTimeForCallUserEntity(userTimeSlotWithUserDTO));
         log.info("User time was restoring");
     }
@@ -103,7 +85,7 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
 
     }
 
-    private void separateTime(UserTimeSlotDTO time, InterviewTime interviewTimeUser, List<UserTimeSlotWithUserDTO> resultUSerTimeList) {
+    private void separateTime(UserTimeSlotDTO time, int interviewTimeUser, List<UserTimeSlotWithUserDTO> resultUSerTimeList) {
         log.info("Separate time on part");
         List<UserTimeSlotWithUserDTO> newUserTimeList = new ArrayList<>();
         Duration duration = Duration.between(time.getStartDate(), time.getEndDate());
@@ -111,7 +93,7 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
         for (int i = 0; i < numberOfPeriods; i++) {
             UserTimeSlotWithUserDTO tempUserTime = new UserTimeSlotWithUserDTO();
             tempUserTime.setStartDate(time.getStartDate());
-            tempUserTime.setEndDate(tempUserTime.getStartDate().plusMinutes(INTERVIEW_TIME));
+            tempUserTime.setEndDate(tempUserTime.getStartDate().plusMinutes(interviewTimeUser));
             newUserTimeList.add(tempUserTime);
             time.setStartDate(tempUserTime.getEndDate());
         }
@@ -119,25 +101,8 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
         log.info("Time separated on part");
     }
 
-    private long determineTime(Duration duration, InterviewTime interviewTimeUser) {
+    private long determineTime(Duration duration, int interviewTimeUser) {
         log.info("Return of temporary interview");
-        switch (interviewTimeUser) {
-            case HALF_HOUR: {
-                INTERVIEW_TIME = 30;
-                return duration.toMinutes() / INTERVIEW_TIME;
-            }
-            case HOUR: {
-                INTERVIEW_TIME = 60;
-                return duration.toMinutes() / INTERVIEW_TIME;
-            }
-            case HOUR_HALF: {
-                INTERVIEW_TIME = 90;
-                return duration.toMinutes() / INTERVIEW_TIME;
-            }
-            default: {
-                return duration.toMinutes() / 30;
-            }
-        }
-
+        return duration.toMinutes() / interviewTimeUser;
     }
 }
