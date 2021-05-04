@@ -9,8 +9,6 @@ import java.util.UUID;
 public interface SchedulingService {
     List<UserDTO> getAdminTimeForForm(UUID formId);
 
-    void saveUserTime(UserDTO userDTO);
-
     void saveInterviewForForm(UUID formId, UserTimeSlotWithUserIdDTO time);
 
     void rewriteInterviewTime(UUID formId, UserTimeSlotWithUserIdDTO time);

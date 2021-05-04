@@ -68,14 +68,6 @@ public class SchedulingServiceImpl implements SchedulingService {
 
 
     @Override
-    public void saveUserTime(UserDTO userDTO) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to save users free time in DB");
-        userTimeSlotService.saveUserTime(userDTO);
-        log.info("Successfully saved time in DB");
-    }
-
-    @Override
     public void saveInterviewForForm(UUID formId, UserTimeSlotWithUserIdDTO userDataTime) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");

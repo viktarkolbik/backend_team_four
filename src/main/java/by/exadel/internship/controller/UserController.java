@@ -7,6 +7,7 @@ import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.service.SchedulingService;
 import by.exadel.internship.service.UserService;
+import by.exadel.internship.service.UserTimeSlotService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class UserController {
 
     private final UserService userService;
     private final SchedulingService schedulingService;
+    private final UserTimeSlotService userTimeSlotService;
 
     @UserAccessControl
     @GetMapping("/{userId}")
@@ -63,6 +65,6 @@ public class UserController {
     @PostMapping("/time-slot")
     @ApiOperation("Save Users free time")
     public void saveUserTime(@RequestBody UserDTO userDTO) {
-        schedulingService.saveUserTime(userDTO);
+        userTimeSlotService.saveUserTime(userDTO);
     }
 }
