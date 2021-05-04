@@ -45,9 +45,6 @@ server:
   servlet:
     context-path: /api
 
-file:
-  path: "files"
-
 key:
   jwtSecret: SecretKey
   jwtExpirationSec: 600

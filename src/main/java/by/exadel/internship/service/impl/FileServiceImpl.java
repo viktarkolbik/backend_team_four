@@ -20,7 +20,7 @@ import java.nio.file.Files;
 import java.util.UUID;
 
 @Service
-public class FileServiceImp implements FileService {
+public class FileServiceImpl implements FileService {
 
     private static final String DOWNLOAD_URL =
             "https://firebasestorage.googleapis.com/v0/b/gs://internship-project-e202a.appspot.com/o/%s?alt=media";

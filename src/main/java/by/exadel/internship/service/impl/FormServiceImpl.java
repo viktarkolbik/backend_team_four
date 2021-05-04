@@ -9,23 +9,19 @@ import by.exadel.internship.entity.location.Country;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.repository.FormRepository;
-import by.exadel.internship.service.EmailService;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
+import by.exadel.internship.service.EmailService;
 import by.exadel.internship.service.FileService;
 import by.exadel.internship.service.FormService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,14 +40,9 @@ public class FormServiceImpl implements FormService {
 
     private final FileService fileService;
 
-    @Value("${file.path}")
-    private String filePath;
-
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-
-        fileService.upload(file);
 
         if (file != null) {
 
