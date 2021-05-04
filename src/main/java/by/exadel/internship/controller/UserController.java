@@ -1,5 +1,6 @@
 package by.exadel.internship.controller;
 
+import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.UserDTO;
@@ -30,7 +31,7 @@ public class UserController {
         return userService.getById(userId);
     }
 
-    @SuperAdminAccessControl
+    @AdminAccessControl
     @GetMapping
     @ApiOperation("Return users by internship id and role")
     public List<UserDTO> getUserByInternshipId(@RequestParam("internshipId") UUID internshipId, UserRole role) {
