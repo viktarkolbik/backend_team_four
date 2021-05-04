@@ -92,7 +92,7 @@ public class FormTest extends InternshipApplicationTests {
                 .build().toUri();
         getResult(HttpMethod.PUT, uri, status().isOk());
         UUID uuid = UUID.fromString("7c0811d5-354b-4ebb-a65c-0b54efc53a80");
-        Form form = formRepository.findById(uuid).orElseThrow(()-> new NotFoundException("Form with uuid = " + uuid +
+        Form form = formRepository.findById(uuid).orElseThrow(() -> new NotFoundException("Form with uuid = " + uuid +
                 " Not Found in DB", "form.uuid.invalid"));
         assertEquals(form.getFormStatus(), FormStatus.NOT_MATCHED);
     }
@@ -101,8 +101,8 @@ public class FormTest extends InternshipApplicationTests {
     @Test
     public void givenFormList_WhenDeleteForm_ThenCheckListSizeWithFlagTrue() throws Exception {
 
-        UUID id = testDataForm();
-        getResult(HttpMethod.DELETE, URI.create("/forms/"+id), status().isOk());
+        UUID id = uuidOfCreatedAndPostTestDataForm();
+        getResult(HttpMethod.DELETE, URI.create("/forms/" + id), status().isOk());
         List<Form> forms = formRepository.findAllByDeletedTrue();
         assertEquals(forms.size(), 1);
     }
@@ -110,28 +110,27 @@ public class FormTest extends InternshipApplicationTests {
     @Test
     public void givenForm_WhenDelete_ThenCheck_WhetherFormIsDeleted() throws Exception {
 
-        UUID id = testDataForm();
-        getResult(HttpMethod.DELETE, URI.create("/forms/"+id), status().isOk());
+        UUID id = uuidOfCreatedAndPostTestDataForm();
+        getResult(HttpMethod.DELETE, URI.create("/forms/" + id), status().isOk());
         Form form = formRepository.findByIdAndDeletedTrue(id)
                 .orElseThrow(() -> new NotFoundException("Form with uuid = " + id +
                         " Not Found in DB", "form.uuid.invalid"));
         assertTrue(form.isDeleted());
     }
 
-    //TO DO
+
     @Test
     public void when_RestoreForm_Expect_FlagIsFalse() throws Exception {
-
-        getResult(HttpMethod.DELETE, URI.create("/forms/7c0811d5-354b-4ebb-a65c-0b54efc53a80"), status().isOk());
-        MvcResult resultRestore = getResult(HttpMethod.PUT, URI.create("/forms/7c0811d5-354b-4ebb-a65c-0b54efc53a80/restore"), status().isOk());
-        UUID uuid = UUID.fromString("7c0811d5-354b-4ebb-a65c-0b54efc53a80");
-        Form form = formRepository.findByIdAndDeletedFalse(uuid)
-                .orElseThrow(() -> new NotFoundException("Form with uuid = " + uuid +
+        UUID id = uuidOfCreatedAndPostTestDataForm();
+        getResult(HttpMethod.DELETE, URI.create("/forms/" + id), status().isOk());
+        getResult(HttpMethod.PUT, URI.create("/forms/" + id + "/restore"), status().isOk());
+        Form form = formRepository.findByIdAndDeletedFalse(id)
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + id +
                         " Not Found in DB", "form.uuid.invalid"));
         assertFalse(form.isDeleted());
     }
 
-    private UUID testDataForm() throws Exception {
+    private UUID uuidOfCreatedAndPostTestDataForm() throws Exception {
         MockMultipartFile testForm = new MockMultipartFile("form", "form",
                 MediaType.APPLICATION_JSON_VALUE,
                 ("{\"firstName\": \"testName\",\"city\": {\"id\":\"69e6b47a-4c3d-4207-ac2d-801d9eda7ff1\",\"name\":\"Lviv\"}," +
@@ -149,29 +148,5 @@ public class FormTest extends InternshipApplicationTests {
         return formFullDTO.getId();
     }
 
-//    @Test
-//    public void givenFormList_WhenDeleteForm_ThenCheckListSizeWithFlagTrue() throws Exception {
-//
-//        // why it doesn't work?
-//        FormRegisterDTO form = FormRegisterDTO.builder()
-//                .firstName("Mike").lastName("Klop").middleName("Mixalovich").primarySkill("skill")
-//                .city(new CityDTO(UUID.fromString("69e6b47a-4c3d-4207-ac2d-801d9eda7ff1"), "Lviv"))
-//                .country(new CountryDTO(UUID.fromString("de5e7623-c298-4033-8419-9e2fd12afdfa"), "Ukraine"))
-//                .email("mike@mail.ru").englishLevel(EnglishLevel.B1).education("some").skype("mikeskype")
-//                .phoneNumber("string").experience("string")
-//                .build();
-//        MvcResult mvcResult = mockMvc.perform(post("/forms")
-//                .content(new ObjectMapper().writeValueAsString(form))
-//                .contentType(MediaType.APPLICATION_JSON)
-//        )
-//                .andExpect(status().isOk())
-//                .andReturn();
-//        String content = mvcResult.getResponse().getContentAsString();
-//        FormFullDTO formFullDTO = objectMapper.readValue(content, FormFullDTO.class);
-//        UUID id = formFullDTO.getId();
-//        getResult(HttpMethod.DELETE, URI.create("/forms/"+id), status().isOk());
-//        List<Form> forms = formRepository.findAllByDeletedTrue();
-//        assertEquals(forms.size(), 1);
-//    }
 
 }
