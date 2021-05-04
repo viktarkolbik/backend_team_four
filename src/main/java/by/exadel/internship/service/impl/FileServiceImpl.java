@@ -5,6 +5,7 @@ import by.exadel.internship.service.FileService;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.*;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -23,24 +23,28 @@ import java.util.UUID;
 @Service
 public class FileServiceImpl implements FileService {
 
+    private static final String DOT_SEPARATOR = ".";
+
     @Value("${firebase.url}")
-    private String dowloadUrl;
+    private String downloadUrl;
     @Value("${firebase.bucket}")
     private  String bucketName;
-    private static final String DOT_SEPARATOR = ".";
 
     @Override
     public String upload(MultipartFile multipartFile) {
-
+        File file = null;
         try {
             String fileName = multipartFile.getOriginalFilename();                        // to get original file name
             fileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));  // to generated random string values for file name.
 
-            File file = this.convertToFile(multipartFile, fileName);                      // to convert multipartFile to File
+            file = this.convertToFile(multipartFile, fileName);                      // to convert multipartFile to File
             String tempURL = this.uploadFile(file, fileName);                             // to get uploaded file link
             file.delete();                                                                // to delete the copy of uploaded file stored in the project folder
             return tempURL;
         } catch (IOException e) {
+            if (file != null){
+                file.delete();
+            }
             throw new FileNotUploadException(e.getMessage());
         }
 
@@ -53,14 +57,12 @@ public class FileServiceImpl implements FileService {
                 .fromStream(new FileInputStream("internship-cloud/internship-project-e202a.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
-        return String.format(dowloadUrl, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+        return String.format(downloadUrl, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
 
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
         File tempFile = new File(fileName);
-        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            fos.write(multipartFile.getBytes());
-        }
+        FileUtils.writeByteArrayToFile(tempFile,multipartFile.getBytes());
         return tempFile;
     }
 
