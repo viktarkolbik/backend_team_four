@@ -14,4 +14,5 @@ public class UserTimeSlotDTO {
     private UUID id;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private boolean roundUp;
 }

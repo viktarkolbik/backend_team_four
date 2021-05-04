@@ -74,17 +74,21 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
 
     private void checkTime(UserTimeSlotDTO time) {
         log.info("Bringing time to a common form");
-        time.setStartDate(commonTimeForm(time.getStartDate()));
-        time.setEndDate(commonTimeForm(time.getEndDate()));
+        time.setStartDate(commonTimeForm(time.getStartDate(), true));
+        time.setEndDate(commonTimeForm(time.getEndDate(), time.isRoundUp()));
         log.info("Time brought to a common form");
     }
 
-    private LocalDateTime commonTimeForm(LocalDateTime dateTime) {
+    private LocalDateTime commonTimeForm(LocalDateTime dateTime, boolean roundUp) {
         int minutes = dateTime.getMinute();
         if (minutes == 0){
             return dateTime;
         }
-        return minutes > 30? dateTime.plusMinutes(60-minutes) : dateTime.plusMinutes(30-minutes);
+        if (roundUp) {
+            return minutes > 30 ? dateTime.plusMinutes(60 - minutes) : dateTime.plusMinutes(30 - minutes);
+        }else {
+            return minutes > 30 ? dateTime.minusMinutes(minutes - 30) : dateTime.minusMinutes(minutes);
+        }
 
     }
 
