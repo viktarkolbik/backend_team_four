@@ -28,21 +28,4 @@ public class SchedulingController {
         return schedulingService.getAdminTimeForForm(formId);
     }
 
-    @AdminAccessControl
-    @PostMapping("/save-interview-time")
-    @ApiOperation("Save interview time for Form")
-    public void saveInterviewForForm(@RequestParam(name = "formId") UUID formId,
-                                     @RequestBody UserTimeSlotWithUserIdDTO time) {
-        schedulingService.saveInterviewForForm(formId, time);
-    }
-
-    @AdminAccessControl
-    @PutMapping("/save-interview-time")
-    @ApiOperation("Rewrite interview time for Form")
-    public void rewriteInterviewForForm(@RequestParam(name = "formId") UUID formId,
-                                        @RequestBody UserTimeSlotWithUserIdDTO time) {
-        schedulingService.rewriteInterviewTime(formId,time);
-    }
-
-
 }
