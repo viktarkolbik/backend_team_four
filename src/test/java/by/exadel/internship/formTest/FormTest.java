@@ -31,14 +31,8 @@ public class FormTest extends InternshipApplicationTests {
     @Autowired
     private FormRepository formRepository;
 
-
-    @Test
-    public void givenFormWithFile_checkTestData()
-            throws Exception {
-
-        MockMultipartFile file = new MockMultipartFile("file", "text.txt",
-                MediaType.MULTIPART_FORM_DATA_VALUE, "some file".getBytes());
-        MockMultipartFile form = new MockMultipartFile("form", "form",
+    private MockMultipartFile formData() {
+        return new MockMultipartFile("form", "form",
                 MediaType.APPLICATION_JSON_VALUE,
                 ("{\"firstName\": \"testName\",\"city\": {\"id\":\"69e6b47a-4c3d-4207-ac2d-801d9eda7ff1\",\"name\":\"Lviv\"}," +
                         "\"country\": {\"id\":\"de5e7623-c298-4033-8419-9e2fd12afdfa\",\"name\":\"Ukraine\"}," +
@@ -46,9 +40,17 @@ public class FormTest extends InternshipApplicationTests {
                         "\"experience\": \"string\",\"filePath\": \"string\",\"lastName\": \"string\"," +
                         "\"middleName\": \"string\",\"phoneNumber\": \"string\",\"primarySkill\": \"string\"," +
                         "\"skype\": \"string\"}").getBytes());
+    }
+
+    @Test
+    public void givenFormWithFile_checkTestData()
+            throws Exception {
+
+        MockMultipartFile file = new MockMultipartFile("file", "text.txt",
+                MediaType.MULTIPART_FORM_DATA_VALUE, "some file".getBytes());
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/forms")
-                .file(form)
+                .file(formData())
                 .file(file)
         )
                 .andExpect(status().isCreated())
@@ -131,16 +133,8 @@ public class FormTest extends InternshipApplicationTests {
     }
 
     private UUID uuidOfCreatedAndPostTestDataForm() throws Exception {
-        MockMultipartFile testForm = new MockMultipartFile("form", "form",
-                MediaType.APPLICATION_JSON_VALUE,
-                ("{\"firstName\": \"testName\",\"city\": {\"id\":\"69e6b47a-4c3d-4207-ac2d-801d9eda7ff1\",\"name\":\"Lviv\"}," +
-                        "\"country\": {\"id\":\"de5e7623-c298-4033-8419-9e2fd12afdfa\",\"name\":\"Ukraine\"}," +
-                        "\"education\": \"string\",\"email\": \"string\",\"englishLevel\": \"A0\"," +
-                        "\"experience\": \"string\",\"filePath\": \"string\",\"lastName\": \"string\"," +
-                        "\"middleName\": \"string\",\"phoneNumber\": \"string\",\"primarySkill\": \"string\"," +
-                        "\"skype\": \"string\"}").getBytes());
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/forms").file(testForm))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/forms").file(formData()))
                 .andExpect(status().isCreated())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
