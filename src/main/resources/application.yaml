@@ -48,3 +48,7 @@ server:
 key:
   jwtSecret: SecretKey
   jwtExpirationSec: 600
+
+firebase:
+  bucket: ${BUCKET_NAME:internship-project-e202a.appspot.com}
+  url: ${DOWNLOAD_URL:https://firebasestorage.googleapis.com/v0/b/gs://internship-project-e202a.appspot.com/o/%s?alt=media}

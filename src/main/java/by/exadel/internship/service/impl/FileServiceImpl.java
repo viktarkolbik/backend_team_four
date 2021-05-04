@@ -5,6 +5,8 @@ import by.exadel.internship.service.FileService;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.*;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,9 +23,11 @@ import java.util.UUID;
 @Service
 public class FileServiceImpl implements FileService {
 
-    private static final String DOWNLOAD_URL =
-            "https://firebasestorage.googleapis.com/v0/b/gs://internship-project-e202a.appspot.com/o/%s?alt=media";
-    private static final String BUCKET_NAME = "internship-project-e202a.appspot.com";
+    @Value("${firebase.url}")
+    private String dowloadUrl;
+    @Value("${firebase.bucket}")
+    private  String bucketName;
+    private static final String DOT_SEPARATOR = ".";
 
     @Override
     public String upload(MultipartFile multipartFile) {
@@ -43,13 +47,13 @@ public class FileServiceImpl implements FileService {
     }
 
     private String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of(BUCKET_NAME, fileName);
+        BlobId blobId = BlobId.of(bucketName, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
         Credentials credentials = GoogleCredentials
                 .fromStream(new FileInputStream("internship-cloud/internship-project-e202a.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
-        return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+        return String.format(dowloadUrl, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
 
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
@@ -61,6 +65,6 @@ public class FileServiceImpl implements FileService {
     }
 
     private String getExtension(String fileName) {
-        return fileName.substring(fileName.lastIndexOf("."));
+        return StringUtils.substringAfter(fileName,DOT_SEPARATOR);
     }
 }
