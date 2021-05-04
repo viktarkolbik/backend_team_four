@@ -1,9 +1,9 @@
 package by.exadel.internship.service.impl;
 
 
-import by.exadel.internship.dto.timeForCall.UserTimeSlotWithUserDTO;
-import by.exadel.internship.dto.timeForCall.UserTimeSlotWithUserIdDTO;
-import by.exadel.internship.dto.timeForCall.UserTimeSlotDTO;
+import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserDTO;
+import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserIdDTO;
+import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.mapper.UserTimeSlotMapper;
 import by.exadel.internship.repository.UserTimeSlotRepository;

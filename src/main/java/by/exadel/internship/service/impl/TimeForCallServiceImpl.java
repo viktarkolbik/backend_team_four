@@ -1,6 +1,6 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.timeForCall.TimeForCallDTO;
+import by.exadel.internship.dto.time_for_call.TimeForCallDTO;
 import by.exadel.internship.entity.TimeForCall;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.TimeForCallMapper;

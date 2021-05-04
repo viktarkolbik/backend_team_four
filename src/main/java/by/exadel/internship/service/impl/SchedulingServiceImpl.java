@@ -2,7 +2,7 @@ package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.InterviewDTO;
 
-import by.exadel.internship.dto.timeForCall.UserTimeSlotWithUserIdDTO;
+import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
