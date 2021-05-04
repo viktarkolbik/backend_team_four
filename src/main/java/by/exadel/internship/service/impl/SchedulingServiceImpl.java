@@ -45,10 +45,7 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     private List<UserDTO> checkInterviewOver(FormFullDTO formFullDTO) {
         FormStatus status = formFullDTO.getFormStatus();
-        if (status.equals(FormStatus.REGISTERED)) {
-            return findAdminForInterview(status);
-        }
-        if (status.equals(FormStatus.ADMIN_INTERVIEW_PASSED)) {
+        if (status.equals(FormStatus.REGISTERED) || status.equals(FormStatus.ADMIN_INTERVIEW_PASSED)) {
             return findAdminForInterview(status);
         }
         throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId()
@@ -82,7 +79,7 @@ public class SchedulingServiceImpl implements SchedulingService {
             interviewDTO.setTechInterviewDate(userDataTime.getStartDate());
 
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
-            userTimeSlotService.deletedById(userDataTime.getId());
+            deleteTime(userDataTime.getId());
             formService.updateForm(formFullDTO);
             log.info("Save HR interview date");
             return;
