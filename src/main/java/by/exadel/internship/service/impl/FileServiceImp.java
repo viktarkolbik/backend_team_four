@@ -47,7 +47,7 @@ public class FileServiceImp implements FileService {
     private String uploadFile(File file, String fileName) throws IOException {
         BlobId blobId = BlobId.of(BUCKET_NAME, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("json/internship-project-e202a.json"));
+        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("internship-cloud/internship-project-e202a.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
