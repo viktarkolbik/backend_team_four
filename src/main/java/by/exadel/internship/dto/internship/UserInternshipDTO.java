@@ -38,14 +38,14 @@ public class UserInternshipDTO {
     @NotNull
     private List<LocationDTO> locationList;
 
-    @NotNull
+    //@NotNull
     private LocalDate startDate;
 
-    @NotNull
+    //@NotNull
     private LocalDate endDate;
 
     @Size(max = 250)
-    @NotNull
+    //@NotNull
     private LocalDate publicationDate;
 
     @Size(max = 250)
@@ -60,10 +60,10 @@ public class UserInternshipDTO {
     @NotNull
     private Integer capacity;
 
-    @NotNull
+    //@NotNull
     private LocalDate registrationStartDate;
 
-    @NotNull
+    //@NotNull
     private LocalDate registrationEndDate;
 
 }

@@ -10,7 +10,6 @@ import by.exadel.internship.dto.location.CityDTO;
 import by.exadel.internship.dto.location.CountryDTO;
 import by.exadel.internship.dto.location.LocationDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -32,15 +31,11 @@ public class InternshipTest extends InternshipApplicationTests {
     @Test
     public void checkInternshipsTestData() throws Exception {
 
-
         MvcResult result = getResult(HttpMethod.GET, URI.create("/internships/68a051d7-6d82-4879-b0a3-1340e14db54d"), status().isOk());
-
         String content = result.getResponse().getContentAsString();
-
         GuestFullInternshipDTO guestFullInternshipDTO = objectMapper
                 .readValue(content, new TypeReference<>() {
                 });
-
         LocationDTO locationDTO1 = new LocationDTO(new CountryDTO(UUID.fromString("21aab798-2d48-459c-bb84-789d2237f933"), "Belarus"), new CityDTO(UUID.fromString("8c48af72-358a-49d4-a786-ce723eefc384"), "Minsk"));
         LocationDTO locationDTO2 = new LocationDTO(new CountryDTO(UUID.fromString("21aab798-2d48-459c-bb84-789d2237f933"), "Belarus"), new CityDTO(UUID.fromString("b38d8113-d5e8-4967-b8ff-e1df0844790f"), "Gomel"));
         LocationDTO locationDTO3 = new LocationDTO(new CountryDTO(UUID.fromString("de5e7623-c298-4033-8419-9e2fd12afdfa"), "Ukraine"), new CityDTO(UUID.fromString("dceb0743-e262-42b8-9d58-bbdb4e5cd729"), "Kiev"));
@@ -67,33 +62,9 @@ public class InternshipTest extends InternshipApplicationTests {
 
     @Test
     public void createInternship_checkData() throws Exception {
-//        MockMultipartFile testInternship = new MockMultipartFile("internship", "internship",
-//                MediaType.APPLICATION_JSON_VALUE,
-//                ("{\"name\": \"internship\",\"skills\": {\"JAVA\",\"JS\"}," +
-//                        "\"internshipFormat\": {\"ONLINE\"}," +
-//                        "\"locationList\": {\"city\": {\"id\":\"69e6b47a-4c3d-4207-ac2d-801d9eda7ff1\",\"name\":\"Lviv\"}," +
-//                        "\"country\": {\"id\":\"de5e7623-c298-4033-8419-9e2fd12afdfa\",\"name\":\"Ukraine\"}}," +
-//                        "\"startDate\": \"2021-07-21\",\"endDate\": \"2021-09-21\"," +
-//                        "\"publicationDate\": \"2021-07-01\",\"techSkills\": \"string\",\"capacity\": \"200\"," +
-//                        "\"registrationStartDate\": \"2021-07-01\",\"registrationEndDate\": \"2021-07-20\",\"description\": \"string\"," +
-//                        "\"requirements\": \"string\"}").getBytes());
-//        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/internships").file(testInternship))
-//                .andExpect(status().isCreated())
-//                .andReturn();
-
-        LocationDTO locationDTO1 = new LocationDTO(new CountryDTO(UUID.fromString("21aab798-2d48-459c-bb84-789d2237f933"), "Belarus"), new CityDTO(UUID.fromString("8c48af72-358a-49d4-a786-ce723eefc384"), "Minsk"));
-        UserInternshipDTO userInternshipDTO = UserInternshipDTO.builder().name("Internship")
-                .internshipFormat(InternshipFormat.ONLINE)
-                .capacity(200).description("string")
-                .skills(Set.of(Skill.JAVA,Skill.JS)).requirements("string").techSkills("string")
-                .locationList(List.of(locationDTO1)).startDate(LocalDate.of(2021, 7, 21))
-                .endDate(LocalDate.of(2021, 9, 21))
-                .publicationDate(LocalDate.of(2021, 7, 01))
-                .registrationStartDate(LocalDate.of(2021, 7, 01))
-                .registrationEndDate(LocalDate.of(2021, 7, 20)).build();
 
         MvcResult mvcResult = mockMvc.perform(post("/internships")
-                .content(new ObjectMapper().writeValueAsString(userInternshipDTO))
+                .content(objectMapper.writeValueAsString(testInternshipData()))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
         )
@@ -102,20 +73,33 @@ public class InternshipTest extends InternshipApplicationTests {
         String content = mvcResult.getResponse().getContentAsString();
 
         UserInternshipDTO dto = objectMapper.readValue(content, UserInternshipDTO.class);
-        assertEquals(dto.getName(), "internship");
+        assertEquals(dto.getName(), "Internship");
         assertEquals(dto.getDescription(), "string");
         assertEquals(dto.getRequirements(), "string");
         assertEquals(dto.getTechSkills(), "string");
         assertEquals(dto.getInternshipFormat(), InternshipFormat.ONLINE);
         assertEquals(dto.getSkills(), Set.of(Skill.JAVA, Skill.JS));
-        assertEquals(dto.getLocationList(), List.of(new CityDTO(UUID.fromString("69e6b47a-4c3d-4207-ac2d-801d9eda7ff1"), "Lviv"),
-                new CountryDTO(UUID.fromString("de5e7623-c298-4033-8419-9e2fd12afdfa"), "Ukraine")));
-
+        assertEquals(dto.getLocationList(), testInternshipData().getLocationList());
         assertEquals(dto.getCapacity(), 200);
         assertEquals(dto.getStartDate(), LocalDate.of(2021, 7, 21));
         assertEquals(dto.getEndDate(), LocalDate.of(2021, 9, 21));
         assertEquals(dto.getPublicationDate(), LocalDate.of(2021, 7, 01));
         assertEquals(dto.getRegistrationStartDate(), LocalDate.of(2021, 7, 01));
         assertEquals(dto.getRegistrationEndDate(), LocalDate.of(2021, 7, 20));
+    }
+
+    private UserInternshipDTO testInternshipData(){
+        LocationDTO locationDTO1 = new LocationDTO(new CountryDTO(UUID.fromString("21aab798-2d48-459c-bb84-789d2237f933"), "Belarus"), new CityDTO(UUID.fromString("8c48af72-358a-49d4-a786-ce723eefc384"), "Minsk"));
+        return UserInternshipDTO.builder().name("Internship")
+                .id(UUID.fromString("11111111-2d48-459c-bb84-789d2237f933"))
+                .internshipFormat(InternshipFormat.ONLINE)
+                .capacity(200).description("string")
+                .skills(Set.of(Skill.JAVA, Skill.JS)).requirements("string").techSkills("string")
+                .locationList(List.of(locationDTO1))
+                .startDate(LocalDate.of(2021, 7, 21))
+                .endDate(LocalDate.of(2021, 9, 21))
+                .publicationDate(LocalDate.of(2021, 7, 01))
+                .registrationStartDate(LocalDate.of(2021, 7, 01))
+                .registrationEndDate(LocalDate.of(2021, 7, 20)).build();
     }
 }
