@@ -35,6 +35,7 @@ bower_components
 # Common
 *.log
 logs
+files
 .tmp
 .merge_file*
 coverage
