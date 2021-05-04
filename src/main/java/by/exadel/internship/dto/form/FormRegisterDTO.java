@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import javax.validation.constraints.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -50,11 +51,9 @@ public class FormRegisterDTO {
     @Size(max = 25)
     private EnglishLevel englishLevel;
 
-    @NotNull
     @Size(max = 25)
     private CountryDTO country;
 
-    @NotNull
     @Size(max = 50)
     private CityDTO city;
 

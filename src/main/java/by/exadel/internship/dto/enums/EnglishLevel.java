@@ -1,6 +1,6 @@
 package by.exadel.internship.dto.enums;
 
-  public enum EnglishLevel {
+public enum EnglishLevel {
     A0,
     A1,
     A2,

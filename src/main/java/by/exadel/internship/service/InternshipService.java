@@ -1,23 +1,25 @@
 package by.exadel.internship.service;
 
-import by.exadel.internship.dto.internship.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
+import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
+import by.exadel.internship.dto.internship.UserInternshipDTO;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface InternshipService {
 
-    GuestInternshipDTO getById(UUID id);
+    GuestFullInternshipDTO getById(UUID id);
 
-    List<GuestInternshipDTO> getAll();
+    List<GuestShortInternshipDTO> getAll();
 
-    List<GuestInternshipDTO> getAllDeleted();
+    List<UserInternshipDTO> getAllDeleted();
 
-    GuestInternshipDTO getDeletedInternshipById(UUID uuid);
+    UserInternshipDTO getDeletedInternshipById(UUID uuid);
 
-    GuestInternshipDTO restoreInternshipById(UUID uuid);
+    UserInternshipDTO restoreInternshipById(UUID uuid);
 
     void deleteInternshipById(UUID internshipId);
 
-    GuestInternshipDTO saveInternship(GuestInternshipDTO internshipDTO);
+    UserInternshipDTO saveInternship(UserInternshipDTO internshipDTO);
 }

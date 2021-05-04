@@ -4,6 +4,7 @@ import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.FeedbackRequest;
+import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.service.FormService;
@@ -64,4 +65,11 @@ public class FormController {
         formService.updateFeedback(formId,feedbackRequest);
     }
 
+    @PutMapping("/updateStatus")
+    @ApiOperation("Update form status")
+    @ResponseStatus(HttpStatus.OK)
+    @AdminAccessControl
+    public void updateFormStatus(@RequestParam("formId") UUID formId, @RequestParam("status")FormStatus status){
+        formService.updateStatusById(formId,status);
+    }
 }
