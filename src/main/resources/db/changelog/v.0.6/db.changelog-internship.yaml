@@ -1,0 +1,20 @@
+databaseChangeLog:
+ - changeSet:
+    id:  04052021-update-dataType
+    author:  ShirshovAlexei
+    changes:
+      -  modifyDataType:
+           columnName:  inship_tech_skills
+           newDataType:  VARCHAR(500)
+           schemaName:  public
+           tableName:  internship
+      - modifyDataType:
+           columnName: inship_description
+           newDataType: VARCHAR(2000)
+           schemaName: public
+           tableName: internship
+      - modifyDataType:
+           columnName: inship_requirements
+           newDataType: VARCHAR(1000)
+           schemaName: public
+           tableName: internship
