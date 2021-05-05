@@ -52,4 +52,4 @@ file:
 
 key:
   jwtSecret: SecretKey
-  jwtExpirationSec: 600
+  jwtExpirationSec: 10000

@@ -19,7 +19,7 @@ public interface InternshipRepository extends JpaRepository<Internship, UUID> {
 
     List<Internship> findAllByDeletedFalse();
 
-    Optional<Internship> findAllByIdAndDeletedFalse(UUID internshipId);
+    Optional<Internship> findByIdAndDeletedFalse(UUID internshipId);
 
     Optional<Internship> findByIdAndDeletedTrue(UUID internshipId);
 
