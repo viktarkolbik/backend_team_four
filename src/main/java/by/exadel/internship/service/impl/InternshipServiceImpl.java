@@ -30,30 +30,12 @@ public class InternshipServiceImpl implements InternshipService {
 
     private static final String SIMPLE_CLASS_NAME = InternshipService.class.getSimpleName();
 
-    public Internship getById(UUID id) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to get Internship with id= {}", id);
-
-        Internship internship = internshipRepository
-                .findById(id)
-                .orElseThrow(() -> new NotFoundException("No such Internship with id = " + id + " in DB", "id.invalid"));
-
-        System.out.println();
-        System.out.println(internship);
-        System.out.println();
-
-        log.info("Successfully got Internship with id= {}", id);
-
-        return internship;
-
-    }
-
-    public GuestFullInternshipDTO getGuestFullInternshipDTO (UUID id){
+    public GuestFullInternshipDTO getGuestFullInternshipDTO(UUID id) {
 
         return guestInternshipMapper.toGuestFullInternshipDTO(getById(id));
     }
 
-    public UserInternshipDTO getUserInternshipDTO (UUID id){
+    public UserInternshipDTO getUserInternshipDTO(UUID id) {
 
         return userInternshipMapper.toUserInternshipDTO(getById(id));
     }
@@ -145,6 +127,24 @@ public class InternshipServiceImpl implements InternshipService {
         log.info("Internship was save with uuid {}", internship.getId());
 
         return userInternshipDTO;
+    }
+
+    private Internship getById(UUID id) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to get Internship with id= {}", id);
+
+        Internship internship = internshipRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("No such Internship with id = " + id + " in DB", "id.invalid"));
+
+        System.out.println();
+        System.out.println(internship);
+        System.out.println();
+
+        log.info("Successfully got Internship with id= {}", id);
+
+        return internship;
+
     }
 
 }

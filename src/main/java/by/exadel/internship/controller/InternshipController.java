@@ -34,13 +34,19 @@ public class InternshipController {
 
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
-    public ResponseEntity<?> getInternshipById(@PathVariable("internshipId") UUID internshipId, boolean isSecondResource) {
+    public ResponseEntity<?> getInternshipById(@PathVariable("internshipId") UUID internshipId, boolean isAdminInformation) {
 
-        if (isSecondResource) {
-            return new ResponseEntity<UserInternshipDTO>(internshipService.getUserInternshipDTO(internshipId), HttpStatus.OK);
+        ResponseEntity responseEntity;
+
+        if (isAdminInformation) {
+            responseEntity = new ResponseEntity<UserInternshipDTO>(internshipService
+                    .getUserInternshipDTO(internshipId), HttpStatus.OK);
         } else {
-            return new ResponseEntity<GuestFullInternshipDTO>(internshipService.getGuestFullInternshipDTO(internshipId), HttpStatus.OK);
+            responseEntity = new ResponseEntity<GuestFullInternshipDTO>(internshipService
+                    .getGuestFullInternshipDTO(internshipId), HttpStatus.OK);
         }
+
+        return responseEntity;
     }
 
     @AdminAccessControl
