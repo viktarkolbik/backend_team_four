@@ -34,16 +34,16 @@ public class InterviewController {
     @PostMapping("/{formId}/save-interview-time")
     @ApiOperation("Save interview time for Form")
     public void saveInterviewForForm(@PathVariable(name = "formId") UUID formId,
-                                     @RequestBody UserTimeSlotWithUserIdDTO time) {
-        schedulingService.saveInterviewForForm(formId, time);
+                                     @RequestBody InterviewDTO interviewDTO) {
+        schedulingService.saveInterviewForForm(formId, interviewDTO);
     }
 
     @AdminAccessControl
     @PutMapping("/{formId}/save-interview-time")
     @ApiOperation("Rewrite interview time for Form")
     public void rewriteInterviewForForm(@PathVariable(name = "formId") UUID formId,
-                                        @RequestBody UserTimeSlotWithUserIdDTO time) {
-        schedulingService.rewriteInterviewTime(formId,time);
+                                        @RequestBody InterviewDTO interviewDTO) {
+        schedulingService.rewriteInterviewTime(formId,interviewDTO);
     }
 
 }

@@ -2,6 +2,8 @@ package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.InterviewDTO;
 
+import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
+import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserDTO;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -65,35 +68,21 @@ public class SchedulingServiceImpl implements SchedulingService {
 
 
     @Override
-    public void saveInterviewForForm(UUID formId, UserTimeSlotWithUserIdDTO userDataTime) {
+    public void saveInterviewForForm(UUID formId, InterviewDTO interviewDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");
         FormFullDTO formFullDTO = formService.getById(formId);
-        UserDTO userDTO = userService.getById(userDataTime.getUserId());
-        if (formFullDTO.getInterview() != null &&
-                formFullDTO.getFormStatus().equals(FormStatus.ADMIN_INTERVIEW_PASSED) &&
-                userDTO.getUserRole().equals(UserRole.TECH_EXPERT)) {
-            InterviewDTO interviewDTO = formFullDTO.getInterview();
-
-            interviewDTO.setTechSpecialist(userDataTime.getUserId());
-            interviewDTO.setTechInterviewDate(userDataTime.getStartDate());
-
-            formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
-            deleteTime(userDataTime.getId());
+        formFullDTO.setInterview(interviewDTO);
+        if (interviewDTO.getTechSpecialist() == null && interviewDTO.getAdmin() != null){
+            formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
+            deleteTime(interviewDTO.getAdminInterviewDate(), interviewDTO.getAdmin());
             formService.updateForm(formFullDTO);
             log.info("Save HR interview date");
             return;
         }
-        if (formFullDTO.getFormStatus().equals(FormStatus.REGISTERED) &&
-                userDTO.getUserRole().equals(UserRole.ADMIN)) {
-            InterviewDTO interviewDTO = new InterviewDTO();
-
-            interviewDTO.setAdmin(userDataTime.getUserId());
-            interviewDTO.setAdminInterviewDate(userDataTime.getStartDate());
-
-            formFullDTO.setInterview(interviewDTO);
-            formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
-            deleteTime(userDataTime.getId());
+        if (interviewDTO.getTechSpecialist() != null){
+            formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
+            deleteTime(interviewDTO.getTechInterviewDate(), interviewDTO.getTechSpecialist());
             formService.updateForm(formFullDTO);
             log.info("Save Tech Expert interview date");
             return;
@@ -101,47 +90,48 @@ public class SchedulingServiceImpl implements SchedulingService {
         throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId() + " doesn't has need Status");
     }
 
-    private void deleteTime(UUID timeId) {
-        userTimeSlotService.deletedById(timeId);
+    private void deleteTime(LocalDateTime localDateTime, UUID userId) {
+        UserDTO userDTO = userService.getById(userId);
+        List<UserTimeSlotDTO> userTimeSlotDTOList = userDTO.getUserTimeSlots()
+                .stream()
+                .filter(userTimeSlotDTO -> userTimeSlotDTO.getStartDate()
+                        .equals(localDateTime)).collect(Collectors.toList());
+        userTimeSlotService.deletedById(userTimeSlotDTOList.get(0).getId());
     }
 
     @Override
-    public void rewriteInterviewTime(UUID formId, UserTimeSlotWithUserIdDTO time) {
+    public void rewriteInterviewTime(UUID formId, InterviewDTO interviewDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");
         FormFullDTO formFullDTO = formService.getById(formId);
         if (formFullDTO.getFormStatus().equals(FormStatus.ADMIN_INTERVIEW_ASSIGNED)) {
-            InterviewDTO interviewDTO = formFullDTO.getInterview();
-            restoreTime(interviewDTO);
+            InterviewDTO restoreInterviewDTO = formFullDTO.getInterview();
+            restoreTime(restoreInterviewDTO.getAdminInterviewDate(), restoreInterviewDTO.getAdmin());
 
-            interviewDTO.setAdminInterviewDate(time.getStartDate());
-            interviewDTO.setAdmin(time.getUserId());
             formFullDTO.setInterview(interviewDTO);
             formService.updateForm(formFullDTO);
 
-            deleteTime(time.getId());
+            deleteTime(interviewDTO.getAdminInterviewDate(),interviewDTO.getAdmin());
             return;
         }
         if (formFullDTO.getFormStatus().equals(FormStatus.TECH_INTERVIEW_ASSIGNED)) {
-            InterviewDTO interviewDTO = formFullDTO.getInterview();
-            restoreTime(interviewDTO);
+            InterviewDTO restoreInterviewDTO = formFullDTO.getInterview();
+            restoreTime(restoreInterviewDTO.getTechInterviewDate(), restoreInterviewDTO.getTechSpecialist());
 
-            interviewDTO.setTechInterviewDate(time.getStartDate());
-            interviewDTO.setTechSpecialist(time.getUserId());
             formFullDTO.setInterview(interviewDTO);
             formService.updateForm(formFullDTO);
 
-            deleteTime(time.getId());
+            deleteTime(interviewDTO.getTechInterviewDate(),interviewDTO.getTechSpecialist());
             return;
         }
         throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId() + " doesn't have required status",
                 "form.fromStatus.invalid");
     }
 
-    private void restoreTime(InterviewDTO interviewDTO) {
+    private void restoreTime(LocalDateTime restoreLocalDateTime, UUID userId) {
         UserTimeSlotWithUserIdDTO restoreTime = new UserTimeSlotWithUserIdDTO();
-        restoreTime.setStartDate(interviewDTO.getAdminInterviewDate());
-        restoreTime.setUserId(interviewDTO.getAdmin());
+        restoreTime.setStartDate(restoreLocalDateTime);
+        restoreTime.setUserId(userId);
         userTimeSlotService.restoreUserTime(restoreTime);
     }
 
