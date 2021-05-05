@@ -10,9 +10,9 @@ import java.util.UUID;
 
 public interface InternshipService {
 
-    GuestFullInternshipDTO getGuestFullInternshipDTOById(UUID id);
+    GuestFullInternshipDTO getGuestRepresentationOfInternshipById(UUID id);
 
-    UserInternshipDTO getUserInternshipDTOById(UUID id);
+    UserInternshipDTO getUserRepresentationOfInternshipById(UUID id);
 
     List<GuestShortInternshipDTO> getAll();
 

@@ -1,9 +1,7 @@
 package by.exadel.internship.controller;
 
-
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
-import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
 import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.service.InternshipService;
@@ -33,19 +31,11 @@ public class InternshipController {
 
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
-    public ResponseEntity<?> getInternshipById(@PathVariable("internshipId") UUID internshipId, boolean isAdminInformation) {
+    public ResponseEntity<?> getInternshipById(@PathVariable("internshipId") UUID internshipId, boolean fullRepresentation) {
 
-        ResponseEntity responseEntity;
+        Object dto = fullRepresentation ? internshipService.getUserRepresentationOfInternshipById(internshipId) : internshipService.getGuestRepresentationOfInternshipById(internshipId);
 
-        if (isAdminInformation) {
-            responseEntity = new ResponseEntity<UserInternshipDTO>(internshipService
-                    .getUserInternshipDTOById(internshipId), HttpStatus.OK);
-        } else {
-            responseEntity = new ResponseEntity<GuestFullInternshipDTO>(internshipService
-                    .getGuestFullInternshipDTOById(internshipId), HttpStatus.OK);
-        }
-
-        return responseEntity;
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @AdminAccessControl
