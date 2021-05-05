@@ -34,7 +34,7 @@ public class InternshipController {
 
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
-    public ResponseEntity<?> getInternshipById(@PathVariable("internshipId") UUID internshipId, boolean isSecondResource, Model model) {
+    public ResponseEntity<?> getInternshipById(@PathVariable("internshipId") UUID internshipId, boolean isSecondResource) {
 
         if (isSecondResource) {
             return new ResponseEntity<UserInternshipDTO>(internshipService.getUserInternshipDTO(internshipId), HttpStatus.OK);
