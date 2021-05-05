@@ -141,10 +141,6 @@ public class InternshipServiceImpl implements InternshipService {
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("No such Internship with id = " + id + " in DB", "id.invalid"));
 
-        System.out.println();
-        System.out.println(internship);
-        System.out.println();
-
         log.info("Successfully got Internship with id= {}", id);
 
         return internship;
