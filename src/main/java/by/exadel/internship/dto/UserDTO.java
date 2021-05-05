@@ -19,8 +19,6 @@ public class UserDTO {
     private String lastName;
     private String firstName;
     private String email;
-    private String login;
-    private String password;
     private UserRole userRole;
     private Set<Skill> skills;
 

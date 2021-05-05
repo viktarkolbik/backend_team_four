@@ -41,8 +41,6 @@ public class UserTest extends InternshipApplicationTests {
         assertEquals(userDTO.getFirstName(), "Maxim");
         assertEquals(userDTO.getLastName(), "Maevsky");
         assertEquals(userDTO.getEmail(), "maevsky@exadel.com");
-        assertEquals(userDTO.getLogin(), "maevsky");
-        assertEquals(userDTO.getPassword(), "1");
         assertEquals(userDTO.getUserRole(), UserRole.SUPER_ADMIN);
     }
 }

@@ -10,6 +10,9 @@ import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +34,13 @@ public class InternshipController {
 
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
-    public GuestFullInternshipDTO getInternshipById(@PathVariable("internshipId") UUID internshipId) {
-        return internshipService.getById(internshipId);
+    public ResponseEntity<?> getInternshipById(@PathVariable("internshipId") UUID internshipId, boolean isSecondResource, Model model) {
+
+        if (isSecondResource) {
+            return new ResponseEntity<UserInternshipDTO>(internshipService.getUserInternshipDTO(internshipId), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<GuestFullInternshipDTO>(internshipService.getGuestFullInternshipDTO(internshipId), HttpStatus.OK);
+        }
     }
 
     @AdminAccessControl

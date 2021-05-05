@@ -3,13 +3,18 @@ package by.exadel.internship.service;
 import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
 import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
+import by.exadel.internship.entity.Internship;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface InternshipService {
 
-    GuestFullInternshipDTO getById(UUID id);
+    Internship getById(UUID id);
+
+    GuestFullInternshipDTO getGuestFullInternshipDTO (UUID id);
+
+    UserInternshipDTO getUserInternshipDTO (UUID id);
 
     List<GuestShortInternshipDTO> getAll();
 
