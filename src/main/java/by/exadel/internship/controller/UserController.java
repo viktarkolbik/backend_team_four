@@ -65,6 +65,6 @@ public class UserController {
     @PostMapping("/{userId}/time-slot")
     @ApiOperation("Save Users free time")
     public void saveUserTime(@PathVariable(name = "userId") UUID userId , @RequestBody UserDTO userDTO) {
-        userTimeSlotService.saveUserTime(userDTO);
+        userTimeSlotService.saveUserTime(userDTO.getUserTimeSlots(),userId,userDTO.getInterviewTime());
     }
 }

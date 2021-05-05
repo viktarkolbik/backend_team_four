@@ -36,18 +36,17 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
 
 
     @Override
-    public void saveUserTime(UserDTO userDTO) {
+    public void saveUserTime(List<UserTimeSlotDTO> userTimeSlotDTOList, UUID userId, int interviewTime) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to save free time list for user with uuid = {} in DB", userDTO.getId());
-        List<UserTimeSlotWithUserDTO> resultUSerTimeList = new ArrayList<>();
-        userDTO.getUserTimeSlots().forEach(timeForCallUser -> {
+        log.info("Try to save free time list for user with uuid = {} in DB", userId);
+        List<UserTimeSlotDTO> resultUserTimeList = new ArrayList<>();
+        userTimeSlotDTOList.forEach(timeForCallUser -> {
             checkTime(timeForCallUser);
-            separateTime(timeForCallUser, userDTO.getInterviewTime(), resultUSerTimeList);
+            separateTime(timeForCallUser, interviewTime, resultUserTimeList);
         });
-        resultUSerTimeList.forEach(time -> {
-            time.setUser(userDTO);
-        });
-        userTimeSlotRepository.saveAll(mapper.mapToEntity(resultUSerTimeList));
+        UserDTO userDTO = userService.getById(userId);
+        userDTO.setUserTimeSlots(resultUserTimeList);
+        userService.updateTimeSlot(userDTO);
         log.info("Free time list was saved in DB, user uuid = {}", userDTO.getId());
     }
 
@@ -95,14 +94,14 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
 
     }
 
-    private void separateTime(UserTimeSlotDTO time, int interviewTimeUser, List<UserTimeSlotWithUserDTO> resultUSerTimeList) {
+    private void separateTime(UserTimeSlotDTO time, int interviewTimeUser, List<UserTimeSlotDTO> resultUSerTimeList) {
         log.info("Separate time on part");
         LocalDateTime tempStartDate = time.getStartDate();
-        List<UserTimeSlotWithUserDTO> newUserTimeList = new ArrayList<>();
+        List<UserTimeSlotDTO> newUserTimeList = new ArrayList<>();
         Duration duration = Duration.between(time.getStartDate(), time.getEndDate());
         long numberOfPeriods = determineTime(duration, interviewTimeUser);
         for (int i = 0; i < numberOfPeriods; i++) {
-            UserTimeSlotWithUserDTO tempUserTime = new UserTimeSlotWithUserDTO();
+            UserTimeSlotDTO tempUserTime = new UserTimeSlotDTO();
             tempUserTime.setStartDate(tempStartDate);
             tempUserTime.setEndDate(tempUserTime.getStartDate().plusMinutes(interviewTimeUser));
             newUserTimeList.add(tempUserTime);

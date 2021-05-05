@@ -6,7 +6,9 @@ import by.exadel.internship.entity.User;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.UserMapper;
 import by.exadel.internship.repository.UserRepository;
+import by.exadel.internship.repository.UserTimeSlotRepository;
 import by.exadel.internship.service.UserService;
+import by.exadel.internship.service.UserTimeSlotService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserTimeSlotRepository userTimeSlotRepository;
     private final UserMapper mapper;
 
     private static final String SIMPLE_CLASS_NAME = UserService.class.getSimpleName();
@@ -98,6 +101,16 @@ public class UserServiceImpl implements UserService {
         user.getUserTimeSlots().forEach(timeForCallUser -> timeForCallUser.setUser(user));
         userRepository.save(user);
         log.info("Successfully updated user");
+    }
+
+    @Override
+    public void updateTimeSlot(UserDTO userDTO) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to update user time slot");
+        User user = mapper.toUser(userDTO);
+        user.getUserTimeSlots().forEach(timeForCallUser -> timeForCallUser.setUser(user));
+        userTimeSlotRepository.saveAll(user.getUserTimeSlots());
+        log.info("Successfully updated user user time slot");
     }
 
     public List<UserDTO> getAllDeleted() {
