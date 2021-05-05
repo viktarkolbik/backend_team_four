@@ -39,10 +39,10 @@ public class InternshipController {
 
         if (isAdminInformation) {
             responseEntity = new ResponseEntity<UserInternshipDTO>(internshipService
-                    .getUserInternshipDTO(internshipId), HttpStatus.OK);
+                    .getUserInternshipDTOById(internshipId), HttpStatus.OK);
         } else {
             responseEntity = new ResponseEntity<GuestFullInternshipDTO>(internshipService
-                    .getGuestFullInternshipDTO(internshipId), HttpStatus.OK);
+                    .getGuestFullInternshipDTOById(internshipId), HttpStatus.OK);
         }
 
         return responseEntity;

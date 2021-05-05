@@ -30,14 +30,14 @@ public class InternshipServiceImpl implements InternshipService {
 
     private static final String SIMPLE_CLASS_NAME = InternshipService.class.getSimpleName();
 
-    public GuestFullInternshipDTO getGuestFullInternshipDTO(UUID id) {
+    public GuestFullInternshipDTO getGuestFullInternshipDTOById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all GuestFullInternshipDTO");
 
         return guestInternshipMapper.toGuestFullInternshipDTO(getById(id));
     }
 
-    public UserInternshipDTO getUserInternshipDTO(UUID id) {
+    public UserInternshipDTO getUserInternshipDTOById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all UserInternshipDTO");
 
