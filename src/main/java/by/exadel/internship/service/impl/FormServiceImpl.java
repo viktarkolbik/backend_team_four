@@ -148,7 +148,6 @@ public class FormServiceImpl implements FormService {
 
     }
 
-
     public void updateStatusById(UUID formId, FormStatus status) {
         log.info("Try to get form by form id: {}", formId);
 
