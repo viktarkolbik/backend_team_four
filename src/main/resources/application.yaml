@@ -27,6 +27,7 @@ spring:
       - 'classpath:db/changelog/v.0.5/sql-import/location.sql'
       - 'classpath:db/changelog/v.0.5/sql-import/internship-location.sql'
       - 'classpath:db/changelog/v.0.6/sql-import/update-internship.sql'
+      - 'classpath:db/changelog/v.0.6/sql-import/update-inshipName.sql'
 
   mail:
     default-encoding: UTF-8
