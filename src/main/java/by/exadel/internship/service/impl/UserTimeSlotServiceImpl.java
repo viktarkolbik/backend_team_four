@@ -84,6 +84,9 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
         if (minutes == 0){
             return dateTime;
         }
+        if (minutes == 30){
+            return dateTime;
+        }
         if (roundUp) {
             return minutes > 30 ? dateTime.plusMinutes(60 - minutes) : dateTime.plusMinutes(30 - minutes);
         }else {
