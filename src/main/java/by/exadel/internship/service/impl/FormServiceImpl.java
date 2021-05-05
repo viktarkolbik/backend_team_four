@@ -6,6 +6,7 @@ import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
+import by.exadel.internship.exception_handing.FileNotUploadException;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.repository.FormRepository;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +47,12 @@ public class FormServiceImpl implements FormService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
 
         if (file != null) {
-            String fileURL = fileService.upload(file);
+            String fileURL = null;
+            try {
+                fileURL = fileService.upload(file.getBytes(),file.getOriginalFilename());
+            } catch (IOException e) {
+                throw new FileNotUploadException(e.getMessage());
+            }
 
             form.setFilePath(fileURL);
             FormFullDTO createdForm = saveForm(form);

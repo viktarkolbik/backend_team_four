@@ -31,13 +31,13 @@ public class FileServiceImpl implements FileService {
     private  String bucketName;
 
     @Override
-    public String upload(MultipartFile multipartFile) {
+    public String upload(byte[] multipartFileInByte, String originalFileName) {
         File file = null;
         try {
-            String fileName = multipartFile.getOriginalFilename();                        // to get original file name
+            String fileName = originalFileName;                        // to get original file name
             fileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));  // to generated random string values for file name.
 
-            file = this.convertToFile(multipartFile, fileName);                      // to convert multipartFile to File
+            file = this.convertToFile(multipartFileInByte, fileName);                      // to convert multipartFile to File
             String tempURL = this.uploadFile(file, fileName);                             // to get uploaded file link
             file.delete();                                                                // to delete the copy of uploaded file stored in the project folder
             return tempURL;
@@ -60,9 +60,9 @@ public class FileServiceImpl implements FileService {
         return String.format(downloadUrl, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
 
-    private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
+    private File convertToFile(byte[] multipartFile, String fileName) throws IOException {
         File tempFile = new File(fileName);
-        FileUtils.writeByteArrayToFile(tempFile,multipartFile.getBytes());
+        FileUtils.writeByteArrayToFile(tempFile,multipartFile);
         return tempFile;
     }
 
