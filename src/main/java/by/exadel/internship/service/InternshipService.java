@@ -3,7 +3,6 @@ package by.exadel.internship.service;
 import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
 import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
-import by.exadel.internship.entity.Internship;
 
 import java.util.List;
 import java.util.UUID;
