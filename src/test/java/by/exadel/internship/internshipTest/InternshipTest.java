@@ -83,7 +83,7 @@ public class InternshipTest extends InternshipApplicationTests {
         assertEquals(dto.getTechSkills(), "string");
         assertEquals(dto.getInternshipFormat(), InternshipFormat.ONLINE);
         assertEquals(dto.getSkills(), Set.of(Skill.JAVA, Skill.JS));
-        assertEquals(dto.getLocationList(), dto.getLocationList());
+        assertEquals(dto.getLocations(), dto.getLocations());
         assertEquals(dto.getCapacity(), 200);
         assertEquals(dto.getStartDate(), LocalDate.of(2021, 7, 21));
         assertEquals(dto.getEndDate(), LocalDate.of(2021, 9, 21));
@@ -99,7 +99,7 @@ public class InternshipTest extends InternshipApplicationTests {
                 .internshipFormat(InternshipFormat.ONLINE)
                 .capacity(200).description("string")
                 .skills(Set.of(Skill.JAVA, Skill.JS)).requirements("string").techSkills("string")
-                .locationList(List.of(locationDTO1))
+                .locations(List.of(locationDTO1))
                 .startDate(LocalDate.of(2021, 7, 21))
                 .endDate(LocalDate.of(2021, 9, 21))
                 .publicationDate(LocalDate.of(2021, 7, 01))
