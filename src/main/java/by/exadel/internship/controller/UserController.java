@@ -14,6 +14,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,7 +66,8 @@ public class UserController {
     @SuperAdminAccessControl
     @PostMapping("/{userId}/time-slot")
     @ApiOperation("Save Users free time")
-    public void saveUserTime(@PathVariable(name = "userId") UUID userId , @RequestBody List<UserTimeSlotDTO> userTimeSlotDTOList) {
+    public void saveUserTime(@PathVariable(name = "userId") UUID userId,
+                             @RequestBody List<UserTimeSlotDTO> userTimeSlotDTOList) {
         userTimeSlotService.saveUserTime(userTimeSlotDTOList,userId);
     }
 }

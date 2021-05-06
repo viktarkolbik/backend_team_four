@@ -85,7 +85,7 @@ public class InterviewServiceImpl implements InterviewService {
                 throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId() + " doesn't has need Status");
             }
             if (userDTO.getUserRole()!=UserRole.ADMIN){
-                throw new InappropriateRoleException("User with uuid = " + userDTO.getId() + " doesn't has need Status");
+                throw new InappropriateRoleException("User with uuid = " + userDTO.getId() + " doesn't has need Role");
 
             }
             if (formFullDTO.getInterview() != null){
