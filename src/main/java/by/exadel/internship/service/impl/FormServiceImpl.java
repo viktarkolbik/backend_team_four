@@ -47,14 +47,13 @@ public class FormServiceImpl implements FormService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
 
         if (file != null) {
-            String fileURL = null;
-            try {
-                fileURL = fileService.upload(file.getBytes(),file.getOriginalFilename());
-            } catch (IOException e) {
-                throw new FileNotUploadException(e.getMessage());
-            }
 
-            form.setFilePath(fileURL);
+            try {
+                String fileURL = fileService.upload(file.getBytes(),file.getOriginalFilename());
+                form.setFilePath(fileURL);
+            } catch (IOException e) {
+                throw new FileNotUploadException("File was not uploaded because: " + e.getMessage());
+            }
             FormFullDTO createdForm = saveForm(form);
 
             log.info("Success to save form, id: {}", createdForm.getId());
