@@ -44,6 +44,7 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
             checkTime(timeForCallUser);
             separateTime(timeForCallUser, userDTO.getInterviewTime(), resultUserTimeList);
         });
+        resultUserTimeList.addAll(userDTO.getUserTimeSlots());
         userDTO.setUserTimeSlots(resultUserTimeList);
         userService.updateTimeSlot(userId,resultUserTimeList);
         log.info("Free time list was saved in DB, user uuid = {}", userDTO.getId());
