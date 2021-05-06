@@ -123,26 +123,17 @@ public class InterviewServiceImpl implements InterviewService {
             this.deleteTime(interviewDTO.getUserInterviewDate(),interviewDTO.getUserId());
             return;
         }
-        if (formFullDTO.getFormStatus() == FormStatus.ADMIN_INTERVIEW_PASSED
+        if ((formFullDTO.getFormStatus() == FormStatus.ADMIN_INTERVIEW_PASSED
+                || formFullDTO.getFormStatus() == FormStatus.TECH_INTERVIEW_ASSIGNED)
                 && userDTO.getUserRole() == UserRole.TECH_EXPERT){
+            if (formFullDTO.getFormStatus() == FormStatus.TECH_INTERVIEW_ASSIGNED) {
+                this.restoreTime(interviewFullDTO.getTechInterviewDate(), interviewFullDTO.getTechSpecialist());
+            }
             interviewFullDTO.setTechSpecialist(interviewDTO.getUserId());
             interviewFullDTO.setTechInterviewDate(interviewDTO.getUserInterviewDate());
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
-            formService.updateForm(formFullDTO);
-
-            this.deleteTime(interviewDTO.getUserInterviewDate(),interviewDTO.getUserId());
-            return;
-        }
-        if (formFullDTO.getFormStatus() == FormStatus.TECH_INTERVIEW_ASSIGNED
-                && userDTO.getUserRole() == UserRole.TECH_EXPERT){
-            this.restoreTime(interviewFullDTO.getTechInterviewDate(), interviewFullDTO.getTechSpecialist());
-
-            interviewFullDTO.setTechSpecialist(interviewDTO.getUserId());
-            interviewFullDTO.setTechInterviewDate(interviewDTO.getUserInterviewDate());
-
-            formFullDTO.setInterview(interviewFullDTO);
             formService.updateForm(formFullDTO);
 
             this.deleteTime(interviewDTO.getUserInterviewDate(),interviewDTO.getUserId());
