@@ -21,8 +21,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.InvalidObjectException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -66,7 +68,9 @@ public class InterviewServiceImpl implements InterviewService {
         log.info("Try to save Form with Interview");
         FormFullDTO formFullDTO = formService.getById(formId);
         UserDTO userDTO = userService.getById(interviewDTO.getUserId());
-        if (userDTO.getUserRole() == UserRole.ADMIN && formFullDTO.getFormStatus() == FormStatus.REGISTERED) {
+        if (userDTO.getUserRole() == UserRole.ADMIN
+                && formFullDTO.getFormStatus() == FormStatus.REGISTERED
+                && formFullDTO.getInterview() == null) {
             InterviewDTO interviewFullDTO = new InterviewDTO();
             interviewFullDTO.setAdmin(interviewDTO.getUserId());
             interviewFullDTO.setAdminInterviewDate(interviewDTO.getUserInterviewDate());
@@ -83,6 +87,9 @@ public class InterviewServiceImpl implements InterviewService {
             if (userDTO.getUserRole()!=UserRole.ADMIN){
                 throw new InappropriateRoleException("User with uuid = " + userDTO.getId() + " doesn't has need Status");
 
+            }
+            if (formFullDTO.getInterview() != null){
+                throw new IllegalArgumentException("Form with uuid =" + formFullDTO.getId() + " has Interview");
             }
         }
     }
