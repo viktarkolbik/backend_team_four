@@ -3,9 +3,7 @@ package by.exadel.internship.controller;
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.dto.InterviewDTO;
 import by.exadel.internship.dto.enums.UserRole;
-import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.service.InterviewService;
-import by.exadel.internship.service.SchedulingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +19,6 @@ import java.util.UUID;
 public class InterviewController {
 
     private final InterviewService interviewService;
-    private final SchedulingService schedulingService;
 
     @AdminAccessControl
     @GetMapping
@@ -35,7 +32,7 @@ public class InterviewController {
     @ApiOperation("Save interview time for Form")
     public void saveInterviewForForm(@PathVariable(name = "formId") UUID formId,
                                      @RequestBody InterviewDTO interviewDTO) {
-        schedulingService.saveInterviewForForm(formId, interviewDTO);
+        interviewService.saveInterviewForForm(formId, interviewDTO);
     }
 
     @AdminAccessControl
@@ -43,7 +40,7 @@ public class InterviewController {
     @ApiOperation("Rewrite interview time for Form")
     public void rewriteInterviewForForm(@PathVariable(name = "formId") UUID formId,
                                         @RequestBody InterviewDTO interviewDTO) {
-        schedulingService.rewriteInterviewTime(formId,interviewDTO);
+        interviewService.rewriteInterviewTime(formId,interviewDTO);
     }
 
 }

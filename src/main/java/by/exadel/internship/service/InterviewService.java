@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface InterviewService {
     List<InterviewDTO> getAllByUserId(UUID userId, UserRole userRole);
+    void saveInterviewForForm(UUID formId, InterviewDTO interviewDTO);
+    void rewriteInterviewTime(UUID formId, InterviewDTO interviewDTO);
 }

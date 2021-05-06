@@ -5,7 +5,7 @@ import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
-import by.exadel.internship.service.SchedulingService;
+import by.exadel.internship.service.InterviewService;
 import by.exadel.internship.service.UserService;
 import by.exadel.internship.service.UserTimeSlotService;
 import io.swagger.annotations.Api;
@@ -23,7 +23,6 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
-    private final SchedulingService schedulingService;
     private final UserTimeSlotService userTimeSlotService;
 
     @UserAccessControl
