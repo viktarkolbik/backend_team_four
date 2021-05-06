@@ -28,7 +28,7 @@ public class FileServiceImpl implements FileService {
     @Value("${firebase.url}")
     private String downloadUrl;
     @Value("${firebase.bucket}")
-    private  String bucketName;
+    private String bucketName;
     @Value("${firebase.jsonFilePath}")
     private String jsonFilePath;
 
@@ -38,20 +38,21 @@ public class FileServiceImpl implements FileService {
         String fileName = originalFileName;
         fileName = UUID.randomUUID().toString()
                 .concat(this.getExtension(fileName));
+        return this.uploadFile(fileContent, fileName);
+    }
+
+    private String uploadFile(byte[] file, String fileName){
+        log.info("Try to upload file to cloud");
+        BlobId blobId = BlobId.of(bucketName, fileName);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+        Credentials credentials = null;
         try {
-            return this.uploadFile(fileContent, fileName);
+            credentials = GoogleCredentials
+                    .fromStream(new FileInputStream(jsonFilePath));
         } catch (IOException e) {
             log.error("File was not uploaded to cloud");
             throw new FileNotUploadException("File was not uploaded because: " + e.getMessage());
         }
-    }
-
-    private String uploadFile(byte[] file, String fileName) throws IOException {
-        log.info("Try to upload file to cloud");
-        BlobId blobId = BlobId.of(bucketName, fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        Credentials credentials = GoogleCredentials
-                .fromStream(new FileInputStream(jsonFilePath));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, file);
         log.info("File was uploaded to cloud");
@@ -59,6 +60,6 @@ public class FileServiceImpl implements FileService {
     }
 
     private String getExtension(String fileName) {
-        return StringUtils.substringAfterLast(fileName,DOT_SEPARATOR);
+        return StringUtils.substringAfterLast(fileName, DOT_SEPARATOR);
     }
 }
