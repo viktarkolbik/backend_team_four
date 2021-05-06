@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserTimeSlotService {
-    void saveUserTime(List<UserTimeSlotDTO> userTimeSlotDTOList, UUID userId, int interviewTime);
+    void saveUserTime(List<UserTimeSlotDTO> userTimeSlotDTOList, UUID userId);
     void deletedById(UUID timeId);
     void restoreUserTime(UserTimeSlotWithUserIdDTO time);
 }

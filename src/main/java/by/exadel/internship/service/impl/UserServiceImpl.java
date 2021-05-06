@@ -2,9 +2,13 @@ package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
+import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
+import by.exadel.internship.entity.TimeForCall;
 import by.exadel.internship.entity.User;
+import by.exadel.internship.entity.UserTimeSlot;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.UserMapper;
+import by.exadel.internship.mapper.UserTimeSlotMapper;
 import by.exadel.internship.repository.UserRepository;
 import by.exadel.internship.repository.UserTimeSlotRepository;
 import by.exadel.internship.service.UserService;
@@ -25,6 +29,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserTimeSlotRepository userTimeSlotRepository;
     private final UserMapper mapper;
+    private final UserTimeSlotMapper userTimeSlotMapper;
 
     private static final String SIMPLE_CLASS_NAME = UserService.class.getSimpleName();
 
@@ -94,22 +99,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(UserDTO userDTO) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to update user");
-        User user = mapper.toUser(userDTO);
-        user.getUserTimeSlots().forEach(timeForCallUser -> timeForCallUser.setUser(user));
-        userRepository.save(user);
-        log.info("Successfully updated user");
-    }
-
-    @Override
-    public void updateTimeSlot(UserDTO userDTO) {
+    public void updateTimeSlot(UUID userId, List<UserTimeSlotDTO> userTimeSlotDTOList) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to update user time slot");
-        User user = mapper.toUser(userDTO);
-        user.getUserTimeSlots().forEach(timeForCallUser -> timeForCallUser.setUser(user));
-        userTimeSlotRepository.saveAll(user.getUserTimeSlots());
+        User user = userRepository.findByIdAndDeletedFalse(userId)
+                .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
+        List<UserTimeSlot> userTimeSlot = userTimeSlotMapper.map(userTimeSlotDTOList);
+        userTimeSlot.forEach(timeSlot -> timeSlot.setUser(user));
+        userTimeSlotRepository.saveAll(userTimeSlot);
         log.info("Successfully updated user user time slot");
     }
 

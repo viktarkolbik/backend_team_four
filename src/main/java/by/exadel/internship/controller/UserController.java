@@ -5,6 +5,7 @@ import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
+import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
 import by.exadel.internship.service.InterviewService;
 import by.exadel.internship.service.UserService;
 import by.exadel.internship.service.UserTimeSlotService;
@@ -63,7 +64,7 @@ public class UserController {
     @SuperAdminAccessControl
     @PostMapping("/{userId}/time-slot")
     @ApiOperation("Save Users free time")
-    public void saveUserTime(@PathVariable(name = "userId") UUID userId , @RequestBody UserDTO userDTO) {
-        userTimeSlotService.saveUserTime(userDTO.getUserTimeSlots(),userId,userDTO.getInterviewTime());
+    public void saveUserTime(@PathVariable(name = "userId") UUID userId , @RequestBody List<UserTimeSlotDTO> userTimeSlotDTOList) {
+        userTimeSlotService.saveUserTime(userTimeSlotDTOList,userId);
     }
 }
