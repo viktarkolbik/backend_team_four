@@ -10,6 +10,7 @@ import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -68,5 +69,13 @@ public class InternshipController {
     @ApiOperation("Save new Internship In DB")
     public UserInternshipDTO saveInternship(@RequestBody UserInternshipDTO internshipDTO) {
         return internshipService.saveInternship(internshipDTO);
+    }
+
+    @SuperAdminAccessControl
+    @PostMapping("/addUser")
+    @ApiOperation("Add User to Internship")
+    @ResponseStatus(HttpStatus.OK)
+    public void addUser(@RequestParam UUID userId, @RequestParam(name = "internshipId") UUID internshipId){
+        internshipService.addUser(userId, internshipId);
     }
 }

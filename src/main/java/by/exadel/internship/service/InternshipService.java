@@ -22,4 +22,6 @@ public interface InternshipService {
     void deleteInternshipById(UUID internshipId);
 
     UserInternshipDTO saveInternship(UserInternshipDTO internshipDTO);
+
+    boolean addUser(UUID userId, UUID internshipId);
 }

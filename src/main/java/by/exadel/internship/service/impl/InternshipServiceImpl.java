@@ -5,12 +5,15 @@ import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
 import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
+import by.exadel.internship.entity.User;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.internship.GuestInternshipMapper;
 import by.exadel.internship.mapper.internship.UserInternshipMapper;
 import by.exadel.internship.repository.InternshipRepository;
+import by.exadel.internship.repository.UserRepository;
 import by.exadel.internship.service.InternshipService;
 import by.exadel.internship.util.MDCLog;
+import liquibase.pro.packaged.U;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,7 @@ import java.util.UUID;
 public class InternshipServiceImpl implements InternshipService {
 
     private final InternshipRepository internshipRepository;
+    private final UserRepository userRepository;
     private final UserInternshipMapper userInternshipMapper;
     private final GuestInternshipMapper guestInternshipMapper;
 
@@ -130,6 +134,18 @@ public class InternshipServiceImpl implements InternshipService {
         log.info("Internship was save with uuid {}", internship.getId());
 
         return userInternshipDTO;
+    }
+
+    public boolean addUser(UUID userId, UUID internshipId) {
+        internshipRepository.getOne(internshipId);
+        User user = userRepository.getOne(userId);
+        for (Internship internship : user.getInternships()) {
+            if (internship.getId().equals(internshipId)) {
+                return false;
+            }
+        }
+        internshipRepository.addUserToInternship(userId,internshipId);
+        return true;
     }
 
 }
