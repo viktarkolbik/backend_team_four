@@ -26,6 +26,8 @@ spring:
       - 'classpath:db/changelog/v.0.4/sql-import/import-user-hash-password.sql'
       - 'classpath:db/changelog/v.0.5/sql-import/location.sql'
       - 'classpath:db/changelog/v.0.5/sql-import/internship-location.sql'
+      - 'classpath:db/changelog/v.0.6/sql-import/update-internship.sql'
+      - 'classpath:db/changelog/v.0.6/sql-import/update-inshipName.sql'
 
   mail:
     default-encoding: UTF-8
@@ -47,9 +49,10 @@ server:
 
 key:
   jwtSecret: SecretKey
-  jwtExpirationSec: 600
+  jwtExpirationSec: 10000
 
 firebase:
   bucket: ${BUCKET_NAME:internship-project-e202a.appspot.com}
   url: ${DOWNLOAD_URL:https://firebasestorage.googleapis.com/v0/b/gs://internship-project-e202a.appspot.com/o/%s?alt=media}
   jsonFilePath: ${JSON_FILE_PATH:internship-cloud/internship-project-e202a.json}
+

@@ -32,6 +32,7 @@
         <jakson.datatype.version>2.12.3</jakson.datatype.version>
         <postgresql.version>42.2.1</postgresql.version>
         <firebase.version>7.0.1</firebase.version>
+        <spring.security.test.version>5.4.6</spring.security.test.version>
     </properties>
 
     <dependencies>
@@ -55,6 +56,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${spring.security.test.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <dependency>
             <groupId>org.apache.commons</groupId>
