@@ -20,7 +20,7 @@ public class ScheduleJob {
     @Scheduled(cron = "* */15 * * * *")
     private void getHerokuPing(){
 
-        System.out.println(countryRepository.findById(UUID.fromString("27573a1a-7525-4b7e-8446-7697a4ffd15f")));
+        countryRepository.findById(UUID.fromString("27573a1a-7525-4b7e-8446-7697a4ffd15f"));
 
     }
 }

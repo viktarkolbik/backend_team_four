@@ -10,28 +10,27 @@ import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
 import by.exadel.internship.exception_handing.InappropriateRoleException;
+import by.exadel.internship.exception_handing.FileNotUploadException;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.mapper.InterviewMapper;
 import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.repository.FormRepository;
-import by.exadel.internship.service.EmailService;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
+import by.exadel.internship.service.EmailService;
+import by.exadel.internship.service.FileService;
 import by.exadel.internship.service.FormService;
 import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,8 +50,7 @@ public class FormServiceImpl implements FormService {
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
 
-    @Value("${file.path}")
-    private String filePath;
+    private final FileService fileService;
 
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
@@ -60,12 +58,15 @@ public class FormServiceImpl implements FormService {
 
         if (file != null) {
 
-            form.setFilePath(file.getOriginalFilename());
+            try {
+                String fileURL = fileService.upload(file.getBytes(),file.getOriginalFilename());
+                form.setFilePath(fileURL);
+            } catch (IOException e) {
+                throw new FileNotUploadException("File was not uploaded because: " + e.getMessage());
+            }
             FormFullDTO createdForm = saveForm(form);
 
             log.info("Success to save form, id: {}", createdForm.getId());
-
-            uploadFile(file, createdForm.getId());
 
             return createdForm;
         }
@@ -104,23 +105,6 @@ public class FormServiceImpl implements FormService {
 
         dto.setSendEmail(emailService.sendFormSubmissionEmail(formRegisterDTO));
         return dto;
-    }
-
-    private void uploadFile(MultipartFile multipartFile, UUID id) {
-
-        try {
-
-            Path path = Paths.get(filePath, id.toString(), multipartFile.getOriginalFilename());
-
-            FileUtils.forceMkdirParent(path.toFile());
-
-            FileUtils.writeByteArrayToFile(path.toFile(), multipartFile.getBytes());
-
-            log.info("Success to upload file, form id: {}", id);
-
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
     }
 
     public List<FormFullDTO> getAll() {
@@ -212,7 +196,6 @@ public class FormServiceImpl implements FormService {
             throw new InappropriateRoleException("Super Admin can not set Feedback");
         }
     }
-
 
     public void updateStatusById(UUID formId, FormStatus status) {
         log.info("Try to get form by form id: {}", formId);

@@ -28,6 +28,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
+            FileNotUploadException exception) {
+        IncorrectData data = incorrectDataFilling(exception);
+        return new ResponseEntity<>(data, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<IncorrectData> handleException(
             Exception exception) {
         IncorrectData data = incorrectDataFilling(exception);
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);

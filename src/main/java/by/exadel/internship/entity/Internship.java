@@ -9,17 +9,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.jpa.domain.AbstractAuditable;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-@EntityListeners({AuditingEntityListener.class})
 @Entity
 @Table(name = "internship")
 @Data
@@ -89,7 +84,7 @@ public class Internship extends Auditable<String> {
             inverseJoinColumns = @JoinColumn(name = "ui_u_id"))
     private List<User> users;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
             name = "internship_location",
