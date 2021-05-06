@@ -1,7 +1,7 @@
 package by.exadel.internship.mapper.internship;
 
-import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
-import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
 import by.exadel.internship.mapper.location_mapper.LocationMapper;
@@ -17,21 +17,21 @@ public interface InternshipMapper {
 
     @Named(value = "internshipFull")
     @Mapping(source = "locationList", target = "locations")
-    GuestFullInternshipDTO toGuestFullInternshipDTO(Internship internship);
+    GuestInternshipDTO toGuestInternshipDTO(Internship internship);
 
-    Internship toInternship(GuestFullInternshipDTO guestShortInternshipDTO);
+    Internship toInternship(GuestInternshipDTO guestInternshipDTO);
 
     @IterableMapping(qualifiedByName = "internshipFull")
-    List<GuestFullInternshipDTO> mapGuestFullInternshipDTOList(List<Internship> internshipList);
+    List<GuestInternshipDTO> mapGuestInternshipDTOList(List<Internship> internshipList);
 
     @Named(value = "internshipShort")
     @Mapping(source = "locationList", target = "locations")
-    GuestShortInternshipDTO toGuestShortInternshipDTO(Internship internship);
+    BaseInternshipDTO toBaseInternshipDTO(Internship internship);
 
-    Internship toInternship(GuestShortInternshipDTO guestShortInternshipDTO);
+    Internship toInternship(BaseInternshipDTO baseInternshipDTO);
 
     @IterableMapping(qualifiedByName = "internshipShort")
-    List<GuestShortInternshipDTO> mapGuestShortInternshipDTOList(List<Internship> internshipList);
+    List<BaseInternshipDTO> mapBaseInternshipDTOList(List<Internship> internshipList);
 
     @Named(value = "internship")
     @Mapping(source = "locationList", target = "locations")

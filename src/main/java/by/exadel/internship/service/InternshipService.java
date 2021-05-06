@@ -1,7 +1,7 @@
 package by.exadel.internship.service;
 
-import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
-import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 
 import java.util.List;
@@ -9,11 +9,11 @@ import java.util.UUID;
 
 public interface InternshipService {
 
-    GuestFullInternshipDTO getGuestRepresentationOfInternshipById(UUID id);
+    GuestInternshipDTO getGuestRepresentationOfInternshipById(UUID id);
 
     UserInternshipDTO getUserRepresentationOfInternshipById(UUID id);
 
-    List<GuestShortInternshipDTO> getAll();
+    List<BaseInternshipDTO> getAll();
 
     List<UserInternshipDTO> getAllDeleted();
 

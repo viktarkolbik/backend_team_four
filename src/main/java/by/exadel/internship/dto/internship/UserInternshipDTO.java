@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInternshipDTO extends GuestShortInternshipDTO{
+public class UserInternshipDTO extends BaseInternshipDTO {
 
     @Size(max=250)
     private String techSkills;

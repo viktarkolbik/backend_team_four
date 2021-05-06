@@ -1,8 +1,8 @@
 package by.exadel.internship.service.impl;
 
 
-import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
-import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
 import by.exadel.internship.exception_handing.NotFoundException;
@@ -28,11 +28,11 @@ public class InternshipServiceImpl implements InternshipService {
 
     private static final String SIMPLE_CLASS_NAME = InternshipService.class.getSimpleName();
 
-    public GuestFullInternshipDTO getGuestRepresentationOfInternshipById(UUID id) {
+    public GuestInternshipDTO getGuestRepresentationOfInternshipById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all GuestFullInternshipDTO");
 
-        return internshipMapper.toGuestFullInternshipDTO(getById(id));
+        return internshipMapper.toGuestInternshipDTO(getById(id));
     }
 
     public UserInternshipDTO getUserRepresentationOfInternshipById(UUID id) {
@@ -43,7 +43,7 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
 
-    public List<GuestShortInternshipDTO> getAll() {
+    public List<BaseInternshipDTO> getAll() {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all Internships with skills");
 
@@ -51,11 +51,11 @@ public class InternshipServiceImpl implements InternshipService {
 
         log.info("Try to get all Internships like guestInternshipDTOs  with skills");
 
-        List<GuestShortInternshipDTO> guestShortInternshipDTOList = internshipMapper.mapGuestShortInternshipDTOList(internships);
+        List<BaseInternshipDTO> baseInternshipDTOList = internshipMapper.mapBaseInternshipDTOList(internships);
 
         log.info("Successfully list of guestInternshipDTOs with skills");
 
-        return guestShortInternshipDTOList;
+        return baseInternshipDTOList;
     }
 
     public List<UserInternshipDTO> getAllDeleted() {

@@ -19,7 +19,7 @@ import java.util.UUID;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GuestShortInternshipDTO {
+public class BaseInternshipDTO {
 
     private UUID id;
 

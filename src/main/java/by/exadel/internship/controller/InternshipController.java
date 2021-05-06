@@ -2,14 +2,12 @@ package by.exadel.internship.controller;
 
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
-import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
+import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,17 +23,18 @@ public class InternshipController {
 
     @GetMapping
     @ApiOperation("return list of internships")
-    public List<GuestShortInternshipDTO> getInternshipList() {
+    public List<BaseInternshipDTO> getInternshipList() {
         return internshipService.getAll();
     }
 
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
-    public ResponseEntity<?> getInternshipById(@PathVariable("internshipId") UUID internshipId, boolean fullRepresentation) {
+    public BaseInternshipDTO getInternshipById(@PathVariable("internshipId") UUID internshipId, boolean fullRepresentation) {
 
-        GuestShortInternshipDTO dto = fullRepresentation ? internshipService.getUserRepresentationOfInternshipById(internshipId) : internshipService.getGuestRepresentationOfInternshipById(internshipId);
+        return fullRepresentation
+                ? internshipService.getUserRepresentationOfInternshipById(internshipId)
+                : internshipService.getGuestRepresentationOfInternshipById(internshipId);
 
-        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @AdminAccessControl
