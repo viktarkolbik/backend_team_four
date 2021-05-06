@@ -14,13 +14,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UserInternshipDTO extends BaseInternshipDTO {
 
-    @Size(max=250)
+    @Size(max = 250)
     private String techSkills;
 
-    @Size(max=150)
+    @Size(max = 150)
     private String description;
 
-    @Size(max=150)
+    @Size(max = 150)
     private String requirements;
 
     @Size(max = 250)
