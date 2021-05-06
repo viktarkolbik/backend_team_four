@@ -35,14 +35,11 @@ public class FileServiceImpl implements FileService {
     @Override
     public String upload(byte[] fileContent, String originalFileName) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to upload file to cloud");
         String fileName = originalFileName;
         fileName = UUID.randomUUID().toString()
                 .concat(this.getExtension(fileName));
         try {
-            String fileURL = this.uploadFile(fileContent, fileName);
-            log.info("File was uploaded to cloud");
-            return fileURL;
+            return this.uploadFile(fileContent, fileName);
         } catch (IOException e) {
             log.error("File was not uploaded to cloud");
             throw new FileNotUploadException("File was not uploaded because: " + e.getMessage());
@@ -50,12 +47,14 @@ public class FileServiceImpl implements FileService {
     }
 
     private String uploadFile(byte[] file, String fileName) throws IOException {
+        log.info("Try to upload file to cloud");
         BlobId blobId = BlobId.of(bucketName, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
         Credentials credentials = GoogleCredentials
                 .fromStream(new FileInputStream(jsonFilePath));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, file);
+        log.info("File was uploaded to cloud");
         return String.format(downloadUrl, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
 
