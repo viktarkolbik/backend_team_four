@@ -1,52 +1,18 @@
 package by.exadel.internship.dto.internship;
 
 
-import by.exadel.internship.dto.location.LocationDTO;
-import by.exadel.internship.dto.enums.InternshipFormat;
-import by.exadel.internship.dto.enums.Skill;
-import by.exadel.internship.dto.location.LocationDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInternshipDTO {
-
-    private UUID id;
-
-    @Size(min = 2, max = 100)
-    private String name;
-
-    @NotNull
-    private Set<Skill> skills;
-
-    @NotNull
-    private InternshipFormat internshipFormat;
-
-    @NotNull
-    private List<LocationDTO> locationList;
-
-    @NotNull
-    private LocalDate startDate;
-
-    @NotNull
-    private LocalDate endDate;
-
-    @Size(max = 250)
-    @NotNull
-    private LocalDate publicationDate;
+public class UserInternshipDTO extends BaseInternshipDTO {
 
     @Size(max = 250)
     private String techSkills;
@@ -56,6 +22,10 @@ public class UserInternshipDTO {
 
     @Size(max = 150)
     private String requirements;
+
+    @Size(max = 250)
+    @NotNull
+    private LocalDate publicationDate;
 
     @NotNull
     private Integer capacity;

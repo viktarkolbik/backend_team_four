@@ -1,10 +1,8 @@
 package by.exadel.internship.controller;
 
-
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
-import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
-import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
+import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.service.InternshipService;
 import io.swagger.annotations.Api;
@@ -25,14 +23,18 @@ public class InternshipController {
 
     @GetMapping
     @ApiOperation("return list of internships")
-    public List<GuestShortInternshipDTO> getInternshipList() {
+    public List<BaseInternshipDTO> getInternshipList() {
         return internshipService.getAll();
     }
 
     @GetMapping("/{internshipId}")
     @ApiOperation("return internship by id")
-    public GuestFullInternshipDTO getInternshipById(@PathVariable("internshipId") UUID internshipId) {
-        return internshipService.getById(internshipId);
+    public BaseInternshipDTO getInternshipById(@PathVariable("internshipId") UUID internshipId, boolean fullRepresentation) {
+
+        return fullRepresentation
+                ? internshipService.getUserRepresentationOfInternshipById(internshipId)
+                : internshipService.getGuestRepresentationOfInternshipById(internshipId);
+
     }
 
     @AdminAccessControl

@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,8 +18,6 @@ public class UserDTO {
     private String lastName;
     private String firstName;
     private String email;
-    private String login;
-    private String password;
     private UserRole userRole;
     private Set<Skill> skills;
 
