@@ -73,6 +73,7 @@ public class InterviewServiceImpl implements InterviewService {
 
             deleteTime(interviewDTO.getUserInterviewDate(), interviewDTO.getUserId());
 
+            formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
             formService.updateForm(formFullDTO);
         }else {
