@@ -47,9 +47,12 @@ server:
   servlet:
     context-path: /api
 
-file:
-  path: "files"
-
 key:
   jwtSecret: SecretKey
   jwtExpirationSec: 10000
+
+firebase:
+  bucket: ${BUCKET_NAME:internship-project-e202a.appspot.com}
+  url: ${DOWNLOAD_URL:https://firebasestorage.googleapis.com/v0/b/gs://internship-project-e202a.appspot.com/o/%s?alt=media}
+  jsonFilePath: ${JSON_FILE_PATH:internship-cloud/internship-project-e202a.json}
+
