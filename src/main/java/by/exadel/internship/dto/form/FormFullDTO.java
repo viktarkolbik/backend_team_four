@@ -1,6 +1,6 @@
 package by.exadel.internship.dto.form;
 
-import by.exadel.internship.dto.InterviewDTO;
+import by.exadel.internship.dto.interview.InterviewDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;

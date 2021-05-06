@@ -1,10 +1,11 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.InterviewDTO;
+import by.exadel.internship.dto.interview.InterviewDTO;
 import by.exadel.internship.dto.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.interview.InterviewSaveDTO;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.entity.Interview;
@@ -42,17 +43,17 @@ public class InterviewServiceImpl implements InterviewService {
     @Override
     public List<InterviewDTO> getAllByUserId(UUID userId, UserRole userRole) {
         List<Interview> interviews;
-        switch (userRole){
-            case ADMIN:{
+        switch (userRole) {
+            case ADMIN: {
                 interviews = interviewRepository.findAllByAdmin(userId);
                 break;
             }
-            case TECH_EXPERT:{
+            case TECH_EXPERT: {
                 interviews = interviewRepository.findAllByTechSpecialist(userId);
                 break;
             }
-            default:{
-                throw new InappropriateRoleException("Inappropriate role","user.role.invalid");
+            default: {
+                throw new InappropriateRoleException("Inappropriate role", "user.role.invalid");
             }
         }
         return mapper.mapToInterviewDTO(interviews);
@@ -60,26 +61,29 @@ public class InterviewServiceImpl implements InterviewService {
 
 
     @Override
-    public void saveInterviewForForm(UUID formId, InterviewDTO interviewDTO) {
+    public void saveInterviewForForm(UUID formId, InterviewSaveDTO interviewDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");
         FormFullDTO formFullDTO = formService.getById(formId);
-        formFullDTO.setInterview(interviewDTO);
-        if (interviewDTO.getTechSpecialist() == null && interviewDTO.getAdmin() != null){
+        UserDTO userDTO = userService.getById(interviewDTO.getUserId());
+        if (userDTO.getUserRole() == UserRole.ADMIN && formFullDTO.getFormStatus() == FormStatus.REGISTERED) {
+            InterviewDTO interviewFullDTO = new InterviewDTO();
+            interviewFullDTO.setAdmin(interviewDTO.getUserId());
+            interviewFullDTO.setAdminInterviewDate(interviewDTO.getUserInterviewDate());
+
+            deleteTime(interviewDTO.getUserInterviewDate(), interviewDTO.getUserId());
+
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
-            deleteTime(interviewDTO.getAdminInterviewDate(), interviewDTO.getAdmin());
             formService.updateForm(formFullDTO);
-            log.info("Save HR interview date");
-            return;
+        }else {
+            if (formFullDTO.getFormStatus() != FormStatus.REGISTERED) {
+                throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId() + " doesn't has need Status");
+            }
+            if (userDTO.getUserRole()!=UserRole.ADMIN){
+                throw new InappropriateRoleException("User with uuid = " + userDTO.getId() + " doesn't has need Status");
+
+            }
         }
-        if (interviewDTO.getTechSpecialist() != null){
-            formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
-            deleteTime(interviewDTO.getTechInterviewDate(), interviewDTO.getTechSpecialist());
-            formService.updateForm(formFullDTO);
-            log.info("Save Tech Expert interview date");
-            return;
-        }
-        throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId() + " doesn't has need Status");
     }
 
     private void deleteTime(LocalDateTime localDateTime, UUID userId) {
@@ -92,32 +96,53 @@ public class InterviewServiceImpl implements InterviewService {
     }
 
     @Override
-    public void rewriteInterviewTime(UUID formId, InterviewDTO interviewDTO) {
+    public void rewriteInterviewTime(UUID formId, InterviewSaveDTO interviewDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");
         FormFullDTO formFullDTO = formService.getById(formId);
-        if (formFullDTO.getFormStatus().equals(FormStatus.ADMIN_INTERVIEW_ASSIGNED)) {
-            InterviewDTO restoreInterviewDTO = formFullDTO.getInterview();
-            restoreTime(restoreInterviewDTO.getAdminInterviewDate(), restoreInterviewDTO.getAdmin());
+        InterviewDTO interviewFullDTO = formFullDTO.getInterview();
+        UserDTO userDTO = userService.getById(interviewDTO.getUserId());
+        if(formFullDTO.getFormStatus() == FormStatus.ADMIN_INTERVIEW_ASSIGNED
+                && userDTO.getUserRole() == UserRole.ADMIN){
+            this.restoreTime(interviewFullDTO.getAdminInterviewDate(), interviewFullDTO.getAdmin());
 
-            formFullDTO.setInterview(interviewDTO);
+            interviewFullDTO.setAdmin(interviewDTO.getUserId());
+            interviewFullDTO.setAdminInterviewDate(interviewDTO.getUserInterviewDate());
+
+            formFullDTO.setInterview(interviewFullDTO);
             formService.updateForm(formFullDTO);
 
-            deleteTime(interviewDTO.getAdminInterviewDate(),interviewDTO.getAdmin());
+            this.deleteTime(interviewDTO.getUserInterviewDate(),interviewDTO.getUserId());
             return;
         }
-        if (formFullDTO.getFormStatus().equals(FormStatus.TECH_INTERVIEW_ASSIGNED)) {
-            InterviewDTO restoreInterviewDTO = formFullDTO.getInterview();
-            restoreTime(restoreInterviewDTO.getTechInterviewDate(), restoreInterviewDTO.getTechSpecialist());
+        if (formFullDTO.getFormStatus() == FormStatus.ADMIN_INTERVIEW_PASSED
+                && userDTO.getUserRole() == UserRole.TECH_EXPERT){
+            interviewFullDTO.setTechSpecialist(interviewDTO.getUserId());
+            interviewFullDTO.setTechInterviewDate(interviewDTO.getUserInterviewDate());
 
-            formFullDTO.setInterview(interviewDTO);
+            formFullDTO.setInterview(interviewFullDTO);
+            formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
             formService.updateForm(formFullDTO);
 
-            deleteTime(interviewDTO.getTechInterviewDate(),interviewDTO.getTechSpecialist());
+            this.deleteTime(interviewDTO.getUserInterviewDate(),interviewDTO.getUserId());
             return;
         }
-        throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId() + " doesn't have required status",
-                "form.fromStatus.invalid");
+        if (formFullDTO.getFormStatus() == FormStatus.TECH_INTERVIEW_ASSIGNED
+                && userDTO.getUserRole() == UserRole.TECH_EXPERT){
+            this.restoreTime(interviewFullDTO.getTechInterviewDate(), interviewFullDTO.getTechSpecialist());
+
+            interviewFullDTO.setTechSpecialist(interviewDTO.getUserId());
+            interviewFullDTO.setTechInterviewDate(interviewDTO.getUserInterviewDate());
+
+            formFullDTO.setInterview(interviewFullDTO);
+            formService.updateForm(formFullDTO);
+
+            this.deleteTime(interviewDTO.getUserInterviewDate(),interviewDTO.getUserId());
+            return;
+        }
+        throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId() + " or user with uuid = "
+                + userDTO.getId() +
+                " doesn't have required status", "form.fromStatus.invalid");
     }
 
     private void restoreTime(LocalDateTime restoreLocalDateTime, UUID userId) {

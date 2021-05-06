@@ -1,6 +1,6 @@
 package by.exadel.internship.mapper;
 
-import by.exadel.internship.dto.InterviewDTO;
+import by.exadel.internship.dto.interview.InterviewDTO;
 import by.exadel.internship.entity.Interview;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;

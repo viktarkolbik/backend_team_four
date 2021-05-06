@@ -1,4 +1,4 @@
-package by.exadel.internship.dto;
+package by.exadel.internship.dto.interview;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
