@@ -1,7 +1,8 @@
 package by.exadel.internship.service.impl;
 
 import by.exadel.internship.dto.interview.InterviewDTO;
-import by.exadel.internship.dto.UserDTO;
+import by.exadel.internship.dto.interview.InterviewWithUserNameDTO;
+import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.form.FormFullDTO;
@@ -21,10 +22,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.InvalidObjectException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -43,7 +42,7 @@ public class InterviewServiceImpl implements InterviewService {
 
 
     @Override
-    public List<InterviewDTO> getAllByUserId(UUID userId, UserRole userRole) {
+    public List<InterviewWithUserNameDTO> getAllByUserId(UUID userId, UserRole userRole) {
         List<Interview> interviews;
         switch (userRole) {
             case ADMIN: {
@@ -58,7 +57,13 @@ public class InterviewServiceImpl implements InterviewService {
                 throw new InappropriateRoleException("Inappropriate role", "user.role.invalid");
             }
         }
-        return mapper.mapToInterviewDTO(interviews);
+        List<InterviewWithUserNameDTO> interviewWithUserNameDTOList =
+                mapper.mapToInterviewWithUserDTO(interviews);
+        interviewWithUserNameDTOList.forEach(interview -> {
+            interview.setAdminUser(userService.getSimpleUserById(interview.getAdmin()));
+            interview.setTechSpecialistUser(userService.getSimpleUserById(interview.getTechSpecialist()));
+        });
+        return interviewWithUserNameDTOList;
     }
 
 

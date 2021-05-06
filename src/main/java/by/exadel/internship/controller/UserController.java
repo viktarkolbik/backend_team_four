@@ -3,10 +3,9 @@ package by.exadel.internship.controller;
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
-import by.exadel.internship.dto.UserDTO;
+import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
-import by.exadel.internship.service.InterviewService;
 import by.exadel.internship.service.UserService;
 import by.exadel.internship.service.UserTimeSlotService;
 import io.swagger.annotations.Api;
@@ -14,8 +13,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

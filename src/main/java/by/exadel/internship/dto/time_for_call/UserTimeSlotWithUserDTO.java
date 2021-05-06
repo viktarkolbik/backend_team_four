@@ -1,6 +1,6 @@
 package by.exadel.internship.dto.time_for_call;
 
-import by.exadel.internship.dto.UserDTO;
+import by.exadel.internship.dto.user.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

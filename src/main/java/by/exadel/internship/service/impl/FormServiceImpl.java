@@ -1,6 +1,6 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.UserDTO;
+import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.entity.Form;
@@ -25,7 +25,6 @@ import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

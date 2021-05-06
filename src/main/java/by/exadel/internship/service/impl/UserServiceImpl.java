@@ -1,9 +1,9 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.UserDTO;
+import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
-import by.exadel.internship.entity.TimeForCall;
+import by.exadel.internship.dto.user.UserInfoDTO;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.entity.UserTimeSlot;
 import by.exadel.internship.exception_handing.NotFoundException;
@@ -12,7 +12,6 @@ import by.exadel.internship.mapper.UserTimeSlotMapper;
 import by.exadel.internship.repository.UserRepository;
 import by.exadel.internship.repository.UserTimeSlotRepository;
 import by.exadel.internship.service.UserService;
-import by.exadel.internship.service.UserTimeSlotService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +60,21 @@ public class UserServiceImpl implements UserService {
         log.info("UserDTO got successfully");
 
         return userDTO;
+    }
+
+    @Override
+    public UserInfoDTO getSimpleUserById(UUID id) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to get simple user by id: {} with skills", id);
+        User user = userRepository.findByIdAndDeletedFalse(id)
+                .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+        log.info("Try get UserInfoDTO from User");
+
+        UserInfoDTO userInfoDTO = mapper.toUserInfo(user);
+
+        log.info("UserInfoDTO got successfully");
+
+        return userInfoDTO;
     }
 
     public List<UserDTO> getUsersByRoleAndInternshipId(UUID internshipId, UserRole role) {

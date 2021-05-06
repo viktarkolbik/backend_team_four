@@ -1,4 +1,4 @@
-package by.exadel.internship.dto;
+package by.exadel.internship.dto.user;
 
 import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 

@@ -3,6 +3,7 @@ package by.exadel.internship.controller;
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.dto.interview.InterviewDTO;
 import by.exadel.internship.dto.enums.UserRole;
+import by.exadel.internship.dto.interview.InterviewWithUserNameDTO;
 import by.exadel.internship.service.InterviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +24,7 @@ public class InterviewController {
     @AdminAccessControl
     @GetMapping
     @ApiOperation("Get all Interview for User")
-    public List<InterviewDTO> getAllByUserId(@RequestParam UUID userId, @RequestParam UserRole userRole){
+    public List<InterviewWithUserNameDTO> getAllByUserId(@RequestParam UUID userId, @RequestParam UserRole userRole){
         return interviewService.getAllByUserId(userId, userRole);
     }
 
