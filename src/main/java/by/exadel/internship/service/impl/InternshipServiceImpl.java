@@ -6,8 +6,7 @@ import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
 import by.exadel.internship.exception_handing.NotFoundException;
-import by.exadel.internship.mapper.internship.GuestInternshipMapper;
-import by.exadel.internship.mapper.internship.UserInternshipMapper;
+import by.exadel.internship.mapper.internship.InternshipMapper;
 import by.exadel.internship.repository.InternshipRepository;
 import by.exadel.internship.service.InternshipService;
 import by.exadel.internship.util.MDCLog;
@@ -25,8 +24,7 @@ import java.util.UUID;
 public class InternshipServiceImpl implements InternshipService {
 
     private final InternshipRepository internshipRepository;
-    private final UserInternshipMapper userInternshipMapper;
-    private final GuestInternshipMapper guestInternshipMapper;
+    private final InternshipMapper internshipMapper;
 
     private static final String SIMPLE_CLASS_NAME = InternshipService.class.getSimpleName();
 
@@ -34,14 +32,14 @@ public class InternshipServiceImpl implements InternshipService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all GuestFullInternshipDTO");
 
-        return guestInternshipMapper.toGuestFullInternshipDTO(getById(id));
+        return internshipMapper.toGuestFullInternshipDTO(getById(id));
     }
 
     public UserInternshipDTO getUserRepresentationOfInternshipById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all UserInternshipDTO");
 
-        return userInternshipMapper.toUserInternshipDTO(getById(id));
+        return internshipMapper.toUserInternshipDTO(getById(id));
     }
 
 
@@ -53,7 +51,7 @@ public class InternshipServiceImpl implements InternshipService {
 
         log.info("Try to get all Internships like guestInternshipDTOs  with skills");
 
-        List<GuestShortInternshipDTO> guestShortInternshipDTOList = guestInternshipMapper.mapGuestShortInternshipDTOList(internships);
+        List<GuestShortInternshipDTO> guestShortInternshipDTOList = internshipMapper.mapGuestShortInternshipDTOList(internships);
 
         log.info("Successfully list of guestInternshipDTOs with skills");
 
@@ -65,7 +63,7 @@ public class InternshipServiceImpl implements InternshipService {
         log.info("Try to get deleted Internships");
 
         List<Internship> deletedInternships = internshipRepository.findAllByDeletedTrue();
-        List<UserInternshipDTO> userDeletedInternshipDTOList = userInternshipMapper.map(deletedInternships);
+        List<UserInternshipDTO> userDeletedInternshipDTOList = internshipMapper.mapUserInternshipDTOList(deletedInternships);
 
         log.info("Successfully got list of deleted Internships");
         return userDeletedInternshipDTOList;
@@ -82,7 +80,7 @@ public class InternshipServiceImpl implements InternshipService {
 
         log.info("Successfully got deleted Internships with uuid: {}", uuid);
 
-        UserInternshipDTO userDeletedInternshipDTO = userInternshipMapper.toUserInternshipDTO(deletedInternship);
+        UserInternshipDTO userDeletedInternshipDTO = internshipMapper.toUserInternshipDTO(deletedInternship);
 
         return userDeletedInternshipDTO;
     }
@@ -102,7 +100,7 @@ public class InternshipServiceImpl implements InternshipService {
 
         log.info("Successfully restore Internship with uuid: {}", uuid);
 
-        return userInternshipMapper.toUserInternshipDTO(internship);
+        return internshipMapper.toUserInternshipDTO(internship);
 
     }
 
@@ -124,8 +122,8 @@ public class InternshipServiceImpl implements InternshipService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save new Internship int DB");
 
-        Internship internship = userInternshipMapper.toInternship(internshipDTO);
-        UserInternshipDTO userInternshipDTO = userInternshipMapper
+        Internship internship = internshipMapper.toInternship(internshipDTO);
+        UserInternshipDTO userInternshipDTO = internshipMapper
                 .toUserInternshipDTO(internshipRepository.save(internship));
 
         log.info("Internship was save with uuid {}", internship.getId());

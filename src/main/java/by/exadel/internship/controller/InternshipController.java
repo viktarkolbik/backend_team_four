@@ -33,7 +33,7 @@ public class InternshipController {
     @ApiOperation("return internship by id")
     public ResponseEntity<?> getInternshipById(@PathVariable("internshipId") UUID internshipId, boolean fullRepresentation) {
 
-        Object dto = fullRepresentation ? internshipService.getUserRepresentationOfInternshipById(internshipId) : internshipService.getGuestRepresentationOfInternshipById(internshipId);
+        GuestShortInternshipDTO dto = fullRepresentation ? internshipService.getUserRepresentationOfInternshipById(internshipId) : internshipService.getGuestRepresentationOfInternshipById(internshipId);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

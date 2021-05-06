@@ -2,6 +2,7 @@ package by.exadel.internship.mapper.internship;
 
 import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
 import by.exadel.internship.dto.internship.GuestShortInternshipDTO;
+import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
 import by.exadel.internship.mapper.location_mapper.LocationMapper;
 import org.mapstruct.IterableMapping;
@@ -12,7 +13,7 @@ import org.mapstruct.Named;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = LocationMapper.class)
-public interface GuestInternshipMapper {
+public interface InternshipMapper {
 
     @Named(value = "internshipFull")
     @Mapping(source = "locationList", target = "locations")
@@ -31,5 +32,14 @@ public interface GuestInternshipMapper {
 
     @IterableMapping(qualifiedByName = "internshipShort")
     List<GuestShortInternshipDTO> mapGuestShortInternshipDTOList(List<Internship> internshipList);
+
+    @Named(value = "internship")
+    @Mapping(source = "locationList", target = "locations")
+    UserInternshipDTO toUserInternshipDTO(Internship internship);
+
+    Internship toInternship(UserInternshipDTO userInternshipDTO);
+
+    @IterableMapping(qualifiedByName = "internship")
+    List<UserInternshipDTO> mapUserInternshipDTOList(List<Internship> internshipList);
 
 }
