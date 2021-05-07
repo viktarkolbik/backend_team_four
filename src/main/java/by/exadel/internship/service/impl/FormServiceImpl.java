@@ -270,6 +270,4 @@ public class FormServiceImpl implements FormService {
         dto.setSendEmail(emailService.sendFormSubmissionEmail(formRegisterDTO));
         return dto;
     }
-
-
 }
