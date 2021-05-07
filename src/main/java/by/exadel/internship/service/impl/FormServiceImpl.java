@@ -51,6 +51,8 @@ public class FormServiceImpl implements FormService {
 
     private final FileService fileService;
 
+
+    @Override
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
@@ -77,35 +79,13 @@ public class FormServiceImpl implements FormService {
         return createdForm;
     }
 
-    private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
-
-        UUID countryId = formRegisterDTO.getCountry().getId();
-        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NotFoundException("City with uuid = " + countryId +
-                " Not Found in DB", "form.uuid.invalid"));
-        UUID cityId = formRegisterDTO.getCity().getId();
-        City city = cityRepository.findById(cityId).orElseThrow(() -> new NotFoundException("City with uuid = " + cityId +
-                " Not Found in DB", "form.uuid.invalid"));
-
-        Form form = mapper.toFormEntity(formRegisterDTO);
-
-        form.setCountry(country);
-        form.setCity(city);
+    public List<FormFullDTO> getFormsByUserId(UUID userId){
 
 
-        log.info("Save form, id: {} internshipId {} and status {}", form.getId(), form.getInternshipId(), FormStatus.REGISTERED);
 
-        form.setFormStatus(FormStatus.REGISTERED);
-
-        log.info("The form status is {}", FormStatus.REGISTERED);
-
-        formRepository.save(form);
-
-        FormFullDTO dto = mapper.toFormDto(form);
-
-        dto.setSendEmail(emailService.sendFormSubmissionEmail(formRegisterDTO));
-        return dto;
     }
 
+    @Override
     public List<FormFullDTO> getAll() {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
@@ -134,7 +114,7 @@ public class FormServiceImpl implements FormService {
         return mapper.toFormDto(form);
     }
 
-
+    @Override
     public List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
@@ -163,6 +143,65 @@ public class FormServiceImpl implements FormService {
         setFeedbackByUserRole(userDTO,form,feedbackRequest);
         log.info("Feedback was updating");
 
+    }
+
+    @Override
+    public void updateStatusById(UUID formId, FormStatus status) {
+        log.info("Try to get form by form id: {}", formId);
+
+        Form one = formRepository.getOne(formId);
+
+        log.info("Try to set status");
+
+        one.setFormStatus(status);
+
+        log.info("Try to update status");
+
+        formRepository.save(one);
+    }
+
+    @Override
+    @Transactional
+    public void restoreFormById(UUID formId) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to activate form with uuid: {}", formId);
+
+        formRepository
+                .findByIdAndDeletedTrue(formId)
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
+                        " Not Found in DB", "form.uuid.invalid"));
+        formRepository.activateFormById(formId);
+
+        log.info("Successfully returned deleted Form with uuid: {}", formId);
+    }
+
+    @Override
+    public void updateForm(FormFullDTO formFullDTO) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to update Form with uuid = {}", formFullDTO.getId());
+        Form form = formRepository.findByIdAndDeletedFalse(formFullDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formFullDTO.getId() +
+                " Not Found in DB", "form.uuid.invalid"));
+        form.setFormStatus(formFullDTO.getFormStatus());
+        Interview interview = interviewMapper.toInterview(formFullDTO.getInterview());
+        form.setInterview(interview);
+        formRepository.save(form);
+        log.info("Successfully saved Form with uuid = {} and Interview with uuid = {}",
+                form.getId(),interview.getId());
+    }
+
+    @Override
+    public void deleteById(UUID formId) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to delete form with uuid: {} ", formId);
+
+        formRepository
+                .findByIdAndDeletedFalse(formId)
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
+                        " Not Found in DB", "form.uuid.invalid"));
+        formRepository.deleteById(formId);
+
+        log.info("Successfully deleted Form with uuid: {}", formId);
     }
 
     private void setFeedbackByUserRole(UserDTO userDTO, Form form, FeedbackRequest feedbackRequest){
@@ -196,61 +235,34 @@ public class FormServiceImpl implements FormService {
         }
     }
 
-    public void updateStatusById(UUID formId, FormStatus status) {
-        log.info("Try to get form by form id: {}", formId);
+    private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
 
-        Form one = formRepository.getOne(formId);
-
-        log.info("Try to set status");
-
-        one.setFormStatus(status);
-
-        log.info("Try to update status");
-
-        formRepository.save(one);
-    }
-
-    @Transactional
-    public void restoreFormById(UUID formId) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to activate form with uuid: {}", formId);
-
-        formRepository
-                .findByIdAndDeletedTrue(formId)
-                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
-                        " Not Found in DB", "form.uuid.invalid"));
-        formRepository.activateFormById(formId);
-
-        log.info("Successfully returned deleted Form with uuid: {}", formId);
-    }
-
-    @Override
-    public void updateForm(FormFullDTO formFullDTO) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to update Form with uuid = {}", formFullDTO.getId());
-        Form form = formRepository.findByIdAndDeletedFalse(formFullDTO.getId())
-                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formFullDTO.getId() +
+        UUID countryId = formRegisterDTO.getCountry().getId();
+        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NotFoundException("City with uuid = " + countryId +
                 " Not Found in DB", "form.uuid.invalid"));
-        form.setFormStatus(formFullDTO.getFormStatus());
-        Interview interview = interviewMapper.toInterview(formFullDTO.getInterview());
-        form.setInterview(interview);
+        UUID cityId = formRegisterDTO.getCity().getId();
+        City city = cityRepository.findById(cityId).orElseThrow(() -> new NotFoundException("City with uuid = " + cityId +
+                " Not Found in DB", "form.uuid.invalid"));
+
+        Form form = mapper.toFormEntity(formRegisterDTO);
+
+        form.setCountry(country);
+        form.setCity(city);
+
+
+        log.info("Save form, id: {} internshipId {} and status {}", form.getId(), form.getInternshipId(), FormStatus.REGISTERED);
+
+        form.setFormStatus(FormStatus.REGISTERED);
+
+        log.info("The form status is {}", FormStatus.REGISTERED);
+
         formRepository.save(form);
-        log.info("Successfully saved Form with uuid = {} and Interview with uuid = {}",
-                form.getId(),interview.getId());
+
+        FormFullDTO dto = mapper.toFormDto(form);
+
+        dto.setSendEmail(emailService.sendFormSubmissionEmail(formRegisterDTO));
+        return dto;
     }
 
-
-    public void deleteById(UUID formId) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to delete form with uuid: {} ", formId);
-
-        formRepository
-                .findByIdAndDeletedFalse(formId)
-                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
-                        " Not Found in DB", "form.uuid.invalid"));
-        formRepository.deleteById(formId);
-
-        log.info("Successfully deleted Form with uuid: {}", formId);
-    }
 
 }
