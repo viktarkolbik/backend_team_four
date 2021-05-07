@@ -16,7 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.w3c.dom.ls.LSOutput;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,14 +45,12 @@ public class FormController {
     @AdminAccessControl
     @GetMapping
     @ApiOperation("Get all forms by internship id or user id")
-    public List getAllFormsById(@RequestParam(value = "internshipId", required = false) UUID internshipId
+    public List<FormFullDTO> getAllFormsById(@RequestParam(value = "internshipId", required = false) UUID internshipId
             , @RequestParam(value = "userId", required = false) UUID userId) {
 
-        if (internshipId != null) {
-            return formService.getAllByInternshipId(internshipId);
-        } else {
-            return formService.getFormsByUserId(userId);
-        }
+        return internshipId != null
+                ? formService.getAllByInternshipId(internshipId)
+                : formService.getFormsByUserId(userId);
 
     }
 

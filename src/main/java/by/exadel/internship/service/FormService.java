@@ -17,7 +17,7 @@ public interface FormService {
 
     FormFullDTO getById(UUID formId);
 
-    public List<FormFullDTO> getFormsByUserId(UUID userId);
+    List<FormFullDTO> getFormsByUserId(UUID userId);
 
     void deleteById(UUID formId);
 
