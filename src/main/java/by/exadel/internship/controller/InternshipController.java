@@ -75,7 +75,7 @@ public class InternshipController {
     @PostMapping("/addUser")
     @ApiOperation("Add User to Internship")
     @ResponseStatus(HttpStatus.OK)
-    public void addUser(@RequestParam UUID userId, @RequestParam(name = "internshipId") UUID internshipId){
-        internshipService.addUser(userId, internshipId);
+    public boolean addUser(@RequestParam UUID userId, @RequestParam(name = "internshipId") UUID internshipId){
+        return internshipService.addUser(userId, internshipId);
     }
 }
