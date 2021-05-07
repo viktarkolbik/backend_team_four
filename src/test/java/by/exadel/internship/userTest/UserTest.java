@@ -1,7 +1,7 @@
 package by.exadel.internship.userTest;
 
 import by.exadel.internship.InternshipApplicationTests;
-import by.exadel.internship.dto.UserDTO;
+import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;

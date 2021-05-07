@@ -80,12 +80,12 @@ public class Form {
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private FormStatus formStatus;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fm_i_id")
     private Interview interview;
 
     @ToString.Exclude
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "fm_id")
     private List<TimeForCall> timeForCallList;
 

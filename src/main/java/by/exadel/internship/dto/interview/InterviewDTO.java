@@ -1,12 +1,13 @@
-package by.exadel.internship.dto;
+package by.exadel.internship.dto.interview;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class InterviewDTO {

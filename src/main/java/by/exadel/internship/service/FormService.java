@@ -1,5 +1,6 @@
 package by.exadel.internship.service;
 
+import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
@@ -14,11 +15,16 @@ public interface FormService {
 
     List<FormFullDTO> getAll();
 
+    FormFullDTO getById(UUID formId);
+
     void deleteById(UUID formId);
 
     void restoreFormById(UUID formId);
 
+    void updateForm(FormFullDTO formFullDTO);
+
     List<FormFullDTO> getAllByInternshipId(UUID internshipId);
 
+    void updateFeedback(UUID formId, FeedbackRequest feedbackRequest);
     void updateStatusById(UUID formId, FormStatus status);
 }
