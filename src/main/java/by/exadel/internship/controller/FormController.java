@@ -69,6 +69,14 @@ public class FormController {
         formService.updateFeedback(formId,feedbackRequest);
     }
 
+
+
+    public List<FormFullDTO> getFormsByUserId(){
+
+
+    }
+
+
     @PutMapping("/updateStatus")
     @ApiOperation("Update form status")
     @ResponseStatus(HttpStatus.OK)
