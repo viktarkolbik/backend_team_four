@@ -1,10 +1,8 @@
-package by.exadel.internship.dto;
+package by.exadel.internship.dto.time_for_call;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor

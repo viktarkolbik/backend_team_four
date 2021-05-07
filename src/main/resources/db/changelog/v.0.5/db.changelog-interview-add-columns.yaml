@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 27042021-add-colomns-to-interview
+      author: nikita_bogurov
+      changes:
+        - addColumn:
+            tableName: interview
+            columns:
+              - column:
+                  name: i_admin_interview_date
+                  type: TIMESTAMP
+              - column:
+                  name: i_tech_interview_date
+                  type: TIMESTAMP
+
+

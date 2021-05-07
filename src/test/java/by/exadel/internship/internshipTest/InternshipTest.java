@@ -3,7 +3,8 @@ package by.exadel.internship.internshipTest;
 import by.exadel.internship.InternshipApplicationTests;
 import by.exadel.internship.dto.enums.InternshipFormat;
 import by.exadel.internship.dto.enums.Skill;
-import by.exadel.internship.dto.internship.GuestFullInternshipDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
+import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.dto.location.CityDTO;
 import by.exadel.internship.dto.location.CountryDTO;
@@ -36,11 +37,15 @@ public class InternshipTest extends InternshipApplicationTests {
     @Test
     public void checkInternshipsTestData() throws Exception {
 
+
         MvcResult result = getResult(HttpMethod.GET, URI.create("/internships/68a051d7-6d82-4879-b0a3-1340e14db54d"), status().isOk());
+
         String content = result.getResponse().getContentAsString();
-        GuestFullInternshipDTO guestFullInternshipDTO = objectMapper
+
+        GuestInternshipDTO guestFullInternshipDTO = objectMapper
                 .readValue(content, new TypeReference<>() {
                 });
+
         LocationDTO locationDTO1 = new LocationDTO(new CountryDTO(UUID.fromString("21aab798-2d48-459c-bb84-789d2237f933"), "Belarus"), new CityDTO(UUID.fromString("8c48af72-358a-49d4-a786-ce723eefc384"), "Minsk"));
         LocationDTO locationDTO2 = new LocationDTO(new CountryDTO(UUID.fromString("21aab798-2d48-459c-bb84-789d2237f933"), "Belarus"), new CityDTO(UUID.fromString("b38d8113-d5e8-4967-b8ff-e1df0844790f"), "Gomel"));
         LocationDTO locationDTO3 = new LocationDTO(new CountryDTO(UUID.fromString("de5e7623-c298-4033-8419-9e2fd12afdfa"), "Ukraine"), new CityDTO(UUID.fromString("dceb0743-e262-42b8-9d58-bbdb4e5cd729"), "Kiev"));
@@ -50,9 +55,9 @@ public class InternshipTest extends InternshipApplicationTests {
                 "knowledge of the basics of SQL and the basics of database design is desirable;\n" +
                 "knowledge of English at a level not lower than A2;");
         assertEquals(guestFullInternshipDTO.getTechSkills(), "Docker; GitHub; Swagger UI");
-        assertEquals(guestFullInternshipDTO.getSkills(), Set.of(Skill.JAVA, Skill.JS));
+        assertEquals(guestFullInternshipDTO.getSkills(), Set.of(Skill.JAVA,Skill.JS));
         assertEquals(guestFullInternshipDTO.getInternshipFormat(), InternshipFormat.ONLINE);
-        assertEquals(guestFullInternshipDTO.getLocations(), List.of(locationDTO1, locationDTO2, locationDTO3));
+        assertEquals(guestFullInternshipDTO.getLocations(), List.of(locationDTO1,locationDTO2,locationDTO3));
         assertEquals(guestFullInternshipDTO.getStartDate(), LocalDate.of(2021, 7, 21));
         assertEquals(guestFullInternshipDTO.getEndDate(), LocalDate.of(2021, 9, 21));
 
@@ -62,7 +67,7 @@ public class InternshipTest extends InternshipApplicationTests {
     public void checkListSize() throws Exception {
         MvcResult result = getResult(HttpMethod.GET, URI.create("/internships"), status().isOk());
         String content = result.getResponse().getContentAsString();
-        List<UserInternshipDTO> dtos = objectMapper.readValue(content, new TypeReference<>() {
+        List<BaseInternshipDTO> dtos = objectMapper.readValue(content, new TypeReference<>() {
         });
         assertEquals(dtos.size(), 10);
     }
@@ -78,7 +83,7 @@ public class InternshipTest extends InternshipApplicationTests {
         assertEquals(dto.getTechSkills(), "string");
         assertEquals(dto.getInternshipFormat(), InternshipFormat.ONLINE);
         assertEquals(dto.getSkills(), Set.of(Skill.JAVA, Skill.JS));
-        assertEquals(dto.getLocationList(), dto.getLocationList());
+        assertEquals(dto.getLocations(), dto.getLocations());
         assertEquals(dto.getCapacity(), 200);
         assertEquals(dto.getStartDate(), LocalDate.of(2021, 7, 21));
         assertEquals(dto.getEndDate(), LocalDate.of(2021, 9, 21));
@@ -94,7 +99,7 @@ public class InternshipTest extends InternshipApplicationTests {
                 .internshipFormat(InternshipFormat.ONLINE)
                 .capacity(200).description("string")
                 .skills(Set.of(Skill.JAVA, Skill.JS)).requirements("string").techSkills("string")
-                .locationList(List.of(locationDTO1))
+                .locations(List.of(locationDTO1))
                 .startDate(LocalDate.of(2021, 7, 21))
                 .endDate(LocalDate.of(2021, 9, 21))
                 .publicationDate(LocalDate.of(2021, 7, 01))

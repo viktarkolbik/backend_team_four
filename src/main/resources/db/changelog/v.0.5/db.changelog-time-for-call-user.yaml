@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 25042021-add-table-time-for-call-user
+      author: nikita_bogurov
+      changes:
+        - createTable:
+            tableName: user_time_slot
+            columns:
+              - column:
+                  name: ust_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: ust_start_date
+                  type: TIMESTAMP
+              - column:
+                  name: ust_end_date
+                  type: TIMESTAMP
+              - column:
+                  name: ust_u_id
+                  type: UUID
+
+  - changeSet:
+      id: 25042021-add-foreignKeyConstraint-user-id-to-time-for-call
+      author: nikita_bogurov
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: ust_u_id
+            baseTableName: user_time_slot
+            constraintName: fk_user_id_user_time_slot
+            referencedColumnNames: u_id
+            referencedTableName: user_detail

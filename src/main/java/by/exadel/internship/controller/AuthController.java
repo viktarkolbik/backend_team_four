@@ -2,22 +2,18 @@ package by.exadel.internship.controller;
 
 import by.exadel.internship.config.jwt.JwtService;
 import by.exadel.internship.entity.UserDetailsImpl;
-import by.exadel.internship.pojo.JwtResponse;
-import by.exadel.internship.pojo.LoginRequest;
+import by.exadel.internship.dto.JwtResponse;
+import by.exadel.internship.dto.LoginRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")

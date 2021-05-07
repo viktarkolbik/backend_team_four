@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 27042021-add-colomn-for-interview-time-to-user
+      author: nikita_bogurov
+      changes:
+        - addColumn:
+            tableName: user_detail
+            columns:
+              name: u_interview_time
+              type: INT
+              defaultValue: 30

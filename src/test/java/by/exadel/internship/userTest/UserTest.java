@@ -1,7 +1,7 @@
 package by.exadel.internship.userTest;
 
 import by.exadel.internship.InternshipApplicationTests;
-import by.exadel.internship.dto.UserDTO;
+import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
@@ -15,8 +15,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class UserTest extends InternshipApplicationTests {
 
+public class UserTest extends InternshipApplicationTests {
 
     @Test
     public void checkListSize() throws Exception {
@@ -35,15 +35,14 @@ public class UserTest extends InternshipApplicationTests {
     public void checkTestData() throws Exception {
 
         MvcResult result = getResult(HttpMethod.GET, URI.create("/users/b64b3afc-b1be-4c7a-9406-d7d14f436332"), status().isOk());
+
         String content = result.getResponse().getContentAsString();
         UserDTO userDTO = objectMapper.readValue(content, new TypeReference<>() {
         });
+
         assertEquals(userDTO.getFirstName(), "Maxim");
         assertEquals(userDTO.getLastName(), "Maevsky");
         assertEquals(userDTO.getEmail(), "maevsky@exadel.com");
-        assertEquals(userDTO.getLogin(), "maevsky");
-        assertEquals(userDTO.getPassword(), "$2y$12$l4YL7qegaAE4cxlfODXy8ePxT7pBsfArGyfGbhH.Qje/GiYx3dysm");
         assertEquals(userDTO.getUserRole(), UserRole.SUPER_ADMIN);
     }
-
 }
