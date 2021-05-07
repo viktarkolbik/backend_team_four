@@ -42,19 +42,16 @@ public class FormController {
 
     @AdminAccessControl
     @GetMapping
-    @ApiOperation("Get all forms by internship id")
-    public List getAllFormsByIdParameter(@RequestParam("internshipId") UUID internshipId, @RequestParam("userId") UUID userId) {
+    @ApiOperation("Get all forms by internship id or user id")
+    public List getAllFormsById(@RequestParam(value = "internshipId", required = false) UUID internshipId
+            , @RequestParam(value = "userId", required = false) UUID userId) {
 
         if (internshipId != null) {
-
             return formService.getAllByInternshipId(internshipId);
         } else {
-
-
+            return formService.getFormsByUserId(userId);
         }
 
-
-        return;
     }
 
     @SuperAdminAccessControl
