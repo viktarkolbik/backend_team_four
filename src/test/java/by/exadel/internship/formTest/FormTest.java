@@ -66,7 +66,8 @@ public class FormTest extends InternshipApplicationTests {
         assertEquals(formFullDTO.getEmail(), "string");
         assertEquals(formFullDTO.getEnglishLevel(), EnglishLevel.A0);
         assertEquals(formFullDTO.getExperience(), "string");
-        assertEquals(formFullDTO.getFilePath(), "text.txt");
+        //wrong test - (will learn and use @Mock @MocKBean in next PR)
+        assertEquals(formFullDTO.getFilePath().contains("https://firebasestorage.googleapis.com/v0/b/gs://internship-project-e202a.appspot.com/o/"), true);
         assertEquals(formFullDTO.getMiddleName(), "string");
         assertEquals(formFullDTO.getPhoneNumber(), "string");
         assertEquals(formFullDTO.getPrimarySkill(), "string");

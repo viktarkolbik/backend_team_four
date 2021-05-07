@@ -1,8 +1,8 @@
 package by.exadel.internship.service.impl;
 
 
-import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.dto.internship.BaseInternshipDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
 import by.exadel.internship.entity.User;
@@ -12,7 +12,6 @@ import by.exadel.internship.repository.InternshipRepository;
 import by.exadel.internship.repository.UserRepository;
 import by.exadel.internship.service.InternshipService;
 import by.exadel.internship.util.MDCLog;
-import liquibase.pro.packaged.U;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,13 +25,12 @@ import java.util.UUID;
 @Slf4j
 public class InternshipServiceImpl implements InternshipService {
 
+    private static final String SIMPLE_CLASS_NAME = InternshipService.class.getSimpleName();
     private final InternshipRepository internshipRepository;
     private final UserRepository userRepository;
-    private final UserInternshipMapper userInternshipMapper;
-    private final GuestInternshipMapper guestInternshipMapper;
+    //    private final UserInternshipMapper userInternshipMapper;
+//    private final GuestInternshipMapper guestInternshipMapper;
     private final InternshipMapper internshipMapper;
-
-    private static final String SIMPLE_CLASS_NAME = InternshipService.class.getSimpleName();
 
     public GuestInternshipDTO getGuestRepresentationOfInternshipById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
@@ -145,7 +143,7 @@ public class InternshipServiceImpl implements InternshipService {
                 return false;
             }
         }
-        internshipRepository.addUserToInternship(userId,internshipId);
+        internshipRepository.addUserToInternship(userId, internshipId);
         return true;
     }
 
