@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-@EntityListeners({AuditingEntityListener.class})
 @Entity
 @Table(name = "internship")
 @Data

@@ -28,7 +28,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByIdAndDeletedFalse(UUID userId);
 
     @Modifying
-    @Query(value = "UPDATE User u SET u.deleted=true WHERE u.id= :userId")
+    @Query("UPDATE User u SET u.deleted=true WHERE u.id= :userId")
     void deleteById(@Param("userId") UUID userId);
 
     Optional<User> findByLogin(String login);
