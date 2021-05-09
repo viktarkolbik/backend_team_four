@@ -62,22 +62,27 @@ public class InterviewServiceImpl implements InterviewService {
     }
 
     public List<InterviewWithUserNameDTO> getAllInterviewWithUser(List<Interview> interviews){
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         List<InterviewWithUserNameDTO> interviewWithUserNameDTOList =
                 mapper.mapToInterviewWithUserDTO(interviews);
         interviewWithUserNameDTOList.forEach(interview -> {
             interview.setAdminUser(userService.getSimpleUserById(interview.getAdmin()));
             interview.setTechSpecialistUser(userService.getSimpleUserById(interview.getTechSpecialist()));
         });
+        log.info("Return interview with users");
         return interviewWithUserNameDTOList;
     }
 
     public InterviewWithUserNameDTO getInterviewWithUser(InterviewWithUserNameDTO interviewDTO){
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Add users to Interview");
         if (interviewDTO.getAdmin() != null) {
             interviewDTO.setAdminUser(userService.getSimpleUserById(interviewDTO.getAdmin()));
         }
         if (interviewDTO.getTechSpecialist() != null) {
             interviewDTO.setTechSpecialistUser(userService.getSimpleUserById(interviewDTO.getTechSpecialist()));
         }
+        log.info("Return interview with users");
         return interviewDTO;
     }
 
