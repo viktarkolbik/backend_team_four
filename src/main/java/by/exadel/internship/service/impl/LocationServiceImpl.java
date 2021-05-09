@@ -4,7 +4,6 @@ import by.exadel.internship.dto.location.CityDTO;
 import by.exadel.internship.dto.location.CountryDTO;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
-import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.location_mapper.LocationMapper;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
@@ -31,7 +30,6 @@ public class LocationServiceImpl implements LocationService {
     private final CityRepository cityRepository;
     private final LocationMapper locationMapper;
 
-
     public List<CountryDTO> getAllCountries() {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
@@ -49,7 +47,6 @@ public class LocationServiceImpl implements LocationService {
     }
 
     public List<CityDTO> getCitiesByCountryId(UUID countryId) {
-
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get list of cities with id country = {} ", countryId);
 

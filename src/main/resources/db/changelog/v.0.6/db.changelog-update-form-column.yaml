@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id:  04052021-update-form-file-path
+      author:  nikita_bogurov
+      changes:
+        -  modifyDataType:
+             columnName:  fm_file_path
+             newDataType:  VARCHAR(250)
+             schemaName:  public
+             tableName:  form

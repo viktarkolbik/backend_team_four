@@ -35,7 +35,7 @@ bower_components
 # Common
 *.log
 logs
-files
+internship-cloud
 .tmp
 .merge_file*
 coverage

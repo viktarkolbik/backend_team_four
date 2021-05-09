@@ -1,4 +1,4 @@
-package by.exadel.internship.pojo;
+package by.exadel.internship.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

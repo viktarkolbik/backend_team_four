@@ -1,7 +1,8 @@
-package by.exadel.internship.dto;
+package by.exadel.internship.dto.user;
 
 import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
+import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,10 +22,8 @@ public class UserDTO {
     private String lastName;
     private String firstName;
     private String email;
-    private String login;
-    private String password;
     private UserRole userRole;
+    private int interviewTime;
     private Set<Skill> skills;
-
-//    private List<LocalDateTime> freeInterviewDates;
+    private List<UserTimeSlotDTO> userTimeSlots;
 }

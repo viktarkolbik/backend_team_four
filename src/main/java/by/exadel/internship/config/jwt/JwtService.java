@@ -1,6 +1,7 @@
 package by.exadel.internship.config.jwt;
 
 
+
 import by.exadel.internship.entity.UserDetailsImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

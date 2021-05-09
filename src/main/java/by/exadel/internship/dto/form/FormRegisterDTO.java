@@ -1,6 +1,6 @@
 package by.exadel.internship.dto.form;
 
-import by.exadel.internship.dto.TimeForCallDTO;
+import by.exadel.internship.dto.time_for_call.TimeForCallDTO;
 import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.location.CityDTO;
 import by.exadel.internship.dto.location.CountryDTO;

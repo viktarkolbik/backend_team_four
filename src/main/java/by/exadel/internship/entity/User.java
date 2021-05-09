@@ -44,6 +44,9 @@ public class User {
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private UserRole userRole;
 
+    @Column(name = "u_interview_time")
+    private int interviewTime;
+
     @Column(name = "u_deleted")
     private boolean deleted;
 
@@ -56,5 +59,8 @@ public class User {
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private List<Internship> internships;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserTimeSlot> userTimeSlots;
 
 }

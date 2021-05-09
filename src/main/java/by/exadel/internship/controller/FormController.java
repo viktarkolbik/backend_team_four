@@ -2,10 +2,15 @@ package by.exadel.internship.controller;
 
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
+import by.exadel.internship.annotation.UserAccessControl;
+import by.exadel.internship.dto.FeedbackRequest;
+import by.exadel.internship.dto.interview.InterviewDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
+import by.exadel.internship.dto.interview.InterviewSaveDTO;
 import by.exadel.internship.service.FormService;
+import by.exadel.internship.service.InterviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +31,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 public class FormController {
 
     private final FormService formService;
+    private final InterviewService interviewService;
 
     @PostMapping(consumes = {MULTIPART_FORM_DATA_VALUE, APPLICATION_JSON_VALUE})
     @ApiOperation("Add new form")
@@ -56,11 +62,36 @@ public class FormController {
         formService.restoreFormById(formId);
     }
 
+    @UserAccessControl
+    @PutMapping("/{formId}/feedback")
+    @ApiOperation("Save feedback")
+    public void saveFeedback(@PathVariable UUID formId, @RequestBody FeedbackRequest feedbackRequest){
+        formService.updateFeedback(formId,feedbackRequest);
+    }
+
     @PutMapping("/updateStatus")
     @ApiOperation("Update form status")
     @ResponseStatus(HttpStatus.OK)
     @AdminAccessControl
     public void updateFormStatus(@RequestParam("formId") UUID formId, @RequestParam("status")FormStatus status){
         formService.updateStatusById(formId,status);
+    }
+
+
+    @AdminAccessControl
+    @PostMapping("/{formId}/interviews")
+    @ApiOperation("Save interview time for Form")
+    public void saveInterviewForForm(@PathVariable(name = "formId") UUID formId,
+                                     @RequestBody InterviewSaveDTO interviewDTO) {
+        interviewService.saveInterviewForForm(formId, interviewDTO);
+    }
+
+    @AdminAccessControl
+    @PutMapping("/{formId}/interviews/{interviewId}")
+    @ApiOperation("Rewrite interview time for Form")
+    public void rewriteInterviewForForm(@PathVariable(name = "formId") UUID formId,
+                                        @PathVariable(name = "interviewId") UUID interviewId,
+                                        @RequestBody InterviewSaveDTO interviewDTO) {
+        interviewService.rewriteInterviewTime(formId,interviewDTO);
     }
 }
