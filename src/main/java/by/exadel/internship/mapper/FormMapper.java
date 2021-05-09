@@ -1,6 +1,7 @@
 package by.exadel.internship.mapper;
 
 import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.form.FormFullWithInterviewFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.entity.Form;
 import org.mapstruct.IterableMapping;
@@ -23,4 +24,10 @@ public interface FormMapper {
 
     @IterableMapping(qualifiedByName = "form")
     List<FormFullDTO> map(List<Form> forms);
+
+    @Named(value = "formInterview")
+    FormFullWithInterviewFullDTO toFromWithFullInterviewDTO(Form form);
+
+    @IterableMapping(qualifiedByName = "formInterview")
+    List<FormFullWithInterviewFullDTO> toFromWithFullInterviewDTOList(List<Form> forms);
 }

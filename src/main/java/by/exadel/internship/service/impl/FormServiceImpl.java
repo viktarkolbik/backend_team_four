@@ -1,5 +1,7 @@
 package by.exadel.internship.service.impl;
 
+import by.exadel.internship.dto.form.FormFullWithInterviewFullDTO;
+import by.exadel.internship.dto.interview.InterviewWithUserNameDTO;
 import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
@@ -18,13 +20,11 @@ import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
-import by.exadel.internship.service.EmailService;
-import by.exadel.internship.service.FileService;
-import by.exadel.internship.service.FormService;
-import by.exadel.internship.service.UserService;
+import by.exadel.internship.service.*;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,14 +42,24 @@ public class FormServiceImpl implements FormService {
     private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
     private final FormMapper mapper;
     private final InterviewMapper interviewMapper;
+
     private final FormRepository formRepository;
     private final UserService userService;
-
-    private final EmailService emailService;
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
 
+    private final EmailService emailService;
     private final FileService fileService;
+    private InterviewService interviewService;
+
+    //Temporarily until we find a replacement
+    @Autowired
+    public void setInterviewService(InterviewService interviewService) {
+        this.interviewService = interviewService;
+    }
+
+
+
 
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
@@ -135,7 +145,7 @@ public class FormServiceImpl implements FormService {
     }
 
 
-    public List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
+    public List<FormFullWithInterviewFullDTO> getAllByInternshipId(UUID internshipId) {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all forms by internship id");
@@ -144,7 +154,10 @@ public class FormServiceImpl implements FormService {
 
         log.info("Try get list of formFullDTO");
 
-        List<FormFullDTO> formFullDTOList = mapper.map(formList);
+        List<FormFullWithInterviewFullDTO> formFullDTOList = mapper.toFromWithFullInterviewDTOList(formList);
+        formFullDTOList.forEach(form -> {
+            form.setInterview(interviewService.getInterviewWithUser(form.getInterview()));
+        });
 
         log.info("Successfully list of formFullDTO");
 

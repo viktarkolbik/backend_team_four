@@ -4,6 +4,7 @@ import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.FeedbackRequest;
+import by.exadel.internship.dto.form.FormFullWithInterviewFullDTO;
 import by.exadel.internship.dto.interview.InterviewDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
@@ -44,7 +45,7 @@ public class FormController {
     @AdminAccessControl
     @GetMapping
     @ApiOperation("Get all forms by internship id")
-    public List<FormFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
+    public List<FormFullWithInterviewFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
         return formService.getAllByInternshipId(internshipId);
     }
 

@@ -57,6 +57,11 @@ public class InterviewServiceImpl implements InterviewService {
                 throw new InappropriateRoleException("Inappropriate role", "user.role.invalid");
             }
         }
+
+        return getAllInterviewWithUser(interviews);
+    }
+
+    public List<InterviewWithUserNameDTO> getAllInterviewWithUser(List<Interview> interviews){
         List<InterviewWithUserNameDTO> interviewWithUserNameDTOList =
                 mapper.mapToInterviewWithUserDTO(interviews);
         interviewWithUserNameDTOList.forEach(interview -> {
@@ -64,6 +69,16 @@ public class InterviewServiceImpl implements InterviewService {
             interview.setTechSpecialistUser(userService.getSimpleUserById(interview.getTechSpecialist()));
         });
         return interviewWithUserNameDTOList;
+    }
+
+    public InterviewWithUserNameDTO getInterviewWithUser(InterviewWithUserNameDTO interviewDTO){
+        if (interviewDTO.getAdmin() != null) {
+            interviewDTO.setAdminUser(userService.getSimpleUserById(interviewDTO.getAdmin()));
+        }
+        if (interviewDTO.getTechSpecialist() != null) {
+            interviewDTO.setTechSpecialistUser(userService.getSimpleUserById(interviewDTO.getTechSpecialist()));
+        }
+        return interviewDTO;
     }
 
 
