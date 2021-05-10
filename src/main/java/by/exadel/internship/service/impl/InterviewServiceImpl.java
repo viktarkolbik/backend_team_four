@@ -11,12 +11,10 @@ import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.entity.Interview;
 import by.exadel.internship.exception_handing.InappropriateRoleException;
+import by.exadel.internship.mail.EmailTemplate;
 import by.exadel.internship.mapper.InterviewMapper;
 import by.exadel.internship.repository.InterviewRepository;
-import by.exadel.internship.service.FormService;
-import by.exadel.internship.service.InterviewService;
-import by.exadel.internship.service.UserService;
-import by.exadel.internship.service.UserTimeSlotService;
+import by.exadel.internship.service.*;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +37,7 @@ public class InterviewServiceImpl implements InterviewService {
     private final UserTimeSlotService userTimeSlotService;
     private final FormService formService;
     private final UserService userService;
+    private final EmailService emailService;
 
 
     @Override
@@ -84,6 +83,9 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
+
+            emailService.sendHRInterviewEmail(formFullDTO,interviewFullDTO.getAdminInterviewDate());
+
             formService.updateForm(formFullDTO);
         }else {
             if (formFullDTO.getFormStatus() != FormStatus.REGISTERED) {
@@ -123,6 +125,9 @@ public class InterviewServiceImpl implements InterviewService {
             interviewFullDTO.setAdminInterviewDate(interviewDTO.getUserInterviewDate());
 
             formFullDTO.setInterview(interviewFullDTO);
+
+            emailService.sendHRInterviewEmail(formFullDTO,interviewFullDTO.getAdminInterviewDate());
+
             formService.updateForm(formFullDTO);
 
             this.deleteTime(interviewDTO.getUserInterviewDate(),interviewDTO.getUserId());
@@ -139,6 +144,9 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
+
+            emailService.sendTechInterviewEmail(formFullDTO,interviewFullDTO.getTechInterviewDate());
+
             formService.updateForm(formFullDTO);
 
             this.deleteTime(interviewDTO.getUserInterviewDate(),interviewDTO.getUserId());
