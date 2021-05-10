@@ -1,8 +1,9 @@
 package by.exadel.internship.userTest;
 
 import by.exadel.internship.InternshipApplicationTests;
-import by.exadel.internship.dto.UserDTO;
+
 import by.exadel.internship.dto.enums.UserRole;
+import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.repository.UserRepository;
@@ -80,10 +81,10 @@ public class UserTest extends InternshipApplicationTests {
     @Test
     public void checkTestDataNewUser() throws Exception {
 
-        MvcResult result = getResult(HttpMethod.GET, URI.create("/users/11111111-1111-1111-1111-789d2237f933"), status().isOk());
+        MvcResult result = getResult(HttpMethod.GET, URI.create("/users/44444444-1111-1111-1111-789d2237f933"), status().isOk());
         String content = result.getResponse().getContentAsString();
         UserDTO userDTO = objectMapper.readValue(content, UserDTO.class);
-        assertEquals(userDTO.getFirstName(), "Roma");
+        assertEquals(userDTO.getFirstName(), "Vlad");
     }
 
     @Test
