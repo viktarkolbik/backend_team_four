@@ -25,5 +25,5 @@ public interface InternshipService {
 
     UserInternshipDTO saveInternship(UserInternshipDTO internshipDTO);
 
-    boolean addUser(UUID userId, UUID internshipId);
+    void addUser(UUID userId, UUID internshipId);
 }

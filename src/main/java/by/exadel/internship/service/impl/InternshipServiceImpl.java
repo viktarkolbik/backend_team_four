@@ -5,7 +5,6 @@ import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
-import by.exadel.internship.entity.User;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.internship.InternshipMapper;
 import by.exadel.internship.repository.InternshipRepository;
@@ -28,8 +27,6 @@ public class InternshipServiceImpl implements InternshipService {
     private static final String SIMPLE_CLASS_NAME = InternshipService.class.getSimpleName();
     private final InternshipRepository internshipRepository;
     private final UserRepository userRepository;
-    //    private final UserInternshipMapper userInternshipMapper;
-//    private final GuestInternshipMapper guestInternshipMapper;
     private final InternshipMapper internshipMapper;
 
     public GuestInternshipDTO getGuestRepresentationOfInternshipById(UUID id) {
@@ -135,16 +132,18 @@ public class InternshipServiceImpl implements InternshipService {
         return userInternshipDTO;
     }
 
-    public boolean addUser(UUID userId, UUID internshipId) {
-        internshipRepository.getOne(internshipId);
-        User user = userRepository.getOne(userId);
-        for (Internship internship : user.getInternships()) {
-            if (internship.getId().equals(internshipId)) {
-                return false;
-            }
+    public void addUser(UUID userId, UUID internshipId) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User Not Found"));
+
+        internshipRepository.findById(internshipId)
+                .orElseThrow(() -> new NotFoundException("Internship Not Found"));
+
+        int exist = internshipRepository.checkUserExists(userId, internshipId);
+        if (exist > 0) {
+            throw new RuntimeException("ALREADY EXIST");
         }
         internshipRepository.addUserToInternship(userId, internshipId);
-        return true;
     }
 
     private Internship getById(UUID id) {
