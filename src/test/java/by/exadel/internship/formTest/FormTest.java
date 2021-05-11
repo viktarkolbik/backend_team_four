@@ -37,7 +37,7 @@ public class FormTest extends InternshipApplicationTests {
                 ("{\"firstName\": \"testName\",\"city\": {\"id\":\"69e6b47a-4c3d-4207-ac2d-801d9eda7ff1\",\"name\":\"Lviv\"}," +
                         "\"country\": {\"id\":\"de5e7623-c298-4033-8419-9e2fd12afdfa\",\"name\":\"Ukraine\"}," +
                         "\"education\": \"string\",\"email\": \"string\",\"englishLevel\": \"A0\"," +
-                        "\"experience\": \"string\",\"filePath\": \"string\",\"lastName\": \"string\"," +
+                        "\"experience\": \"string\",\"lastName\": \"string\"," +
                         "\"middleName\": \"string\",\"phoneNumber\": \"string\",\"primarySkill\": \"string\"," +
                         "\"skype\": \"string\"}").getBytes());
     }
@@ -46,22 +46,14 @@ public class FormTest extends InternshipApplicationTests {
     public void givenFormWithFile_checkTestData()
             throws Exception {
 
-        MockMultipartFile file = new MockMultipartFile("file", "text.txt",
-                MediaType.MULTIPART_FORM_DATA_VALUE, "some file".getBytes());
-
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/forms")
                 .file(formData())
-                .file(file)
         )
                 .andExpect(status().isCreated())
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
         FormFullDTO formFullDTO = objectMapper.readValue(content, FormFullDTO.class);
-
-        Form form = formRepository.findById(formFullDTO.getId()).orElseThrow(() -> new NotFoundException("Form with uuid = " + formFullDTO.getId() +
-                " Not Found in DB", "form.uuid.invalid"));
-        String filePathNewForm = form.getFilePath();
 
         assertEquals(formFullDTO.getFirstName(), "testName");
         assertEquals(formFullDTO.getLastName(), "string");
@@ -71,7 +63,6 @@ public class FormTest extends InternshipApplicationTests {
         assertEquals(formFullDTO.getEmail(), "string");
         assertEquals(formFullDTO.getEnglishLevel(), EnglishLevel.A0);
         assertEquals(formFullDTO.getExperience(), "string");
-        assertEquals(formFullDTO.getFilePath(), filePathNewForm);
         assertEquals(formFullDTO.getMiddleName(), "string");
         assertEquals(formFullDTO.getPhoneNumber(), "string");
         assertEquals(formFullDTO.getPrimarySkill(), "string");
