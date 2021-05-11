@@ -13,8 +13,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InterviewSaveDTO {
-
-    private UUID id;
     private UUID userId;
     private LocalDateTime userInterviewDate;
 }
