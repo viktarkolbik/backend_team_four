@@ -81,7 +81,7 @@ public class FormServiceImpl implements FormService {
 
 
     @Override
-    public List<FormFullDTO> getFormsByUserId(UUID userId) {
+    public List<FormFullDTO> getAllByUserId(UUID userId) {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get forms by user id: {}", userId);

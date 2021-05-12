@@ -48,7 +48,7 @@ public class FormController {
 
         return internshipId != null
                 ? formService.getAllByInternshipId(internshipId)
-                : formService.getFormsByUserId(userId);
+                : formService.getAllByUserId(userId);
 
     }
 
