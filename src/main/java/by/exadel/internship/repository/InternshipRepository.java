@@ -35,12 +35,10 @@ public interface InternshipRepository extends JpaRepository<Internship, UUID> {
     @Query(value = "UPDATE Internship i SET i.deleted=true WHERE i.id= :internshipId")
     void deleteById(@Param("internshipId") UUID internshipId);
 
-//    @Transactional
     @Modifying
     @Query(value = "INSERT INTO user_internship(ui_u_id, ui_inship_id) VALUES(:user , :internship)", nativeQuery = true)
     void addUserToInternship(@Param("user") UUID userId, @Param("internship") UUID internshipId);
 
-//    @Transactional
     @Query(value = "SELECT count(*) FROM user_internship WHERE ui_inship_id = :internship AND ui_u_id = :user", nativeQuery = true)
     int checkUserExists(@Param("user") UUID userId, @Param("internship") UUID internshipId);
 }

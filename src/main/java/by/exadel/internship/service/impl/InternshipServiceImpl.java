@@ -142,7 +142,7 @@ public class InternshipServiceImpl implements InternshipService {
 
         int exist = internshipRepository.checkUserExists(userId, internshipId);
         if (exist > 0) {
-            throw new RuntimeException("ALREADY EXIST");
+            throw new RuntimeException("User is already assigned to Internship");
         }
         internshipRepository.addUserToInternship(userId, internshipId);
     }
