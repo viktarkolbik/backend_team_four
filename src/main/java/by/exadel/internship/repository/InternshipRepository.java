@@ -40,5 +40,5 @@ public interface InternshipRepository extends JpaRepository<Internship, UUID> {
     void addUserToInternship(@Param("user") UUID userId, @Param("internship") UUID internshipId);
 
     @Query(value = "SELECT count(*) FROM user_internship WHERE ui_inship_id = :internship AND ui_u_id = :user", nativeQuery = true)
-    int checkUserExists(@Param("user") UUID userId, @Param("internship") UUID internshipId);
+    int checkUserAssign(@Param("user") UUID userId, @Param("internship") UUID internshipId);
 }

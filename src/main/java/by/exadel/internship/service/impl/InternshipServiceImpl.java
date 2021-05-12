@@ -140,7 +140,7 @@ public class InternshipServiceImpl implements InternshipService {
         internshipRepository.findById(internshipId)
                 .orElseThrow(() -> new NotFoundException("Internship Not Found"));
 
-        int exist = internshipRepository.checkUserExists(userId, internshipId);
+        int exist = internshipRepository.checkUserAssign(userId, internshipId);
         if (exist > 0) {
             throw new RuntimeException("User is already assigned to Internship");
         }
