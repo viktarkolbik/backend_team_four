@@ -25,12 +25,16 @@ import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -208,6 +212,19 @@ public class FormServiceImpl implements FormService {
         log.info("Try to update status");
 
         formRepository.save(one);
+    }
+
+    @Override
+    public Map<String, Object> getFileByFormId(UUID formId) {
+        Form form = formRepository.findById(formId)
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
+                " Not Found in DB", "form.uuid.invalid"));
+        Map<String,Object> fileObjectMap = new HashMap<>();
+        String fileName = fileService.download(form.getFilePath(), form.getLastName());
+        fileObjectMap.put("fileName", fileName);
+        ByteArrayResource resource = fileService.getFile(fileName);
+        fileObjectMap.put("resource", resource);
+        return fileObjectMap;
     }
 
     @Transactional

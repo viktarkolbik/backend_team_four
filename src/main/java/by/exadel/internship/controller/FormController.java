@@ -14,11 +14,17 @@ import by.exadel.internship.service.InterviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -46,6 +52,21 @@ public class FormController {
     @ApiOperation("Get all forms by internship id")
     public List<FormFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
         return formService.getAllByInternshipId(internshipId);
+    }
+
+    //How will better, set "/{formId}/file" or "/{formId}/files/{fileName}" mapping
+    @AdminAccessControl
+    @GetMapping("/{formId}/file")
+    @ApiOperation("Get file by form")
+    public ResponseEntity<Resource> getFileByForm(@PathVariable("formId") UUID formId) {
+        Map<String,Object> fileObjectMap = formService.getFileByFormId(formId);
+        String fileName = (String) fileObjectMap.get("fileName");
+        ByteArrayResource resource = (ByteArrayResource) fileObjectMap.get("resource");
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename= " + fileName)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentLength(resource.contentLength())
+                .body(resource);
     }
 
     @SuperAdminAccessControl

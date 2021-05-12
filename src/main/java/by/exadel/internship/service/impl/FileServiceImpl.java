@@ -9,13 +9,19 @@ import com.google.cloud.storage.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
@@ -37,6 +43,7 @@ public class FileServiceImpl implements FileService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         String fileName = originalFileName;
         fileName = UUID.randomUUID().toString()
+                .concat(".")
                 .concat(this.getExtension(fileName));
         return this.uploadFile(fileContent, fileName);
     }
@@ -45,18 +52,52 @@ public class FileServiceImpl implements FileService {
         log.info("Try to upload file to cloud");
         BlobId blobId = BlobId.of(bucketName, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        Credentials credentials = null;
+
+        Credentials credentials = getCredentialsByJSON();
+
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        storage.create(blobInfo, file);
+        log.info("File was uploaded to cloud");
+        return fileName;
+    }
+
+    @Override
+    public String download(String fileName, String formLastName) {
+        String destFileName = formLastName
+                .concat(DOT_SEPARATOR)
+                .concat(this.getExtension(fileName));
+
+        Credentials credentials = getCredentialsByJSON();
+
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        Blob blob = storage.get(BlobId.of(bucketName, fileName));
+
+        blob.downloadTo(Paths.get(destFileName));
+
+        return destFileName;
+    }
+
+    @Override
+    public ByteArrayResource getFile(String filePath) {
+        File file = new File(filePath);
+        Path path = Paths.get(file.getAbsolutePath());
         try {
-            credentials = GoogleCredentials
-                    .fromStream(new FileInputStream(jsonFilePath));
+            ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+            file.delete();
+            return resource;
+        } catch (IOException e) {
+            file.delete();
+            throw new FileNotUploadException("File was not to read by bytes because: " + e.getMessage());
+        }
+    }
+
+    private Credentials getCredentialsByJSON(){
+        try {
+            return GoogleCredentials.fromStream(new FileInputStream(jsonFilePath));
         } catch (IOException e) {
             log.error("File was not uploaded to cloud");
             throw new FileNotUploadException("File was not uploaded because: " + e.getMessage());
         }
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        storage.create(blobInfo, file);
-        log.info("File was uploaded to cloud");
-        return String.format(downloadUrl, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
 
     private String getExtension(String fileName) {
