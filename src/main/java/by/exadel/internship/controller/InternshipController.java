@@ -74,6 +74,13 @@ public class InternshipController {
         return internshipService.saveInternship(internshipDTO);
     }
 
+    @SuperAdminAccessControl
+    @PostMapping("/{internshipId}/addUser")
+    @ApiOperation("Add User to Internship")
+    public void addUser(@RequestParam(name = "userId") UUID userId, @PathVariable(name = "internshipId") UUID internshipId){
+        internshipService.addUser(userId, internshipId);
+    }
+
     @AdminAccessControl
     @GetMapping("/skills")
     @ApiOperation("return list of skills")
