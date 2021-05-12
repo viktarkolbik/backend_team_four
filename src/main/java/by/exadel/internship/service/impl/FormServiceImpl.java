@@ -245,7 +245,7 @@ public class FormServiceImpl implements FormService {
     private FormFullDTO saveForm(FormRegisterDTO formRegisterDTO) {
 
         UUID countryId = formRegisterDTO.getCountry().getId();
-        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NotFoundException("City with uuid = " + countryId +
+        Country country = countryRepository.findById(countryId).orElseThrow(() -> new NotFoundException("Country with uuid = " + countryId +
                 " Not Found in DB", "form.uuid.invalid"));
         UUID cityId = formRegisterDTO.getCity().getId();
         City city = cityRepository.findById(cityId).orElseThrow(() -> new NotFoundException("City with uuid = " + cityId +
