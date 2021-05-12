@@ -132,6 +132,7 @@ public class InternshipServiceImpl implements InternshipService {
         return userInternshipDTO;
     }
 
+    @Transactional
     public void addUser(UUID userId, UUID internshipId) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User Not Found"));

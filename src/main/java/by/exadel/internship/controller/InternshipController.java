@@ -74,10 +74,10 @@ public class InternshipController {
     }
 
     @SuperAdminAccessControl
-    @PostMapping("/addUser")
+    @PostMapping("/{internshipId}/addUser")
     @ApiOperation("Add User to Internship")
     @ResponseStatus(HttpStatus.OK)
-    public void addUser(@RequestParam(name = "userId") UUID userId, @RequestParam(name = "internshipId") UUID internshipId){
+    public void addUser(@RequestParam(name = "userId") UUID userId, @PathVariable(name = "internshipId") UUID internshipId){
         internshipService.addUser(userId, internshipId);
     }
 }
