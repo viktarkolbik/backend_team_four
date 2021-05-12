@@ -88,7 +88,7 @@ public class FormServiceImpl implements FormService {
 
         return mapper
                 .map(formRepository
-                        .findDistinctByInterview_AdminAndInterview_TechSpecialist(userId));
+                        .findAllByUserId(userId));
     }
 
 

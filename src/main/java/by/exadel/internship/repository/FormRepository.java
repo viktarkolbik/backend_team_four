@@ -39,6 +39,6 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
     void deleteById(@Param("formId") UUID formId);
 
     @Query(value = "select distinct f from Form f LEFT JOIN FETCH f.interview i where i.admin = :userId or i.techSpecialist = :userId")
-    List<Form> findDistinctByInterview_AdminAndInterview_TechSpecialist(@Param("userId")UUID userId);
+    List<Form> findAllByUserId(@Param("userId")UUID userId);
 
 }
