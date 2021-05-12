@@ -48,6 +48,13 @@ public class FormController {
         return formService.getAllByInternshipId(internshipId);
     }
 
+    @AdminAccessControl
+    @GetMapping("/{formId}")
+    @ApiOperation("Get form by id")
+    public FormFullDTO getFormById(@PathVariable("formId") UUID formId){
+        return formService.getById(formId);
+    }
+
     @SuperAdminAccessControl
     @DeleteMapping("/{formId}")
     @ApiOperation("Delete form by ID")
