@@ -53,9 +53,6 @@ public class FormServiceImpl implements FormService {
     private final InterviewService interviewService;
 
 
-
-
-
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);

@@ -5,7 +5,6 @@ import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.dto.form.FormFullWithInterviewFullDTO;
-import by.exadel.internship.dto.interview.InterviewDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
