@@ -4,7 +4,6 @@ import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.FeedbackRequest;
-import by.exadel.internship.dto.interview.InterviewDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
@@ -51,7 +50,7 @@ public class FormController {
     @AdminAccessControl
     @GetMapping("/email")
     public void email(){
-        formService.email();
+        formService.emailSend();
     }
 
     @SuperAdminAccessControl
