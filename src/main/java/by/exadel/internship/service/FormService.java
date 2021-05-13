@@ -27,4 +27,5 @@ public interface FormService {
 
     void updateFeedback(UUID formId, FeedbackRequest feedbackRequest);
     void updateStatusById(UUID formId, FormStatus status);
+    void email();
 }

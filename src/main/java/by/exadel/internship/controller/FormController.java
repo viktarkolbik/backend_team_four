@@ -48,6 +48,12 @@ public class FormController {
         return formService.getAllByInternshipId(internshipId);
     }
 
+    @AdminAccessControl
+    @GetMapping("/email")
+    public void email(){
+        formService.email();
+    }
+
     @SuperAdminAccessControl
     @DeleteMapping("/{formId}")
     @ApiOperation("Delete form by ID")

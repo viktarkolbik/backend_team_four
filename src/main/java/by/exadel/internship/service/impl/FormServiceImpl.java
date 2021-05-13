@@ -1,5 +1,6 @@
 package by.exadel.internship.service.impl;
 
+import by.exadel.internship.dto.CalendarRequest;
 import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
@@ -28,8 +29,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -208,6 +211,21 @@ public class FormServiceImpl implements FormService {
         log.info("Try to update status");
 
         formRepository.save(one);
+    }
+
+    @Override
+    public void email() {
+        try {
+            emailService.sendCalendarInvite("test.exadel.test@gmail.com", CalendarRequest.builder()
+                    .subject("Test Meeting")
+                    .body("Event")
+                    .toEmail("bogurov10@gmail.com")
+                    .meetingStartTime(LocalDateTime.now())
+                    .meetingEndTime(LocalDateTime.now().plusHours(1))
+                    .build());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Transactional
