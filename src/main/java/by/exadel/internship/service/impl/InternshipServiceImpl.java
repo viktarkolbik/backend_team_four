@@ -1,13 +1,14 @@
 package by.exadel.internship.service.impl;
 
 
-import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.dto.internship.BaseInternshipDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.internship.InternshipMapper;
 import by.exadel.internship.repository.InternshipRepository;
+import by.exadel.internship.repository.UserRepository;
 import by.exadel.internship.service.InternshipService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,10 @@ import java.util.UUID;
 @Slf4j
 public class InternshipServiceImpl implements InternshipService {
 
-    private final InternshipRepository internshipRepository;
-    private final InternshipMapper internshipMapper;
-
     private static final String SIMPLE_CLASS_NAME = InternshipService.class.getSimpleName();
+    private final InternshipRepository internshipRepository;
+    private final UserRepository userRepository;
+    private final InternshipMapper internshipMapper;
 
     public GuestInternshipDTO getGuestRepresentationOfInternshipById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
@@ -129,6 +130,21 @@ public class InternshipServiceImpl implements InternshipService {
         log.info("Internship was save with uuid {}", internship.getId());
 
         return userInternshipDTO;
+    }
+
+    @Transactional
+    public void addUser(UUID userId, UUID internshipId) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User Not Found"));
+
+        internshipRepository.findById(internshipId)
+                .orElseThrow(() -> new NotFoundException("Internship Not Found"));
+
+        int exist = internshipRepository.checkUserAssign(userId, internshipId);
+        if (exist > 0) {
+            throw new RuntimeException("User is already assigned to Internship");
+        }
+        internshipRepository.addUserToInternship(userId, internshipId);
     }
 
     private Internship getById(UUID id) {
