@@ -29,7 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -212,17 +211,20 @@ public class FormServiceImpl implements FormService {
     @Override
     public List<FormFullDTO> getAllByCondition(UUID internshipId, UUID userId) {
 
-        //  System.out.println(List.of(internshipId, userId).stream().allMatch((s) -> s != null));
+        checkCondition(internshipId, userId);
+
+        return internshipId != null
+                ? getAllByInternshipId(internshipId)
+                : getAllByUserId(userId);
+    }
+
+    private void checkCondition(UUID internshipId, UUID userId) {
 
         if (internshipId == null && userId == null) {
-            throw new NotFoundConditionException("Both conditions are null");
-        } else if (internshipId != null && userId != null) {
-            throw new MoreThanNeededConditionException("Both conditions are filled");
-        } else {
-
-            return internshipId != null
-                    ? getAllByInternshipId(internshipId)
-                    : getAllByUserId(userId);
+            throw new BadConditionException("Both conditions are null");
+        }
+        if (internshipId != null && userId != null) {
+            throw new BadConditionException("Both conditions are filled");
         }
     }
 
