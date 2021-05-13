@@ -34,8 +34,7 @@ public class FormTest extends InternshipApplicationTests {
     @Autowired
     private FormRepository formRepository;
 
-    @MockBean
-    private FileService fileService;
+
 
     private MockMultipartFile formData() {
         return new MockMultipartFile("form", "form",
@@ -82,7 +81,6 @@ public class FormTest extends InternshipApplicationTests {
         assertEquals(formFullDTO.getPhoneNumber(), "string");
         assertEquals(formFullDTO.getPrimarySkill(), "string");
         assertEquals(formFullDTO.getSkype(), "string");
-
 
     }
 
