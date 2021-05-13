@@ -9,9 +9,13 @@ import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.interview.InterviewSaveDTO;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserIdDTO;
+import by.exadel.internship.entity.Form;
 import by.exadel.internship.entity.Interview;
 import by.exadel.internship.exception_handing.InappropriateRoleException;
+import by.exadel.internship.exception_handing.NotFoundException;
+import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.mapper.InterviewMapper;
+import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.repository.InterviewRepository;
 import by.exadel.internship.service.FormService;
 import by.exadel.internship.service.InterviewService;
@@ -37,9 +41,9 @@ public class InterviewServiceImpl implements InterviewService {
     private final InterviewRepository interviewRepository;
     private final InterviewMapper mapper;
     private final UserTimeSlotService userTimeSlotService;
-    private final FormService formService;
+    private final FormRepository formRepository;
     private final UserService userService;
-
+    private final FormMapper formMapper;
 
     @Override
     public List<InterviewWithUserNameDTO> getAllByUserId(UUID userId, UserRole userRole) {
@@ -91,7 +95,7 @@ public class InterviewServiceImpl implements InterviewService {
     public void saveInterviewForForm(UUID formId, InterviewSaveDTO interviewDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");
-        FormFullDTO formFullDTO = formService.getById(formId);
+        FormFullDTO formFullDTO = getFormById(formId);
         UserDTO userDTO = userService.getById(interviewDTO.getUserId());
         if (userDTO.getUserRole() == UserRole.ADMIN
                 && formFullDTO.getFormStatus() == FormStatus.REGISTERED
@@ -104,7 +108,7 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
-            formService.updateForm(formFullDTO);
+            saveForm(formFullDTO);
         }else {
             if (formFullDTO.getFormStatus() != FormStatus.REGISTERED) {
                 throw new InappropriateRoleException("Form with uuid = " + formFullDTO.getId() + " doesn't has need Status");
@@ -117,6 +121,27 @@ public class InterviewServiceImpl implements InterviewService {
                 throw new IllegalArgumentException("Form with uuid =" + formFullDTO.getId() + " has Interview");
             }
         }
+    }
+
+    private void saveForm(FormFullDTO formFullDTO){
+        log.info("Try to update Form with uuid = {}", formFullDTO.getId());
+        Form form = formRepository.findByIdAndDeletedFalse(formFullDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formFullDTO.getId() +
+                        " Not Found in DB", "form.uuid.invalid"));
+        form.setFormStatus(formFullDTO.getFormStatus());
+        Interview interview = mapper.toInterview(formFullDTO.getInterview());
+        form.setInterview(interview);
+        formRepository.save(form);
+        log.info("Successfully saved Form with uuid = {} and Interview with uuid = {}",
+                form.getId(),interview.getId());
+    }
+
+    private FormFullDTO getFormById(UUID formId){
+        Form form = formRepository.findByIdAndDeletedFalse(formId).
+                orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
+                        " Not Found in DB", "form.uuid.invalid"));
+        log.info("Return formFullDTO with uuid = {}", formId);
+        return formMapper.toFormDto(form);
     }
 
     private void deleteTime(LocalDateTime localDateTime, UUID userId) {
@@ -132,7 +157,7 @@ public class InterviewServiceImpl implements InterviewService {
     public void rewriteInterviewTime(UUID formId, InterviewSaveDTO interviewDTO) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save Form with Interview");
-        FormFullDTO formFullDTO = formService.getById(formId);
+        FormFullDTO formFullDTO = getFormById(formId);
         InterviewDTO interviewFullDTO = formFullDTO.getInterview();
         UserDTO userDTO = userService.getById(interviewDTO.getUserId());
         if(formFullDTO.getFormStatus() == FormStatus.ADMIN_INTERVIEW_ASSIGNED
@@ -143,7 +168,7 @@ public class InterviewServiceImpl implements InterviewService {
             interviewFullDTO.setAdminInterviewDate(interviewDTO.getUserInterviewDate());
 
             formFullDTO.setInterview(interviewFullDTO);
-            formService.updateForm(formFullDTO);
+            saveForm(formFullDTO);
 
             this.deleteTime(interviewDTO.getUserInterviewDate(),interviewDTO.getUserId());
             return;
@@ -159,7 +184,7 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
-            formService.updateForm(formFullDTO);
+            saveForm(formFullDTO);
 
             this.deleteTime(interviewDTO.getUserInterviewDate(),interviewDTO.getUserId());
             return;

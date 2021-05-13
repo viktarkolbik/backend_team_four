@@ -50,13 +50,8 @@ public class FormServiceImpl implements FormService {
 
     private final EmailService emailService;
     private final FileService fileService;
-    private InterviewService interviewService;
+    private final InterviewService interviewService;
 
-    //Temporarily until we find a replacement
-    @Autowired
-    public void setInterviewService(InterviewService interviewService) {
-        this.interviewService = interviewService;
-    }
 
 
 
