@@ -63,6 +63,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String download(String fileName, String formLastName) {
+        log.info("Try to download file from cloud");
         String destFileName = formLastName
                 .concat(DOT_SEPARATOR)
                 .concat(this.getExtension(fileName));
@@ -73,7 +74,7 @@ public class FileServiceImpl implements FileService {
         Blob blob = storage.get(BlobId.of(bucketName, fileName));
 
         blob.downloadTo(Paths.get(destFileName));
-
+        log.info("File was download");
         return destFileName;
     }
 
@@ -84,6 +85,7 @@ public class FileServiceImpl implements FileService {
         try {
             ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
             file.delete();
+            log.info("Return file byte[], and delete this file");
             return resource;
         } catch (IOException e) {
             file.delete();
