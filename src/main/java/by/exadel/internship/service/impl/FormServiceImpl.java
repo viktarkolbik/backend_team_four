@@ -9,9 +9,7 @@ import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
-import by.exadel.internship.exception_handing.InappropriateRoleException;
-import by.exadel.internship.exception_handing.FileNotUploadException;
-import by.exadel.internship.exception_handing.NotFoundException;
+import by.exadel.internship.exception_handing.*;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.mapper.InterviewMapper;
 import by.exadel.internship.dto.FeedbackRequest;
@@ -31,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -80,8 +79,7 @@ public class FormServiceImpl implements FormService {
     }
 
 
-    @Override
-    public List<FormFullDTO> getAllByUserId(UUID userId) {
+    private List<FormFullDTO> getAllByUserId(UUID userId) {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get forms by user id: {}", userId);
@@ -121,8 +119,8 @@ public class FormServiceImpl implements FormService {
         return mapper.toFormDto(form);
     }
 
-    @Override
-    public List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
+
+    private List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all forms by internship id");
@@ -209,6 +207,23 @@ public class FormServiceImpl implements FormService {
         formRepository.deleteById(formId);
 
         log.info("Successfully deleted Form with uuid: {}", formId);
+    }
+
+    @Override
+    public List<FormFullDTO> getAllByCondition(UUID internshipId, UUID userId) {
+
+        //  System.out.println(List.of(internshipId, userId).stream().allMatch((s) -> s != null));
+
+        if (internshipId == null && userId == null) {
+            throw new NotFoundConditionException("Both conditions are null");
+        } else if (internshipId != null && userId != null) {
+            throw new MoreThanNeededConditionException("Both conditions are filled");
+        } else {
+
+            return internshipId != null
+                    ? getAllByInternshipId(internshipId)
+                    : getAllByUserId(userId);
+        }
     }
 
     private void setFeedbackByUserRole(UserDTO userDTO, Form form, FeedbackRequest feedbackRequest) {

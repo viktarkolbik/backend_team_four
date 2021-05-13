@@ -17,16 +17,15 @@ public interface FormService {
 
     FormFullDTO getById(UUID formId);
 
-    List<FormFullDTO> getAllByUserId(UUID userId);
-
     void deleteById(UUID formId);
 
     void restoreFormById(UUID formId);
 
     void updateForm(FormFullDTO formFullDTO);
 
-    List<FormFullDTO> getAllByInternshipId(UUID internshipId);
+    List<FormFullDTO> getAllByCondition(UUID internshipId, UUID userId);
 
     void updateFeedback(UUID formId, FeedbackRequest feedbackRequest);
+
     void updateStatusById(UUID formId, FormStatus status);
 }

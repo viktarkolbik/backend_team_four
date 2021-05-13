@@ -46,9 +46,7 @@ public class FormController {
     public List<FormFullDTO> getAllFormsById(@RequestParam(value = "internshipId", required = false) UUID internshipId
             , @RequestParam(value = "userId", required = false) UUID userId) {
 
-        return internshipId != null
-                ? formService.getAllByInternshipId(internshipId)
-                : formService.getAllByUserId(userId);
+        return formService.getAllByCondition(internshipId, userId);
 
     }
 
