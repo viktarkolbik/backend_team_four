@@ -5,9 +5,13 @@ import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.dto.enums.FormStatus;
+import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.dto.interview.InterviewSaveDTO;
+import by.exadel.internship.mail.EmailTemplate;
+import by.exadel.internship.service.CalendarService;
+import by.exadel.internship.service.EmailService;
 import by.exadel.internship.service.FormService;
 import by.exadel.internship.service.InterviewService;
 import io.swagger.annotations.Api;
@@ -17,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,6 +36,7 @@ public class FormController {
 
     private final FormService formService;
     private final InterviewService interviewService;
+    private final EmailService emailService;
 
     @PostMapping(consumes = {MULTIPART_FORM_DATA_VALUE, APPLICATION_JSON_VALUE})
     @ApiOperation("Add new form")
@@ -45,12 +51,6 @@ public class FormController {
     @ApiOperation("Get all forms by internship id")
     public List<FormFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
         return formService.getAllByInternshipId(internshipId);
-    }
-
-    @AdminAccessControl
-    @GetMapping("/email")
-    public void email(){
-        formService.emailSend();
     }
 
     @SuperAdminAccessControl

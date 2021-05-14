@@ -11,7 +11,6 @@ import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.entity.Interview;
 import by.exadel.internship.exception_handing.InappropriateRoleException;
-import by.exadel.internship.mail.EmailTemplate;
 import by.exadel.internship.mapper.InterviewMapper;
 import by.exadel.internship.repository.InterviewRepository;
 import by.exadel.internship.service.*;
@@ -84,7 +83,9 @@ public class InterviewServiceImpl implements InterviewService {
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
 
-            emailService.sendHRInterviewEmail(formFullDTO,interviewFullDTO.getAdminInterviewDate());
+            emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
+                    userDTO.getEmail(), userDTO.getUserRole(),
+                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());
 
             formService.updateForm(formFullDTO);
         }else {
@@ -126,7 +127,9 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
 
-            emailService.sendHRInterviewEmail(formFullDTO,interviewFullDTO.getAdminInterviewDate());
+            emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
+                    userDTO.getEmail(), userDTO.getUserRole(),
+                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());
 
             formService.updateForm(formFullDTO);
 
@@ -145,7 +148,9 @@ public class InterviewServiceImpl implements InterviewService {
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
 
-            emailService.sendTechInterviewEmail(formFullDTO,interviewFullDTO.getTechInterviewDate());
+            emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
+                    userDTO.getEmail(), userDTO.getUserRole(),
+                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());
 
             formService.updateForm(formFullDTO);
 

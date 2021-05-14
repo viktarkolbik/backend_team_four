@@ -1,10 +1,15 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.CalendarRequest;
-import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.mail.EmailTemplate;
+import by.exadel.internship.service.CalendarService;
 import by.exadel.internship.service.EmailService;
+import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventAttendee;
+import com.google.api.services.calendar.model.EventDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;
@@ -12,8 +17,11 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -21,34 +29,68 @@ import java.time.format.DateTimeFormatter;
 public class EmailServiceImpl implements EmailService {
 
     private static final String NAME = "${name}";
-    private static final String DATE = "${date}";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private static final String CALENDAR_ID = "primary";
+    private static final String SEND_NOTIFICATION_ALL = "all";
+    private static final String DEFAULT_TIME_ZONE = "Europe/Minsk";
 
     private final JavaMailSenderImpl mailSender;
+    private final CalendarService calendarService;
 
     @Override
     public boolean sendFormSubmissionEmail(FormRegisterDTO formRegisterDTO) {
         String text = EmailTemplate.TEXT.replace(NAME, formRegisterDTO.getFirstName());
-        return defaultSetupForMail(text,formRegisterDTO.getEmail());
+        return defaultSetupForMail(text, formRegisterDTO.getEmail());
     }
 
     @Override
-    public void sendHRInterviewEmail(FormFullDTO formFullDTO, LocalDateTime dateTime) {
-        String text = EmailTemplate.HR_INTERVIEW_EMAIL.replace(NAME, formFullDTO.getFirstName());
-        String formatDate = dateTime.format(DATE_TIME_FORMATTER);
-        text = text.replace(DATE, formatDate);
-        defaultSetupForMail(text, formFullDTO.getEmail());
+    public void sendInterviewDateOnEmail(String formMail, String userMail,
+                                         UserRole userRole, LocalDateTime dateTime,
+                                         int interviewTime) {
+
+        Calendar service = calendarService.getDefaultCalendar();
+        Event event;
+        if (userRole == UserRole.TECH_EXPERT) {
+            event = new Event()
+                    .setSummary(EmailTemplate.TECH_INTERVIEW_SUMMARY)
+                    .setDescription(EmailTemplate.TECH_INTERVIEW_EMAIL);
+        }else{
+            event = new Event()
+                    .setSummary(EmailTemplate.HR_INTERVIEW_SUMMARY)
+                    .setDescription(EmailTemplate.HR_INTERVIEW_EMAIL);
+        }
+        event.setLocation(DEFAULT_TIME_ZONE);
+
+        Date startDate = Timestamp.valueOf(dateTime);
+
+        DateTime startDateTime = new DateTime(startDate);
+        EventDateTime start = new EventDateTime()
+                .setDateTime(startDateTime)
+                .setTimeZone(DEFAULT_TIME_ZONE);
+        event.setStart(start);
+
+        Date endDate = Timestamp.valueOf(dateTime.plusMinutes(interviewTime));
+
+        DateTime endDateTime = new DateTime(endDate);
+        EventDateTime end = new EventDateTime()
+                .setDateTime(endDateTime)
+                .setTimeZone(DEFAULT_TIME_ZONE);
+        event.setEnd(end);
+
+        EventAttendee[] attendees = new EventAttendee[]{
+                new EventAttendee().setEmail(formMail),
+                new EventAttendee().setEmail(userMail),
+        };
+        event.setAttendees(Arrays.asList(attendees));
+
+        try {
+            event = service.events().insert(CALENDAR_ID, event).setSendUpdates(SEND_NOTIFICATION_ALL).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        log.info("Event created : {}", event.getHtmlLink());
     }
 
-    @Override
-    public void sendTechInterviewEmail(FormFullDTO formFullDTO, LocalDateTime dateTime) {
-        String text = EmailTemplate.TECH_INTERVIEW_EMAIL.replace(NAME, formFullDTO.getFirstName());
-        String formatDate = dateTime.format(DATE_TIME_FORMATTER);
-        text = text.replace(DATE, formatDate);
-        defaultSetupForMail(text, formFullDTO.getEmail());
-    }
-
-    private boolean defaultSetupForMail(String text, String formEmail){
+    private boolean defaultSetupForMail(String text, String formEmail) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(EmailTemplate.FROM);
         message.setTo(formEmail);
