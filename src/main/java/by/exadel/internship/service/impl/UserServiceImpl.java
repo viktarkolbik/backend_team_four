@@ -24,6 +24,7 @@ import java.util.UUID;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -155,16 +156,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Set<UserDTO> getUsersBySkills(List<Skill> skills) {
-        List<User> usersWithSkills = userRepository.findAllWithSkill();
-        Set<User> newList = new HashSet<>();
-        for (Skill skill : skills) {
-            for (User user : usersWithSkills){
-                if (user.getSkills().contains(skill)){
-                    newList.add(user);
-                }
-            }
 
-        }
+        List<User> usersWithSkills = userRepository.getUsersBySkills(skills);
+        Set<User> newList = new HashSet<>(usersWithSkills);
+
         return mapper.mapSetList(newList);
     }
 }
