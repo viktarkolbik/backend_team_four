@@ -38,7 +38,7 @@ public class Interview {
     private String adminFeedback;
 
     @JoinColumn(name = "i_tech_id")
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private User techSpecialist;
     @Column(name = "i_tech_interview_date")
     private LocalDateTime techInterviewDate;
