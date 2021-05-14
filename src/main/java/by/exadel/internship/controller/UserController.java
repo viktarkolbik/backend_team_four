@@ -67,4 +67,11 @@ public class UserController {
                              @RequestBody List<UserTimeSlotDTO> userTimeSlotDTOList) {
         userTimeSlotService.saveUserTime(userTimeSlotDTOList,userId);
     }
+
+    @AdminAccessControl
+    @GetMapping("/getByRole")
+    @ApiOperation("Return users by role")
+    public List<UserDTO> getUserByRole(UserRole role) {
+        return userService.getAllByUserRole(role);
+    }
 }
