@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -23,4 +24,6 @@ public interface UserMapper {
     @Named(value = "userInfo")
     UserInfoDTO toUserInfo(User user);
 
+    @IterableMapping(qualifiedByName = "user")
+    Set<UserDTO> mapSetList(Set<User> userList);
 }

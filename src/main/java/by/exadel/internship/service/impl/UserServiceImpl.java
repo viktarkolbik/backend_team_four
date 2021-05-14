@@ -1,5 +1,6 @@
 package by.exadel.internship.service.impl;
 
+import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
@@ -17,8 +18,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -147,4 +149,14 @@ public class UserServiceImpl implements UserService {
         return mapper.map(users);
     }
 
+    @Override
+    public Set<UserDTO> getUsersBySkills(List<Skill> skills) {
+        List<User> usersWithSkills = userRepository.findAllWithSkill();
+        Set<User> newList = new HashSet<>();
+            for (Skill skill: skills) {
+                 newList = usersWithSkills.stream()
+                        .filter(u -> u.getSkills().contains(skill)).collect(Collectors.toSet());
+            }
+            return mapper.mapSetList(newList);
+    }
 }
