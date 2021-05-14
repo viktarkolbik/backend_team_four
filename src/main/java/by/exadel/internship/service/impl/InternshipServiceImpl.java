@@ -149,6 +149,7 @@ public class InternshipServiceImpl implements InternshipService {
 
     @Transactional
     public UserInternshipDTO update(UUID internshipId, UserInternshipDTO internshipDTO) {
+        internshipDTO.setId(internshipId);
         Internship internship = internshipRepository
                 .findById(internshipId)
                 .orElseThrow(() -> new NotFoundException("No such Internship with id = " + internshipId + " in DB", "id.invalid"));

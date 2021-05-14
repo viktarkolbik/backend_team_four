@@ -89,7 +89,7 @@ public class InternshipController {
     }
 
     @SuperAdminAccessControl
-    @PutMapping("/{internshipId}/update")
+    @PutMapping("/{internshipId}")
     @ApiOperation("update internship")
     public UserInternshipDTO updateInternship(@PathVariable(name = "internshipId") UUID internshipId, @RequestBody UserInternshipDTO internshipDTO){
         return internshipService.update(internshipId, internshipDTO);

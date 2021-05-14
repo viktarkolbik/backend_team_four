@@ -39,8 +39,6 @@ public interface InternshipMapper {
     @IterableMapping(qualifiedByName = "internship")
     List<UserInternshipDTO> mapUserInternshipDTOList(List<Internship> internshipList);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     Internship updateInternship(UserInternshipDTO userInternshipDTO, @MappingTarget Internship internship);
 
 }
