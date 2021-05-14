@@ -1,7 +1,5 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.form.FormFullWithInterviewFullDTO;
-import by.exadel.internship.dto.interview.InterviewWithUserNameDTO;
 import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
@@ -24,7 +22,6 @@ import by.exadel.internship.service.*;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -137,23 +134,16 @@ public class FormServiceImpl implements FormService {
     }
 
 
-    public List<FormFullWithInterviewFullDTO> getAllByInternshipId(UUID internshipId) {
+    public List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get all forms by internship id");
 
         List<Form> formList = formRepository.findAllByInternship(internshipId);
 
-        log.info("Try get list of formFullDTO");
-
-        List<FormFullWithInterviewFullDTO> formFullDTOList = mapper.toFromWithFullInterviewDTOList(formList);
-        formFullDTOList.forEach(form -> {
-            form.setInterview(interviewService.getInterviewWithUser(form.getInterview()));
-        });
-
         log.info("Successfully list of formFullDTO");
 
-        return formFullDTOList;
+        return mapper.map(formList);
 
     }
 
@@ -173,7 +163,7 @@ public class FormServiceImpl implements FormService {
     private void setFeedbackByUserRole(UserDTO userDTO, Form form, FeedbackRequest feedbackRequest){
         log.info("Set feedback in Interview By userRole");
         if (userDTO.getUserRole().equals(UserRole.ADMIN)){
-            if (form.getInterview().getAdmin().equals(feedbackRequest.getUserId())){
+            if (form.getInterview().getAdmin().getId().equals(feedbackRequest.getUserId())){
                 form.getInterview().setAdminFeedback(feedbackRequest.getFeedback());
                 form.setFormStatus(FormStatus.ADMIN_INTERVIEW_PASSED);
                 formRepository.save(form);
@@ -185,7 +175,7 @@ public class FormServiceImpl implements FormService {
             }
         }
         if (userDTO.getUserRole().equals(UserRole.TECH_EXPERT)){
-            if (form.getInterview().getTechSpecialist().equals(feedbackRequest.getUserId())){
+            if (form.getInterview().getTechSpecialist().getId().equals(feedbackRequest.getUserId())){
                 form.getInterview().setTechFeedback(feedbackRequest.getFeedback());
                 form.setFormStatus(FormStatus.TECH_INTERVIEW_PASSED);
                 formRepository.save(form);

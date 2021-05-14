@@ -3,6 +3,7 @@ package by.exadel.internship.service.impl;
 import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
+import by.exadel.internship.dto.user.UserFullDTO;
 import by.exadel.internship.dto.user.UserInfoDTO;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.entity.UserTimeSlot;
@@ -139,6 +140,16 @@ public class UserServiceImpl implements UserService {
         List<User> users = userRepository.findAllByUserRole(userRole);
         log.info("Return List of user");
         return mapper.map(users);
+    }
+
+    @Override
+    public UserFullDTO getFullUserById(UUID userId) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to update user time slot");
+        User user = userRepository.findByIdAndDeletedFalse(userId)
+                .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
+        log.info("UserDTOs got successfully");
+        return mapper.toUserFull(user);
     }
 
 }

@@ -3,7 +3,6 @@ package by.exadel.internship.service;
 import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
-import by.exadel.internship.dto.form.FormFullWithInterviewFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +23,7 @@ public interface FormService {
 
     void updateForm(FormFullDTO formFullDTO);
 
-    List<FormFullWithInterviewFullDTO> getAllByInternshipId(UUID internshipId);
+    List<FormFullDTO> getAllByInternshipId(UUID internshipId);
 
     void updateFeedback(UUID formId, FeedbackRequest feedbackRequest);
     void updateStatusById(UUID formId, FormStatus status);
