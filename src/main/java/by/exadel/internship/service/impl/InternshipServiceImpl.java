@@ -147,6 +147,17 @@ public class InternshipServiceImpl implements InternshipService {
         internshipRepository.addUserToInternship(userId, internshipId);
     }
 
+    @Transactional
+    public UserInternshipDTO update(UUID internshipId, UserInternshipDTO internshipDTO) {
+        internshipDTO.setId(internshipId);
+        Internship internship = internshipRepository
+                .findById(internshipId)
+                .orElseThrow(() -> new NotFoundException("No such Internship with id = " + internshipId + " in DB", "id.invalid"));
+        Internship updateInternship = internshipMapper.updateInternship(internshipDTO, internship);
+        internshipRepository.save(updateInternship);
+        return internshipMapper.toUserInternshipDTO(updateInternship);
+    }
+
     private Internship getById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get Internship with id= {}", id);
@@ -160,5 +171,4 @@ public class InternshipServiceImpl implements InternshipService {
         return internship;
 
     }
-
 }
