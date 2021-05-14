@@ -1,13 +1,13 @@
 package by.exadel.internship.service;
 
 import by.exadel.internship.dto.FeedbackRequest;
+import by.exadel.internship.dto.FileInfoDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public interface FormService {
@@ -28,5 +28,5 @@ public interface FormService {
 
     void updateFeedback(UUID formId, FeedbackRequest feedbackRequest);
     void updateStatusById(UUID formId, FormStatus status);
-    Map<String, Object> getFileByFormId(UUID formId);
+    FileInfoDTO getFileByFormId(UUID formId);
 }

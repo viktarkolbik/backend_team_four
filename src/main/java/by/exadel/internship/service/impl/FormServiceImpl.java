@@ -1,5 +1,6 @@
 package by.exadel.internship.service.impl;
 
+import by.exadel.internship.dto.FileInfoDTO;
 import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
@@ -31,9 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -214,19 +213,17 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
-    public Map<String, Object> getFileByFormId(UUID formId) {
+    public FileInfoDTO getFileByFormId(UUID formId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to download file by formId = {}", formId);
         Form form = formRepository.findById(formId)
                 .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
                 " Not Found in DB", "form.uuid.invalid"));
-        Map<String,Object> fileObjectMap = new HashMap<>();
         String fileName = fileService.download(form.getFilePath(), form.getLastName());
-        fileObjectMap.put("fileName", fileName);
         ByteArrayResource resource = fileService.getFile(fileName);
-        fileObjectMap.put("resource", resource);
+
         log.info("Return file like byte[] and some info about file");
-        return fileObjectMap;
+        return new FileInfoDTO(fileName,resource);
     }
 
     @Transactional

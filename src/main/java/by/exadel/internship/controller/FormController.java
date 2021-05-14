@@ -4,6 +4,7 @@ import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.FeedbackRequest;
+import by.exadel.internship.dto.FileInfoDTO;
 import by.exadel.internship.dto.interview.InterviewDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
@@ -35,9 +36,11 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @RequestMapping("/forms")
 @Api(tags = "Endpoints for Form")
 public class FormController {
+    private static final String ATTACHMENT = "attachment;filename= ";
 
     private final FormService formService;
     private final InterviewService interviewService;
+
 
     @PostMapping(consumes = {MULTIPART_FORM_DATA_VALUE, APPLICATION_JSON_VALUE})
     @ApiOperation("Add new form")
@@ -54,19 +57,17 @@ public class FormController {
         return formService.getAllByInternshipId(internshipId);
     }
 
-    //How will better, set "/{formId}/file" or "/{formId}/files/{fileName}" mapping
+
     @AdminAccessControl
     @GetMapping("/{formId}/file")
     @ApiOperation("Get file by form")
     public ResponseEntity<Resource> getFileByForm(@PathVariable("formId") UUID formId) {
-        Map<String,Object> fileObjectMap = formService.getFileByFormId(formId);
-        String fileName = (String) fileObjectMap.get("fileName");
-        ByteArrayResource resource = (ByteArrayResource) fileObjectMap.get("resource");
+        FileInfoDTO fileInfoDTO = formService.getFileByFormId(formId);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename= " + fileName)
+                .header(HttpHeaders.CONTENT_DISPOSITION,ATTACHMENT + fileInfoDTO.getFileName())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .contentLength(resource.contentLength())
-                .body(resource);
+                .contentLength(fileInfoDTO.getResource().contentLength())
+                .body(fileInfoDTO.getResource());
     }
 
     @SuperAdminAccessControl
