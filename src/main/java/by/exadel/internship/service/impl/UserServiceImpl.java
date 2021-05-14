@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
@@ -106,6 +107,7 @@ public class UserServiceImpl implements UserService {
         log.info("Successfully deleted User with uuid: {}", uuid);
     }
 
+    @Transactional
     @Override
     public void restoreUserById(UUID uuid) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
