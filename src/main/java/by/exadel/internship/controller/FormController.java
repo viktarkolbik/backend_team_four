@@ -40,11 +40,21 @@ public class FormController {
         return formService.process(form, file);
     }
 
-    @AdminAccessControl
+    @UserAccessControl
     @GetMapping
-    @ApiOperation("Get all forms by internship id")
-    public List<FormFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
-        return formService.getAllByInternshipId(internshipId);
+    @ApiOperation("Get all forms by internship id or user id")
+    public List<FormFullDTO> getAllFormsById(@RequestParam(value = "internshipId", required = false) UUID internshipId
+            , @RequestParam(value = "userId", required = false) UUID userId) {
+
+        return formService.getAllByCondition(internshipId, userId);
+
+    }
+
+    @AdminAccessControl
+    @GetMapping("/{formId}")
+    @ApiOperation("Get form by id")
+    public FormFullDTO getFormById(@PathVariable("formId") UUID formId){
+        return formService.getById(formId);
     }
 
     @SuperAdminAccessControl
@@ -64,16 +74,17 @@ public class FormController {
     @UserAccessControl
     @PutMapping("/{formId}/feedback")
     @ApiOperation("Save feedback")
-    public void saveFeedback(@PathVariable UUID formId, @RequestBody FeedbackRequest feedbackRequest){
-        formService.updateFeedback(formId,feedbackRequest);
+    public void saveFeedback(@PathVariable UUID formId, @RequestBody FeedbackRequest feedbackRequest) {
+        formService.updateFeedback(formId, feedbackRequest);
     }
+
 
     @PutMapping("/updateStatus")
     @ApiOperation("Update form status")
     @ResponseStatus(HttpStatus.OK)
     @AdminAccessControl
-    public void updateFormStatus(@RequestParam("formId") UUID formId, @RequestParam("status")FormStatus status){
-        formService.updateStatusById(formId,status);
+    public void updateFormStatus(@RequestParam("formId") UUID formId, @RequestParam("status") FormStatus status) {
+        formService.updateStatusById(formId, status);
     }
 
 
@@ -91,6 +102,6 @@ public class FormController {
     public void rewriteInterviewForForm(@PathVariable(name = "formId") UUID formId,
                                         @PathVariable(name = "interviewId") UUID interviewId,
                                         @RequestBody InterviewSaveDTO interviewDTO) {
-        interviewService.rewriteInterviewTime(formId,interviewDTO);
+        interviewService.rewriteInterviewTime(formId, interviewDTO);
     }
 }
