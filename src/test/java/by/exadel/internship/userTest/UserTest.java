@@ -115,6 +115,19 @@ public class UserTest extends InternshipApplicationTests {
         assertEquals(usersHistorical.size(), 1);
     }
 
+    @Test
+    public void givenListOfSkills_checkUsersBySkills() throws Exception {
+        URI uri = UriComponentsBuilder.fromPath("/users/skills")
+                .queryParam("skills", "JAVA,JS").build().toUri();
+        MvcResult result = getResult(HttpMethod.GET, uri, status().isOk());
+
+        String content = result.getResponse().getContentAsString();
+        List<UserDTO> userDTOList = objectMapper.readValue(content, new TypeReference<>() {
+        });
+        assertEquals(userDTOList.size(), 4);
+    }
+
+
 
 
 }

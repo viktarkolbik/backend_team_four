@@ -157,10 +157,14 @@ public class UserServiceImpl implements UserService {
     public Set<UserDTO> getUsersBySkills(List<Skill> skills) {
         List<User> usersWithSkills = userRepository.findAllWithSkill();
         Set<User> newList = new HashSet<>();
-            for (Skill skill: skills) {
-                 newList = usersWithSkills.stream()
-                        .filter(u -> u.getSkills().contains(skill)).collect(Collectors.toSet());
+        for (Skill skill : skills) {
+            for (User user : usersWithSkills){
+                if (user.getSkills().contains(skill)){
+                    newList.add(user);
+                }
             }
-            return mapper.mapSetList(newList);
+
+        }
+        return mapper.mapSetList(newList);
     }
 }
