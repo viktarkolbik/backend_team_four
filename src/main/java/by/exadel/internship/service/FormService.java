@@ -24,9 +24,10 @@ public interface FormService {
 
     void updateForm(FormFullDTO formFullDTO);
 
-    List<FormFullDTO> getAllByInternshipId(UUID internshipId);
+    List<FormFullDTO> getAllByCondition(UUID internshipId, UUID userId);
 
     void updateFeedback(UUID formId, FeedbackRequest feedbackRequest);
+
     void updateStatusById(UUID formId, FormStatus status);
     FileInfoDTO getFileByFormId(UUID formId);
 }

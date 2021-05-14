@@ -5,7 +5,6 @@ import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.dto.FileInfoDTO;
-import by.exadel.internship.dto.interview.InterviewDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
@@ -15,7 +14,6 @@ import by.exadel.internship.service.InterviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -50,11 +48,21 @@ public class FormController {
         return formService.process(form, file);
     }
 
-    @AdminAccessControl
+    @UserAccessControl
     @GetMapping
-    @ApiOperation("Get all forms by internship id")
-    public List<FormFullDTO> getAllFormsByInternshipId(@RequestParam("internshipId") UUID internshipId) {
-        return formService.getAllByInternshipId(internshipId);
+    @ApiOperation("Get all forms by internship id or user id")
+    public List<FormFullDTO> getAllFormsById(@RequestParam(value = "internshipId", required = false) UUID internshipId
+            , @RequestParam(value = "userId", required = false) UUID userId) {
+
+        return formService.getAllByCondition(internshipId, userId);
+
+    }
+
+    @AdminAccessControl
+    @GetMapping("/{formId}")
+    @ApiOperation("Get form by id")
+    public FormFullDTO getFormById(@PathVariable("formId") UUID formId){
+        return formService.getById(formId);
     }
 
 
@@ -87,16 +95,17 @@ public class FormController {
     @UserAccessControl
     @PutMapping("/{formId}/feedback")
     @ApiOperation("Save feedback")
-    public void saveFeedback(@PathVariable UUID formId, @RequestBody FeedbackRequest feedbackRequest){
-        formService.updateFeedback(formId,feedbackRequest);
+    public void saveFeedback(@PathVariable UUID formId, @RequestBody FeedbackRequest feedbackRequest) {
+        formService.updateFeedback(formId, feedbackRequest);
     }
+
 
     @PutMapping("/updateStatus")
     @ApiOperation("Update form status")
     @ResponseStatus(HttpStatus.OK)
     @AdminAccessControl
-    public void updateFormStatus(@RequestParam("formId") UUID formId, @RequestParam("status")FormStatus status){
-        formService.updateStatusById(formId,status);
+    public void updateFormStatus(@RequestParam("formId") UUID formId, @RequestParam("status") FormStatus status) {
+        formService.updateStatusById(formId, status);
     }
 
 
@@ -114,6 +123,6 @@ public class FormController {
     public void rewriteInterviewForForm(@PathVariable(name = "formId") UUID formId,
                                         @PathVariable(name = "interviewId") UUID interviewId,
                                         @RequestBody InterviewSaveDTO interviewDTO) {
-        interviewService.rewriteInterviewTime(formId,interviewDTO);
+        interviewService.rewriteInterviewTime(formId, interviewDTO);
     }
 }

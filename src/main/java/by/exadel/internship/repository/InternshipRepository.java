@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,4 +34,11 @@ public interface InternshipRepository extends JpaRepository<Internship, UUID> {
     @Modifying
     @Query(value = "UPDATE Internship i SET i.deleted=true WHERE i.id= :internshipId")
     void deleteById(@Param("internshipId") UUID internshipId);
+
+    @Modifying
+    @Query(value = "INSERT INTO user_internship(ui_u_id, ui_inship_id) VALUES(:user , :internship)", nativeQuery = true)
+    void addUserToInternship(@Param("user") UUID userId, @Param("internship") UUID internshipId);
+
+    @Query(value = "SELECT count(*) FROM user_internship WHERE ui_inship_id = :internship AND ui_u_id = :user", nativeQuery = true)
+    int checkUserAssign(@Param("user") UUID userId, @Param("internship") UUID internshipId);
 }

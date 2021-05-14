@@ -2,6 +2,7 @@ package by.exadel.internship.controller;
 
 import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
+import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.service.InternshipService;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -70,5 +72,26 @@ public class InternshipController {
     @ApiOperation("Save new Internship In DB")
     public UserInternshipDTO saveInternship(@RequestBody UserInternshipDTO internshipDTO) {
         return internshipService.saveInternship(internshipDTO);
+    }
+
+    @SuperAdminAccessControl
+    @PostMapping("/{internshipId}/addUser")
+    @ApiOperation("Add User to Internship")
+    public void addUser(@RequestParam(name = "userId") UUID userId, @PathVariable(name = "internshipId") UUID internshipId){
+        internshipService.addUser(userId, internshipId);
+    }
+
+    @AdminAccessControl
+    @GetMapping("/skills")
+    @ApiOperation("return list of skills")
+    public List<Skill> getSkillList (){
+        return Arrays.asList(Skill.values());
+    }
+
+    @SuperAdminAccessControl
+    @PutMapping("/{internshipId}")
+    @ApiOperation("update internship")
+    public UserInternshipDTO updateInternship(@PathVariable(name = "internshipId") UUID internshipId, @RequestBody UserInternshipDTO internshipDTO){
+        return internshipService.update(internshipId, internshipDTO);
     }
 }
