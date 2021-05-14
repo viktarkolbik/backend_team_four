@@ -5,10 +5,7 @@ import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
 import by.exadel.internship.mapper.location_mapper.LocationMapper;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -41,5 +38,9 @@ public interface InternshipMapper {
 
     @IterableMapping(qualifiedByName = "internship")
     List<UserInternshipDTO> mapUserInternshipDTOList(List<Internship> internshipList);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    Internship updateInternship(UserInternshipDTO userInternshipDTO, @MappingTarget Internship internship);
 
 }

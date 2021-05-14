@@ -87,4 +87,11 @@ public class InternshipController {
     public List<Skill> getSkillList (){
         return Arrays.asList(Skill.values());
     }
+
+    @SuperAdminAccessControl
+    @PutMapping("/{internshipId}/update")
+    @ApiOperation("update internship")
+    public UserInternshipDTO updateInternship(@PathVariable(name = "internshipId") UUID internshipId, @RequestBody UserInternshipDTO internshipDTO){
+        return internshipService.update(internshipId, internshipDTO);
+    }
 }
