@@ -9,9 +9,12 @@ import by.exadel.internship.dto.location.CountryDTO;
 import by.exadel.internship.entity.Form;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.repository.FormRepository;
+import by.exadel.internship.service.FileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -31,6 +34,8 @@ public class FormTest extends InternshipApplicationTests {
     @Autowired
     private FormRepository formRepository;
 
+
+
     private MockMultipartFile formData() {
         return new MockMultipartFile("form", "form",
                 MediaType.APPLICATION_JSON_VALUE,
@@ -49,29 +54,34 @@ public class FormTest extends InternshipApplicationTests {
         MockMultipartFile file = new MockMultipartFile("file", "text.txt",
                 MediaType.MULTIPART_FORM_DATA_VALUE, "some file".getBytes());
 
+        Mockito.when(fileService.upload(file.getBytes(), file.getOriginalFilename()))
+                .thenReturn("path");
+
+
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/forms")
                 .file(formData())
-            //    .file(file)
+                .file(file)
         )
                 .andExpect(status().isCreated())
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
         FormFullDTO formFullDTO = objectMapper.readValue(content, FormFullDTO.class);
+
         assertEquals(formFullDTO.getFirstName(), "testName");
         assertEquals(formFullDTO.getLastName(), "string");
         assertEquals(formFullDTO.getCity(), new CityDTO(UUID.fromString("69e6b47a-4c3d-4207-ac2d-801d9eda7ff1"), "Lviv"));
         assertEquals(formFullDTO.getCountry(), new CountryDTO(UUID.fromString("de5e7623-c298-4033-8419-9e2fd12afdfa"), "Ukraine"));
         assertEquals(formFullDTO.getEducation(), "string");
         assertEquals(formFullDTO.getEmail(), "string");
+        assertEquals(formFullDTO.getFilePath(), "path");
         assertEquals(formFullDTO.getEnglishLevel(), EnglishLevel.A0);
         assertEquals(formFullDTO.getExperience(), "string");
-        //wrong test - (will learn and use @Mock @MocKBean in next PR)
-      //  assertEquals(formFullDTO.getFilePath().contains("https://firebasestorage.googleapis.com/v0/b/gs://internship-project-e202a.appspot.com/o/"), true);
         assertEquals(formFullDTO.getMiddleName(), "string");
         assertEquals(formFullDTO.getPhoneNumber(), "string");
         assertEquals(formFullDTO.getPrimarySkill(), "string");
         assertEquals(formFullDTO.getSkype(), "string");
+
     }
 
 
