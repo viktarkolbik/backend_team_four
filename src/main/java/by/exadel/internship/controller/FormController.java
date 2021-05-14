@@ -40,7 +40,7 @@ public class FormController {
         return formService.process(form, file);
     }
 
-    @AdminAccessControl
+    @UserAccessControl
     @GetMapping
     @ApiOperation("Get all forms by internship id or user id")
     public List<FormFullDTO> getAllFormsById(@RequestParam(value = "internshipId", required = false) UUID internshipId
