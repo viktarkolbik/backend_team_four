@@ -152,8 +152,8 @@ public class InternshipServiceImpl implements InternshipService {
         Internship internship = internshipRepository
                 .findById(internshipId)
                 .orElseThrow(() -> new NotFoundException("No such Internship with id = " + internshipId + " in DB", "id.invalid"));
-        Internship updateInternshipDTO = internshipMapper.updateInternship(internshipDTO, internship);
-        return internshipMapper.toUserInternshipDTO(updateInternshipDTO);
+        Internship updateInternship = internshipMapper.updateInternship(internshipDTO, internship);
+        return internshipMapper.toUserInternshipDTO(updateInternship);
     }
 
     private Internship getById(UUID id) {
