@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
 
     private static final String SIMPLE_CLASS_NAME = UserService.class.getSimpleName();
 
+    @Override
     public List<UserDTO> getAll() {
 
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
@@ -49,6 +50,7 @@ public class UserServiceImpl implements UserService {
         return userDTOList;
     }
 
+    @Override
     public UserDTO getById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get  user by id: {} with skills", id);
@@ -78,6 +80,7 @@ public class UserServiceImpl implements UserService {
         return userInfoDTO;
     }
 
+    @Override
     public List<UserDTO> getUsersByRoleAndInternshipId(UUID internshipId, UserRole role) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get  users by id: {} with skills and  role: {}", internshipId, role);
@@ -93,6 +96,7 @@ public class UserServiceImpl implements UserService {
         return userDTOList;
     }
 
+    @Override
     public void deleteUserById(UUID uuid) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to delete User with uuid: {}", uuid);
@@ -104,6 +108,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
+    @Override
     public void restoreUserById(UUID uuid) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to restore User with uuid: {}", uuid);
@@ -126,6 +131,7 @@ public class UserServiceImpl implements UserService {
         log.info("Successfully updated user user time slot");
     }
 
+    @Override
     public List<UserDTO> getAllDeleted() {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get List of deleted user");
