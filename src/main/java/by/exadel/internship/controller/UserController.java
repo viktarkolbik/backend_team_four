@@ -60,7 +60,7 @@ public class UserController {
         return userService.getAllDeleted();
     }
 
-    @SuperAdminAccessControl
+    @UserAccessControl
     @PostMapping("/{userId}/time-slot")
     @ApiOperation("Save Users free time")
     public void saveUserTime(@PathVariable(name = "userId") UUID userId,
