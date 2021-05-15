@@ -25,5 +25,5 @@ public interface UserMapper {
     UserInfoDTO toUserInfo(User user);
 
     @IterableMapping(qualifiedByName = "user")
-    Set<UserDTO> mapSetList(Set<User> userList);
+    Set<UserDTO> mapToSet(Set<User> userSet);
 }

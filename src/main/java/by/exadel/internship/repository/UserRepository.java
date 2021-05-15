@@ -42,6 +42,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     List<User> findAllByUserRole(UserRole userRole);
 
-    @Query(value = "SELECT * FROM user_detail as u JOIN user_skill as s ON u.u_id = s.us_u_id WHERE s.us_name in (:skills) AND u.deleted = false", nativeQuery = true)
-    List<User> getUsersBySkills(@Param("skills") List<Skill> skills);
+    @Query(value = "SELECT * FROM user_detail as u JOIN user_skill as s ON u.u_id = s.us_u_id WHERE CAST (s.us_name AS VARCHAR) IN :skills AND u.u_deleted = false", nativeQuery = true)
+    List<User> getUsersBySkills(@Param("skills") List<String> skills);
 }

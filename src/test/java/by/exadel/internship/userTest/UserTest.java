@@ -1,7 +1,6 @@
 package by.exadel.internship.userTest;
 
 import by.exadel.internship.InternshipApplicationTests;
-
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.entity.User;
@@ -18,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -118,13 +118,13 @@ public class UserTest extends InternshipApplicationTests {
     @Test
     public void givenListOfSkills_checkUsersBySkills() throws Exception {
         URI uri = UriComponentsBuilder.fromPath("/users/skills")
-                .queryParam("skills", "JAVA,JS").build().toUri();
+                .queryParam("skills", "JAVA,GO").build().toUri();
         MvcResult result = getResult(HttpMethod.GET, uri, status().isOk());
 
         String content = result.getResponse().getContentAsString();
-        List<UserDTO> userDTOList = objectMapper.readValue(content, new TypeReference<>() {
+        Set<UserDTO> userDTOSet = objectMapper.readValue(content, new TypeReference<>() {
         });
-        assertEquals(userDTOList.size(), 4);
+        assertEquals(userDTOSet.size(), 4);
     }
 
 
