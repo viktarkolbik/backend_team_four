@@ -135,8 +135,4 @@ public class UserTest extends InternshipApplicationTests {
         getResult(HttpMethod.GET, uri, status().isBadRequest());
 
     }
-
-
-
-
 }
