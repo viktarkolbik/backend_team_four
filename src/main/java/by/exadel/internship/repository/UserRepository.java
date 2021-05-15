@@ -1,5 +1,6 @@
 package by.exadel.internship.repository;
 
+import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,4 +41,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findAllWithSkillByInternshipId(@Param("id") UUID internshipId, @Param("role") UserRole role);
 
     List<User> findAllByUserRole(UserRole userRole);
+
+    @Query(value = "SELECT DISTINCT u.* FROM user_detail as u JOIN user_skill as s ON u.u_id = s.us_u_id WHERE CAST (s.us_name AS VARCHAR) IN :skills AND u.u_deleted = false", nativeQuery = true)
+    List<User> getUsersBySkills(@Param("skills") List<String> skills);
 }

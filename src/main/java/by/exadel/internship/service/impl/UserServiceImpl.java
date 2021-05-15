@@ -1,8 +1,9 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.user.UserDTO;
+import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
+import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.user.UserInfoDTO;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.entity.UserTimeSlot;
@@ -15,11 +16,12 @@ import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -149,4 +151,14 @@ public class UserServiceImpl implements UserService {
         return mapper.map(users);
     }
 
+    @Override
+    public List<UserDTO> getUsersBySkills(List<Skill> skills) {
+        List<String> enumListToString = skills.stream()
+                .map(Enum::toString)
+                .collect(Collectors.toList());
+        log.info("Try to get set of user by skills : {}", skills);
+        List<User> usersWithSkills = userRepository.getUsersBySkills(enumListToString);
+        log.info("Return set of user by skill");
+        return mapper.map(usersWithSkills);
+    }
 }
