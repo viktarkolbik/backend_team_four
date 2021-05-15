@@ -156,8 +156,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<UserDTO> getUsersBySkills(List<Skill> skills) {
         List<String> skillsToString = skills.stream().map(Enum::toString).collect(Collectors.toList());
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to get set of user by skills : {}", skills);
         List<User> usersWithSkills = userRepository.getUsersBySkills(skillsToString);
         Set<User> newList = new HashSet<>(usersWithSkills);
+        log.info("Return set of user by skill");
         return mapper.mapToSet(newList);
     }
 }
