@@ -50,11 +50,10 @@ public class User {
     @Column(name = "u_deleted")
     private boolean deleted;
 
-    @Column(name = "us_name", columnDefinition = "skills",nullable = false)
+    @Column(name = "us_name", nullable = false)
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "user_skill", joinColumns = @JoinColumn(name = "us_u_id"))
-
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private List<Skill> skills;
 
