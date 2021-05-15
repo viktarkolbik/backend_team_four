@@ -19,10 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -154,12 +151,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<UserDTO> getUsersBySkills(List<Skill> skills) {
-        List<String> skillsToString = skills.stream().map(Enum::toString).collect(Collectors.toList());
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to get set of user by skills : {}", skills);
-        List<User> usersWithSkills = userRepository.getUsersBySkills(skillsToString);
-        Set<User> newList = new HashSet<>(usersWithSkills);
+    public Set<UserDTO> getUsersBySkills(List<String> skills) {
+        List<String> enumToStringList = Arrays.stream(Skill.values())
+                .map(Enum::toString)
+                .collect(Collectors.toList());
+        Set<User> newList = new HashSet<>();
+        if(enumToStringList.containsAll(skills)) {
+            log.info("Try to get set of user by skills : {}", skills);
+            List<User> usersWithSkills = userRepository.getUsersBySkills(skills);
+            newList.addAll(usersWithSkills);
+        } else throw new NotFoundException("User with skills" + skills + " not found, check correct spelling and case : JAVA,GO,JS ");
+
         log.info("Return set of user by skill");
         return mapper.mapToSet(newList);
     }
