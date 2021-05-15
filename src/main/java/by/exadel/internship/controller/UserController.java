@@ -75,7 +75,7 @@ public class UserController {
     @AdminAccessControl
     @GetMapping("/skills")
     @ApiOperation("Get user by skills")
-    public Set<UserDTO> getUserBySkills(@RequestParam("skills") List<String> skills) {
+    public Set<UserDTO> getUserBySkills(@RequestParam("skills") List<Skill> skills) {
         return userService.getUsersBySkills(skills);
     }
 

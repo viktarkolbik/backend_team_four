@@ -16,6 +16,7 @@ import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -151,17 +152,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<UserDTO> getUsersBySkills(List<String> skills) {
-        List<String> enumToStringList = Arrays.stream(Skill.values())
+    public Set<UserDTO> getUsersBySkills(List<Skill> skills) {
+        List<String> enumListToString = skills.stream()
                 .map(Enum::toString)
                 .collect(Collectors.toList());
-        Set<User> newList = new HashSet<>();
-        if(enumToStringList.containsAll(skills)) {
-            log.info("Try to get set of user by skills : {}", skills);
-            List<User> usersWithSkills = userRepository.getUsersBySkills(skills);
-            newList.addAll(usersWithSkills);
-        } else throw new NotFoundException("User with skills" + skills + " not found, check correct spelling and case : JAVA,GO,JS ");
-
+        log.info("Try to get set of user by skills : {}", skills);
+        List<User> usersWithSkills = userRepository.getUsersBySkills(enumListToString);
+        Set<User> newList = new HashSet<>(usersWithSkills);
         log.info("Return set of user by skill");
         return mapper.mapToSet(newList);
     }
