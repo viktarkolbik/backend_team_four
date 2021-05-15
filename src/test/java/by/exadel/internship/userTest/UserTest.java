@@ -132,7 +132,7 @@ public class UserTest extends InternshipApplicationTests {
     public void checkWrongData_expect_BadRequestStatus() throws Exception {
         URI uri = UriComponentsBuilder.fromPath("/users/skills")
                 .queryParam("skills", "JAVA,G").build().toUri();
-        MvcResult result = getResult(HttpMethod.GET, uri, status().isBadRequest());
+        getResult(HttpMethod.GET, uri, status().isBadRequest());
 
     }
 
