@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MvcResult;
@@ -125,6 +126,14 @@ public class UserTest extends InternshipApplicationTests {
         Set<UserDTO> userDTOSet = objectMapper.readValue(content, new TypeReference<>() {
         });
         assertEquals(userDTOSet.size(), 4);
+    }
+
+    @Test
+    public void checkWrongData() throws Exception {
+        URI uri = UriComponentsBuilder.fromPath("/users/skills")
+                .queryParam("skills", "JAVA,G").build().toUri();
+        MvcResult result = getResult(HttpMethod.GET, uri, status().isBadRequest());
+
     }
 
 

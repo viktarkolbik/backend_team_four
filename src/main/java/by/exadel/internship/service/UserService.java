@@ -30,6 +30,6 @@ public interface UserService {
 
     List<UserDTO> getAllByUserRole(UserRole userRole);
 
-    Set<UserDTO> getUsersBySkills(List<Skill> skills);
+    List<UserDTO> getUsersBySkills(List<Skill> skills);
 
 }
