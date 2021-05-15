@@ -1,9 +1,8 @@
 package by.exadel.internship.service;
 
-import org.springframework.core.io.ByteArrayResource;
+import by.exadel.internship.dto.FileInfoDTO;
 
 public interface FileService {
     String upload(byte[] fileContent, String originalFileName);
-    String download(String fileName, String formLastName);
-    ByteArrayResource getFile(String filePath);
+    FileInfoDTO download(String fileName, String formLastName, String internshipName);
 }
