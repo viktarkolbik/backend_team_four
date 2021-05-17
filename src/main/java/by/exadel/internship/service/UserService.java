@@ -1,5 +1,6 @@
 package by.exadel.internship.service;
 
+import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
@@ -7,6 +8,7 @@ import by.exadel.internship.dto.user.UserFullDTO;
 import by.exadel.internship.dto.user.UserInfoDTO;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface UserService {
@@ -30,4 +32,5 @@ public interface UserService {
     List<UserDTO> getAllByUserRole(UserRole userRole);
 
     UserFullDTO getFullUserById(UUID userId);
+    List<UserDTO> getUsersBySkills(List<Skill> skills);
 }

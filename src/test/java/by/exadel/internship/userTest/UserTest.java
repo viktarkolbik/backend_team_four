@@ -17,11 +17,11 @@ import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.transaction.Transactional;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -153,6 +153,23 @@ public class UserTest extends InternshipApplicationTests {
         assertEquals(usersHistorical.size(), 1);
     }
 
+    @Test
+    public void givenListOfSkills_checkUsersBySkills() throws Exception {
+        URI uri = UriComponentsBuilder.fromPath("/users/skills")
+                .queryParam("skills", "JAVA,GO").build().toUri();
+        MvcResult result = getResult(HttpMethod.GET, uri, status().isOk());
 
+        String content = result.getResponse().getContentAsString();
+        Set<UserDTO> userDTOSet = objectMapper.readValue(content, new TypeReference<>() {
+        });
+        assertEquals(userDTOSet.size(), 4);
+    }
 
+    @Test
+    public void checkWrongData_expect_BadRequestStatus() throws Exception {
+        URI uri = UriComponentsBuilder.fromPath("/users/skills")
+                .queryParam("skills", "JAVA,G").build().toUri();
+        getResult(HttpMethod.GET, uri, status().isBadRequest());
+
+    }
 }

@@ -9,6 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -27,4 +28,6 @@ public interface UserMapper {
     UserFullDTO toUserFull(User user);
     User fromUserFull(UserFullDTO userFullDTO);
 
+    @IterableMapping(qualifiedByName = "user")
+    Set<UserDTO> mapToSet(Set<User> userSet);
 }
