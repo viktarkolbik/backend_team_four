@@ -67,7 +67,6 @@ public class FileServiceImpl implements FileService {
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         Blob blob = storage.get(BlobId.of(bucketName, fileName));
 
-        System.out.println("Gere2");
         FileInfoDTO fileInfoDTO = new FileInfoDTO();
         fileInfoDTO.setFileName(destFileName);
         fileInfoDTO.setResource(new ByteArrayResource(blob.getContent()));
