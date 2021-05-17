@@ -63,8 +63,8 @@ public class UserController {
     @SuperAdminAccessControl
     @PostMapping("/{userId}/time-slot")
     @ApiOperation("Save Users free time")
-    public void saveUserTime(@PathVariable(name = "userId") UUID userId,
+    public List<UserTimeSlotDTO> saveUserTime(@PathVariable(name = "userId") UUID userId,
                              @RequestBody List<UserTimeSlotDTO> userTimeSlotDTOList) {
-        userTimeSlotService.saveUserTime(userTimeSlotDTOList,userId);
+        return userTimeSlotService.saveUserTime(userTimeSlotDTOList,userId);
     }
 }
