@@ -9,6 +9,7 @@ import java.util.UUID;
 @Data
 @Builder
 public class CalendarRequest {
+    @Builder.Default
     private String uid = UUID.randomUUID().toString();
     private String toEmail;
     private String subject;

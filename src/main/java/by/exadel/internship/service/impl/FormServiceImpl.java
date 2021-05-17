@@ -40,7 +40,6 @@ public class FormServiceImpl implements FormService {
     private final InterviewMapper interviewMapper;
     private final FormRepository formRepository;
     private final UserService userService;
-    private final CalendarService calendarService;
 
     private final EmailService emailService;
     private final CountryRepository countryRepository;

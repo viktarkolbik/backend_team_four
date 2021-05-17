@@ -1,9 +1,9 @@
 package by.exadel.internship.service.impl;
 
+import by.exadel.internship.config.CalendarConfig;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.mail.EmailTemplate;
-import by.exadel.internship.service.CalendarService;
 import by.exadel.internship.service.EmailService;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
     private static final String DEFAULT_TIME_ZONE = "Europe/Minsk";
 
     private final JavaMailSenderImpl mailSender;
-    private final CalendarService calendarService;
+    private final CalendarConfig calendarConfig;
 
     @Override
     public boolean sendFormSubmissionEmail(FormRegisterDTO formRegisterDTO) {
@@ -47,7 +47,7 @@ public class EmailServiceImpl implements EmailService {
                                          UserRole userRole, LocalDateTime dateTime,
                                          int interviewTime) {
 
-        Calendar service = calendarService.getDefaultCalendar();
+        Calendar service = calendarConfig.getDefaultCalendar();
         Event event;
         if (userRole == UserRole.TECH_EXPERT) {
             event = new Event()

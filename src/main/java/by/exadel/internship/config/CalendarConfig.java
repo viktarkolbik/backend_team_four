@@ -1,6 +1,5 @@
-package by.exadel.internship.service.impl;
+package by.exadel.internship.config;
 
-import by.exadel.internship.service.CalendarService;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -28,7 +27,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CalendarServiceImpl implements CalendarService {
+public class CalendarConfig {
     private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
@@ -40,7 +39,7 @@ public class CalendarServiceImpl implements CalendarService {
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
-        InputStream in = CalendarServiceImpl.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        InputStream in = CalendarConfig.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
@@ -55,7 +54,6 @@ public class CalendarServiceImpl implements CalendarService {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize(USER_FOR_AUTHORIZE);
     }
 
-    @Override
     public Calendar getDefaultCalendar(){
         try {
             final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
