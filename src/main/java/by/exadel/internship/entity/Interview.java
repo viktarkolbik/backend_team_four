@@ -28,7 +28,7 @@ public class Interview {
     private UUID id;
 
     @JoinColumn(name = "i_admin_id")
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private User admin;
 
     @Column(name = "i_admin_interview_date")
