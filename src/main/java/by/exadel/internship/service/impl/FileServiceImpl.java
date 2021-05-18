@@ -35,7 +35,7 @@ public class FileServiceImpl implements FileService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         String fileName = originalFileName;
         fileName = UUID.randomUUID().toString()
-                .concat(".")
+                .concat(DOT_SEPARATOR)
                 .concat(this.getExtension(fileName));
         return this.uploadFile(fileContent, fileName);
     }
