@@ -1,6 +1,7 @@
 package by.exadel.internship.service;
 
 import by.exadel.internship.dto.FeedbackRequest;
+import by.exadel.internship.dto.FileInfoDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
@@ -28,4 +29,5 @@ public interface FormService {
     void updateFeedback(UUID formId, FeedbackRequest feedbackRequest);
 
     void updateStatusById(UUID formId, FormStatus status);
+    FileInfoDTO getFileByFormId(UUID formId);
 }

@@ -4,6 +4,7 @@ import by.exadel.internship.annotation.AdminAccessControl;
 import by.exadel.internship.annotation.SuperAdminAccessControl;
 import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.FeedbackRequest;
+import by.exadel.internship.dto.FileInfoDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
@@ -13,7 +14,11 @@ import by.exadel.internship.service.InterviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,9 +33,11 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @RequestMapping("/forms")
 @Api(tags = "Endpoints for Form")
 public class FormController {
+    private static final String ATTACHMENT = "attachment;filename= ";
 
     private final FormService formService;
     private final InterviewService interviewService;
+
 
     @PostMapping(consumes = {MULTIPART_FORM_DATA_VALUE, APPLICATION_JSON_VALUE})
     @ApiOperation("Add new form")
@@ -55,6 +62,19 @@ public class FormController {
     @ApiOperation("Get form by id")
     public FormFullDTO getFormById(@PathVariable("formId") UUID formId){
         return formService.getById(formId);
+    }
+
+
+    @AdminAccessControl
+    @GetMapping("/{formId}/file")
+    @ApiOperation("Get file by form")
+    public ResponseEntity<Resource> getFileByForm(@PathVariable("formId") UUID formId) {
+        FileInfoDTO fileInfoDTO = formService.getFileByFormId(formId);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,ATTACHMENT + fileInfoDTO.getFileName())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentLength(fileInfoDTO.getResource().contentLength())
+                .body(fileInfoDTO.getResource());
     }
 
     @SuperAdminAccessControl
