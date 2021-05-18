@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -54,15 +55,15 @@ public class CalendarConfig {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize(USER_FOR_AUTHORIZE);
     }
 
-    public Calendar getDefaultCalendar(){
+    public Optional<Calendar> getDefaultCalendar(){
         try {
             final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-            return new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+            return Optional.of(new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                     .setApplicationName(APPLICATION_NAME)
-                    .build();
+                    .build());
         }catch (GeneralSecurityException | IOException e) {
             log.error("Cannot get Calendar with default settings because : {}", e.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
 }

@@ -3,6 +3,7 @@ package by.exadel.internship.service.impl;
 import by.exadel.internship.config.CalendarConfig;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.form.FormRegisterDTO;
+import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mail.EmailTemplate;
 import by.exadel.internship.service.EmailService;
 import com.google.api.client.util.DateTime;
@@ -20,10 +21,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +47,9 @@ public class EmailServiceImpl implements EmailService {
                                          UserRole userRole, LocalDateTime dateTime,
                                          int interviewTime) {
 
-        Calendar service = calendarConfig.getDefaultCalendar();
+        Calendar service = calendarConfig.getDefaultCalendar()
+                .orElseThrow(() -> new NotFoundException("Unsuccessful attempt to get calendar", "calendar.invalid"));
+
         Event event;
         if (userRole == UserRole.TECH_EXPERT) {
             event = new Event()
