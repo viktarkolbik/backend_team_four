@@ -1,5 +1,6 @@
 package by.exadel.internship.service.impl;
 
+import by.exadel.internship.dto.FileInfoDTO;
 import by.exadel.internship.exception_handing.FileNotUploadException;
 import by.exadel.internship.service.FileService;
 import by.exadel.internship.util.MDCLog;
@@ -9,13 +10,11 @@ import com.google.cloud.storage.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
 import java.util.UUID;
 
 @Service
@@ -23,10 +22,9 @@ import java.util.UUID;
 public class FileServiceImpl implements FileService {
 
     private static final String DOT_SEPARATOR = ".";
+    private static final String DASH_SEPARATOR = "-";
     private static final String SIMPLE_CLASS_NAME = FileService.class.getSimpleName();
 
-    @Value("${firebase.url}")
-    private String downloadUrl;
     @Value("${firebase.bucket}")
     private String bucketName;
     @Value("${firebase.jsonFilePath}")
@@ -36,8 +34,7 @@ public class FileServiceImpl implements FileService {
     public String upload(byte[] fileContent, String originalFileName) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         String fileName = originalFileName;
-        fileName = UUID.randomUUID().toString()
-                .concat(this.getExtension(fileName));
+        fileName = StringUtils.join(UUID.randomUUID().toString(), DOT_SEPARATOR,this.getExtension(fileName));
         return this.uploadFile(fileContent, fileName);
     }
 
@@ -45,18 +42,41 @@ public class FileServiceImpl implements FileService {
         log.info("Try to upload file to cloud");
         BlobId blobId = BlobId.of(bucketName, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        Credentials credentials = null;
+
+        Credentials credentials = getCredentialsByJSON();
+
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        storage.create(blobInfo, file);
+        log.info("File was uploaded to cloud");
+        return fileName;
+    }
+
+    @Override
+    public FileInfoDTO download(String fileName, String formLastName, String internshipName) {
+        log.info("Try to download file from cloud");
+        String destFileName = StringUtils
+                .join(formLastName,DASH_SEPARATOR,internshipName,DOT_SEPARATOR,this.getExtension(fileName));
+
+        Credentials credentials = getCredentialsByJSON();
+
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        Blob blob = storage.get(BlobId.of(bucketName, fileName));
+
+        FileInfoDTO fileInfoDTO = new FileInfoDTO();
+        fileInfoDTO.setFileName(destFileName);
+        fileInfoDTO.setResource(new ByteArrayResource(blob.getContent()));
+        log.info("Return FileInfoDTO with name and resource");
+        return fileInfoDTO;
+    }
+
+
+    private Credentials getCredentialsByJSON(){
         try {
-            credentials = GoogleCredentials
-                    .fromStream(new FileInputStream(jsonFilePath));
+            return GoogleCredentials.fromStream(new FileInputStream(jsonFilePath));
         } catch (IOException e) {
             log.error("File was not uploaded to cloud");
             throw new FileNotUploadException("File was not uploaded because: " + e.getMessage());
         }
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        storage.create(blobInfo, file);
-        log.info("File was uploaded to cloud");
-        return String.format(downloadUrl, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
 
     private String getExtension(String fileName) {
