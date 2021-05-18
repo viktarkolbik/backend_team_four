@@ -20,8 +20,10 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -76,11 +78,10 @@ public class EmailServiceImpl implements EmailService {
                 .setTimeZone(DEFAULT_TIME_ZONE);
         event.setEnd(end);
 
-        EventAttendee[] attendees = new EventAttendee[]{
-                new EventAttendee().setEmail(formMail),
-                new EventAttendee().setEmail(userMail),
-        };
-        event.setAttendees(Arrays.asList(attendees));
+        List<EventAttendee> attendees = new ArrayList<>();
+        attendees.add(new EventAttendee().setEmail(formMail));
+        attendees.add(new EventAttendee().setEmail(userMail));
+        event.setAttendees(attendees);
 
         try {
             event = service.events().insert(CALENDAR_ID, event).setSendUpdates(SEND_NOTIFICATION_ALL).execute();
