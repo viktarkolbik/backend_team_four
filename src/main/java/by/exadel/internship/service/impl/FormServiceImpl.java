@@ -1,9 +1,12 @@
 package by.exadel.internship.service.impl;
 
+import by.exadel.internship.dto.FileInfoDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.entity.Form;
+import by.exadel.internship.entity.Internship;
 import by.exadel.internship.entity.Interview;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
@@ -16,13 +19,12 @@ import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
-import by.exadel.internship.service.EmailService;
-import by.exadel.internship.service.FileService;
-import by.exadel.internship.service.FormService;
-import by.exadel.internship.service.UserService;
+import by.exadel.internship.service.*;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +45,7 @@ public class FormServiceImpl implements FormService {
     private final FormRepository formRepository;
     private final UserService userService;
 
+    private final InternshipService internshipService;
     private final EmailService emailService;
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
@@ -165,6 +168,23 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
+    public FileInfoDTO getFileByFormId(UUID formId) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to download file by formId = {}", formId);
+
+        Form form = formRepository.findById(formId)
+                .orElseThrow(() -> new NotFoundException(StringUtils
+                        .join("Form with uuid = ", formId, " NotFound in DB")
+                        , "form.uuid.invalid"));
+        GuestInternshipDTO internshipDTO = internshipService
+                .getGuestRepresentationOfInternshipById(form.getInternshipId());
+        FileInfoDTO fileInfoDTO = fileService
+                .download(form.getFilePath(), form.getLastName(), internshipDTO.getName());
+        log.info("Return file like byte[] and some info about file");
+        return fileInfoDTO;
+    }
+
+
     @Transactional
     public void restoreFormById(UUID formId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
