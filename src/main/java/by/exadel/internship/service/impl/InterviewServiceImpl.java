@@ -135,7 +135,8 @@ public class InterviewServiceImpl implements InterviewService {
                 .stream()
                 .filter(userTimeSlotDTO -> userTimeSlotDTO.getStartDate()
                         .equals(localDateTime))
-                .forEach(userTimeSlotDTO -> {
+                .findFirst()
+                .ifPresent(userTimeSlotDTO -> {
                     userTimeSlotService.deletedById(userTimeSlotDTO.getId());
                     userDTO.getUserTimeSlots().remove(userTimeSlotDTO);
                 });
