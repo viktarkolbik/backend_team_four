@@ -34,9 +34,7 @@ public class FileServiceImpl implements FileService {
     public String upload(byte[] fileContent, String originalFileName) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         String fileName = originalFileName;
-        fileName = UUID.randomUUID().toString()
-                .concat(DOT_SEPARATOR)
-                .concat(this.getExtension(fileName));
+        fileName = StringUtils.join(UUID.randomUUID().toString(), DOT_SEPARATOR,this.getExtension(fileName));
         return this.uploadFile(fileContent, fileName);
     }
 
@@ -56,11 +54,8 @@ public class FileServiceImpl implements FileService {
     @Override
     public FileInfoDTO download(String fileName, String formLastName, String internshipName) {
         log.info("Try to download file from cloud");
-        String destFileName = formLastName
-                .concat(DASH_SEPARATOR)
-                .concat(internshipName)
-                .concat(DOT_SEPARATOR)
-                .concat(this.getExtension(fileName));
+        String destFileName = StringUtils
+                .join(formLastName,DASH_SEPARATOR,internshipName,DOT_SEPARATOR,this.getExtension(fileName));
 
         Credentials credentials = getCredentialsByJSON();
 
