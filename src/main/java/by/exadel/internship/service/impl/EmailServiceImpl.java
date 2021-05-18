@@ -86,7 +86,8 @@ public class EmailServiceImpl implements EmailService {
         try {
             event = service.events().insert(CALENDAR_ID, event).setSendUpdates(SEND_NOTIFICATION_ALL).execute();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException("Cannot create event in calendar");
         }
         log.info("Event created : {}", event.getHtmlLink());
     }
