@@ -133,18 +133,22 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Transactional
-    public void addUser(UUID userId, UUID internshipId) {
-        userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User Not Found"));
-
+    public void addUser(List<UUID> userId, UUID internshipId) {
         internshipRepository.findById(internshipId)
                 .orElseThrow(() -> new NotFoundException("Internship Not Found"));
 
-        int exist = internshipRepository.checkUserAssign(userId, internshipId);
-        if (exist > 0) {
-            throw new RuntimeException("User is already assigned to Internship");
+        for (UUID uuid : userId) {
+
+            userRepository.findById(uuid)
+                    .orElseThrow(() -> new NotFoundException("User Not Found"));
+
+            int exist = internshipRepository.checkUserAssign(uuid, internshipId);
+            if (exist > 0) {
+                throw new RuntimeException("User is already assigned to Internship");
+            }
+
+            internshipRepository.addUserToInternship(uuid, internshipId);
         }
-        internshipRepository.addUserToInternship(userId, internshipId);
     }
 
     @Transactional

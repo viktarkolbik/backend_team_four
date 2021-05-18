@@ -25,7 +25,7 @@ public interface InternshipService {
 
     UserInternshipDTO saveInternship(UserInternshipDTO internshipDTO);
 
-    void addUser(UUID userId, UUID internshipId);
+    void addUser(List<UUID> userId, UUID internshipId);
 
     UserInternshipDTO update(UUID internshipId, UserInternshipDTO internshipDTO);
 }
