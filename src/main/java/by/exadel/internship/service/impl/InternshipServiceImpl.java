@@ -5,6 +5,7 @@ import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
+import by.exadel.internship.entity.User;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.internship.InternshipMapper;
 import by.exadel.internship.repository.InternshipRepository;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -133,22 +135,32 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Transactional
-    public void addUser(List<UUID> userId, UUID internshipId) {
-        internshipRepository.findById(internshipId)
+    public void addUser(List<UUID> userIds, UUID internshipId) {
+        Internship internship = internshipRepository.findById(internshipId)
                 .orElseThrow(() -> new NotFoundException("Internship Not Found"));
 
-        for (UUID uuid : userId) {
+        List<User> assignUsers = internship.getUsers();
 
-            userRepository.findById(uuid)
-                    .orElseThrow(() -> new NotFoundException("User Not Found"));
+        List<User> existingUsers = userRepository.findAllById(userIds);
 
-            int exist = internshipRepository.checkUserAssign(uuid, internshipId);
-            if (exist > 0) {
-                throw new RuntimeException("User is already assigned to Internship");
-            }
+        List<UUID> existingUsersIds = existingUsers.stream()
+                .map(User::getId)
+                .collect(Collectors.toList());
 
-            internshipRepository.addUserToInternship(uuid, internshipId);
+        if (!userIds.containsAll(existingUsersIds)) {
+            throw new NotFoundException("Some Users Not Found");
         }
+
+        List<User> alreadyAssigned = assignUsers.stream()
+                .filter(existingUsers::contains)
+                .collect(Collectors.toList());
+
+        if (!alreadyAssigned.isEmpty()){
+            throw new RuntimeException(alreadyAssigned+" already exists");
+        }
+
+        assignUsers.addAll(existingUsers);
+        internshipRepository.save(internship);
     }
 
     @Transactional
