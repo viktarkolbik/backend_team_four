@@ -23,6 +23,7 @@ import by.exadel.internship.service.*;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -170,9 +171,11 @@ public class FormServiceImpl implements FormService {
     public FileInfoDTO getFileByFormId(UUID formId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to download file by formId = {}", formId);
+
         Form form = formRepository.findById(formId)
-                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
-                " Not Found in DB", "form.uuid.invalid"));
+                .orElseThrow(() -> new NotFoundException(StringUtils
+                        .join("Form with uuid = ", formId, " NotFound in DB")
+                        , "form.uuid.invalid"));
         GuestInternshipDTO internshipDTO = internshipService
                 .getGuestRepresentationOfInternshipById(form.getInternshipId());
         FileInfoDTO fileInfoDTO = fileService
