@@ -131,12 +131,14 @@ public class InterviewServiceImpl implements InterviewService {
     }
 
     private void deleteTime(LocalDateTime localDateTime, UserFullDTO userDTO) {
-        List<UserTimeSlotDTO> userTimeSlotDTOList = userDTO.getUserTimeSlots()
+        userDTO.getUserTimeSlots()
                 .stream()
                 .filter(userTimeSlotDTO -> userTimeSlotDTO.getStartDate()
-                        .equals(localDateTime)).collect(Collectors.toList());
-        userDTO.getUserTimeSlots().remove(userTimeSlotDTOList.get(0));
-        userTimeSlotService.deletedById(userTimeSlotDTOList.get(0).getId());
+                        .equals(localDateTime))
+                .forEach(userTimeSlotDTO -> {
+                    userTimeSlotService.deletedById(userTimeSlotDTO.getId());
+                    userDTO.getUserTimeSlots().remove(userTimeSlotDTO);
+                });
     }
 
     @Override
