@@ -163,7 +163,7 @@ public class InternshipServiceImpl implements InternshipService {
         log.info("Try to get Internship with id= {}", id);
 
         Internship internship = internshipRepository
-                .findById(id)
+                .findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new NotFoundException("No such Internship with id = " + id + " in DB", "id.invalid"));
 
         log.info("Successfully got Internship with id= {}", id);

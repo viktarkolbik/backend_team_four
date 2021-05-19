@@ -17,13 +17,17 @@ import java.util.UUID;
 public interface InternshipRepository extends JpaRepository<Internship, UUID> {
 
 
-    @Query("SELECT DISTINCT i FROM Internship i LEFT JOIN FETCH i.skills  WHERE i.deleted = true")
+    @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
+    @Query("SELECT DISTINCT i FROM Internship i WHERE i.deleted = true")
     List<Internship> findAllByDeletedTrue();
 
     List<Internship> findAllByDeletedFalse();
 
-    Optional<Internship> findByIdAndDeletedFalse(UUID internshipId);
+    @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
+    @Query("SELECT DISTINCT i FROM Internship i WHERE i.id = :id ")
+    Optional<Internship> findByIdAndDeletedFalse(@Param("id")UUID internshipId);
 
+    @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
     Optional<Internship> findByIdAndDeletedTrue(UUID internshipId);
 
     @Modifying

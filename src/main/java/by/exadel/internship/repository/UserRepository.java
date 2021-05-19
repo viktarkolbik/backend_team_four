@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -21,6 +22,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("UPDATE User u SET u.deleted = false WHERE u.id = :userId")
     void activateUserById(@Param("userId") UUID userId);
 
+    @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     List<User> findAllByDeletedTrue();
 
     List<User> findAllByDeletedFalse();
@@ -35,6 +37,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("UPDATE User u SET u.deleted=true WHERE u.id= :userId")
     void deleteById(@Param("userId") UUID userId);
 
+    @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     Optional<User> findByLogin(String login);
 
     @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.skills WHERE u.deleted = false ")
@@ -44,8 +47,11 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT DISTINCT u FROM User u JOIN u.internships i WHERE i.id = :id AND u.userRole = :role AND u.deleted = false")
     List<User> findAllWithSkillByInternshipId(@Param("id") UUID internshipId, @Param("role") UserRole role);
 
+    @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     List<User> findAllByUserRole(UserRole userRole);
 
+ //@EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     @Query(value = "SELECT DISTINCT u.* FROM user_detail as u JOIN user_skill as s ON u.u_id = s.us_u_id WHERE CAST (s.us_name AS VARCHAR) IN :skills AND u.u_deleted = false", nativeQuery = true)
-    List<User> getUsersBySkills(@Param("skills") List<String> skills);
+   // @Query("SELECT DISTINCT u FROM User u  WHERE  u.skills = :skills AND u.deleted = false")
+    List<User> getUsersBySkills(@Param("skills") Set<String> skills);
 }

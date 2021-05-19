@@ -163,9 +163,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<UserDTO> getUsersBySkills(List<Skill> skills) {
-        List<String> enumListToString = skills.stream()
+        Set<String> enumListToString = skills.stream()
                 .map(Enum::toString)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         log.info("Try to get set of user by skills : {}", skills);
         List<User> usersWithSkills = userRepository.getUsersBySkills(enumListToString);
         log.info("Return set of user by skill");
