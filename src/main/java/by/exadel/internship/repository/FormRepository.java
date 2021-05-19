@@ -49,7 +49,9 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
     @Query(value = "UPDATE Form f SET f.deleted=true WHERE f.id= :formId")
     void deleteById(@Param("formId") UUID formId);
 
-    @EntityGraph(attributePaths = {"timeForCallList", "country", "city", "interview.admin", "interview.techSpecialist"})
+    @EntityGraph(attributePaths = {"timeForCallList", "interview.admin.skills",
+            "interview.techSpecialist.skills","interview.techSpecialist.userTimeSlots",
+            "interview.admin.userTimeSlots" , "country", "city"})
     @Query("select distinct f from Form f " +
             " where f.interview.admin.id = :userId or f.interview.techSpecialist.id = :userId")
     List<Form> findAllByUserId(@Param("userId") UUID userId);
