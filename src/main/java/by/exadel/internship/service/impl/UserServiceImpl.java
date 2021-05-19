@@ -58,10 +58,10 @@ public class UserServiceImpl implements UserService {
         log.info("Try to get  user by id: {} with skills", id);
         User user = userRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+        log.info("Try to get  current timeslots by user id: {} ", id);
         List<UserTimeSlot> CurrentTimeSlots = userTimeSlotRepository.getUserWithCurrentTimeSlot(id);
-
+        log.info("Try to set  current timeslots to user id: {} ", id);
         user.setUserTimeSlots(CurrentTimeSlots);
-
 
         log.info("Try get UserDTO from User");
 
