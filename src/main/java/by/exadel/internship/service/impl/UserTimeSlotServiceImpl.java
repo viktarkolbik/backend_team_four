@@ -35,7 +35,7 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
     private static final String SIMPLE_CLASS_NAME = UserTimeSlotService.class.getSimpleName();
 
     @Override
-    public void saveUserTime(List<UserTimeSlotDTO> userTimeSlotDTOList, UUID userId) {
+    public List<UserTimeSlotDTO> saveUserTime(List<UserTimeSlotDTO> userTimeSlotDTOList, UUID userId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save free time list for user with uuid = {} in DB", userId);
         UserDTO userDTO = userService.getById(userId);
@@ -48,6 +48,7 @@ public class UserTimeSlotServiceImpl implements UserTimeSlotService {
         userDTO.setUserTimeSlots(resultUserTimeList);
         userService.updateTimeSlot(userId,resultUserTimeList);
         log.info("Free time list was saved in DB, user uuid = {}", userDTO.getId());
+        return resultUserTimeList;
     }
 
     @Override

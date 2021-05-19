@@ -1,21 +1,23 @@
 package by.exadel.internship.service.impl;
 
+import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.dto.FileInfoDTO;
-import by.exadel.internship.dto.internship.GuestInternshipDTO;
-import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
-import by.exadel.internship.entity.Form;
-import by.exadel.internship.entity.Internship;
-import by.exadel.internship.entity.Interview;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
+import by.exadel.internship.dto.user.UserDTO;
+import by.exadel.internship.entity.Form;
+import by.exadel.internship.entity.Interview;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
-import by.exadel.internship.exception_handing.*;
+import by.exadel.internship.exception_handing.BadConditionException;
+import by.exadel.internship.exception_handing.FileNotUploadException;
+import by.exadel.internship.exception_handing.InappropriateRoleException;
+import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.mapper.InterviewMapper;
-import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
@@ -24,7 +26,6 @@ import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,6 +43,7 @@ public class FormServiceImpl implements FormService {
     private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
     private final FormMapper mapper;
     private final InterviewMapper interviewMapper;
+
     private final FormRepository formRepository;
     private final UserService userService;
 
@@ -49,8 +51,8 @@ public class FormServiceImpl implements FormService {
     private final EmailService emailService;
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
-
     private final FileService fileService;
+
 
 
     @Override
@@ -129,13 +131,9 @@ public class FormServiceImpl implements FormService {
 
         List<Form> formList = formRepository.findAllByInternship(internshipId);
 
-        log.info("Try get list of formFullDTO");
-
-        List<FormFullDTO> formFullDTOList = mapper.map(formList);
-
         log.info("Successfully list of formFullDTO");
 
-        return formFullDTOList;
+        return mapper.map(formList);
 
     }
 
