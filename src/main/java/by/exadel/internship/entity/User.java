@@ -10,6 +10,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -55,12 +56,12 @@ public class User {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "user_skill", joinColumns = @JoinColumn(name = "us_u_id"))
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
-    private List<Skill> skills;
+    private Set<Skill> skills;
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private List<Internship> internships;
 
     @OneToMany(mappedBy = "user")
-    private List<UserTimeSlot> userTimeSlots;
+    private Set<UserTimeSlot> userTimeSlots;
 
 }

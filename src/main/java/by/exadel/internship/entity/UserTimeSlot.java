@@ -2,6 +2,7 @@ package by.exadel.internship.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"user"})
 public class UserTimeSlot {
 
     @Id
@@ -30,7 +32,7 @@ public class UserTimeSlot {
     @Column(name = "ust_end_date")
     private LocalDateTime endDate;
 
-    @ManyToOne( fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ust_u_id")
     private User user;
 

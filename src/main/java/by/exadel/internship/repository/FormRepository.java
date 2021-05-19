@@ -19,19 +19,29 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
     @Query("UPDATE Form f SET f.deleted = false WHERE f.id = :formId")
     void activateFormById(@Param("formId") UUID formId);
 
-    @Query("SELECT DISTINCT f FROM Form f LEFT JOIN FETCH f.timeForCallList LEFT JOIN FETCH f.country LEFT JOIN FETCH f.city LEFT JOIN FETCH f.interview WHERE f.deleted = true AND f.id = :id")
+    @EntityGraph(attributePaths = {"timeForCallList", "country", "city", "interview"})
+    @Query("SELECT DISTINCT f FROM Form f WHERE f.deleted = true AND f.id = :id")
     Optional<Form> findByIdAndDeletedTrue(@Param("id") UUID formId);
 
+    @EntityGraph(attributePaths = {"timeForCallList", "interview.admin.skills",
+            "interview.techSpecialist.skills","interview.techSpecialist.userTimeSlots",
+            "interview.admin.userTimeSlots" , "country", "city"})
     Optional<Form> findByIdAndDeletedFalse(UUID formId);
 
     List<Form> findAllByDeletedFalse();
 
     List<Form> findAllByDeletedTrue();
 
-    @Query("SELECT distinct f FROM Form f LEFT JOIN FETCH f.timeForCallList WHERE f.deleted = false")
+    @EntityGraph(attributePaths = {"timeForCallList", "interview.admin.skills",
+            "interview.techSpecialist.skills","interview.techSpecialist.userTimeSlots",
+            "interview.admin.userTimeSlots" , "country", "city"})
+    @Query("SELECT distinct f FROM Form f WHERE f.deleted = false")
     List<Form> findAllWithTimeForCallList();
 
-    @Query("SELECT DISTINCT f FROM Form f LEFT JOIN FETCH f.timeForCallList WHERE f.internshipId = :id" +
+    @EntityGraph(attributePaths = {"timeForCallList", "interview.admin.skills",
+            "interview.techSpecialist.skills","interview.techSpecialist.userTimeSlots",
+            "interview.admin.userTimeSlots" , "country", "city"})
+    @Query("SELECT DISTINCT f FROM Form f WHERE f.internshipId = :id" +
             " AND f.deleted = false")
     List<Form> findAllByInternship(@Param("id") UUID internshipID);
 
@@ -39,9 +49,9 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
     @Query(value = "UPDATE Form f SET f.deleted=true WHERE f.id= :formId")
     void deleteById(@Param("formId") UUID formId);
 
-    @EntityGraph(attributePaths = {"timeForCallList", "country", "city"})
-    @Query("select distinct f from Form f LEFT JOIN FETCH f.interview i" +
-            " where i.admin.id = :userId or i.techSpecialist.id = :userId")
+    @EntityGraph(attributePaths = {"timeForCallList", "country", "city", "interview.admin", "interview.techSpecialist"})
+    @Query("select distinct f from Form f " +
+            " where f.interview.admin.id = :userId or f.interview.techSpecialist.id = :userId")
     List<Form> findAllByUserId(@Param("userId") UUID userId);
 
 }
