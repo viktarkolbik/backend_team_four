@@ -155,7 +155,7 @@ public class InternshipServiceImpl implements InternshipService {
                 .filter(existingUsers::contains)
                 .collect(Collectors.toList());
 
-        if (alreadyAssigned.size() > 0) {
+        if (!alreadyAssigned.isEmpty()) {
             throw new RuntimeException(alreadyAssigned + " already exists");
         }
 
