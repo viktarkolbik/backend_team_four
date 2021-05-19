@@ -5,6 +5,7 @@ import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 import by.exadel.internship.entity.Internship;
+import by.exadel.internship.entity.User;
 import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.internship.InternshipMapper;
 import by.exadel.internship.repository.InternshipRepository;
@@ -14,10 +15,12 @@ import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -133,18 +136,33 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Transactional
-    public void addUser(UUID userId, UUID internshipId) {
-        userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User Not Found"));
+    public void assignUsers(List<UUID> userIds, UUID internshipId) {
+        Internship internship = internshipRepository.findById(internshipId)
+                .orElseThrow(() -> new RuntimeException("Internship Not Found"));
 
-        internshipRepository.findById(internshipId)
-                .orElseThrow(() -> new NotFoundException("Internship Not Found"));
+        List<User> assignUsers = internship.getUsers();
 
-        int exist = internshipRepository.checkUserAssign(userId, internshipId);
-        if (exist > 0) {
-            throw new RuntimeException("User is already assigned to Internship");
+        List<User> existingUsers = userRepository.findAllById(userIds);
+
+        List<UUID> existingUsersIds = existingUsers.stream()
+                .map(User::getId)
+                .collect(Collectors.toList());
+
+        if (!existingUsersIds.containsAll(userIds)) {
+            userIds.removeAll(existingUsersIds);
+            throw new RuntimeException("Some Users Not Found: "+userIds);
         }
-        internshipRepository.addUserToInternship(userId, internshipId);
+
+        List<User> alreadyAssigned = assignUsers.stream()
+                .filter(existingUsers::contains)
+                .collect(Collectors.toList());
+
+        if (!alreadyAssigned.isEmpty()) {
+            throw new RuntimeException(alreadyAssigned + " already assign");
+        }
+
+        assignUsers.addAll(existingUsers);
+        internshipRepository.save(internship);
     }
 
     @Transactional

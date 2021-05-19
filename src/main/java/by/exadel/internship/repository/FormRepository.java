@@ -1,6 +1,7 @@
 package by.exadel.internship.repository;
 
 import by.exadel.internship.entity.Form;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -38,7 +39,9 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
     @Query(value = "UPDATE Form f SET f.deleted=true WHERE f.id= :formId")
     void deleteById(@Param("formId") UUID formId);
 
-    @Query(value = "select distinct f from Form f LEFT JOIN FETCH f.interview i where i.admin = :userId or i.techSpecialist = :userId")
-    List<Form> findAllByUserId(@Param("userId")UUID userId);
+    @EntityGraph(attributePaths = {"timeForCallList", "country", "city"})
+    @Query("select distinct f from Form f LEFT JOIN FETCH f.interview i" +
+            " where i.admin.id = :userId or i.techSpecialist.id = :userId")
+    List<Form> findAllByUserId(@Param("userId") UUID userId);
 
 }

@@ -27,8 +27,9 @@ public class Interview {
     @Column(name = "i_id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "i_admin_id")
-    private UUID admin;
+    @JoinColumn(name = "i_admin_id")
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private User admin;
 
     @Column(name = "i_admin_interview_date")
     private LocalDateTime adminInterviewDate;
@@ -36,8 +37,9 @@ public class Interview {
     @Column(name = "i_admin_feedback")
     private String adminFeedback;
 
-    @Column(name = "i_tech_id")
-    private UUID techSpecialist;
+    @JoinColumn(name = "i_tech_id")
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private User techSpecialist;
     @Column(name = "i_tech_interview_date")
     private LocalDateTime techInterviewDate;
 

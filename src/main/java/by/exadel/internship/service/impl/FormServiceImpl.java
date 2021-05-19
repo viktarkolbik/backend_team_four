@@ -1,18 +1,23 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.user.UserDTO;
+import by.exadel.internship.dto.FeedbackRequest;
+import by.exadel.internship.dto.FileInfoDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
-import by.exadel.internship.entity.Form;
-import by.exadel.internship.entity.Interview;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
+import by.exadel.internship.dto.internship.GuestInternshipDTO;
+import by.exadel.internship.dto.user.UserDTO;
+import by.exadel.internship.entity.Form;
+import by.exadel.internship.entity.Interview;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
-import by.exadel.internship.exception_handing.*;
+import by.exadel.internship.exception_handing.BadConditionException;
+import by.exadel.internship.exception_handing.FileNotUploadException;
+import by.exadel.internship.exception_handing.InappropriateRoleException;
+import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.mapper.InterviewMapper;
-import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
@@ -20,6 +25,7 @@ import by.exadel.internship.service.*;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,15 +43,16 @@ public class FormServiceImpl implements FormService {
 
     private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
     private final FormMapper mapper;
-    private final InterviewMapper interviewMapper;
+
     private final FormRepository formRepository;
     private final UserService userService;
 
+    private final InternshipService internshipService;
     private final EmailService emailService;
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
-
     private final FileService fileService;
+
 
 
     @Override
@@ -124,13 +131,9 @@ public class FormServiceImpl implements FormService {
 
         List<Form> formList = formRepository.findAllByInternship(internshipId);
 
-        log.info("Try get list of formFullDTO");
-
-        List<FormFullDTO> formFullDTOList = mapper.map(formList);
-
         log.info("Successfully list of formFullDTO");
 
-        return formFullDTOList;
+        return mapper.map(formList);
 
     }
 
@@ -164,6 +167,23 @@ public class FormServiceImpl implements FormService {
 
 
     @Override
+    public FileInfoDTO getFileByFormId(UUID formId) {
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to download file by formId = {}", formId);
+
+        Form form = formRepository.findById(formId)
+                .orElseThrow(() -> new NotFoundException(StringUtils
+                        .join("Form with uuid = ", formId, " NotFound in DB")
+                        , "form.uuid.invalid"));
+        GuestInternshipDTO internshipDTO = internshipService
+                .getGuestRepresentationOfInternshipById(form.getInternshipId());
+        FileInfoDTO fileInfoDTO = fileService
+                .download(form.getFilePath(), form.getLastName(), internshipDTO.getName());
+        log.info("Return file like byte[] and some info about file");
+        return fileInfoDTO;
+    }
+
+
     @Transactional
     public void restoreFormById(UUID formId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
@@ -178,20 +198,6 @@ public class FormServiceImpl implements FormService {
         log.info("Successfully returned deleted Form with uuid: {}", formId);
     }
 
-    @Override
-    public void updateForm(FormFullDTO formFullDTO) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to update Form with uuid = {}", formFullDTO.getId());
-        Form form = formRepository.findByIdAndDeletedFalse(formFullDTO.getId())
-                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formFullDTO.getId() +
-                        " Not Found in DB", "form.uuid.invalid"));
-        form.setFormStatus(formFullDTO.getFormStatus());
-        Interview interview = interviewMapper.toInterview(formFullDTO.getInterview());
-        form.setInterview(interview);
-        formRepository.save(form);
-        log.info("Successfully saved Form with uuid = {} and Interview with uuid = {}",
-                form.getId(), interview.getId());
-    }
 
     @Override
     public void deleteById(UUID formId) {
