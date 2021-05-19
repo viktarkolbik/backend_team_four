@@ -74,24 +74,24 @@ public class InternshipController {
         return internshipService.saveInternship(internshipDTO);
     }
 
-    @SuperAdminAccessControl
-    @PostMapping("/{internshipId}/addUser")
-    @ApiOperation("Add User to Internship")
-    public void addUser(@RequestParam(name = "userId") UUID userId, @PathVariable(name = "internshipId") UUID internshipId){
-        internshipService.addUser(userId, internshipId);
-    }
-
     @AdminAccessControl
     @GetMapping("/skills")
     @ApiOperation("return list of skills")
-    public List<Skill> getSkillList (){
+    public List<Skill> getSkillList() {
         return Arrays.asList(Skill.values());
     }
 
     @SuperAdminAccessControl
     @PutMapping("/{internshipId}")
     @ApiOperation("update internship")
-    public UserInternshipDTO updateInternship(@PathVariable(name = "internshipId") UUID internshipId, @RequestBody UserInternshipDTO internshipDTO){
+    public UserInternshipDTO updateInternship(@PathVariable(name = "internshipId") UUID internshipId, @RequestBody UserInternshipDTO internshipDTO) {
         return internshipService.update(internshipId, internshipDTO);
+    }
+
+    @SuperAdminAccessControl
+    @PostMapping("/{internshipId}/users/assign")
+    @ApiOperation("Add User to Internship")
+    public void assignUser(@RequestParam(name = "userIds") List<UUID> userIds, @PathVariable(name = "internshipId") UUID internshipId) {
+        internshipService.assignUsers(userIds, internshipId);
     }
 }
