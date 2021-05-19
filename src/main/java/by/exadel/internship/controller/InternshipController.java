@@ -91,7 +91,7 @@ public class InternshipController {
     @SuperAdminAccessControl
     @PostMapping("/{internshipId}/addUser")
     @ApiOperation("Add User to Internship")
-    public void addUser(@RequestParam(name = "userId") List<UUID> userId, @PathVariable(name = "internshipId") UUID internshipId) {
-        internshipService.addUser(userId, internshipId);
+    public void assignUser(@RequestParam(name = "userIds") List<UUID> userIds, @PathVariable(name = "internshipId") UUID internshipId) {
+        internshipService.assignUser(userIds, internshipId);
     }
 }
