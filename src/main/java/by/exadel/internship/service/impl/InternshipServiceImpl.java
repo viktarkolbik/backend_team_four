@@ -15,6 +15,7 @@ import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -137,7 +138,7 @@ public class InternshipServiceImpl implements InternshipService {
     @Transactional
     public void assignUsers(List<UUID> userIds, UUID internshipId) {
         Internship internship = internshipRepository.findById(internshipId)
-                .orElseThrow(() -> new NotFoundException("Internship Not Found"));
+                .orElseThrow(() -> new RuntimeException("Internship Not Found"));
 
         List<User> assignUsers = internship.getUsers();
 
@@ -148,7 +149,8 @@ public class InternshipServiceImpl implements InternshipService {
                 .collect(Collectors.toList());
 
         if (!existingUsersIds.containsAll(userIds)) {
-            throw new NotFoundException("Some Users Not Found");
+            userIds.removeAll(existingUsersIds);
+            throw new RuntimeException("Some Users Not Found: "+userIds);
         }
 
         List<User> alreadyAssigned = assignUsers.stream()

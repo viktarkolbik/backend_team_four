@@ -89,7 +89,7 @@ public class InternshipController {
     }
 
     @SuperAdminAccessControl
-    @PostMapping("/{internshipId}/addUser")
+    @PostMapping("/{internshipId}/users/assign")
     @ApiOperation("Add User to Internship")
     public void assignUser(@RequestParam(name = "userIds") List<UUID> userIds, @PathVariable(name = "internshipId") UUID internshipId) {
         internshipService.assignUsers(userIds, internshipId);
