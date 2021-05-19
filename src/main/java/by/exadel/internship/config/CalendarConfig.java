@@ -63,7 +63,7 @@ public class CalendarConfig {
                     .build());
         }catch (GeneralSecurityException | IOException e) {
             log.error("Cannot get Calendar with default settings because : {}", e.getMessage());
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 }
