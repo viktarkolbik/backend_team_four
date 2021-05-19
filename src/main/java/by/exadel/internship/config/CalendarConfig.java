@@ -41,18 +41,21 @@ public class CalendarConfig {
 
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         InputStream in = CalendarConfig.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-        }
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+        try(in) {
+            if (in == null) {
+                throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+            }
+            GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                .setAccessType(ACCESS_TYPE)
-                .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(PORT_FOR_OAUTH2).build();
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize(USER_FOR_AUTHORIZE);
+            GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+                    .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+                    .setAccessType(ACCESS_TYPE)
+                    .build();
+
+            LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(PORT_FOR_OAUTH2).build();
+            return new AuthorizationCodeInstalledApp(flow, receiver).authorize(USER_FOR_AUTHORIZE);
+        }
     }
 
     public Optional<Calendar> getDefaultCalendar(){

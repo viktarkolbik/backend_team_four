@@ -42,27 +42,21 @@ public class EmailServiceImpl implements EmailService {
         return defaultSetupForMail(text, formRegisterDTO.getEmail());
     }
 
-    @Override
-    public void sendInterviewDateOnEmail(String formMail, String userMail,
-                                         UserRole userRole, LocalDateTime dateTime,
-                                         int interviewTime) {
+    private void setDefaultConfigInEvent(String summary,
+                                         String description,
+                                         LocalDateTime startTime,
+                                         LocalDateTime finishTime,
+                                         List<String> emails) {
 
         Calendar service = calendarConfig.getDefaultCalendar()
                 .orElseThrow(() -> new NotFoundException("Unsuccessful attempt to get calendar", "calendar.invalid"));
 
-        Event event;
-        if (userRole == UserRole.TECH_EXPERT) {
-            event = new Event()
-                    .setSummary(EmailTemplate.TECH_INTERVIEW_SUMMARY)
-                    .setDescription(EmailTemplate.TECH_INTERVIEW_EMAIL);
-        }else{
-            event = new Event()
-                    .setSummary(EmailTemplate.HR_INTERVIEW_SUMMARY)
-                    .setDescription(EmailTemplate.HR_INTERVIEW_EMAIL);
-        }
+        Event event = new Event();
+        event.setSummary(summary);
+        event.setDescription(description);
         event.setLocation(DEFAULT_TIME_ZONE);
 
-        Date startDate = Timestamp.valueOf(dateTime);
+        Date startDate = Timestamp.valueOf(startTime);
 
         DateTime startDateTime = new DateTime(startDate);
         EventDateTime start = new EventDateTime()
@@ -70,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
                 .setTimeZone(DEFAULT_TIME_ZONE);
         event.setStart(start);
 
-        Date endDate = Timestamp.valueOf(dateTime.plusMinutes(interviewTime));
+        Date endDate = Timestamp.valueOf(finishTime);
 
         DateTime endDateTime = new DateTime(endDate);
         EventDateTime end = new EventDateTime()
@@ -79,8 +73,7 @@ public class EmailServiceImpl implements EmailService {
         event.setEnd(end);
 
         List<EventAttendee> attendees = new ArrayList<>();
-        attendees.add(new EventAttendee().setEmail(formMail));
-        attendees.add(new EventAttendee().setEmail(userMail));
+        emails.forEach(email -> attendees.add(new EventAttendee().setEmail(email)));
         event.setAttendees(attendees);
 
         try {
@@ -90,6 +83,31 @@ public class EmailServiceImpl implements EmailService {
             throw new RuntimeException("Cannot create event in calendar");
         }
         log.info("Event created : {}", event.getHtmlLink());
+
+    }
+
+    @Override
+    public void sendInterviewDateOnEmail(String formMail, String userMail,
+                                         UserRole userRole, LocalDateTime dateTime,
+                                         int interviewTime) {
+
+        if (userRole == UserRole.TECH_EXPERT) {
+            setDefaultConfigInEvent(EmailTemplate.TECH_INTERVIEW_SUMMARY,
+                    EmailTemplate.TECH_INTERVIEW_EMAIL, dateTime,
+                    dateTime.plusMinutes(interviewTime),
+                    new ArrayList<>() {{
+                        add(userMail);
+                        add(formMail);
+                    }});
+        } else {
+            setDefaultConfigInEvent(EmailTemplate.HR_INTERVIEW_SUMMARY,
+                    EmailTemplate.HR_INTERVIEW_EMAIL, dateTime,
+                    dateTime.plusMinutes(interviewTime),
+                    new ArrayList<>() {{
+                        add(userMail);
+                        add(formMail);
+                    }});
+        }
     }
 
     private boolean defaultSetupForMail(String text, String formEmail) {
