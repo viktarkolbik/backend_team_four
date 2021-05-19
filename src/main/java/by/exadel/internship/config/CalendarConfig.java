@@ -45,16 +45,18 @@ public class CalendarConfig {
             if (in == null) {
                 throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
             }
-            GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+            InputStreamReader inputStreamReader = new InputStreamReader(in);
+            try(inputStreamReader) {
+                GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, inputStreamReader);
+                GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                        HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+                        .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+                        .setAccessType(ACCESS_TYPE)
+                        .build();
 
-            GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                    .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                    .setAccessType(ACCESS_TYPE)
-                    .build();
-
-            LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(PORT_FOR_OAUTH2).build();
-            return new AuthorizationCodeInstalledApp(flow, receiver).authorize(USER_FOR_AUTHORIZE);
+                LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(PORT_FOR_OAUTH2).build();
+                return new AuthorizationCodeInstalledApp(flow, receiver).authorize(USER_FOR_AUTHORIZE);
+            }
         }
     }
 
