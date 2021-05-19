@@ -22,7 +22,6 @@ public interface FormService {
 
     void restoreFormById(UUID formId);
 
-    void updateForm(FormFullDTO formFullDTO);
 
     List<FormFullDTO> getAllByCondition(UUID internshipId, UUID userId);
 

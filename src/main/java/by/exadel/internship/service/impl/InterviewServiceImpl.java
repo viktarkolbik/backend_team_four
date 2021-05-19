@@ -6,7 +6,6 @@ import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.form.FormFullDTO;
 import by.exadel.internship.dto.interview.InterviewSaveDTO;
-import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.dto.user.UserFullDTO;
 import by.exadel.internship.entity.Form;
@@ -18,6 +17,7 @@ import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.mapper.InterviewMapper;
 import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.repository.InterviewRepository;
+import by.exadel.internship.service.*;
 import by.exadel.internship.repository.UserRepository;
 import by.exadel.internship.service.InterviewService;
 import by.exadel.internship.service.UserService;
@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +44,8 @@ public class InterviewServiceImpl implements InterviewService {
     private final UserTimeSlotService userTimeSlotService;
     private final FormRepository formRepository;
     private final UserService userService;
+    private final EmailService emailService;
+
     private final FormMapper formMapper;
     private final UserRepository userRepository;
 
@@ -94,6 +96,11 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
+
+            emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
+                    userDTO.getEmail(), userDTO.getUserRole(),
+                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());
+
             saveForm(formFullDTO);
         }else {
             if (formFullDTO.getFormStatus() != FormStatus.REGISTERED) {
@@ -157,6 +164,11 @@ public class InterviewServiceImpl implements InterviewService {
             interviewFullDTO.setAdminInterviewDate(interviewDTO.getUserInterviewDate());
 
             formFullDTO.setInterview(interviewFullDTO);
+
+            emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
+                    userDTO.getEmail(), userDTO.getUserRole(),
+                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());
+
             saveForm(formFullDTO);
 
             this.deleteTime(interviewDTO.getUserInterviewDate(), userDTO);
@@ -173,6 +185,11 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
+
+            emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
+                    userDTO.getEmail(), userDTO.getUserRole(),
+                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());
+
             saveForm(formFullDTO);
 
             this.deleteTime(interviewDTO.getUserInterviewDate(),userDTO);
