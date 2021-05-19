@@ -135,7 +135,7 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Transactional
-    public void assignUser(List<UUID> userIds, UUID internshipId) {
+    public void assignUsers(List<UUID> userIds, UUID internshipId) {
         Internship internship = internshipRepository.findById(internshipId)
                 .orElseThrow(() -> new NotFoundException("Internship Not Found"));
 
@@ -156,7 +156,7 @@ public class InternshipServiceImpl implements InternshipService {
                 .collect(Collectors.toList());
 
         if (!alreadyAssigned.isEmpty()) {
-            throw new RuntimeException(alreadyAssigned + " already exists");
+            throw new RuntimeException(alreadyAssigned + " already assign");
         }
 
         assignUsers.addAll(existingUsers);

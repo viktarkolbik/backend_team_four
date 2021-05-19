@@ -92,6 +92,6 @@ public class InternshipController {
     @PostMapping("/{internshipId}/addUser")
     @ApiOperation("Add User to Internship")
     public void assignUser(@RequestParam(name = "userIds") List<UUID> userIds, @PathVariable(name = "internshipId") UUID internshipId) {
-        internshipService.assignUser(userIds, internshipId);
+        internshipService.assignUsers(userIds, internshipId);
     }
 }
