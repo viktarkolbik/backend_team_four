@@ -1,6 +1,7 @@
 package by.exadel.internship.controller;
 
 import by.exadel.internship.annotation.AdminAccessControl;
+import by.exadel.internship.annotation.UserAccessControl;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.interview.InterviewDTO;
 import by.exadel.internship.dto.interview.InterviewInfoDTO;
@@ -21,7 +22,7 @@ public class InterviewController {
 
     private final InterviewService interviewService;
 
-    @AdminAccessControl
+    @UserAccessControl
     @GetMapping
     @ApiOperation("Get all Interview for User")
     public List<InterviewInfoDTO> getAllByUserId(@RequestParam UUID userId, @RequestParam UserRole userRole){
