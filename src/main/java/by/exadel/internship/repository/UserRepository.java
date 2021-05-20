@@ -3,6 +3,7 @@ package by.exadel.internship.repository;
 import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.entity.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,15 +27,17 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByIdAndDeletedTrue(UUID userId);
 
-    @Query(value = "SELECT DISTINCT u.* FROM user_detail as u INNER JOIN user_time_slot as ts   " +
-            "ON u.u_id = ts.ust_u_id " +
-            "LEFT JOIN user_skill as us ON u.u_id = us.us_u_id " +
-            "WHERE ( CAST(ts.ust_start_date as TIMESTAMP)  >= current_timestamp) AND  (u.u_id = :userId ) AND u.u_deleted = false ", nativeQuery = true)
-    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
 
-//    @Query("SELECT DISTINCT u FROM User  u INNER JOIN u.userTimeSlots  ts " +
-//            "WHERE ( CAST(ts. as TIMESTAMP)  >= current_timestamp) AND  (u.u_id = :userId ) AND u.u_deleted = false ")
+//    @Query(value = "SELECT DISTINCT u.* FROM user_detail as u INNER JOIN user_time_slot as ts   " +
+//            "ON u.u_id = ts.ust_u_id " +
+//            "LEFT JOIN user_skill as us ON u.u_id = us.us_u_id " +
+//            "WHERE ( CAST(ts.ust_start_date as TIMESTAMP)  >= current_timestamp) AND  (u.u_id = :userId ) AND u.u_deleted = false ", nativeQuery = true)
 //    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
+
+    @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
+    @Query("SELECT DISTINCT u FROM User  u INNER JOIN u.userTimeSlots  ts " +
+            "WHERE  ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) AND  (u.id = :userId ) AND u.deleted = false ")
+    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
 
     @Modifying
     @Query("UPDATE User u SET u.deleted=true WHERE u.id= :userId")

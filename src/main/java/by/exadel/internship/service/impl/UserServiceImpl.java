@@ -65,10 +65,8 @@ public class UserServiceImpl implements UserService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get  user by id: {} with skills", id);
 
-
         User user = userRepository.findUserByIdWithCurrentTimeSlots(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
-        log.info("Try to get  current timeslots by user id: {} ", id);
 
         log.info("Try get UserDTO from User");
 
