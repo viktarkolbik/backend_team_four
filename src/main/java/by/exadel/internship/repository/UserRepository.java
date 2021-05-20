@@ -27,13 +27,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByIdAndDeletedTrue(UUID userId);
 
-
-//    @Query(value = "SELECT DISTINCT u.* FROM user_detail as u INNER JOIN user_time_slot as ts   " +
-//            "ON u.u_id = ts.ust_u_id " +
-//            "LEFT JOIN user_skill as us ON u.u_id = us.us_u_id " +
-//            "WHERE ( CAST(ts.ust_start_date as TIMESTAMP)  >= current_timestamp) AND  (u.u_id = :userId ) AND u.u_deleted = false ", nativeQuery = true)
-//    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
-
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     @Query("SELECT DISTINCT u FROM User  u INNER JOIN u.userTimeSlots  ts " +
             "WHERE  ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) AND  (u.id = :userId ) AND u.deleted = false ")
