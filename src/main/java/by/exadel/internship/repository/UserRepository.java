@@ -50,8 +50,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     List<User> findAllByUserRole(UserRole userRole);
 
- //@EntityGraph(attributePaths = {"skills", "userTimeSlots"})
-    @Query(value = "SELECT DISTINCT u.* FROM user_detail as u JOIN user_skill as s ON u.u_id = s.us_u_id WHERE CAST (s.us_name AS VARCHAR) IN :skills AND u.u_deleted = false", nativeQuery = true)
+   @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
+   // @Query(value = "SELECT DISTINCT u.* FROM user_detail as u JOIN user_skill as s ON u.u_id = s.us_u_id WHERE CAST (s.us_name AS VARCHAR) IN :skills AND u.u_deleted = false", nativeQuery = true)
    // @Query("SELECT DISTINCT u FROM User u  WHERE  u.skills = :skills AND u.deleted = false")
-    List<User> getUsersBySkills(@Param("skills") Set<String> skills);
+    List<User> getUsersBySkillsInAndDeletedFalse(Set<Skill> skills);
 }

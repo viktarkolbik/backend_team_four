@@ -32,5 +32,6 @@ public interface UserService {
     List<UserDTO> getAllByUserRole(UserRole userRole);
 
     UserFullDTO getFullUserById(UUID userId);
+
     List<UserDTO> getUsersBySkills(List<Skill> skills);
 }

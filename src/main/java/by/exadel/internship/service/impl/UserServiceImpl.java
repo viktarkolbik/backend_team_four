@@ -17,7 +17,6 @@ import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -163,11 +162,13 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<UserDTO> getUsersBySkills(List<Skill> skills) {
-        Set<String> enumListToString = skills.stream()
-                .map(Enum::toString)
-                .collect(Collectors.toSet());
+
+        Set<Skill> enumListToString = skills.stream().collect(Collectors.toSet());
+
         log.info("Try to get set of user by skills : {}", skills);
-        List<User> usersWithSkills = userRepository.getUsersBySkills(enumListToString);
+
+        List<User> usersWithSkills = userRepository.getUsersBySkillsInAndDeletedFalse(enumListToString);
+
         log.info("Return set of user by skill");
         return mapper.map(usersWithSkills);
     }

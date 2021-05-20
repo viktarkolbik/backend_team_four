@@ -18,7 +18,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"internships"})
+@ToString(exclude = {"internships", "userTimeSlots"})
 public class User {
 
     @Id

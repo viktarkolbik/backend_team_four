@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Api(tags = "Authorization controller")
 public class AuthController {
+    
     private final AuthenticationManager authenticationManager;
-
     private final JwtService jwtService;
     private static final String EMAIL_SEPARATOR = "@";
 
