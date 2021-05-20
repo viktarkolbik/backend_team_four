@@ -10,7 +10,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MvcResult;
@@ -83,7 +82,7 @@ public class UserTest extends InternshipApplicationTests {
         UUID userId = UUID.fromString("22222222-1111-1111-1111-789d2237f933");
         getResult(HttpMethod.DELETE, URI.create("/users/" + userId), status().isOk());
         getResult(HttpMethod.PUT, URI.create("/users/" + userId + "/restore"), status().isOk());
-        User user = userRepository.findByIdAndDeletedFalse(userId)
+        User user = userRepository.findUserByIdWithCurrentTimeSlots(userId)
                 .orElseThrow(() -> new NotFoundException("User with uuid = " + userId +
                         " Not Found in DB", "user.uuid.invalid"));
         assertFalse(user.isDeleted());

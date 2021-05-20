@@ -16,7 +16,14 @@ import by.exadel.internship.service.UserService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.EnumUtils;
+import org.hibernate.Cache;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.service.ServiceRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -53,15 +60,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDTO getById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get  user by id: {} with skills", id);
-        User user = userRepository.findByIdAndDeletedFalse(id)
+
+
+        User user = userRepository.findUserByIdWithCurrentTimeSlots(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
         log.info("Try to get  current timeslots by user id: {} ", id);
-        List<UserTimeSlot> CurrentTimeSlots = userTimeSlotRepository.getUserWithCurrentTimeSlot(id);
-        log.info("Try to set  current timeslots to user id: {} ", id);
-        user.setUserTimeSlots(CurrentTimeSlots);
 
         log.info("Try get UserDTO from User");
 
@@ -76,7 +83,7 @@ public class UserServiceImpl implements UserService {
     public UserInfoDTO getSimpleUserById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get simple user by id: {} with skills", id);
-        User user = userRepository.findByIdAndDeletedFalse(id)
+        User user = userRepository.findUserByIdWithCurrentTimeSlots(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
         log.info("Try get UserInfoDTO from User");
 
@@ -108,7 +115,7 @@ public class UserServiceImpl implements UserService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to delete User with uuid: {}", uuid);
         userRepository
-                .findByIdAndDeletedFalse(uuid)
+                .findUserByIdWithCurrentTimeSlots(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         userRepository.deleteById(uuid);
         log.info("Successfully deleted User with uuid: {}", uuid);
@@ -130,7 +137,7 @@ public class UserServiceImpl implements UserService {
     public void updateTimeSlot(UUID userId, List<UserTimeSlotDTO> userTimeSlotDTOList) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to update user time slot");
-        User user = userRepository.findByIdAndDeletedFalse(userId)
+        User user = userRepository.findUserByIdWithCurrentTimeSlots(userId)
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
         List<UserTimeSlot> userTimeSlot = userTimeSlotMapper.map(userTimeSlotDTOList);
         userTimeSlot.forEach(timeSlot -> timeSlot.setUser(user));

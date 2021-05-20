@@ -26,7 +26,15 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByIdAndDeletedTrue(UUID userId);
 
-    Optional<User> findByIdAndDeletedFalse(UUID userId);
+    @Query(value = "SELECT DISTINCT u.* FROM user_detail as u INNER JOIN user_time_slot as ts   " +
+            "ON u.u_id = ts.ust_u_id " +
+            "LEFT JOIN user_skill as us ON u.u_id = us.us_u_id " +
+            "WHERE ( CAST(ts.ust_start_date as TIMESTAMP)  >= current_timestamp) AND  (u.u_id = :userId ) AND u.u_deleted = false ", nativeQuery = true)
+    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
+
+//    @Query("SELECT DISTINCT u FROM User  u INNER JOIN u.userTimeSlots  ts " +
+//            "WHERE ( CAST(ts. as TIMESTAMP)  >= current_timestamp) AND  (u.u_id = :userId ) AND u.u_deleted = false ")
+//    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
 
     @Modifying
     @Query("UPDATE User u SET u.deleted=true WHERE u.id= :userId")
