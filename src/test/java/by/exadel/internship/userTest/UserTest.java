@@ -2,6 +2,7 @@ package by.exadel.internship.userTest;
 
 import by.exadel.internship.InternshipApplicationTests;
 import by.exadel.internship.dto.enums.UserRole;
+import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
 import by.exadel.internship.dto.user.UserDTO;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.exception_handing.NotFoundException;
@@ -10,18 +11,22 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -29,6 +34,39 @@ public class UserTest extends InternshipApplicationTests {
 
     @Autowired
     private UserRepository userRepository;
+
+
+    @Test
+    public void saveUserTimeSlotTest() throws Exception {
+        LocalDateTime startTime = LocalDateTime.of(2021,05,20,11,00,00);
+        LocalDateTime endTime = LocalDateTime.of(2021,05,20,12,00,00);
+
+        UserTimeSlotDTO userTimeSlotDTO = new UserTimeSlotDTO();
+        userTimeSlotDTO.setStartDate(startTime);
+        userTimeSlotDTO.setEndDate(endTime);
+
+        List<UserTimeSlotDTO> userTimeSlotDTOList = new ArrayList<>();
+
+        userTimeSlotDTOList.add(userTimeSlotDTO);
+
+        URI uri = UriComponentsBuilder.fromPath("/users/e4ec8eef-c659-46f5-bde8-63551a980553/time-slot")
+                .build().toUri();
+
+        MvcResult mvcResult = mockMvc.perform(post(uri)
+                .content(objectMapper.writeValueAsString(userTimeSlotDTOList))
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+        )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        List<UserTimeSlotDTO> result = objectMapper.readValue(contentAsString, new TypeReference<>() {
+        });
+
+        assertEquals(5, result.size());
+
+    }
 
     @Test
     public void checkListSize() throws Exception {
