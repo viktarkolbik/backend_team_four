@@ -52,7 +52,7 @@ public class InterviewServiceImpl implements InterviewService {
     @Override
     public List<InterviewInfoDTO> getAllByUserId(UUID userId, UserRole userRole) {
         List<Interview> interviews;
-        User user = userRepository.findByIdAndDeletedFalse(userId)
+        User user = userRepository.findUserByIdWithCurrentTimeSlots(userId)
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
         switch (userRole) {
             case ADMIN: {

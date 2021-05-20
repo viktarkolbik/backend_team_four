@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
     public UserFullDTO getFullUserById(UUID userId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to update user time slot");
-        User user = userRepository.findByIdAndDeletedFalse(userId)
+        User user = userRepository.findUserByIdWithCurrentTimeSlots(userId)
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
         log.info("UserDTOs got successfully");
         return mapper.toUserFull(user);
