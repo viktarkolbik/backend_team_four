@@ -101,7 +101,7 @@ public class UserTest extends InternshipApplicationTests {
             @Sql(scripts = "/insert-u-sql/insert-u-1.sql"),
             @Sql(scripts = "/delete-u-sql/delete-u-1.sql", executionPhase = AFTER_TEST_METHOD)
     })
-    public void givenInternship_WhenDelete_ThenCheck_WhetherInternshipIsDeleted() throws Exception {
+    public void   givenInternship_WhenDelete_ThenCheck_WhetherInternshipIsDeleted() throws Exception {
         UUID userId = UUID.fromString("11111111-1111-1111-1111-789d2237f933");
 
         getResult(HttpMethod.DELETE, URI.create("/users/" + userId), status().isOk());
@@ -120,7 +120,7 @@ public class UserTest extends InternshipApplicationTests {
         UUID userId = UUID.fromString("22222222-1111-1111-1111-789d2237f933");
         getResult(HttpMethod.DELETE, URI.create("/users/" + userId), status().isOk());
         getResult(HttpMethod.PUT, URI.create("/users/" + userId + "/restore"), status().isOk());
-        User user = userRepository.findUserByIdWithCurrentTimeSlots(userId)
+        User user = userRepository.findByIdAndDeletedFalse(userId)
                 .orElseThrow(() -> new NotFoundException("User with uuid = " + userId +
                         " Not Found in DB", "user.uuid.invalid"));
         assertFalse(user.isDeleted());
