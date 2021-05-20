@@ -153,6 +153,7 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
+    @Transactional
     public void updateStatusById(UUID formId, FormStatus status) {
         log.info("Try to get form by form id: {}", formId);
 

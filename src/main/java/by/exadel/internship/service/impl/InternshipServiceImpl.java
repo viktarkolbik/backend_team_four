@@ -168,8 +168,6 @@ public class InternshipServiceImpl implements InternshipService {
 
         log.info("Successfully got Internship with id= {}", id);
 
-        System.out.println(internship.getLocationList());
-
         return internship;
 
     }
