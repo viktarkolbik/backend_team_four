@@ -29,9 +29,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/forms")
 @Api(tags = "Endpoints for Form")
+@RequiredArgsConstructor
 public class FormController {
     private static final String ATTACHMENT = "attachment;filename= ";
 
@@ -60,7 +60,7 @@ public class FormController {
     @AdminAccessControl
     @GetMapping("/{formId}")
     @ApiOperation("Get form by id")
-    public FormFullDTO getFormById(@PathVariable("formId") UUID formId){
+    public FormFullDTO getFormById(@PathVariable("formId") UUID formId) {
         return formService.getById(formId);
     }
 
@@ -71,7 +71,7 @@ public class FormController {
     public ResponseEntity<Resource> getFileByForm(@PathVariable("formId") UUID formId) {
         FileInfoDTO fileInfoDTO = formService.getFileByFormId(formId);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,ATTACHMENT + fileInfoDTO.getFileName())
+                .header(HttpHeaders.CONTENT_DISPOSITION, ATTACHMENT + fileInfoDTO.getFileName())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .contentLength(fileInfoDTO.getResource().contentLength())
                 .body(fileInfoDTO.getResource());

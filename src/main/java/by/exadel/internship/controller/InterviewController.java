@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/interviews")
 @Api(tags = "Endpoints for Interview")
+@RequiredArgsConstructor
 public class InterviewController {
 
     private final InterviewService interviewService;
@@ -26,7 +26,7 @@ public class InterviewController {
     @UserAccessControl
     @GetMapping
     @ApiOperation("Get all Interview for User")
-    public List<InterviewInfoDTO> getAllByUserId(@RequestParam UUID userId, @RequestParam UserRole userRole){
+    public List<InterviewInfoDTO> getAllByUserId(@RequestParam UUID userId, @RequestParam UserRole userRole) {
         return interviewService.getAllByUserId(userId, userRole);
     }
 
