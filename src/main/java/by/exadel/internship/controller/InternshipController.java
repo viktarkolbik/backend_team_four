@@ -94,4 +94,11 @@ public class InternshipController {
     public void assignUser(@RequestParam(name = "userIds") List<UUID> userIds, @PathVariable(name = "internshipId") UUID internshipId) {
         internshipService.assignUsers(userIds, internshipId);
     }
+
+    @SuperAdminAccessControl
+    @PutMapping("/{internshipId}/users/update")
+    @ApiOperation("Update User to Internship")
+    public void updateUsersInInternship(@RequestParam(name = "userIds") List<UUID> userIds, @PathVariable(name = "internshipId") UUID internshipId) {
+        internshipService.updateUsers(userIds, internshipId);
+    }
 }

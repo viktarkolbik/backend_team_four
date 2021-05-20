@@ -28,4 +28,6 @@ public interface InternshipService {
     void assignUsers(List<UUID> userIds, UUID internshipId);
 
     UserInternshipDTO update(UUID internshipId, UserInternshipDTO internshipDTO);
+
+    UserInternshipDTO updateUsers(List<UUID> userIds, UUID internshipId);
 }
