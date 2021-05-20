@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/internships")
 @Api(tags = "Endpoints for Internship")
+@RequiredArgsConstructor
 public class InternshipController {
 
     private final InternshipService internshipService;

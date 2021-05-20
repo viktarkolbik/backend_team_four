@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/location")
 @Api(tags = "Endpoints for Location")
+@RequiredArgsConstructor
 public class LocationController {
     private final LocationService locationService;
 
@@ -29,7 +29,7 @@ public class LocationController {
 
     @GetMapping("/cities")
     @ApiOperation("return city list")
-    public List<CityDTO> getCityList(@RequestParam(value = "countryId") UUID countryId){
+    public List<CityDTO> getCityList(@RequestParam(value = "countryId") UUID countryId) {
         return locationService.getCitiesByCountryId(countryId);
     }
 }
