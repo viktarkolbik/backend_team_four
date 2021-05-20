@@ -4,3 +4,7 @@ INSERT INTO "user_skill" (us_u_id, us_name)
 VALUES ('33333333-1111-1111-1111-789d2237f933', 'JAVA') ON CONFLICT (us_u_id, us_name) DO NOTHING;
 INSERT INTO "user_internship" (ui_u_id, ui_inship_id)
 VALUES ('33333333-1111-1111-1111-789d2237f933', '1069033e-e317-407f-be0a-3adc99ae844c') ON CONFLICT (ui_u_id, ui_inship_id) DO NOTHING;
+
+INSERT INTO user_time_slot (ust_id, ust_start_date, ust_end_date, ust_u_id)
+VALUES ('33331111-120f-4419-b5a7-211cb7a8b034', '2021-06-02T11:00:00', '2021-06-02T11:30:00', '33333333-1111-1111-1111-789d2237f933')
+ON CONFLICT (ust_id) DO NOTHING;
