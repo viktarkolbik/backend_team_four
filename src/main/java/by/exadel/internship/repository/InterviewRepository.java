@@ -10,6 +10,8 @@ import java.util.UUID;
 
 @Repository
 public interface InterviewRepository extends JpaRepository<Interview, UUID> {
+
     List<Interview> findAllByAdmin(User admin);
+
     List<Interview> findAllByTechSpecialist(User tech);
 }

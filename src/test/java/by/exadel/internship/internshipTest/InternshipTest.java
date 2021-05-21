@@ -99,7 +99,7 @@ public class InternshipTest extends InternshipApplicationTests {
                 .internshipFormat(InternshipFormat.ONLINE)
                 .capacity(200).description("string")
                 .skills(Set.of(Skill.JAVA, Skill.JS)).requirements("string").techSkills("string")
-                .locations(List.of(locationDTO1))
+                .locations(Set.of(locationDTO1))
                 .startDate(LocalDate.of(2021, 7, 21))
                 .endDate(LocalDate.of(2021, 9, 21))
                 .publicationDate(LocalDate.of(2021, 7, 01))

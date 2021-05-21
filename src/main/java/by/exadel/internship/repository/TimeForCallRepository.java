@@ -9,5 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface TimeForCallRepository extends JpaRepository<TimeForCall, UUID> {
+
     Optional<TimeForCall> findByFormId(UUID formId);
 }
