@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findUserByIdWithCurrentTimeSlots(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
-
+        log.info("Delete overdue timeslots");
             user.setUserTimeSlots(user.getUserTimeSlots().stream()
                     .filter(userTimeSlot -> userTimeSlot.getStartDate().compareTo(LocalDateTime.now()) > 0)
             .collect(Collectors.toSet()));
