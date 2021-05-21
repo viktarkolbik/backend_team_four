@@ -43,7 +43,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.skills WHERE u.deleted = false ")
     List<User> findAllWithSkill();
 
-    @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.skills JOIN u.internships i WHERE i.id = :id AND u.userRole = :role AND u.deleted = false")
+    @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.skills JOIN u.internships i " +
+            "LEFT JOIN u.userTimeSlots  ts WITH ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) " +
+            "WHERE i.id = :id AND u.userRole = :role AND u.deleted = false")
     List<User> findAllWithSkillByInternshipId(@Param("id") UUID internshipId, @Param("role") UserRole role);
 
     List<User> findAllByUserRole(UserRole userRole);
