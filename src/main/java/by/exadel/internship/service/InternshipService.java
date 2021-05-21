@@ -29,5 +29,5 @@ public interface InternshipService {
 
     UserInternshipDTO update(UUID internshipId, UserInternshipDTO internshipDTO);
 
-    UserInternshipDTO updateUsers(List<UUID> userIds, UUID internshipId);
+    UserInternshipDTO replaceUsersAssignedToInternship(List<UUID> userIds, UUID internshipId);
 }

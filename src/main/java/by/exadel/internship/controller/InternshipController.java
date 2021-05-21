@@ -96,9 +96,9 @@ public class InternshipController {
     }
 
     @SuperAdminAccessControl
-    @PutMapping("/{internshipId}/users/update")
+    @PutMapping("/{internshipId}/users/replace")
     @ApiOperation("Update User to Internship")
-    public void updateUsersInInternship(@RequestParam(name = "userIds") List<UUID> userIds, @PathVariable(name = "internshipId") UUID internshipId) {
-        internshipService.updateUsers(userIds, internshipId);
+    public UserInternshipDTO replaceUsersAssignedToInternship(@RequestParam(name = "userIds") List<UUID> userIds, @PathVariable(name = "internshipId") UUID internshipId) {
+        return internshipService.replaceUsersAssignedToInternship(userIds, internshipId);
     }
 }
