@@ -27,15 +27,12 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByIdAndDeletedTrue(UUID userId);
 
-    //@EntityGraph(attributePaths = {"skills", "userTimeSlots"})
-    //    @Query("SELECT DISTINCT u FROM User  u LEFT JOIN u.userTimeSlots  ts " +
-    //            "WHERE  ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) AND  ((u.id = :userId ) AND u.deleted = false) ")
-    //    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
-    Optional<User> findByIdAndDeletedFalse(@Param("userId") UUID userId);
+        @Query("SELECT DISTINCT u FROM User  u LEFT JOIN u.userTimeSlots  ts " +
+                "WITH ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) WHERE  ((u.id = :userId ) AND u.deleted = false) ")
+    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
 
-//    @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
-//    Optional<User> findByIdAndDeletedFalse(UUID userId);
+
 
     @Modifying
     @Query("UPDATE User u SET u.deleted=true WHERE u.id= :userId")

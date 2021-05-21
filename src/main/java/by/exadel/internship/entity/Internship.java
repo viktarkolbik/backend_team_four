@@ -21,6 +21,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"user"})
 @ToString(exclude = {"users"})
 public class Internship extends Auditable<String> {
     @Id

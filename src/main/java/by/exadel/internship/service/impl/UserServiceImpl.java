@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO getById(UUID id) {
         log.info("Try to get  user by id: {} with skills", id);
 
-        User user = userRepository.findByIdAndDeletedFalse(id)
+        User user = userRepository.findUserByIdWithCurrentTimeSlots(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
 
             user.setUserTimeSlots(user.getUserTimeSlots().stream()
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
     public UserInfoDTO getSimpleUserById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get simple user by id: {} with skills", id);
-        User user = userRepository.findByIdAndDeletedFalse(id)
+        User user = userRepository.findUserByIdWithCurrentTimeSlots(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
         log.info("Try get UserInfoDTO from User");
 
@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to delete User with uuid: {}", uuid);
         userRepository
-                .findByIdAndDeletedFalse(uuid)
+                .findUserByIdWithCurrentTimeSlots(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         userRepository.deleteById(uuid);
         log.info("Successfully deleted User with uuid: {}", uuid);
@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
     public void updateTimeSlot(UUID userId, List<UserTimeSlotDTO> userTimeSlotDTOList) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to update user time slot");
-        User user = userRepository.findByIdAndDeletedFalse(userId)
+        User user = userRepository.findUserByIdWithCurrentTimeSlots(userId)
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
         List<UserTimeSlot> userTimeSlot = userTimeSlotMapper.map(userTimeSlotDTOList);
         userTimeSlot.forEach(timeSlot -> timeSlot.setUser(user));
@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
     public UserFullDTO getFullUserById(UUID userId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to update user time slot");
-        User user = userRepository.findByIdAndDeletedFalse(userId)
+        User user = userRepository.findUserByIdWithCurrentTimeSlots(userId)
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
         log.info("UserDTOs got successfully");
         return mapper.toUserFull(user);
