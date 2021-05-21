@@ -78,7 +78,7 @@ public class Internship extends Auditable<String> {
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private Set<Skill> skills;
 
-    @ManyToMany(fetch = FetchType.LAZY,  cascade = {CascadeType.PERSIST, CascadeType.REFRESH} )
+    @ManyToMany(fetch = FetchType.LAZY,  cascade = {CascadeType.PERSIST} )
     @JoinTable(
             name = "user_internship",
             joinColumns = @JoinColumn(name = "ui_inship_id"),
