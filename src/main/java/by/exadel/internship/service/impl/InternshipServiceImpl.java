@@ -18,8 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -140,7 +139,7 @@ public class InternshipServiceImpl implements InternshipService {
         Internship internship = internshipRepository.findById(internshipId)
                 .orElseThrow(() -> new RuntimeException("Internship Not Found"));
 
-        List<User> assignUsers = internship.getUsers();
+        Set<User> assignUsers = internship.getUsers();
 
         List<User> existingUsers = userRepository.findAllById(userIds);
 
@@ -163,6 +162,23 @@ public class InternshipServiceImpl implements InternshipService {
 
         assignUsers.addAll(existingUsers);
         internshipRepository.save(internship);
+    }
+
+
+    public UserInternshipDTO replaceUsersAssignedToInternship(List<UUID> userIds, UUID internshipId){
+        Internship internship = internshipRepository
+                .findById(internshipId)
+                .orElseThrow(() -> new NotFoundException("No such Internship with id = " + internshipId + " in DB", "id.invalid"));
+
+        Set<User> assignUsers = internship.getUsers();
+
+        List<User> targetUsers = userRepository.findAllById(userIds);
+
+        assignUsers.clear();
+        assignUsers.addAll(targetUsers);
+        internshipRepository.save(internship);
+        return internshipMapper.toUserInternshipDTO(internship);
+
     }
 
     @Transactional

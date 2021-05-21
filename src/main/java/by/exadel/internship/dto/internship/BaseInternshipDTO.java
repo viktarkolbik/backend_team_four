@@ -33,7 +33,7 @@ public class BaseInternshipDTO {
     private InternshipFormat internshipFormat;
 
     @NotNull
-    private List<LocationDTO> locations;
+    private Set<LocationDTO> locations;
 
     @NotNull
     private LocalDate startDate;
