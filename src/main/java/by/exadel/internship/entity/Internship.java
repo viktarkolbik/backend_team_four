@@ -85,12 +85,12 @@ public class Internship extends Auditable<String> {
             inverseJoinColumns = @JoinColumn(name = "ui_u_id"))
     private Set<User> users;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
             name = "internship_location",
             joinColumns = @JoinColumn(name = "il_inship_id"),
             inverseJoinColumns = @JoinColumn(name = "il_l_id", nullable = false))
-    private List<Location> locationList;
+    private Set<Location> locationList;
 
 }
