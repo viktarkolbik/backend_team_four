@@ -1,12 +1,11 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.interview.InterviewDTO;
-import by.exadel.internship.dto.interview.InterviewInfoDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.interview.InterviewDTO;
+import by.exadel.internship.dto.interview.InterviewInfoDTO;
 import by.exadel.internship.dto.interview.InterviewSaveDTO;
-import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.dto.user.UserFullDTO;
 import by.exadel.internship.entity.Form;
@@ -30,7 +29,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
