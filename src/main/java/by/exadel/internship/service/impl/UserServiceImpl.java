@@ -86,8 +86,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(UUID uuid) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to delete User with uuid: {}", uuid)
-        ;
+        log.info("Try to delete User with uuid: {}", uuid);
         userRepository
                 .findByIdAndDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
