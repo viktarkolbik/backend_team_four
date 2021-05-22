@@ -13,8 +13,6 @@ import java.util.UUID;
 
 public interface UserService {
 
-    List<UserDTO> getAll();
-
     UserDTO getById(UUID id);
 
     UserInfoDTO getSimpleUserById(UUID id);

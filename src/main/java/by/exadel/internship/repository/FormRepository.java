@@ -28,8 +28,6 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
             "interview.admin.userTimeSlots" , "country", "city"})
     Optional<Form> findByIdAndDeletedFalse(UUID formId);
 
-    List<Form> findAllByDeletedFalse();
-
     List<Form> findAllByDeletedTrue();
 
     @EntityGraph(attributePaths = {"timeForCallList", "interview.admin.skills",

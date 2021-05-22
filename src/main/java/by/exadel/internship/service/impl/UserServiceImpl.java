@@ -36,23 +36,6 @@ public class UserServiceImpl implements UserService {
     private static final String SIMPLE_CLASS_NAME = UserService.class.getSimpleName();
 
     @Override
-    public List<UserDTO> getAll() {
-
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to get all users with skill");
-
-        List<User> userList = userRepository.findAllWithSkill();
-
-        log.info("Try get list of UserDTO");
-
-        List<UserDTO> userDTOList = mapper.map(userList);
-
-        log.info("Successfully list of UserDTO");
-
-        return userDTOList;
-    }
-
-    @Override
     public UserDTO getById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get  user by id: {} with skills", id);
@@ -71,8 +54,10 @@ public class UserServiceImpl implements UserService {
     public UserInfoDTO getSimpleUserById(UUID id) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get simple user by id: {} with skills", id);
+
         User user = userRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+
         log.info("Try get UserInfoDTO from User");
 
         UserInfoDTO userInfoDTO = mapper.toUserInfo(user);
@@ -101,11 +86,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(UUID uuid) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to delete User with uuid: {}", uuid);
+        log.info("Try to delete User with uuid: {}", uuid)
+        ;
         userRepository
                 .findByIdAndDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         userRepository.deleteById(uuid);
+
         log.info("Successfully deleted User with uuid: {}", uuid);
     }
 
@@ -114,10 +101,12 @@ public class UserServiceImpl implements UserService {
     public void restoreUserById(UUID uuid) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to restore User with uuid: {}", uuid);
+
         userRepository
                 .findByIdAndDeletedTrue(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         userRepository.activateUserById(uuid);
+
         log.info("Successfully restore User with uuid: {}", uuid);
     }
 
@@ -125,19 +114,24 @@ public class UserServiceImpl implements UserService {
     public void updateTimeSlot(UUID userId, List<UserTimeSlotDTO> userTimeSlotDTOList) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to update user time slot");
+
         User user = userRepository.findByIdAndDeletedFalse(userId)
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
         List<UserTimeSlot> userTimeSlot = userTimeSlotMapper.map(userTimeSlotDTOList);
         userTimeSlot.forEach(timeSlot -> timeSlot.setUser(user));
         userTimeSlotRepository.saveAll(userTimeSlot);
+
         log.info("Successfully updated user user time slot");
     }
 
     @Override
     public List<UserDTO> getAllDeleted() {
+
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get List of deleted user");
+
         List<User> userList = userRepository.findAllByDeletedTrue();
+
         log.info("Return List of deletes user");
         return mapper.map(userList);
     }
@@ -146,7 +140,9 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getAllByUserRole(UserRole userRole) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get List of user with userRole : {}", userRole);
+
         List<User> users = userRepository.findAllByUserRole(userRole);
+
         log.info("Return List of user");
         return mapper.map(users);
     }
@@ -155,8 +151,10 @@ public class UserServiceImpl implements UserService {
     public UserFullDTO getFullUserById(UUID userId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to update user time slot");
+
         User user = userRepository.findByIdAndDeletedFalse(userId)
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
+
         log.info("UserDTOs got successfully");
         return mapper.toUserFull(user);
     }

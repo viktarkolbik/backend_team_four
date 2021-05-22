@@ -25,8 +25,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     List<User> findAllByDeletedTrue();
 
-    List<User> findAllByDeletedFalse();
-
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     Optional<User> findByIdAndDeletedTrue(UUID userId);
 
@@ -40,8 +38,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     Optional<User> findByLogin(String login);
 
-    @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.skills WHERE u.deleted = false ")
-    List<User> findAllWithSkill();
+    @EntityGraph(attributePaths = {"skills"})
+    List<User> findDistinctByDeletedFalse();
 
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     @Query("SELECT DISTINCT u FROM User u JOIN u.internships i WHERE i.id = :id AND u.userRole = :role AND u.deleted = false")

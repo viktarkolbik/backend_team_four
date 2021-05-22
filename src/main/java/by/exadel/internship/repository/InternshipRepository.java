@@ -15,14 +15,12 @@ import java.util.UUID;
 @Repository
 public interface InternshipRepository extends JpaRepository<Internship, UUID> {
 
-
     @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
     @Query("SELECT DISTINCT i FROM Internship i WHERE i.deleted = true")
     List<Internship> findAllByDeletedTrue();
 
     @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
-    @Query("SELECT DISTINCT i FROM Internship i WHERE i.deleted = true")
-    List<Internship> findAllByDeletedFalse();
+    List<Internship> findDistinctByDeletedFalse();
 
     @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
     @Query("SELECT DISTINCT i FROM Internship i WHERE i.id = :id ")

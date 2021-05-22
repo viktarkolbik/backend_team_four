@@ -33,7 +33,6 @@ public class FormTest extends InternshipApplicationTests {
     private FormRepository formRepository;
 
 
-
     private MockMultipartFile formData() {
         return new MockMultipartFile("form", "form",
                 MediaType.APPLICATION_JSON_VALUE,
@@ -82,7 +81,6 @@ public class FormTest extends InternshipApplicationTests {
 
     }
 
-
     @Test
     public void checkListSize() throws Exception {
         URI uri = UriComponentsBuilder.fromPath("/forms")
@@ -108,7 +106,6 @@ public class FormTest extends InternshipApplicationTests {
         assertEquals(form.getFormStatus(), FormStatus.NOT_MATCHED);
     }
 
-
     @Test
     public void givenFormList_WhenDeleteForm_ThenCheckListSizeWithFlagTrue() throws Exception {
 
@@ -128,7 +125,6 @@ public class FormTest extends InternshipApplicationTests {
                         " Not Found in DB", "form.uuid.invalid"));
         assertTrue(form.isDeleted());
     }
-
 
     @Test
     public void when_RestoreForm_Expect_FlagIsFalse() throws Exception {
