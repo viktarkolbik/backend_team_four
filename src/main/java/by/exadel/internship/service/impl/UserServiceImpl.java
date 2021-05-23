@@ -3,8 +3,8 @@ package by.exadel.internship.service.impl;
 import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
-import by.exadel.internship.dto.user.UserFullDTO;
 import by.exadel.internship.dto.user.UserDTO;
+import by.exadel.internship.dto.user.UserFullDTO;
 import by.exadel.internship.dto.user.UserInfoDTO;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.entity.UserTimeSlot;
@@ -20,9 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -70,9 +68,6 @@ public class UserServiceImpl implements UserService {
         log.info("UserDTO got successfully");
 
         return userDTO;
-    }
-    private LocalDateTime getCurrentTime(){
-        return LocalDateTime.now();
     }
 
     @Override
