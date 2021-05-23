@@ -10,8 +10,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -26,13 +28,15 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findAllByDeletedFalse();
 
     Optional<User> findByIdAndDeletedTrue(UUID userId);
+    Optional<User> findByIdAndDeletedFalse(UUID userId);
+
+//    @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
+//        @Query("SELECT DISTINCT u FROM User  u LEFT JOIN u.userTimeSlots  ts " +
+//                "WITH ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) WHERE  ((u.id = :userId ) AND u.deleted = false) ")
+//    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
 
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
-        @Query("SELECT DISTINCT u FROM User  u LEFT JOIN u.userTimeSlots  ts " +
-                "WITH ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) WHERE  ((u.id = :userId ) AND u.deleted = false) ")
-    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
-
-
+    Optional<User> findByIdAndUserTimeSlotsTAfterAndDeletedIsFalse(UUID userId, Set<LocalDateTime> now);
 
     @Modifying
     @Query("UPDATE User u SET u.deleted=true WHERE u.id= :userId")

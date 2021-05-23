@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -49,10 +50,14 @@ public class InterviewServiceImpl implements InterviewService {
     private final FormMapper formMapper;
     private final UserRepository userRepository;
 
+    private Set<LocalDateTime> getCurrentTime(){
+        return Set.of(LocalDateTime.now());
+    }
+
     @Override
     public List<InterviewInfoDTO> getAllByUserId(UUID userId, UserRole userRole) {
         List<Interview> interviews;
-        User user = userRepository.findUserByIdWithCurrentTimeSlots(userId)
+        User user = userRepository.findByIdAndUserTimeSlotsAfterAndDeletedIsFalse(userId, getCurrentTime())
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
         switch (userRole) {
             case ADMIN: {
