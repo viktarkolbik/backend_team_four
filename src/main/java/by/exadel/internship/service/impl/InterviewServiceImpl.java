@@ -50,14 +50,11 @@ public class InterviewServiceImpl implements InterviewService {
     private final FormMapper formMapper;
     private final UserRepository userRepository;
 
-    private Set<LocalDateTime> getCurrentTime(){
-        return Set.of(LocalDateTime.now());
-    }
 
     @Override
     public List<InterviewInfoDTO> getAllByUserId(UUID userId, UserRole userRole) {
         List<Interview> interviews;
-        User user = userRepository.findByIdAndUserTimeSlotsAfterAndDeletedIsFalse(userId, getCurrentTime())
+        User user = userRepository.findByIdAndDeletedFalse(userId)
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
         switch (userRole) {
             case ADMIN: {

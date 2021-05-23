@@ -30,13 +30,11 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByIdAndDeletedTrue(UUID userId);
     Optional<User> findByIdAndDeletedFalse(UUID userId);
 
-//    @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
-//        @Query("SELECT DISTINCT u FROM User  u LEFT JOIN u.userTimeSlots  ts " +
-//                "WITH ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) WHERE  ((u.id = :userId ) AND u.deleted = false) ")
-//    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
-
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
-    Optional<User> findByIdAndUserTimeSlotsTAfterAndDeletedIsFalse(UUID userId, Set<LocalDateTime> now);
+        @Query("SELECT DISTINCT u FROM User  u LEFT JOIN u.userTimeSlots  ts " +
+                "WITH ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) WHERE  ((u.id = :userId ) AND u.deleted = false) ")
+    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
+
 
     @Modifying
     @Query("UPDATE User u SET u.deleted=true WHERE u.id= :userId")
@@ -47,6 +45,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.skills WHERE u.deleted = false ")
     List<User> findAllWithSkill();
 
+    @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.skills JOIN u.internships i " +
             "LEFT JOIN u.userTimeSlots  ts WITH ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) " +
             "WHERE i.id = :id AND u.userRole = :role AND u.deleted = false")
