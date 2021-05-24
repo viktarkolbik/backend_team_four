@@ -36,10 +36,12 @@ bower_components
 *.log
 logs
 internship-cloud
+tokens
 .tmp
 .merge_file*
 coverage
 nb-configuration.xml
+src/main/resources/credentials.json
 img
 HELP.md
 mvnw

@@ -2,10 +2,7 @@ package by.exadel.internship.entity;
 
 import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;

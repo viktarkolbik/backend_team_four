@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/users")
 @Api(tags = "Endpoints for Users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;

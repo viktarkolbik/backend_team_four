@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
@@ -42,7 +43,6 @@ public class FormServiceImpl implements FormService {
 
     private static final String SIMPLE_CLASS_NAME = FormService.class.getSimpleName();
     private final FormMapper mapper;
-    private final InterviewMapper interviewMapper;
 
     private final FormRepository formRepository;
     private final UserService userService;
@@ -167,6 +167,7 @@ public class FormServiceImpl implements FormService {
         formRepository.save(one);
     }
 
+
     @Override
     public FileInfoDTO getFileByFormId(UUID formId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
@@ -199,20 +200,6 @@ public class FormServiceImpl implements FormService {
         log.info("Successfully returned deleted Form with uuid: {}", formId);
     }
 
-    @Override
-    public void updateForm(FormFullDTO formFullDTO) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to update Form with uuid = {}", formFullDTO.getId());
-        Form form = formRepository.findByIdAndDeletedFalse(formFullDTO.getId())
-                .orElseThrow(() -> new NotFoundException("Form with uuid = " + formFullDTO.getId() +
-                        " Not Found in DB", "form.uuid.invalid"));
-        form.setFormStatus(formFullDTO.getFormStatus());
-        Interview interview = interviewMapper.toInterview(formFullDTO.getInterview());
-        form.setInterview(interview);
-        formRepository.save(form);
-        log.info("Successfully saved Form with uuid = {} and Interview with uuid = {}",
-                form.getId(), interview.getId());
-    }
 
     @Override
     public void deleteById(UUID formId) {
@@ -251,7 +238,7 @@ public class FormServiceImpl implements FormService {
     private void setFeedbackByUserRole(UserDTO userDTO, Form form, FeedbackRequest feedbackRequest) {
         log.info("Set feedback in Interview By userRole");
         if (userDTO.getUserRole().equals(UserRole.ADMIN)) {
-            if (form.getInterview().getAdmin().equals(feedbackRequest.getUserId())) {
+            if (form.getInterview().getAdmin().getId().equals(feedbackRequest.getUserId())) {
                 form.getInterview().setAdminFeedback(feedbackRequest.getFeedback());
                 form.setFormStatus(FormStatus.ADMIN_INTERVIEW_PASSED);
                 formRepository.save(form);
@@ -263,7 +250,7 @@ public class FormServiceImpl implements FormService {
             }
         }
         if (userDTO.getUserRole().equals(UserRole.TECH_EXPERT)) {
-            if (form.getInterview().getTechSpecialist().equals(feedbackRequest.getUserId())) {
+            if (form.getInterview().getTechSpecialist().getId().equals(feedbackRequest.getUserId())) {
                 form.getInterview().setTechFeedback(feedbackRequest.getFeedback());
                 form.setFormStatus(FormStatus.TECH_INTERVIEW_PASSED);
                 formRepository.save(form);

@@ -23,7 +23,7 @@ public class BaseInternshipDTO {
 
     private UUID id;
 
-    @Size(min=2, max=100)
+    @Size(min=2, max=50)
     private String name;
 
     @NotNull

@@ -17,6 +17,7 @@ import by.exadel.internship.mapper.FormMapper;
 import by.exadel.internship.mapper.InterviewMapper;
 import by.exadel.internship.repository.FormRepository;
 import by.exadel.internship.repository.InterviewRepository;
+import by.exadel.internship.service.*;
 import by.exadel.internship.repository.UserRepository;
 import by.exadel.internship.service.InterviewService;
 import by.exadel.internship.service.UserService;
@@ -30,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -42,6 +44,8 @@ public class InterviewServiceImpl implements InterviewService {
     private final UserTimeSlotService userTimeSlotService;
     private final FormRepository formRepository;
     private final UserService userService;
+    private final EmailService emailService;
+
     private final FormMapper formMapper;
     private final UserRepository userRepository;
 
@@ -92,6 +96,11 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
+
+            emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
+                    userDTO.getEmail(), userDTO.getUserRole(),
+                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());
+
             saveForm(formFullDTO);
         }else {
             if (formFullDTO.getFormStatus() != FormStatus.REGISTERED) {
@@ -155,6 +164,11 @@ public class InterviewServiceImpl implements InterviewService {
             interviewFullDTO.setAdminInterviewDate(interviewDTO.getUserInterviewDate());
 
             formFullDTO.setInterview(interviewFullDTO);
+
+            emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
+                    userDTO.getEmail(), userDTO.getUserRole(),
+                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());
+
             saveForm(formFullDTO);
 
             this.deleteTime(interviewDTO.getUserInterviewDate(), userDTO);
@@ -171,6 +185,11 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
+
+            emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
+                    userDTO.getEmail(), userDTO.getUserRole(),
+                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());
+
             saveForm(formFullDTO);
 
             this.deleteTime(interviewDTO.getUserInterviewDate(),userDTO);
