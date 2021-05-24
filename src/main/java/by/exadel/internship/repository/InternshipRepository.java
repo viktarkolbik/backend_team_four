@@ -1,6 +1,8 @@
 package by.exadel.internship.repository;
 
 import by.exadel.internship.entity.Internship;
+import by.exadel.internship.entity.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +16,9 @@ import java.util.UUID;
 
 @Repository
 public interface InternshipRepository extends JpaRepository<Internship, UUID> {
+
+    @EntityGraph(attributePaths = {"users", "locationList.country", "locationList.city", "skills"})
+    Optional<Internship> findById(UUID id);
 
     @Query("SELECT DISTINCT i FROM Internship i LEFT JOIN FETCH i.skills  WHERE i.deleted = true")
     List<Internship> findAllByDeletedTrue();

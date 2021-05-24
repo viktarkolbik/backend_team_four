@@ -57,7 +57,7 @@ public class InternshipTest extends InternshipApplicationTests {
         assertEquals(guestFullInternshipDTO.getTechSkills(), "Docker; GitHub; Swagger UI");
         assertEquals(guestFullInternshipDTO.getSkills(), Set.of(Skill.JAVA,Skill.JS));
         assertEquals(guestFullInternshipDTO.getInternshipFormat(), InternshipFormat.ONLINE);
-        assertEquals(guestFullInternshipDTO.getLocations(), List.of(locationDTO1,locationDTO2,locationDTO3));
+        assertEquals(guestFullInternshipDTO.getLocations(), Set.of(locationDTO1,locationDTO2,locationDTO3));
         assertEquals(guestFullInternshipDTO.getStartDate(), LocalDate.of(2021, 7, 21));
         assertEquals(guestFullInternshipDTO.getEndDate(), LocalDate.of(2021, 9, 21));
 
@@ -99,7 +99,7 @@ public class InternshipTest extends InternshipApplicationTests {
                 .internshipFormat(InternshipFormat.ONLINE)
                 .capacity(200).description("string")
                 .skills(Set.of(Skill.JAVA, Skill.JS)).requirements("string").techSkills("string")
-                .locations(List.of(locationDTO1))
+                .locations(Set.of(locationDTO1))
                 .startDate(LocalDate.of(2021, 7, 21))
                 .endDate(LocalDate.of(2021, 9, 21))
                 .publicationDate(LocalDate.of(2021, 7, 01))

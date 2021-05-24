@@ -13,6 +13,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -75,14 +76,14 @@ public class Internship extends Auditable<String> {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "internship_skill", joinColumns = @JoinColumn(name = "is_inship_id"))
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
-    private List<Skill> skills;
+    private Set<Skill> skills;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,  cascade = {CascadeType.PERSIST} )
     @JoinTable(
             name = "user_internship",
             joinColumns = @JoinColumn(name = "ui_inship_id"),
             inverseJoinColumns = @JoinColumn(name = "ui_u_id"))
-    private List<User> users;
+    private Set<User> users;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Fetch(FetchMode.SUBSELECT)
@@ -90,6 +91,6 @@ public class Internship extends Auditable<String> {
             name = "internship_location",
             joinColumns = @JoinColumn(name = "il_inship_id"),
             inverseJoinColumns = @JoinColumn(name = "il_l_id", nullable = false))
-    private List<Location> locationList;
+    private Set<Location> locationList;
 
 }
