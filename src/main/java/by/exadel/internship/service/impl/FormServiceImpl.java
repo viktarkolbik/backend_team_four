@@ -236,7 +236,7 @@ public class FormServiceImpl implements FormService {
     private void setFeedbackByUserRole(UserDTO userDTO, Form form, FeedbackRequest feedbackRequest) {
         log.info("Set feedback in Interview By userRole");
         if (userDTO.getUserRole().equals(UserRole.ADMIN)) {
-            if (form.getInterview().getAdmin().equals(feedbackRequest.getUserId())) {
+            if (form.getInterview().getAdmin().getId().equals(feedbackRequest.getUserId())) {
                 form.getInterview().setAdminFeedback(feedbackRequest.getFeedback());
                 form.setFormStatus(FormStatus.ADMIN_INTERVIEW_PASSED);
                 formRepository.save(form);
@@ -248,7 +248,7 @@ public class FormServiceImpl implements FormService {
             }
         }
         if (userDTO.getUserRole().equals(UserRole.TECH_EXPERT)) {
-            if (form.getInterview().getTechSpecialist().equals(feedbackRequest.getUserId())) {
+            if (form.getInterview().getTechSpecialist().getId().equals(feedbackRequest.getUserId())) {
                 form.getInterview().setTechFeedback(feedbackRequest.getFeedback());
                 form.setFormStatus(FormStatus.TECH_INTERVIEW_PASSED);
                 formRepository.save(form);
