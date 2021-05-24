@@ -32,7 +32,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
         @Query("SELECT DISTINCT u FROM User  u LEFT JOIN u.userTimeSlots  ts " +
-                "WITH ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) WHERE  ((u.id = :userId ) AND u.deleted = false) ")
+                "WITH ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) WHERE  u.id = :userId  AND u.deleted = false")
     Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
 
 
