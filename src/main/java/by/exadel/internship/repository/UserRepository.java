@@ -1,6 +1,5 @@
 package by.exadel.internship.repository;
 
-import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.entity.User;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -31,6 +30,12 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     Optional<User> findByIdAndDeletedFalse(UUID userId);
 
+    @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
+        @Query("SELECT DISTINCT u FROM User  u LEFT JOIN u.userTimeSlots  ts " +
+                "WITH ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) WHERE  u.id = :userId  AND u.deleted = false")
+    Optional<User> findUserByIdWithCurrentTimeSlots(@Param("userId") UUID userId);
+
+
     @Modifying
     @Query("UPDATE User u SET u.deleted=true WHERE u.id= :userId")
     void deleteById(@Param("userId") UUID userId);
@@ -41,8 +46,11 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @EntityGraph(attributePaths = {"skills"})
     List<User> findDistinctByDeletedFalse();
 
+
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
-    @Query("SELECT DISTINCT u FROM User u JOIN u.internships i WHERE i.id = :id AND u.userRole = :role AND u.deleted = false")
+    @Query("SELECT DISTINCT u FROM User u JOIN u.internships i " +
+            "LEFT JOIN u.userTimeSlots  ts WITH ts.startDate   >= CAST (CURRENT_TIMESTAMP as org.hibernate.type.LocalDateTimeType) " +
+            "WHERE i.id = :id AND u.userRole = :role AND u.deleted = false")
     List<User> findAllWithSkillByInternshipId(@Param("id") UUID internshipId, @Param("role") UserRole role);
 
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})

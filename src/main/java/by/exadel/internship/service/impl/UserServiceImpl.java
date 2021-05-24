@@ -3,8 +3,8 @@ package by.exadel.internship.service.impl;
 import by.exadel.internship.dto.enums.Skill;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotDTO;
-import by.exadel.internship.dto.user.UserFullDTO;
 import by.exadel.internship.dto.user.UserDTO;
+import by.exadel.internship.dto.user.UserFullDTO;
 import by.exadel.internship.dto.user.UserInfoDTO;
 import by.exadel.internship.entity.User;
 import by.exadel.internship.entity.UserTimeSlot;
@@ -20,7 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,10 +38,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getById(UUID id) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to get  user by id: {} with skills", id);
-        User user = userRepository.findByIdAndDeletedFalse(id)
+        log.info("Try to get  user by id only with current timeslots: {} with skills", id);
+
+        User user = userRepository.findUserByIdWithCurrentTimeSlots(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+
+
         log.info("Try get UserDTO from User");
 
         UserDTO userDTO = mapper.toUserDTO(user);

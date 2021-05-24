@@ -101,7 +101,7 @@ public class UserTest extends InternshipApplicationTests {
             @Sql(scripts = "/insert-u-sql/insert-u-1.sql"),
             @Sql(scripts = "/delete-u-sql/delete-u-1.sql", executionPhase = AFTER_TEST_METHOD)
     })
-    public void givenInternship_WhenDelete_ThenCheck_WhetherInternshipIsDeleted() throws Exception {
+    public void   givenInternship_WhenDelete_ThenCheck_WhetherInternshipIsDeleted() throws Exception {
         UUID userId = UUID.fromString("11111111-1111-1111-1111-789d2237f933");
 
         getResult(HttpMethod.DELETE, URI.create("/users/" + userId), status().isOk());
@@ -120,6 +120,7 @@ public class UserTest extends InternshipApplicationTests {
         UUID userId = UUID.fromString("22222222-1111-1111-1111-789d2237f933");
         getResult(HttpMethod.DELETE, URI.create("/users/" + userId), status().isOk());
         getResult(HttpMethod.PUT, URI.create("/users/" + userId + "/restore"), status().isOk());
+
         User user = userRepository.findByIdAndDeletedFalse(userId)
                 .orElseThrow(() -> new NotFoundException("User with uuid = " + userId +
                         " Not Found in DB", "user.uuid.invalid"));
@@ -172,4 +173,25 @@ public class UserTest extends InternshipApplicationTests {
         getResult(HttpMethod.GET, uri, status().isBadRequest());
 
     }
+
+    @Test
+    @SqlGroup({
+            @Sql(scripts = "/insert-u-sql/insert-u-5.sql"),
+            @Sql(scripts = "/delete-u-sql/delete-u-5.sql", executionPhase = AFTER_TEST_METHOD)
+    })
+    public void checkQuantity_CurrentTimeSlotsByUser() throws Exception {
+        MvcResult result = getResult(HttpMethod.GET, URI.create("/users/55555555-1111-1111-1111-789d2237f933"), status().isOk());
+        String content = result.getResponse().getContentAsString();
+        UserDTO userDTO = objectMapper.readValue(content, UserDTO.class);
+        assertEquals(userDTO.getUserTimeSlots().size(), 1);
+    }
+
+    @Test
+    public void checkQuantity_CurrentTimeSlotsByUser_Expect_Zero() throws Exception {
+        MvcResult result = getResult(HttpMethod.GET, URI.create("/users/b64b3afc-b1be-4c7a-9406-d7d14f436332"), status().isOk());
+        String content = result.getResponse().getContentAsString();
+        UserDTO userDTO = objectMapper.readValue(content, UserDTO.class);
+        assertEquals(userDTO.getUserTimeSlots().size(), 0);
+    }
+
 }
