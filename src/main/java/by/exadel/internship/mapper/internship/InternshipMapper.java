@@ -16,6 +16,8 @@ public interface InternshipMapper {
     @Mapping(source = "locationList", target = "locations")
     GuestInternshipDTO toGuestInternshipDTO(Internship internship);
 
+    @Named(value = "guestInternshipDTO_ToInternship")
+    @Mapping(source = "locations", target = "locationList")
     Internship toInternship(GuestInternshipDTO guestInternshipDTO);
 
     @IterableMapping(qualifiedByName = "internshipFull")
@@ -25,6 +27,8 @@ public interface InternshipMapper {
     @Mapping(source = "locationList", target = "locations")
     BaseInternshipDTO toBaseInternshipDTO(Internship internship);
 
+    @Named(value = "baseInternshipDTO_ToInternship")
+    @Mapping(source = "locations", target = "locationList")
     Internship toInternship(BaseInternshipDTO baseInternshipDTO);
 
     @IterableMapping(qualifiedByName = "internshipShort")
@@ -34,11 +38,15 @@ public interface InternshipMapper {
     @Mapping(source = "locationList", target = "locations")
     UserInternshipDTO toUserInternshipDTO(Internship internship);
 
+    @Named(value = "userInternshipDTO_ToInternship")
+    @Mapping(source = "locations", target = "locationList")
     Internship toInternship(UserInternshipDTO userInternshipDTO);
 
     @IterableMapping(qualifiedByName = "internship")
     List<UserInternshipDTO> mapUserInternshipDTOList(List<Internship> internshipList);
 
+    @Named(value = "updateInternship")
+    @Mapping(source = "locations", target = "locationList")
     Internship updateInternship(UserInternshipDTO userInternshipDTO, @MappingTarget Internship internship);
 
 }
