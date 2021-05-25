@@ -122,7 +122,6 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     public UserInternshipDTO saveInternship(UserInternshipDTO internshipDTO) {
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to save new Internship int DB");
 
         Internship internship = internshipMapper.toInternship(internshipDTO);
