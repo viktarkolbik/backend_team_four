@@ -28,9 +28,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private CustomAuthentication customAuthentication;
-
     private static final String[] SWAGGER_WHITELIST = {
             "/swagger-resources/**",
             "/swagger-ui.html",
@@ -50,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/forms"
     } ;
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final CustomAuthentication customAuthentication;
 
     private final AuthEntryPointJwt unauthorizedHandler;
 
@@ -58,9 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder){
         authenticationManagerBuilder.authenticationProvider(customAuthentication);
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
