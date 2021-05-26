@@ -13,8 +13,6 @@ import java.util.UUID;
 
 public interface UserService {
 
-    List<UserDTO> getAll();
-
     UserDTO getById(UUID id);
 
     UserInfoDTO getSimpleUserById(UUID id);
@@ -32,5 +30,6 @@ public interface UserService {
     List<UserDTO> getAllByUserRole(UserRole userRole);
 
     UserFullDTO getFullUserById(UUID userId);
+
     List<UserDTO> getUsersBySkills(List<Skill> skills);
 }

@@ -10,6 +10,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -80,14 +81,14 @@ public class Form {
     @Type(type = "by.exadel.internship.mapper.enum_mapper.EnumTypePostgreSQL")
     private FormStatus formStatus;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinColumn(name = "fm_i_id")
     private Interview interview;
 
     @ToString.Exclude
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.REFRESH})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "fm_id")
-    private List<TimeForCall> timeForCallList;
+    private Set<TimeForCall> timeForCallList;
 
     @Column(name = "fm_inship_id")
     private UUID internshipId;

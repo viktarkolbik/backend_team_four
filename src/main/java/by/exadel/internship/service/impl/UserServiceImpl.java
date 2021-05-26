@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -35,23 +36,6 @@ public class UserServiceImpl implements UserService {
     private final UserTimeSlotMapper userTimeSlotMapper;
 
     private static final String SIMPLE_CLASS_NAME = UserService.class.getSimpleName();
-
-    @Override
-    public List<UserDTO> getAll() {
-
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to get all users with skill");
-
-        List<User> userList = userRepository.findAllWithSkill();
-
-        log.info("Try get list of UserDTO");
-
-        List<UserDTO> userDTOList = mapper.map(userList);
-
-        log.info("Successfully list of UserDTO");
-
-        return userDTOList;
-    }
 
     @Override
     public UserDTO getById(UUID id) {
@@ -77,6 +61,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+
         log.info("Try get UserInfoDTO from User");
 
         UserInfoDTO userInfoDTO = mapper.toUserInfo(user);
@@ -110,6 +95,7 @@ public class UserServiceImpl implements UserService {
                 .findByIdAndDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         userRepository.deleteById(uuid);
+
         log.info("Successfully deleted User with uuid: {}", uuid);
     }
 
@@ -118,10 +104,12 @@ public class UserServiceImpl implements UserService {
     public void restoreUserById(UUID uuid) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to restore User with uuid: {}", uuid);
+
         userRepository
                 .findByIdAndDeletedTrue(uuid)
                 .orElseThrow(() -> new NotFoundException("User with id " + uuid + " not found", "uuid.invalid"));
         userRepository.activateUserById(uuid);
+
         log.info("Successfully restore User with uuid: {}", uuid);
     }
 
@@ -129,19 +117,24 @@ public class UserServiceImpl implements UserService {
     public void updateTimeSlot(UUID userId, List<UserTimeSlotDTO> userTimeSlotDTOList) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to update user time slot");
+
         User user = userRepository.findByIdAndDeletedFalse(userId)
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
         List<UserTimeSlot> userTimeSlot = userTimeSlotMapper.map(userTimeSlotDTOList);
         userTimeSlot.forEach(timeSlot -> timeSlot.setUser(user));
         userTimeSlotRepository.saveAll(userTimeSlot);
+
         log.info("Successfully updated user user time slot");
     }
 
     @Override
     public List<UserDTO> getAllDeleted() {
+
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get List of deleted user");
+
         List<User> userList = userRepository.findAllByDeletedTrue();
+
         log.info("Return List of deletes user");
         return mapper.map(userList);
     }
@@ -150,7 +143,9 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getAllByUserRole(UserRole userRole) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get List of user with userRole : {}", userRole);
+
         List<User> users = userRepository.findAllByUserRole(userRole);
+
         log.info("Return List of user");
         return mapper.map(users);
     }
@@ -159,18 +154,22 @@ public class UserServiceImpl implements UserService {
     public UserFullDTO getFullUserById(UUID userId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to update user time slot");
+
         User user = userRepository.findByIdAndDeletedFalse(userId)
                 .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
+
         log.info("UserDTOs got successfully");
         return mapper.toUserFull(user);
     }
 
     public List<UserDTO> getUsersBySkills(List<Skill> skills) {
-        List<String> enumListToString = skills.stream()
-                .map(Enum::toString)
-                .collect(Collectors.toList());
+
+        Set<Skill> enumListToString = skills.stream().collect(Collectors.toSet());
+
         log.info("Try to get set of user by skills : {}", skills);
-        List<User> usersWithSkills = userRepository.getUsersBySkills(enumListToString);
+
+        List<User> usersWithSkills = userRepository.getUsersBySkillsInAndDeletedFalse(enumListToString);
+
         log.info("Return set of user by skill");
         return mapper.map(usersWithSkills);
     }

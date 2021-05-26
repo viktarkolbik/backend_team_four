@@ -54,7 +54,6 @@ public class FormServiceImpl implements FormService {
     private final FileService fileService;
 
 
-
     @Override
     public FormFullDTO process(FormRegisterDTO form, MultipartFile file) {
 
@@ -116,9 +115,11 @@ public class FormServiceImpl implements FormService {
     public FormFullDTO getById(UUID formId) {
         MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
         log.info("Try to get From with uuid = {}", formId);
+
         Form form = formRepository.findByIdAndDeletedFalse(formId).
                 orElseThrow(() -> new NotFoundException("Form with uuid = " + formId +
                         " Not Found in DB", "form.uuid.invalid"));
+
         log.info("Return formFullDTO with uuid = {}", formId);
         return mapper.toFormDto(form);
     }
@@ -151,6 +152,7 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
+    @Transactional
     public void updateStatusById(UUID formId, FormStatus status) {
         log.info("Try to get form by form id: {}", formId);
 

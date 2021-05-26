@@ -1,15 +1,14 @@
 package by.exadel.internship.dto.form;
 
-import by.exadel.internship.dto.time_for_call.TimeForCallDTO;
 import by.exadel.internship.dto.enums.EnglishLevel;
 import by.exadel.internship.dto.location.CityDTO;
 import by.exadel.internship.dto.location.CountryDTO;
+import by.exadel.internship.dto.time_for_call.TimeForCallDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import javax.validation.constraints.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
