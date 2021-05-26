@@ -15,7 +15,6 @@ import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -166,12 +165,12 @@ public class InternshipServiceImpl implements InternshipService {
 
     public UserInternshipDTO replaceUsersAssignedToInternship(List<UUID> userIds, UUID internshipId){
         Internship internship = internshipRepository
-                .findById(internshipId)
+                .getInternshipByIdWithUsers(internshipId)
                 .orElseThrow(() -> new NotFoundException("No such Internship with id = " + internshipId + " in DB", "id.invalid"));
 
         Set<User> assignUsers = internship.getUsers();
 
-        List<User> targetUsers = userRepository.findAllById(userIds);
+        List<User> targetUsers = userRepository.findAllByIdAndDeletedFalse(userIds);
 
         assignUsers.clear();
         assignUsers.addAll(targetUsers);

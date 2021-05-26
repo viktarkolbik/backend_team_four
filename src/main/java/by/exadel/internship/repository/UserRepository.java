@@ -26,6 +26,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findAllByDeletedTrue();
 
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
+    List<User> findAllByIdAndDeletedFalse(List<UUID> userIds);
+
+    @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
     Optional<User> findByIdAndDeletedTrue(UUID userId);
 
     @EntityGraph(attributePaths = {"skills", "userTimeSlots"})
