@@ -3,8 +3,6 @@ package by.exadel.internship.service.impl;
 
 import by.exadel.internship.entity.User;
 import by.exadel.internship.entity.UserDetailsImpl;
-import by.exadel.internship.exception_handing.FileNotUploadException;
-import by.exadel.internship.exception_handing.NotFoundException;
 import by.exadel.internship.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,10 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         User user = userRepository
                 .findByLogin(login)
-                .orElseThrow(() -> {
-
-                    throw new NotFoundException("Some");
-                });
+                .orElseThrow(() -> new BadCredentialsException("User Not Found with login: " + login));
         return UserDetailsImpl.build(user);
     }
 }
