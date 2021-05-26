@@ -5,6 +5,7 @@ import by.exadel.internship.dto.internship.BaseInternshipDTO;
 import by.exadel.internship.dto.internship.UserInternshipDTO;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface InternshipService {
@@ -29,5 +30,5 @@ public interface InternshipService {
 
     UserInternshipDTO update(UUID internshipId, UserInternshipDTO internshipDTO);
 
-    UserInternshipDTO replaceUsersAssignedToInternship(List<UUID> userIds, UUID internshipId);
+    UserInternshipDTO replaceUsersAssignedToInternship(Set<UUID> userIds, UUID internshipId);
 }
