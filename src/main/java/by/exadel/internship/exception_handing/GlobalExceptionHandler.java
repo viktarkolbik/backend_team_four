@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -43,6 +44,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
             BadCredentialsException exception) {
+        IncorrectData data = incorrectDataFilling(exception);
+        return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<IncorrectData> handleException(
+            UsernameNotFoundException exception) {
         IncorrectData data = incorrectDataFilling(exception);
         return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);
     }
