@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -98,7 +99,7 @@ public class InternshipController {
     @SuperAdminAccessControl
     @PutMapping("/{internshipId}/users/replace")
     @ApiOperation("Update User to Internship")
-    public UserInternshipDTO replaceUsersAssignedToInternship(@RequestParam(name = "userIds") List<UUID> userIds, @PathVariable(name = "internshipId") UUID internshipId) {
+    public UserInternshipDTO replaceUsersAssignedToInternship(@RequestParam(name = "userIds") Set<UUID> userIds, @PathVariable(name = "internshipId") UUID internshipId) {
         return internshipService.replaceUsersAssignedToInternship(userIds, internshipId);
     }
 }

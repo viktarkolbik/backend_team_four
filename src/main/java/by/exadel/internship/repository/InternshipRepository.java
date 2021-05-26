@@ -17,7 +17,7 @@ import java.util.UUID;
 public interface InternshipRepository extends JpaRepository<Internship, UUID> {
 
     @EntityGraph(attributePaths = {"users", "locationList.country", "locationList.city", "skills"})
-    Optional<Internship> getInternshipByIdWithUsers(UUID id);
+    Optional<Internship> findById(UUID id);
 
     @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
     @Query("SELECT DISTINCT i FROM Internship i WHERE i.deleted = true")

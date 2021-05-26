@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(exclude = {"internships", "userTimeSlots"})
-@EqualsAndHashCode(exclude = {"internships"})
+@EqualsAndHashCode(exclude = {"internships", "userTimeSlots", "skills"})
 public class User {
 
     @Id
