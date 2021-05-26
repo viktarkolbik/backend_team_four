@@ -32,7 +32,7 @@ public class UserTimeSlot {
     @Column(name = "ust_end_date")
     private LocalDateTime endDate;
 
-    @ManyToOne( fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ust_u_id")
     private User user;
 

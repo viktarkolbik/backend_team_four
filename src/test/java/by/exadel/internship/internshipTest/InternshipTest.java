@@ -125,10 +125,9 @@ public class InternshipTest extends InternshipApplicationTests {
     public void givenInternshipList_WhenDelete_ThenCheckSizeWithFlagFalse() throws Exception {
         UUID id = postTestInternshipData().getId();
         getResult(HttpMethod.DELETE, URI.create("/internships/" + id), status().isOk());
-        List<Internship> internships = internshipRepository.findAllByDeletedFalse();
+        List<Internship> internships = internshipRepository.findDistinctByDeletedFalse();
         assertEquals(internships.size(), 10);
     }
-
 
     @Test
     public void givenInternship_WhenDelete_ThenCheck_WhetherInternshipIsDeleted() throws Exception {

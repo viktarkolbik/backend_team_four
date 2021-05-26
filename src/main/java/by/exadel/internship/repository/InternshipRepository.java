@@ -1,7 +1,6 @@
 package by.exadel.internship.repository;
 
 import by.exadel.internship.entity.Internship;
-import by.exadel.internship.entity.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,23 +16,26 @@ import java.util.UUID;
 @Repository
 public interface InternshipRepository extends JpaRepository<Internship, UUID> {
 
-    @EntityGraph(attributePaths = {"users", "locationList.country", "locationList.city", "skills"})
-    Optional<Internship> findById(UUID id);
-
-    @Query("SELECT DISTINCT i FROM Internship i LEFT JOIN FETCH i.skills  WHERE i.deleted = true")
+    @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
+    @Query("SELECT DISTINCT i FROM Internship i WHERE i.deleted = true")
     List<Internship> findAllByDeletedTrue();
 
-    List<Internship> findAllByDeletedFalse();
+    @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
+    List<Internship> findDistinctByDeletedFalse();
 
-    Optional<Internship> findByIdAndDeletedFalse(UUID internshipId);
+    @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
+    @Query("SELECT DISTINCT i FROM Internship i WHERE i.id = :id ")
+    Optional<Internship> findByIdAndDeletedFalse(@Param("id")UUID internshipId);
 
+    @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
     Optional<Internship> findByIdAndDeletedTrue(UUID internshipId);
 
     @Modifying
     @Query("update Internship i set i.deleted = false WHERE i.id = :internshipId")
     void activateInternshipById(@Param("internshipId") UUID internshipId);
 
-    @Query("SELECT distinct i FROM Internship i LEFT JOIN FETCH i.skills WHERE i.deleted = false")
+    @EntityGraph(attributePaths = {"skills", "locationList.country", "locationList.city"})
+    @Query("SELECT distinct i FROM Internship i WHERE i.deleted = false")
     List<Internship> findAllWithSkill();
 
     @Modifying

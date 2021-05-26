@@ -76,4 +76,10 @@ public class UserController {
         return userService.getUsersBySkills(skills);
     }
 
+    @AdminAccessControl
+    @GetMapping("/roles")
+    @ApiOperation("Get user By role")
+    public List<UserDTO> getUserByRole(@RequestParam("role") UserRole userRole){
+        return userService.getAllByUserRole(userRole);
+    }
 }

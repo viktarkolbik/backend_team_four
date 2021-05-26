@@ -7,14 +7,10 @@ import by.exadel.internship.entity.location.Country;
 import by.exadel.internship.mapper.location_mapper.LocationMapper;
 import by.exadel.internship.repository.location.CityRepository;
 import by.exadel.internship.repository.location.CountryRepository;
-import by.exadel.internship.service.FormService;
 import by.exadel.internship.service.LocationService;
 import by.exadel.internship.util.MDCLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nonapi.io.github.classgraph.json.JSONUtils;
-import org.slf4j.MDC;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

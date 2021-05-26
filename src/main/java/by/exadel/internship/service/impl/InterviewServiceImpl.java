@@ -1,10 +1,10 @@
 package by.exadel.internship.service.impl;
 
-import by.exadel.internship.dto.interview.InterviewDTO;
-import by.exadel.internship.dto.interview.InterviewInfoDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.interview.InterviewDTO;
+import by.exadel.internship.dto.interview.InterviewInfoDTO;
 import by.exadel.internship.dto.interview.InterviewSaveDTO;
 import by.exadel.internship.dto.time_for_call.UserTimeSlotWithUserIdDTO;
 import by.exadel.internship.dto.user.UserFullDTO;
