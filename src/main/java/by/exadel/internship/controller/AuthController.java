@@ -30,15 +30,10 @@ public class AuthController {
     @ApiOperation("Authorize method")
     public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest) {
         splitEmail(loginRequest);
-        Authentication authentication;
-        try {
-             authentication = authenticationManager
+        Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(
                             loginRequest.getLogin(),
                             loginRequest.getPassword()));
-        }catch (Exception e){
-            throw new BadCredentialsException("Bad credential");
-        }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtService.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
