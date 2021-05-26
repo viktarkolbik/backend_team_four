@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CustomAuthentication implements AuthenticationProvider {
+public class InternshipAuthentication implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
 
