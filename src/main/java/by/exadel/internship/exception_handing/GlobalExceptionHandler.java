@@ -50,13 +50,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(
-            UsernameNotFoundException exception) {
-        IncorrectData data = incorrectDataFilling(exception);
-        return new ResponseEntity<>(data, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<IncorrectData> handleException(
             AccessDeniedException exception) {
         IncorrectData data = incorrectDataFillingAccessException(exception);
         return new ResponseEntity<>(data, HttpStatus.FORBIDDEN);
