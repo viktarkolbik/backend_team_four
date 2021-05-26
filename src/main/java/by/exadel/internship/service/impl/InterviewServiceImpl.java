@@ -98,10 +98,6 @@ public class InterviewServiceImpl implements InterviewService {
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
 
-            /*emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
-                    userDTO.getEmail(), userDTO.getUserRole(),
-                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());*/
-
             saveForm(formFullDTO);
         }else {
             if (formFullDTO.getFormStatus() != FormStatus.REGISTERED) {
@@ -186,10 +182,6 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
-
-            /*emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
-                    userDTO.getEmail(), userDTO.getUserRole(),
-                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());*/
 
             saveForm(formFullDTO);
 
