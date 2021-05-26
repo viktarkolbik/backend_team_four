@@ -2,7 +2,6 @@ package by.exadel.internship.config;
 
 import by.exadel.internship.config.jwt.AuthEntryPointJwt;
 import by.exadel.internship.config.jwt.AuthTokenFilter;
-import by.exadel.internship.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/forms"
     } ;
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final InternshipAuthentication internshipAuthentication;
 
     private final AuthEntryPointJwt unauthorizedHandler;
 
@@ -52,10 +51,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder){
+        authenticationManagerBuilder.authenticationProvider(internshipAuthentication);
     }
-
 
     @Bean
     @Override
