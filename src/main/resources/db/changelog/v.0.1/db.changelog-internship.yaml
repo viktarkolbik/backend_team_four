@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 31032021-add-table-internship
+      author: olga_evdokimova
+      changes:
+        - createTable:
+            tableName: internship
+            columns:
+              - column:
+                  name: inship_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: inship_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: inship_start_date
+                  type: DATE
+              - column:
+                  name: inship_end_date
+                  type: DATE
+              - column:
+                  name: inship_publication_date
+                  type: DATE
+              - column:
+                  name: inship_tech_skills
+                  type: VARCHAR(255)
+              - column:
+                  name: inship_description
+                  type: VARCHAR(255)
+              - column:
+                  name: inship_requirements
+                  type: VARCHAR(255)
+              - column:
+                  name: inship_capacity
+                  type: INT
+              - column:
+                  name: inship_registration_start_date
+                  type: DATE
+              - column:
+                  name: inship_registration_end_date
+                  type: DATE

@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - include:
+      file: db.changelog-user.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-interview.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-interview-dates.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-time-for-call.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-form-add-col.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-format.yaml
+      relativeToChangelogFile: true

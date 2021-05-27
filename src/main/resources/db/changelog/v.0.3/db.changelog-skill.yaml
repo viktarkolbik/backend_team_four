@@ -1,0 +1,82 @@
+databaseChangeLog:
+  - changeSet:
+      id: 12042021-add-type-skills
+      author: maksim_maevsky
+      dbms: postgresql
+      sql: CREATE TYPE SKILL as ENUM ('JAVA', 'JS', 'C_SHARP', 'C_PLUS_PLUS', 'QA', 'DEV_OPS', 'SWIFT', 'GO', 'PHP', 'PYTHON', 'KOTLIN', 'RUST');
+
+  - changeSet:
+      id: 12042021-add-type-internship-skill
+      author: maksim_maevsky
+      changes:
+        - createTable:
+            tableName: internship_skill
+            columns:
+              - column:
+                  name: is_name
+                  type: SKILL
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_inship_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 12042021-add-foreignKeyConstraint-internship-to-internship_skill
+      author:  maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: is_inship_id
+            baseTableName: internship_skill
+            constraintName: fk_internship_skill
+            referencedColumnNames: inship_id
+            referencedTableName: internship
+
+  - changeSet:
+      id:  13042021-add-uniqueConstraint-for-internship_skill
+      author:  maksim_maevsky
+      changes:
+        - addUniqueConstraint:
+            columnNames:  is_name, is_inship_id
+            constraintName:  uc_internship_skill
+            tableName:  internship_skill
+
+
+  - changeSet:
+      id: 12042021-add-type-user-skill
+      author: maksim_maevsky
+      changes:
+        - createTable:
+            tableName: user_skill
+            columns:
+              - column:
+                  name: us_u_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: us_name
+                  type: SKILL
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 12042021-add-foreignKeyConstraint-user-to-user-skill
+      author:  maksim_maevsky
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: us_u_id
+            baseTableName: user_skill
+            constraintName: fk_user_skill
+            referencedColumnNames: u_id
+            referencedTableName: user
+
+  - changeSet:
+      id:  13042021-add-uniqueConstraint-for-user-skill
+      author:  maksim_maevsky
+      changes:
+        - addUniqueConstraint:
+            columnNames:  us_u_id, us_name
+            constraintName:  uc_user_skill
+            tableName:  user_skill

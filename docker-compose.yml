@@ -1,0 +1,39 @@
+version: '3'
+
+volumes:
+  internship-data:
+
+networks:
+  internship-network:
+
+services:
+  app:
+    container_name: internship_springboot
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresqldb:5432/internship
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      BUCKET_NAME: internship-project-e202a.appspot.com
+      JSON_FILE_PATH: internship-cloud/internship-project.json
+    depends_on:
+      - postgresqldb
+    networks:
+      - internship-network
+
+  postgresqldb:
+    container_name: postgres
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    volumes:
+      - internship-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=internship
+    networks:
+      - internship-network

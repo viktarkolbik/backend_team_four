@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 09042021-add-type-user-role
+      author: olga_evdokimova
+      dbms: postgresql
+      sql: CREATE TYPE USER_ROLE as ENUM ('SUPER_ADMIN', 'ADMIN', 'TECH_EXPERT');
+
+  - changeSet:
+      id: 05042021-add-table-user
+      author: maksim_maevsky
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: u_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: u_firstname
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: u_lastname
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: u_email
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: u_login
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: u_password
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: u_role
+                  type: USER_ROLE
+                  constraints:
+                    nullable: false

@@ -1,0 +1,22 @@
+databaseChangeLog:
+ - include:
+      file: db.changelog-user-internship.yaml
+      relativeToChangelogFile: true
+ - include:
+      file: db.changelog-change-size-of-password.yaml
+      relativeToChangelogFile: true
+ - include:
+      file: db.changelog-create-table-country-and-city.yaml
+      relativeToChangelogFile: true
+ - include:
+      file: db.changelog-added-column-inship-id-to-form.yaml
+      relativeToChangelogFile: true
+ - include:
+      file: db.changelog-drop-columns-country-city-from-form.yaml
+      relativeToChangelogFile: true
+ - include:
+     file: db.changelog.add-columns-country-city-and-fk-to-form.yaml
+     relativeToChangelogFile: true
+ - include:
+     file: db.changelog.rename-column-interview.yaml
+     relativeToChangelogFile: true

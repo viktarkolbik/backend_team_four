@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - include:
+      file: db.changelog-update-form-column.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: db.changelog-internship.yaml
+      relativeToChangelogFile: true

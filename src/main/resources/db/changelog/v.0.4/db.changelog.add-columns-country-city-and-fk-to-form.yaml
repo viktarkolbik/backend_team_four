@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 22042021-add-columns-country-city-type-uuid
+      author: olga_evdokimova
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: fm_country_id
+                  type: UUID
+              - column:
+                  name: fm_city_id
+                  type: UUID
+            tableName: form
+
+
+  - changeSet:
+      id: 22042021-add-foreignKeyConstraint-country-id-to-form
+      author: olga_evdokimova
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: fm_country_id
+            baseTableName: form
+            constraintName: fk_form_id_country
+            referencedColumnNames: cntr_id
+            referencedTableName: country
+
+  - changeSet:
+      id: 22042021-add-foreignKeyConstraint-city-id-to-form
+      author: olga_evdokimova
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: fm_city_id
+            baseTableName: form
+            constraintName: fk_form_id_city
+            referencedColumnNames: city_id
+            referencedTableName: city

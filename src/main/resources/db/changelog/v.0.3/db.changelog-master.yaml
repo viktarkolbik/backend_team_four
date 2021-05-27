@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - include:
+      file: db.changelog-user.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-skill.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-user-to-user-detail.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-internship-format-name-dropNotNullConstraint.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-add-columns-auditing-internship.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-form.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-internship.yaml
+      relativeToChangelogFile: true
