@@ -47,7 +47,7 @@ public interface FormRepository extends JpaRepository<Form, UUID> {
 
     @EntityGraph(attributePaths = {"interview"})
     @Query("select distinct f from Form f " +
-            " where f.interview.admin.id = :userId or f.interview.techSpecialist.id = :userId")
+            " where f.deleted = false and f.interview.admin.id = :userId or f.interview.techSpecialist.id = :userId")
     List<Form> findAllByUserId(@Param("userId") UUID userId);
 
 }
