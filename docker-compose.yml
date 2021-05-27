@@ -17,6 +17,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgresqldb:5432/internship
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_DATASOURCE_USERNAME: postgres
+      BUCKET_NAME: internship-project-e202a.appspot.com
+      JSON_FILE_PATH: internship-cloud/internship-project.json
     depends_on:
       - postgresqldb
     networks:

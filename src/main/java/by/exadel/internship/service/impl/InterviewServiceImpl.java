@@ -29,7 +29,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 
@@ -98,10 +97,6 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.ADMIN_INTERVIEW_ASSIGNED);
-
-            emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
-                    userDTO.getEmail(), userDTO.getUserRole(),
-                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());
 
             saveForm(formFullDTO);
         }else {
@@ -187,10 +182,6 @@ public class InterviewServiceImpl implements InterviewService {
 
             formFullDTO.setInterview(interviewFullDTO);
             formFullDTO.setFormStatus(FormStatus.TECH_INTERVIEW_ASSIGNED);
-
-            emailService.sendInterviewDateOnEmail(formFullDTO.getEmail(),
-                    userDTO.getEmail(), userDTO.getUserRole(),
-                    interviewDTO.getUserInterviewDate(), userDTO.getInterviewTime());
 
             saveForm(formFullDTO);
 
