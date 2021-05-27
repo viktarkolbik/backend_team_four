@@ -6,9 +6,9 @@ spring:
     open-in-view: false
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_URL}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-    username: ${SPRING_DATASOURCE_USERNAME}
+    url: "jdbc:postgresql://ec2-54-74-60-70.eu-west-1.compute.amazonaws.com:5432/daiv42k1ni3vml?sslmode=require"
+    password: "23fc3ee82a709c3c3dd7aad4a88966aad5d5e4c35c0d4146317e2335290098db"
+    username: "gczlywmmkuyikx"
     initialization-mode: always
     data:
       - 'classpath:db/changelog/v.0.4/sql-import/country.sql'

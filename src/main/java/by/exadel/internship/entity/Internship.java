@@ -23,6 +23,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"users"})
+@EqualsAndHashCode(exclude = {"users", "locationList", "skills"})
 public class Internship extends Auditable<String> {
     @Id
     @GeneratedValue(generator = "UUID")
