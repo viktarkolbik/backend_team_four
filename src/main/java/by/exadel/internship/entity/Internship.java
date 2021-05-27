@@ -22,7 +22,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"users"})
+@ToString(exclude = {"users", "locationList", "skills"})
 @EqualsAndHashCode(exclude = {"users", "locationList", "skills"})
 public class Internship extends Auditable<String> {
     @Id

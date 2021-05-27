@@ -21,6 +21,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"interview", "timeForCallList"})
 @EqualsAndHashCode(exclude = {"interview", "timeForCallList"})
 public class Form {
 
@@ -88,7 +89,6 @@ public class Form {
     @JoinColumn(name = "fm_i_id")
     private Interview interview;
 
-    @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "fm_id")
     @Fetch(FetchMode.SUBSELECT)
