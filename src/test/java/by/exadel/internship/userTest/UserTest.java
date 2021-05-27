@@ -53,6 +53,7 @@ public class UserTest extends InternshipApplicationTests {
                 .build().toUri();
 
         MvcResult mvcResult = mockMvc.perform(post(uri)
+                .header("Authorization", token)
                 .content(objectMapper.writeValueAsString(userTimeSlotDTOList))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)

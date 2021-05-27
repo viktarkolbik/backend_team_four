@@ -13,9 +13,6 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -42,6 +39,7 @@ public class InternshipApplicationTests {
         container.start();
     }
 
+    public static String token = "Bearer "+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYWV2c2t5IiwiaWF0IjoxNjIyMTEyMjU1LCJleHAiOjE3MjIxMTIyNTV9.AhyPLPN_qaQa9NgYe5y_yEko03w1it22o9uchXkZh3tbQFuoF-63wPKeKUgdTxoBVYrrCzaxt9jjOOkyHp7pSQ";
 
     @MockBean
     protected FileService fileService;
@@ -52,28 +50,10 @@ public class InternshipApplicationTests {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    private String jwtToken;
 
     @PostConstruct
     public void setTimeModuleUp() {
         objectMapper.registerModule(new JavaTimeModule());
-        jwtToken = generateJWTToken();
-    }
-
-
-    private String generateJWTToken() {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(
-                        "maevsky",
-                        "1"));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtService.generateJwtToken(authentication);
     }
 
     @BeforeEach
@@ -86,7 +66,7 @@ public class InternshipApplicationTests {
 
     protected MvcResult getResult(HttpMethod method, URI uri, ResultMatcher status) throws Exception {
         return mockMvc.perform(MockMvcRequestBuilders
-                .request(method, uri).header("Authorization", "Bearer " + jwtToken))
+                .request(method, uri).header("Authorization", token))
                 .andExpect(status)
                 .andReturn();
 

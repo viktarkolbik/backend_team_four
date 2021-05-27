@@ -34,6 +34,7 @@ public class InternshipTest extends InternshipApplicationTests {
     @Autowired
     private InternshipRepository internshipRepository;
 
+
     @Test
     public void checkInternshipsTestData() throws Exception {
 
@@ -110,6 +111,7 @@ public class InternshipTest extends InternshipApplicationTests {
     private UserInternshipDTO postTestInternshipData() throws Exception {
 
         MvcResult mvcResult = mockMvc.perform(post("/internships")
+                .header("Authorization", token)
                 .content(objectMapper.writeValueAsString(testInternshipData()))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
