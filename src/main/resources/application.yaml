@@ -32,7 +32,6 @@ spring:
       - 'classpath:db/changelog/v.0.6/sql-import/update-inshipName.sql'
       - 'classpath:db/changelog/v.0.8/sql-import/inserl-u-ts.sql'
 
-
   mail:
     default-encoding: UTF-8
     host: smtp.gmail.com

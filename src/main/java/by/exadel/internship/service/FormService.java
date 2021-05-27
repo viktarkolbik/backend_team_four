@@ -4,6 +4,7 @@ import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.dto.FileInfoDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.form.FormInfoDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,7 +24,7 @@ public interface FormService {
     void restoreFormById(UUID formId);
 
 
-    List<FormFullDTO> getAllByCondition(UUID internshipId, UUID userId);
+    List<FormInfoDTO> getAllByCondition(UUID internshipId, UUID userId);
 
     void updateFeedback(UUID formId, FeedbackRequest feedbackRequest);
 

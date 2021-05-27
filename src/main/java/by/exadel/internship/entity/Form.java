@@ -5,6 +5,8 @@ import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -89,6 +91,7 @@ public class Form {
     @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "fm_id")
+    @Fetch(FetchMode.SUBSELECT)
     private Set<TimeForCall> timeForCallList;
 
     @Column(name = "fm_inship_id")

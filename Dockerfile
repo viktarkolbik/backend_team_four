@@ -15,4 +15,4 @@ WORKDIR ${path}
 COPY --from=build ${path}/target/*.jar ${path}/app.jar
 COPY internship-cloud/internship-project-e202a.json ${path}/internship-cloud/internship-project.json
 
-CMD [ "sh", "-c", "java -Dserver.port=$PORT -Xmx300m -jar app.jar"]
+CMD [ "sh", "-c", "java -Dserver.port=$PORT -Xmx280m -jar app.jar"]

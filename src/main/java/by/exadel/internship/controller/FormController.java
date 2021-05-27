@@ -7,6 +7,7 @@ import by.exadel.internship.dto.FeedbackRequest;
 import by.exadel.internship.dto.FileInfoDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.form.FormInfoDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.dto.interview.InterviewSaveDTO;
 import by.exadel.internship.service.FormService;
@@ -50,7 +51,7 @@ public class FormController {
     @UserAccessControl
     @GetMapping
     @ApiOperation("Get all forms by internship id or user id")
-    public List<FormFullDTO> getAllFormsById(@RequestParam(value = "internshipId", required = false) UUID internshipId
+    public List<FormInfoDTO> getAllFormsById(@RequestParam(value = "internshipId", required = false) UUID internshipId
             , @RequestParam(value = "userId", required = false) UUID userId) {
 
         return formService.getAllByCondition(internshipId, userId);
