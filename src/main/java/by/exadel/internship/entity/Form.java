@@ -5,6 +5,8 @@ import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.entity.location.City;
 import by.exadel.internship.entity.location.Country;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -19,6 +21,8 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"interview", "timeForCallList"})
+@EqualsAndHashCode(exclude = {"interview", "timeForCallList"})
 public class Form {
 
     @Id
@@ -85,9 +89,9 @@ public class Form {
     @JoinColumn(name = "fm_i_id")
     private Interview interview;
 
-    @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "fm_id")
+    @Fetch(FetchMode.SUBSELECT)
     private Set<TimeForCall> timeForCallList;
 
     @Column(name = "fm_inship_id")

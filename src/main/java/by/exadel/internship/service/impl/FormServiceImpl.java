@@ -5,6 +5,7 @@ import by.exadel.internship.dto.FileInfoDTO;
 import by.exadel.internship.dto.enums.FormStatus;
 import by.exadel.internship.dto.enums.UserRole;
 import by.exadel.internship.dto.form.FormFullDTO;
+import by.exadel.internship.dto.form.FormInfoDTO;
 import by.exadel.internship.dto.form.FormRegisterDTO;
 import by.exadel.internship.dto.internship.GuestInternshipDTO;
 import by.exadel.internship.dto.user.UserDTO;
@@ -82,17 +83,6 @@ public class FormServiceImpl implements FormService {
     }
 
 
-    private List<FormFullDTO> getAllByUserId(UUID userId) {
-
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to get forms by user id: {}", userId);
-
-        return mapper
-                .map(formRepository
-                        .findAllByUserId(userId));
-    }
-
-
     @Override
     public List<FormFullDTO> getAll() {
 
@@ -125,18 +115,7 @@ public class FormServiceImpl implements FormService {
     }
 
 
-    private List<FormFullDTO> getAllByInternshipId(UUID internshipId) {
 
-        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
-        log.info("Try to get all forms by internship id");
-
-        List<Form> formList = formRepository.findAllByInternship(internshipId);
-
-        log.info("Successfully list of formFullDTO");
-
-        return mapper.map(formList);
-
-    }
 
     @Override
     public void updateFeedback(UUID formId, FeedbackRequest feedbackRequest) {
@@ -215,14 +194,38 @@ public class FormServiceImpl implements FormService {
         log.info("Successfully deleted Form with uuid: {}", formId);
     }
 
+    @Transactional
     @Override
-    public List<FormFullDTO> getAllByCondition(UUID internshipId, UUID userId) {
+    public List<FormInfoDTO> getAllByCondition(UUID internshipId, UUID userId) {
 
         checkCondition(internshipId, userId);
 
         return internshipId != null
                 ? getAllByInternshipId(internshipId)
                 : getAllByUserId(userId);
+    }
+
+    private List<FormInfoDTO> getAllByInternshipId(UUID internshipId) {
+
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to get all forms by internship id");
+
+        List<Form> formList = formRepository.findAllByInternship(internshipId);
+
+        log.info("Successfully list of formFullDTO");
+
+        return mapper.mapToInfoDto(formList);
+
+    }
+
+    private List<FormInfoDTO> getAllByUserId(UUID userId) {
+
+        MDCLog.putClassNameInMDC(SIMPLE_CLASS_NAME);
+        log.info("Try to get forms by user id: {}", userId);
+
+        return mapper
+                .mapToInfoDto(formRepository
+                        .findAllByUserId(userId));
     }
 
     private void checkCondition(UUID internshipId, UUID userId) {
