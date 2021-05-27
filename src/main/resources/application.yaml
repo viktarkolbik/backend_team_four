@@ -57,4 +57,3 @@ key:
 firebase:
   bucket: ${BUCKET_NAME:internship-project-e202a.appspot.com}
   jsonFilePath: ${JSON_FILE_PATH:internship-cloud/internship-project-e202a.json}
-
