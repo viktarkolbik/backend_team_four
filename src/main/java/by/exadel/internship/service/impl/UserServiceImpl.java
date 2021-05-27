@@ -20,9 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,6 +49,10 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = mapper.toUserDTO(user);
 
         log.info("UserDTO got successfully");
+
+        Comparator<UserTimeSlotDTO> comparator = Comparator.comparing(UserTimeSlotDTO::getStartDate);
+
+        userDTO.getUserTimeSlots().sort(comparator);
 
         return userDTO;
     }
